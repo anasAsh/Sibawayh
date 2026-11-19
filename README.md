@@ -22,6 +22,8 @@ An Agent Skill that teaches AI agents to write natural Modern Standard Arabic an
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757)](#-install)
 [![Status: evaluating](https://img.shields.io/badge/status-evaluating-orange)](evals/README.md)
 
+<img src="docs/assets/social-preview.png" alt="Sibawayh: typical AI Arabic vs. Arabic with Sibawayh" width="820">
+
 [Install](#-install) · [How it works](#-how-it-works) · [What it catches](#-what-it-catches) · [Checker](#-run-the-checker-yourself) · [Contribute](#-contribute)
 
 </div>
