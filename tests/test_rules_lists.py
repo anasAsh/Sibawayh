@@ -32,6 +32,7 @@ class ListRulesTest(unittest.TestCase):
     def test_misspelling_keeps_prefix(self):
         self.assertIn(("misspelling", "كذلك"), pairs("كذالك"))
         self.assertIn(("misspelling", "ولكن"), pairs("ولاكن"))
+        self.assertIn(("misspelling", "وشيء"), pairs("وشئ"))
 
     def test_multiword_span_and_diacritics(self):
         text = "سأحضر إِنْشَاءَ اللهِ غدًا"
@@ -74,6 +75,7 @@ class ListRulesTest(unittest.TestCase):
         found = [f for f in check("بدي أشرح") if f.rule == "dialect-word"]
         self.assertEqual(len(found), 1)
         self.assertEqual(found[0].severity, "warn")
+        self.assertIn(("dialect-word", "وأريد"), pairs("وبدي"))
 
     def test_no_false_positives(self):
         text = (
@@ -87,7 +89,8 @@ class ListRulesTest(unittest.TestCase):
         text = (
             "كانت الشمس ساطعة وكانا معًا، وبانت الحقيقة ولانت قلوبهم. "
             "وفى بوعده، وكتب حرف الواو، وأصاب الجرح ورما، ووالى الأمير قومه. "
-            "وزار الطالبَ مدرسه في البيت، وهذا كتابه."
+            "وزار الطالبَ مدرسه في البيت، وهذا كتابه. "
+            "أنت فلذة كبدي، وكبدي يتألم."
         )
         self.assertEqual(check(text), [])
 

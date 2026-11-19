@@ -5,15 +5,15 @@
 # explicitly. ان is left out (إن or أن cannot be told apart).
 wrong	right	note
 الى	إلى	particle
-انا	أنا	pronoun
-وانا	وأنا	pronoun
+انا	أنا	pronoun; also إنّا or أنّا by context
+وانا	وأنا	pronoun; also وإنّا or وأنّا by context
 انت	أنت	pronoun
 وانت	وأنت	pronoun
 انتم	أنتم	pronoun
 وانتم	وأنتم	pronoun
-اذا	إذا	particle
-واذا	وإذا	particle
-فاذا	فإذا	particle
+اذا	إذا	particle; also إذًا by context
+واذا	وإذا	particle; also وإذًا by context
+فاذا	فإذا	particle; also فإذًا by context
 او	أو	particle
 اكثر	أكثر	elative
 واكثر	وأكثر	elative

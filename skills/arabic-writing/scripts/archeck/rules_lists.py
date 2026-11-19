@@ -2,7 +2,8 @@
 
 A word matches an entry when one of its stem candidates (the word, then the
 word stripped of و/ف, ب/ل/ك/لل and ال) equals the entry. Stripped stems shorter
-than 3 letters are not looked up, so وفى or واو never match فى or او. Entries
+than 3 letters are not looked up, so وفى or واو never match فى or او.
+hamza-missing and dialect-word match whole words only. Entries
 with a space are matched as phrases. The suggestion keeps the word's prefixes.
 """
 import re
@@ -121,8 +122,9 @@ def alif_maqsura(text, masked, opts):
 
 
 def dialect_word(text, masked, opts):
+    # Whole words only: stripped forms collide with real words (كبدي -> بدي).
     return _scan(masked, "dialect-word", "dialect_words.tsv", "word", "msa",
-                 "warn", "Dialect word in an MSA text")
+                 "warn", "Dialect word in an MSA text", whole=True)
 
 
 RULES = [misspelling, hamza_wasl, hamza_missing, taa_haa, alif_maqsura, dialect_word]

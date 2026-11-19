@@ -1,5 +1,7 @@
 # source: research/03 §4.1
 # Dialect words in an MSA text. "msa" is a suggested MSA equivalent.
+# Matched as whole words only (كبدي "my liver" contains بدي), so prefixed
+# forms are listed explicitly.
 word	msa	note
 هيك	هكذا	Levantine
 شو	ماذا	Levantine
@@ -18,3 +20,8 @@ word	msa	note
 وايد	كثير	Gulf
 شلون	كيف	Gulf, Iraqi
 شنو	ماذا	Gulf, Iraqi
+وبدي	وأريد	Levantine
+فبدي	فأريد	Levantine
+وهيك	وهكذا	Levantine
+وليش	ولماذا	Levantine, Gulf
+وعشان	ولأن	Egyptian, Gulf
