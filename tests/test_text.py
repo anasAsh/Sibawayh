@@ -21,6 +21,14 @@ class MaskTest(unittest.TestCase):
         for bad in ("x", ",", "https"):
             self.assertNotIn(bad, m)
 
+    def test_mask_path_ascii_only(self):
+        self.assertEqual(mask("المعلم/المعلمة.ثم"), "المعلم/المعلمة.ثم")
+        self.assertEqual(mask("و/أو.كلمة"), "و/أو.كلمة")
+        m = mask("انظر src/app/main.py الآن")
+        self.assertNotIn("src", m)
+        self.assertNotIn("main.py", m)
+        self.assertIn("الآن", m)
+
     def test_mask_off_on_markers(self):
         t = "<!-- arabic-check: off -->\nمسئول\n<!-- arabic-check: on -->\nمائة"
         m = mask(t)
