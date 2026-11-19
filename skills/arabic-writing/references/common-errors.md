@@ -2,8 +2,9 @@
 
 Read this when reviewing Arabic text (yours or the user's) for the frequent errors, and before telling anyone that a form is wrong.
 
-Only two kinds of item are listed:
+Only three kinds of item are listed:
 - **firm**: an error by near-consensus. Fix it.
+- **soft**: an error by the strict rule but widely tolerated. Fix it in your own text; in review, mention it gently or leave it.
 - **style**: grammatical but calqued, redundant or wordy. Suggest, don't insist; judge density (style.md).
 
 Approved forms (approved-forms.md) and contested forms (طالما، بينما، سويًّا، كافة الطلاب …) are **not** errors and are deliberately absent from this file. If a form is not here and not clearly ungrammatical, leave it alone.
@@ -71,7 +72,7 @@ Consistency, not errors: the Egyptian ئ spelling of مسؤول, the alif spelli
 | ✗ wrong | ✓ right | Status | Note |
 |---|---|---|---|
 | ✗ سوف لن، سوف لا | ✓ لن، لا | firm | لن alone negates the future |
-| ✗ لا زال يعمل (meaning "still") | ✓ ما زال يعمل، لا يزال يعمل | firm | strictly a prayer formula (لا زلتَ بخير); widely tolerated, so flag gently |
+| ✗ لا زال يعمل (meaning "still") | ✓ ما زال يعمل، لا يزال يعمل | soft | strictly a prayer formula (لا زلتَ بخير); widely tolerated, so flag gently |
 | ✗ كما وأن | ✓ كما أن | firm | two conjunctions don't stack |
 | ✗ ما من أحد إلا ويعرف | ✓ ما من أحد إلا يعرف | firm | the و after إلا is redundant |
 | ✗ حتى أنه | ✓ حتى إنه | firm | حتى opens a sentence here, so إنّ |

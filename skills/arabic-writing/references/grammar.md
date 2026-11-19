@@ -164,7 +164,7 @@ Indefinite مبانٍ/معانٍ/ليالٍ is the strict form. Keeping the ي (
 | Second term is genitive | ✗ رأي المختصون | ✓ رأي المختصين |
 | Adjective after the whole idafa | ✗ مدير الجديد الشركة | ✓ مدير الشركة الجديد / ✓ المدير الجديد للشركة |
 | Pronoun-suffixed noun + adjective: adjective definite | ✗ كتابه جديد (as a phrase) | ✓ كتابه الجديد |
-| غير keeps ال off itself | ✗ المنظمات الغير حكومية | ✓ المنظمات غير الحكومية |
+| ال on غير (contested, widespread): prefer غير الحكومية, don't flag الغير | — | ✓ المنظمات غير الحكومية (preferred) / ✓ المنظمات الغير حكومية (tolerated) |
 
 - Two مضاف sharing one مضاف إليه (قراءة وكتابة الدرس) is contested; ✓ قراءة الدرس وكتابته is always safe.
 - Adjectival idafa with ال is grammatical: ✓ المتعدد الجنسيات.
@@ -206,7 +206,7 @@ Indefinite مبانٍ/معانٍ/ليالٍ is the strict form. Keeping the ي (
 
 | Rule | ✗ wrong | ✓ correct |
 |---|---|---|
-| Jussive tools (إنْ، مَن، مهما، متى، أينما، حيثما، كيفما) put present verbs of condition and answer in the jussive | ✗ إن تجتهدون تنجحون / ✗ من يسعى ينجح | ✓ إن تجتهدوا تنجحوا / ✓ من يسعَ ينجحْ / ✓ إن اجتهدتَ نجحتَ |
+| Jussive tools (إنْ، مَن، مهما، متى، أينما، حيثما، كيفما) put present verbs of condition and answer in the jussive | ✗ إن تجتهدون تنجحون / ✗ من يسعى ينجح (conditional من) | ✓ إن تجتهدوا تنجحوا / ✓ من يسعَ ينجحْ / ✓ إن اجتهدتَ نجحتَ |
 | إذا is not a jussive tool; usually + past | ✗ إذا تجتهدوا | ✓ إذا اجتهدتم نجحتم |
 | **فاء** in the answer when it is a nominal sentence, a request (imperative, prohibition, question), ليس/عسى, or starts with ما/لن/قد/السين/سوف | ✗ إذا أردت النجاح عليك أن تجتهد / ✗ إن لم تحضر لن تفهم / ✗ إذا كان صحيحًا هذا يعني | ✓ إذا أردت النجاح فعليك أن تجتهد / ✓ إن لم تحضر فلن تفهم / ✓ إذا كان صحيحًا فهذا يعني / ✓ إن كان الأمر عاجلًا فاتصل بنا |
 | Plain past or present verb answer: no فاء | — | ✓ إذا اجتهدت نجحت / ✓ إذا تأخر الرد يجب التحقق |
@@ -222,7 +222,7 @@ Cairo Academy accepts one preposition standing for another (تضمين), so most
 | ✗ wrong | ✓ correct | Note |
 |---|---|---|
 | ✗ يتطلب إلى وقت | ✓ يتطلب الأمر وقتًا | transitive |
-| ✗ حصل لـ | ✓ حصل على | — |
+| ✗ حصل لـ (meaning "obtain") | ✓ حصل على | حصل لـ meaning "happened to" is correct: ✓ حصل له حادث |
 | ✗ بحثنا في المفتاح المفقود (meaning "searched for") | ✓ بحثنا عن المفتاح المفقود | بحث في = investigate |
 | ✗ استبدل القديم بالجديد (meaning "replace old with new") | ✓ استبدل الجديد بالقديم / ✓ استعاض عن القديم بالجديد / ✓ حلّ الجديد محلّ القديم | الباء goes on the item given up |
 
