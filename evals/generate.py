@@ -17,9 +17,9 @@ import _common as c  # noqa: E402
 
 def run_one(prompt: str, with_skill: bool) -> str:
     # Prompt comes first: --allowedTools is variadic and would swallow it.
-    cmd = ["claude", "-p", prompt, "--output-format", "text"]
-    if with_skill:
-        cmd += ["--allowedTools", c.ALLOWED_TOOLS]
+    # Both modes get the same tools, so only the skill differs.
+    cmd = ["claude", "-p", prompt, "--output-format", "text",
+           "--allowedTools", c.ALLOWED_TOOLS]
     with c.workdir(with_skill) as d:
         r = subprocess.run(cmd, cwd=d, capture_output=True, text=True,
                            encoding="utf-8", timeout=c.TIMEOUT)
