@@ -10,6 +10,11 @@ class DataTest(unittest.TestCase):
     def test_approved_forms_loaded(self):
         self.assertTrue({"يعتبر", "أبحاث", "مدراء"} <= load_list("approved_forms.txt"))
 
+    def test_item55_and_purist_plural(self):
+        forms = load_list("approved_forms.txt")
+        self.assertTrue({"نفس", "ذات"} <= forms)
+        self.assertNotIn("أبحر", forms)
+
     def test_comments_skipped(self):
         for e in load_list("approved_forms.txt") | load_list("acronyms.txt"):
             self.assertFalse(e.startswith("#"))
