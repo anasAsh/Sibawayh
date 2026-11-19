@@ -127,7 +127,7 @@ Common equivalents (glossary.md has more):
 | variable / constant | متغير / ثابت | array / string | مصفوفة / سلسلة نصية |
 | library / framework | مكتبة / إطار عمل | package / dependency | حزمة / اعتمادية |
 | repository / branch / merge | مستودع / فرع / دمج | pull request | طلب دمج (pull request) |
-| bug / debugging | علّة، خطأ برمجي / تنقيح | deploy | نشر |
+| bug / debugging | خطأ برمجي، علّة / تصحيح الأخطاء، تنقيح | deploy | نشر |
 | cache / container | ذاكرة تخزين مؤقت / حاوية | browser / cloud | متصفح / السحابة |
 | machine learning / AI | تعلّم الآلة / الذكاء الاصطناعي | model / training | نموذج / تدريب |
 | settings / configuration | إعدادات / تهيئة | install / update | تثبيت / تحديث |

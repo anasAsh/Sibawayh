@@ -21,12 +21,13 @@ How to use it (see style.md §6):
 | agent (AI) | وكيل | Also: وكيل ذكي، وكيل ذكاء اصطناعي. |
 | alert | تنبيه |  |
 | algorithm | خوارزمية | Established Arabised form. |
+| alignment | المواءمة | AI alignment. |
 | analytics | التحليلات |  |
 | annotation (data) | توسيم | Data annotation: توسيم البيانات. Code annotation: تعليق توضيحي. |
 | API | واجهة برمجة التطبيقات | Add (API) on first mention, then API or الواجهة. |
 | API key | مفتاح API | Keep the acronym in Latin script. |
 | app | تطبيق | Also for application. |
-| architecture | البنية | Also: المعمارية (software architecture: معمارية البرمجيات). |
+| architecture | البنية | Also: المعمارية (software architecture: معمارية البرمجيات). Prefer المعمارية where البنية could be read as build. |
 | argument (function) | وسيطة | Also: معامل (often conflated with parameter). |
 | array | مصفوفة |  |
 | artificial intelligence | الذكاء الاصطناعي | AI |
@@ -59,7 +60,7 @@ How to use it (see style.md §6):
 | buffer | مخزن مؤقت | Also: ذاكرة وسيطة. |
 | bug | خطأ برمجي | Also: علّة. |
 | bug fix | إصلاح خطأ |  |
-| build | البناء | A build (artifact): نسخة مبنية؛ Microsoft: البنية. |
+| build | البناء | A build (artifact): نسخة مبنية. Avoid البنية here; it also means architecture. |
 | button | زر |  |
 | byte | بايت | Transliteration. |
 | cache | ذاكرة تخزين مؤقت | The activity: التخزين المؤقت. |
@@ -67,6 +68,7 @@ How to use it (see style.md §6):
 | certificate | شهادة | TLS certificate: شهادة TLS. |
 | chain of thought | سلسلة التفكير | Also: التفكير المتسلسل. |
 | character | حرف | In encoding contexts: محرف (standard dictionaries). |
+| chart | مخطط بياني | Also: رسم بياني. |
 | chat | محادثة | Also: دردشة (informal). |
 | chatbot | روبوت محادثة | Also: روبوت دردشة. |
 | checkbox | خانة اختيار |  |
@@ -131,6 +133,7 @@ How to use it (see style.md §6):
 | deep learning | التعلّم العميق |  |
 | default | افتراضي | Default value: القيمة الافتراضية. |
 | dependency | اعتمادية | Also: تبعية. |
+| deploy | نشر | Verb. The noun: النشر (deployment). |
 | deployment | النشر |  |
 | desktop | سطح المكتب |  |
 | developer | مطوّر |  |
@@ -173,16 +176,17 @@ How to use it (see style.md §6):
 | fallback | بديل احتياطي |  |
 | feature (ML) | سمة | Also: خاصية. |
 | feature (product) | ميزة |  |
+| feature flag | مفتاح الميزة | Add (feature flag) on first mention. |
 | feedback | ملاحظات | Also: تغذية راجعة. |
 | few-shot learning | التعلّم بأمثلة قليلة |  |
 | field | حقل |  |
 | file | ملف |  |
 | file system | نظام الملفات |  |
 | filter | عامل تصفية | Also: مرشّح. The activity: التصفية. |
-| fine-tuning | الضبط الدقيق | Also: المواءمة. |
+| fine-tuning | الضبط الدقيق | Also: التدريب التكميلي. Not المواءمة, which means alignment. |
 | firewall | جدار الحماية |  |
 | firmware | البرامج الثابتة |  |
-| flag | علامة | Command-line flags: often خيار; keep the flag itself in code. |
+| flag | علامة | علامة also renders tag and tab (علامة تبويب). Command-line flags: prefer خيار; keep the flag itself in code. |
 | folder | مجلد |  |
 | font | خط |  |
 | footer | تذييل |  |
@@ -196,8 +200,8 @@ How to use it (see style.md §6):
 | generative AI | الذكاء الاصطناعي التوليدي |  |
 | GPU | وحدة معالجة الرسومات |  |
 | gradient | التدرّج |  |
-| gradient descent | الانحدار التدرّجي | Also: النزول التدرّجي. |
-| graph (data structure) | رسم بياني | Also: بيان (graph theory: نظرية البيان). |
+| gradient descent | الانحدار التدرّجي | Also: النزول التدرّجي, which avoids the clash with regression (الانحدار). |
+| graph (data structure) | رسم بياني | Also used in ML: الرسم البياني المعرفي، الشبكات العصبية البيانية. رسم بياني can also mean chart; make the sense clear from context. Graph theory: نظرية البيان. |
 | graphical user interface | واجهة المستخدم الرسومية | GUI |
 | hallucination (AI) | الهلوسة |  |
 | hard disk | القرص الصلب |  |
@@ -220,7 +224,7 @@ How to use it (see style.md §6):
 | inheritance | الوراثة |  |
 | input | المدخلات | Also: الإدخال. |
 | install | تثبيت |  |
-| instance | نسخة | Also: مثيل (OOP). |
+| instance | مثيل | Microsoft and cloud usage: مثيل الجهاز الظاهري. Also: نسخة (OOP, informal; نسخة also means backup, version, copy). |
 | instruction tuning | الضبط على التعليمات |  |
 | integer | عدد صحيح |  |
 | integration | تكامل |  |
@@ -341,7 +345,7 @@ How to use it (see style.md §6):
 | recursion | الاستدعاء الذاتي | Also: التعاودية. |
 | redirect | إعادة توجيه |  |
 | refactoring | إعادة الهيكلة | Also: إعادة هيكلة الشيفرة. |
-| regression (ML) | الانحدار |  |
+| regression (ML) | الانحدار | Not gradient descent (الانحدار التدرّجي); make the sense clear from context. |
 | regular expression | تعبير نمطي | Also: تعبير منتظم. Keep regex patterns in code. |
 | reinforcement learning | التعلّم المعزّز | Also: التعلّم بالتعزيز. |
 | release | إصدار |  |
@@ -369,7 +373,7 @@ How to use it (see style.md §6):
 | semantic search | البحث الدلالي |  |
 | sentiment analysis | تحليل المشاعر |  |
 | server | خادم |  |
-| serverless | الحوسبة بلا خادم |  |
+| serverless | بلا خادم | Serverless computing: الحوسبة بلا خادم. |
 | session | جلسة |  |
 | settings | الإعدادات |  |
 | shell | الصدفة | Also: سطر الأوامر. Often kept as shell. |
@@ -387,7 +391,7 @@ How to use it (see style.md §6):
 | SQL injection | حقن SQL |  |
 | stack | المكدّس |  |
 | stack trace | تتبع المكدّس |  |
-| staging environment | بيئة التجهيز | Also: بيئة ما قبل الإنتاج. |
+| staging environment | بيئة ما قبل الإنتاج | Also: بيئة الاختبار المرحلي. Add (staging) on first mention. |
 | statement | عبارة | Also: تعليمة. |
 | storage | التخزين |  |
 | stream | دفق | Also: تدفق. |
@@ -398,9 +402,9 @@ How to use it (see style.md §6):
 | synchronous | متزامن |  |
 | syntax | الصياغة | Also: بناء الجملة (Microsoft). Syntax error: خطأ في الصياغة. |
 | system prompt | موجِّه النظام | Add (system prompt) on first mention. |
-| tab | علامة تبويب |  |
+| tab | علامة تبويب | Don't shorten to علامة, which clashes with flag and tag. |
 | table | جدول |  |
-| tag | وسم | Also: علامة. |
+| tag | وسم | Also: علامة, but that clashes with flag and tab. |
 | temperature (LLM) | درجة الحرارة | Sampling parameter; add (temperature) on first mention. |
 | template | قالب |  |
 | terminal | الطرفية |  |
@@ -413,6 +417,7 @@ How to use it (see style.md §6):
 | timestamp | طابع زمني |  |
 | token (LLM) | رمز | Add (token) on first mention; also وحدة نصية. |
 | tokenization | التقطيع | Also: الترميز (ambiguous with encoding). |
+| tokenizer | المقطِّع | Usually kept as tokenizer; add (tokenizer) on first mention. |
 | toolbar | شريط الأدوات |  |
 | training | التدريب |  |
 | training data | بيانات التدريب |  |
