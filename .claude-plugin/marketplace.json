@@ -1,0 +1,11 @@
+{
+  "name": "arabic-writing",
+  "owner": { "name": "Anas Al-Hamdan" },
+  "plugins": [
+    {
+      "name": "arabic-writing",
+      "source": "./",
+      "description": "Agent Skill that makes AI agents write correct, natural Modern Standard Arabic, with a dependency-free orthography and punctuation checker."
+    }
+  ]
+}
