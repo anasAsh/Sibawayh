@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Sibawayh demo</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@500;700&family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#14110f; --ink:#f4ede4; --muted:#a89f94; --accent:#d97757; --good:#6fcf97; --bad:#eb6f6f; --card:#1f1a17; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { width:960px; height:540px; background:var(--bg); color:var(--ink); overflow:hidden; font-family:Inter, sans-serif; }
+  .wrap { padding:36px 44px; height:100%; display:flex; flex-direction:column; gap:18px; }
+  .top { display:flex; justify-content:space-between; align-items:center; }
+  .brand { font-weight:800; font-size:24px; } .brand span { color:var(--accent); }
+  .note { font-size:15px; color:var(--muted); }
+  .prompt { font-family:"JetBrains Mono", monospace; font-size:16px; color:var(--muted); background:#1b1714; border:1px solid #2e2722; border-radius:12px; padding:14px 18px; }
+  .prompt b { color:var(--accent); font-weight:500; }
+  .prompt .ar { font-family:"Noto Naskh Arabic", serif; font-size:21px; color:var(--ink); direction:rtl; display:block; text-align:right; margin-top:4px; }
+  .card { flex:1; background:var(--card); border:1px solid #2e2722; border-radius:16px; padding:22px 26px; display:none; }
+  .label { font-size:14px; font-weight:600; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:12px; }
+  .bad .label { color:var(--bad); } .good .label { color:var(--good); }
+  .text { font-family:"Noto Naskh Arabic", serif; font-size:27px; line-height:1.85; direction:rtl; text-align:right; }
+  mark { background:none; color:inherit; }
+  .hl .bad mark { color:var(--bad); text-decoration:underline wavy var(--bad); text-underline-offset:9px; }
+  .hl .good mark { color:var(--good); }
+  .why { font-size:16px; color:var(--muted); margin-top:14px; display:none; }
+  .hl .why { display:block; }
+  .s1 .c1, .s2 .c1, .s3 .c2, .s4 .c2 { display:block; }
+</style>
+</head>
+<body>
+<div class="wrap" id="root">
+  <div class="top"><div class="brand">سيبويه · Sibawayh<span>.</span></div><div class="note">Real Claude Code outputs · same prompt</div></div>
+  <div class="prompt"><b>&gt;</b> prompt
+    <span class="ar">اكتب منشورًا على لينكدإن عن أول يوم لي في وظيفتي الجديدة كمهندس برمجيات</span></div>
+  <div class="card bad c1">
+    <div class="label">✗ without the skill</div>
+    <div class="text"><mark>اليوم كان</mark> أول يوم لي <mark>كمهندس</mark> برمجيات في [اسم الشركة] 🎉</div>
+    <div class="why">Subject-first word order and كـ for "as a" (a calque from English)</div>
+  </div>
+  <div class="card good c2">
+    <div class="label">✓ with Sibawayh</div>
+    <div class="text"><mark>كان اليوم</mark> أول يوم لي في وظيفتي الجديدة <mark>بصفتي</mark> مهندس برمجيات في [اسم الشركة] 🎉<br>… إلى أول <mark>طلب دمج (Pull Request)</mark> أرسله 🚀</div>
+    <div class="why">Verb-first sentence, natural بصفتي, and the standard tech term with the English in parentheses</div>
+  </div>
+</div>
+<script>
+  const s = (location.hash || '#1').slice(1);
+  const r = document.getElementById('root');
+  r.classList.add('s' + s);
+  if (s === '2' || s === '4') r.classList.add('hl');
+</script>
+</body>
+</html>
