@@ -107,8 +107,14 @@ def hamza_wasl(text, masked, opts):
 
 def hamza_missing(text, masked, opts):
     # Whole words only: stripped forms collide with real words (كانت -> انت).
-    return _scan(masked, "hamza-missing", "hamza_missing.tsv", "wrong", "right",
-                 "warn", "Missing hamza", whole=True)
+    found = _scan(masked, "hamza-missing", "hamza_missing.tsv", "wrong", "right",
+                  "warn", "Missing hamza", whole=True)
+    # A word inside a misspelled phrase has the phrase's fix instead:
+    # انشاء الله is إن شاء الله, never إنشاء الله.
+    _, phrases = _table("misspellings.tsv", "wrong", "right")
+    spans = [m.span() for pattern, _, _ in phrases for m in pattern.finditer(masked)]
+    return [f for f in found
+            if not any(a <= f.start and f.end <= b for a, b in spans)]
 
 
 def taa_haa(text, masked, opts):

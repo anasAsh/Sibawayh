@@ -61,6 +61,17 @@ class ListRulesTest(unittest.TestCase):
         self.assertEqual([(f.suggestion, f.severity) for f in found], [("إلى", "warn")])
         self.assertIn(("hamza-missing", "وإذا"), pairs("واذا"))
 
+    def test_hamza_missing_inshaa(self):
+        found = [f for f in check("تم انشاء الملف") if f.rule == "hamza-missing"]
+        self.assertEqual([(f.suggestion, f.severity) for f in found], [("إنشاء", "warn")])
+        for t in ("إنشاء الملف", "الإنشاء", "إنشاءات", "إنشائي"):
+            self.assertEqual(rules(t), [], t)
+
+    def test_inshaa_allah_only_misspelling(self):
+        # انشاء الله is إن شاء الله, never إنشاء الله.
+        for t in ("سنلتقي انشاء الله", "انشاء الله نلتقي"):
+            self.assertEqual(pairs(t), [("misspelling", "إن شاء الله")], t)
+
     def test_taa_haa(self):
         self.assertIn(("taa-haa", "الجامعة"), pairs("الجامعه"))
         self.assertIn(("taa-haa", "للمدرسة"), pairs("للمدرسه"))
