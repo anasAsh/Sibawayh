@@ -43,6 +43,18 @@ class MaskTest(unittest.TestCase):
             self.assertNotIn(bad, m)
         self.assertIn("باقي", m)
 
+    def test_mask_yaml_front_matter(self):
+        t = "---\ntitle: مقال\ntags: [a, b]\n---\nنص title: هنا\n"
+        m = mask(t)
+        self.assertEqual(len(m), len(t))
+        self.assertEqual(m.count("\n"), t.count("\n"))
+        self.assertNotIn("title: مقال", m)
+        self.assertNotIn("---", m)
+        self.assertIn("نص title: هنا", m)
+        # Only at the very start of the text.
+        later = "نص\n---\nkey: قيمة\n---\n"
+        self.assertEqual(mask(later), later)
+
     def test_has_arabic(self):
         self.assertTrue(has_arabic("abc ب"))
         self.assertFalse(has_arabic("abc"))

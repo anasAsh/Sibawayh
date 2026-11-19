@@ -150,19 +150,25 @@ def stray_english(text: str, masked: str, opts: Opts) -> List[Finding]:
 _LEAD = re.compile(r"(?:[#>*+\-\s]+|\d+[.)](?=\s))*")
 
 
+_TOKEN = re.compile("[A-Za-z0-9._-]*")
+
+
 def rtl_line_start(text: str, masked: str, opts: Opts) -> List[Finding]:
     out = []
     for off, line in _lines(masked):
         if not has_arabic(line):
             continue
         i = _LEAD.match(line).end()
+        # Only Latin letters and Western digits. Arabic-Indic digits (٠-٩) are
+        # not flagged: they belong with Arabic text and are not used in code.
         if i < len(line) and re.match("[A-Za-z0-9]", line[i]):
-            j = i
-            while j < len(line) and not line[j].isspace():
-                j += 1
+            j = _TOKEN.match(line, i).end()
+            while j > i + 1 and line[j - 1] in "._-":
+                j -= 1
+            what = "a Western digit" if line[i].isdigit() else "a Latin word"
             out.append(Finding(off + i, off + j, "warn", "rtl-line-start",
-                               "Arabic line starts with Latin text or a digit; it may "
-                               "render left-to-right. Start the line with an Arabic word"))
+                               "Arabic line starts with " + what + "; it may render "
+                               "left-to-right. Start the line with an Arabic word"))
     return out
 
 
@@ -211,6 +217,16 @@ def _five_verbs_fix(verb: str, jussive: bool) -> str:
     return new
 
 
+_KASRA_LAM = "ل\u0650"
+_CLAUSE_END = re.compile("[.،,!\n؟?]")
+
+
+def _is_question(masked: str, pos: int) -> bool:
+    """True if the clause from pos ends with a question mark."""
+    m = _CLAUSE_END.search(masked, pos)
+    return m is not None and m.group() in "؟?"
+
+
 def jussive_nun(text: str, masked: str, opts: Opts) -> List[Finding]:
     words = list(iter_words(masked))
     out = []
@@ -221,6 +237,8 @@ def jussive_nun(text: str, masked: str, opts: Opts) -> List[Finding]:
         jussive = p1 in _JUSSIVE
         if not jussive and p1 not in _SUBJUNCTIVE:
             continue
+        if jussive and (_KASRA_LAM in w1 or _is_question(masked, b2)):
+            continue  # لِمَ "why" takes the indicative
         new = _five_verbs_fix(_plain(w2), jussive)
         if new:
             mood = "jussive (مجزوم)" if jussive else "subjunctive (منصوب)"
@@ -288,7 +306,7 @@ def relative_after_indefinite(text: str, masked: str, opts: Opts) -> List[Findin
         if rel not in _RELATIVES or masked[b1:a2].strip(" \t") or _maybe_definite(w1):
             continue
         noun = _plain(w1)
-        out.append(Finding(a1, b2, "warn", "relative-after-indefinite",
+        out.append(Finding(a1, b2, "info", "relative-after-indefinite",
                            "Approximate check: " + rel + " after an indefinite noun. "
                            "Make the noun definite, or drop " + rel + " (an indefinite "
                            "noun takes a clause without a relative pronoun). Ignore if "

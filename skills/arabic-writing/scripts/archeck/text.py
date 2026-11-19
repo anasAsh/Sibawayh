@@ -14,6 +14,7 @@ _ANY_ARABIC_RE = re.compile(ARABIC_LETTER)
 _SKIP_RE = re.compile(
     "|".join(
         [
+            r"\A---[ \t]*\r?\n.*?^---[ \t]*\r?$",  # YAML front matter
             r"<!-- arabic-check: off -->.*?(?:<!-- arabic-check: on -->|\Z)",
             r"^[ \t]*(```|~~~).*?(?:^[ \t]*\1[^\n]*$|\Z)",
             r"`[^`\n]+`",
@@ -36,7 +37,9 @@ def has_arabic(s: str) -> bool:
 def mask(text: str) -> str:
     """Return text of the same length with skipped regions blanked.
 
-    Every char in a skipped region becomes a space except newlines.
+    Every char in a skipped region becomes a space except newlines. Skipped:
+    a YAML front-matter block (--- at the very start through the next ---),
+    off/on markers, fenced and inline code, URLs, emails, paths, ﴿…﴾.
     """
     out = list(text)
     for m in _SKIP_RE.finditer(text):

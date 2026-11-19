@@ -73,10 +73,19 @@ class LatinTest(unittest.TestCase):
         self.assertEqual(of("ملف JSON", "stray-english"), [])
         self.assertEqual(of("ميزة جديدة (new feature)", "stray-english"), [])
         self.assertEqual(of("This is plain English text", "stray-english"), [])
+        self.assertEqual(of("نظام Windows ولغة python ومنصة GitHub", "stray-english"), [])
 
     def test_rtl_line_start(self):
         self.assertEqual(spans("- Python لغة سهلة", "rtl-line-start"), ["Python"])
-        self.assertEqual(spans("## 1. Git أداة", "rtl-line-start"), ["Git"])
+        self.assertEqual(spans("## 1. Rust أداة", "rtl-line-start"), ["Rust"])
+        self.assertEqual(spans("**Rust** لغة سريعة", "rtl-line-start"), ["Rust"])
+        self.assertEqual(spans("v1.2-beta، إصدار جديد", "rtl-line-start"), ["v1.2-beta"])
+        self.assertIn("Latin word", of("- Rust لغة", "rtl-line-start")[0].message)
+        found = of("2024 كان عامًا مميزًا", "rtl-line-start")
+        self.assertEqual(len(found), 1)
+        self.assertIn("Western digit", found[0].message)
+        self.assertEqual(of("٢٠٢٤ كان عامًا مميزًا", "rtl-line-start"), [])
+        self.assertEqual(of("---\ntitle: مقال\ndescription: نص\n---\nنص", "rtl-line-start"), [])
         self.assertEqual(of("- لغة Python سهلة", "rtl-line-start"), [])
         self.assertEqual(of("Python is easy to learn", "rtl-line-start"), [])
         self.assertEqual(of("1. لغة سهلة", "rtl-line-start"), [])
@@ -98,7 +107,9 @@ class GrammarPatternTest(unittest.TestCase):
     def test_jussive_nun_no_false_positives(self):
         for t in ("أن يكون", "لن يكون", "أن تكون", "أن يتكون", "يمكن أن يتعاون",
                   "لم يتبين", "لم يبين السبب", "لم تتبين", "لن يكتبن",
-                  "أن يلون", "أنّ تعاون البلدين", "لم يكن", "لم تكوني"):
+                  "أن يلون", "أنّ تعاون البلدين", "لم يكن", "لم تكوني",
+                  "لِمَ تقولون ما لا تفعلون", "لم تتركون الدرس مبكرًا؟",
+                  "قال: لم تذهبين إلى هناك؟ ثم سكت"):
             self.assertEqual(of(t, "jussive-nun"), [], t)
 
     def test_relative_after_indefinite(self):
@@ -106,6 +117,7 @@ class GrammarPatternTest(unittest.TestCase):
             spans("كتاب الذي قرأته", "relative-after-indefinite"), ["كتاب الذي"]
         )
         self.assertEqual(len(of("قرأت كتابًا الذي", "relative-after-indefinite")), 1)
+        self.assertEqual(of("كتاب الذي", "relative-after-indefinite")[0].severity, "info")
         for t in ("الكتاب الذي", "كتابه الذي", "هذا الذي", "إن الذين آمنوا",
                   "في الذي", "كل الذين حضروا", "رأيت الذي", "يحب الذين",
                   "شكروا الذين", "ما الذي حدث", "للطلاب الذين", "والكتاب الذي"):
