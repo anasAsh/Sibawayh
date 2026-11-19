@@ -1,6 +1,8 @@
 import unittest
+from unittest import mock
 
 from archeck.engine import apply_fixes, check, fix_text
+from archeck import rules_lists
 from archeck.model import Finding
 
 
@@ -32,6 +34,16 @@ class EngineTest(unittest.TestCase):
         once = fix_text(t)
         self.assertEqual(fix_text(once), once)
         self.assertNotEqual(once, t)
+
+    def test_approved_filter(self):
+        t = "هذا يعتبر مهما جدا"
+        word = Finding(4, 9, "warn", "fake", "m")
+        multi = Finding(0, 9, "warn", "fake", "m")
+        self.assertEqual(t[4:9], "يعتبر")
+        with mock.patch.object(rules_lists, "RULES", [lambda *a: [word]]):
+            self.assertEqual(check(t), [])
+        with mock.patch.object(rules_lists, "RULES", [lambda *a: [multi]]):
+            self.assertEqual(check(t), [multi])
 
     def test_apply_fixes_skips_overlap(self):
         t = "abcdef"

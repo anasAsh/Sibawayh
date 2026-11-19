@@ -56,7 +56,7 @@ def punct_latin(text: str, masked: str, opts: Dict[str, str]) -> List[Finding]:
             continue
         j = _right_index(text, masked, i)
         ch = masked[i]
-        at_eol = j >= len(text) or masked[j] == "\n"
+        at_eol = j >= len(text) or masked[j] in "\r\n"
         if (j < len(text) and _is_ar(masked[j])) or (ch == "?" and at_eol):
             out.append(
                 Finding(i, i + 1, "fix", "punct-latin",
@@ -76,7 +76,15 @@ def punct_space(text: str, masked: str, opts: Dict[str, str]) -> List[Finding]:
         while s > 0 and _blank(text, masked, s - 1):
             s -= 1
         nxt = masked[i + 1] if i + 1 < len(masked) else ""
-        need_after = _is_ar(nxt)
+        if masked[i] == ".":
+            # Dots are abbreviations, runs, or paths far too often: only
+            # tidy a lone sentence-ending dot (space before it).
+            prv = masked[i - 1] if i > 0 else ""
+            if prv in ".…" or nxt in ".…" or (nxt and not nxt.isspace()):
+                continue
+            need_after = False
+        else:
+            need_after = _is_ar(nxt)
         if s == i and not need_after:
             continue
         rep = masked[i] + (" " if need_after else "")

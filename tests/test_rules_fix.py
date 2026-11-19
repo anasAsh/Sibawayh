@@ -17,6 +17,15 @@ class FixRulesTest(unittest.TestCase):
         self.assertEqual(fix_text("قال ، ثم"), "قال، ثم")
         self.assertEqual(fix_text("قال،ثم"), "قال، ثم")
 
+    def test_dot_never_false_positive(self):
+        for t in ("د.أحمد", "ج.م.ع", "ص.ب 123", "كلمة ... ثم", "كلمة…ثم",
+                  "المعلم/المعلمة.ثم", "كلمة..ثم"):
+            self.assertEqual(fix_text(t), t)
+        self.assertEqual(fix_text("انتهى . ثم"), "انتهى. ثم")
+
+    def test_punct_latin_crlf(self):
+        self.assertEqual(fix_text("هل جئت?\r\nنعم"), "هل جئت؟\r\nنعم")
+
     def test_numbers_untouched(self):
         t = "السعر 3.5 دينار و1,000 و10:30 و٣٫٥"
         self.assertEqual(fix_text(t), t)
