@@ -88,3 +88,22 @@ class WordsTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class NestedFenceTests(unittest.TestCase):
+    def test_four_backtick_fence_wraps_inner_fences(self):
+        text = ("قبل\n````markdown\nنص داخلي\n```bash\npip install x\n```\nنص آخر\n````\nبعد\n")
+        m = mask(text)
+        self.assertIn("قبل", m)
+        self.assertIn("بعد", m)
+        for hidden in ("نص داخلي", "pip install x", "نص آخر"):
+            self.assertNotIn(hidden, m)
+
+    def test_info_string_line_does_not_close_fence(self):
+        text = "```\ncode one\n```python\ncode two\n```\nعربي\n"
+        m = mask(text)
+        self.assertNotIn("code two", m)
+        self.assertIn("عربي", m)
+
+    def test_unclosed_fence_masks_to_end(self):
+        self.assertNotIn("code", mask("نص\n```\ncode"))

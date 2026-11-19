@@ -18,6 +18,7 @@ Write correct, natural Modern Standard Arabic (فصحى), then check it before y
 Brief rules; details and examples live in the references.
 
 - **Register:** MSA, consistent through the whole text. No dialect words unless the user asked for dialect.
+- **Whole answer in Arabic:** notes, caveats, assumptions and follow-up offers stay in Arabic too. Don't switch to English for them unless the user wrote in English or asked for it.
 - **Natural sentences:** prefer verb-first sentences where natural, and the active voice. Avoid the translationese patterns: تم/يتم + masdar, قام بـ + masdar, passive + من قبل, كـ for "as a", بشكل + adjective. **Judge density, don't ban:** one تم in a text is fine; one per sentence is translationese.
 - **Agreement:** non-human plurals take the feminine singular (التي، هذه، ـها، verbs with ت). A verb before a plural subject stays singular.
 - **Numbers:** follow the tables in `references/grammar.md`. Prefer digits for large or technical numbers, which also avoids number-word agreement errors.
@@ -65,7 +66,7 @@ Go through these in order. Change only what is wrong; do not rewrite text that i
 3. **Visible endings:** ـون/ـين and ـان/ـين by position; ن dropped after أن/لن/لم/كي and in idafa; the weak letter dropped after لم and لا الناهية; the accusative alif where required, and absent on diptotes.
 4. **إنّ vs أنّ**, idafa without ال on the first term, no الذي/التي after an indefinite noun, فاء in conditional answers, never سوف before لن (لن alone negates the future).
 5. **Translationese density** and stock paragraph openers (see `references/style.md`).
-6. **Register and language mixing:** no stray English words outside parentheses or code, no dialect words.
+6. **Register and language mixing:** no stray English words outside parentheses or code, no English sentences or notes, no dialect words.
 7. **Formatting:** RTL-safe line starts, one digit system, consistent spelling conventions.
 
 ## References

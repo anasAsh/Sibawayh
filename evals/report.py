@@ -27,7 +27,7 @@ FAMILIES = {
                  "persian-digit", "misspelling", "hamza-wasl", "hamza-missing",
                  "taa-haa", "alif-maqsura", "tanween-mixed", "spelling-mixed"],
     "grammar": ["sawfa-lan", "jussive-nun", "relative-after-indefinite"],
-    "style": ["dialect-word", "stray-english", "translationese-density"],
+    "style": ["dialect-word", "stray-english", "english-line", "translationese-density"],
     "formatting": ["digit-mix", "rtl-line-start"],
 }
 _RULE_FAMILY = {r: f for f, rules in FAMILIES.items() for r in rules}

@@ -202,7 +202,11 @@ The harness in [`evals/`](evals/README.md) answers 50 realistic prompts with and
 - All 4 English-only requests correctly left it unloaded.
 - The 2 dialect requests did not load it.
 
-The before/after quality scoring is in progress; results will appear here when it's done.
+**Pilot quality check** (10 prompts, judged blind by an AI model from a different family; see [`evals/ai_judge.md`](evals/ai_judge.md)):
+- The Sibawayh version was preferred in **7 of 10** pairs.
+- Grammar and translationese errors went from **8 to 0**.
+
+This is a pilot, not a measured claim. The human-scored evaluation is still to come.
 
 ## 🤝 Contribute
 

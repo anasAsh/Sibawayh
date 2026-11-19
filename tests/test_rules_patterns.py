@@ -145,3 +145,30 @@ class GrammarPatternTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class EnglishLineTests(unittest.TestCase):
+    AR = "هذا شرح قصير لطريقة تثبيت الأداة على جهازك.\nشغّل الأمر التالي ثم انتظر حتى ينتهي التثبيت.\n"
+
+    def test_english_prose_line_in_arabic_document(self):
+        text = self.AR + "I assumed two things you should check:\n"
+        self.assertEqual([f.severity for f in of(text, "english-line")], ["warn"])
+
+    def test_english_bullet_in_arabic_document(self):
+        text = self.AR + "- **Package name:** the commands use the default name.\n"
+        self.assertEqual(len(of(text, "english-line")), 1)
+
+    def test_short_english_line_not_flagged(self):
+        self.assertEqual(of(self.AR + "### Setup\n", "english-line"), [])
+
+    def test_code_block_not_flagged(self):
+        text = self.AR + "```\npip install the tool from the package index\n```\n"
+        self.assertEqual(of(text, "english-line"), [])
+
+    def test_english_document_not_flagged(self):
+        text = "This is an English document.\nIt has several English lines in it.\n"
+        self.assertEqual(of(text, "english-line"), [])
+
+    def test_mixed_line_not_flagged(self):
+        text = self.AR + "ثبّت الأداة with the package manager you prefer\n"
+        self.assertEqual(of(text, "english-line"), [])

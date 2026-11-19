@@ -147,6 +147,29 @@ def stray_english(text: str, masked: str, opts: Opts) -> List[Finding]:
     return out
 
 
+_ARABIC_WORD = re.compile(ARABIC_LETTER + "+")
+
+
+def english_line(text: str, masked: str, opts: Opts) -> List[Finding]:
+    """A whole English prose line inside a mostly-Arabic document.
+
+    Catches the agent switching to English for notes or caveats. Lines with
+    any Arabic are left to stray-english; code is already masked.
+    """
+    arabic = len(_ARABIC_WORD.findall(masked))
+    if arabic <= len(_LATIN_WORD.findall(masked)):
+        return []
+    out = []
+    for off, line in _lines(masked):
+        if has_arabic(line) or len(_LATIN_WORD.findall(line)) < 4:
+            continue
+        start = len(line) - len(line.lstrip())
+        out.append(Finding(off + start, off + len(line.rstrip()), "warn", "english-line",
+                           "English sentence in an Arabic answer; write notes and "
+                           "caveats in Arabic too"))
+    return out
+
+
 _LEAD = re.compile(r"(?:[#>*+\-\s]+|\d+[.)](?=\s))*")
 
 
@@ -358,6 +381,7 @@ RULES = [
     tanween_mixed,
     spelling_mixed,
     stray_english,
+    english_line,
     rtl_line_start,
     sawfa_lan,
     jussive_nun,

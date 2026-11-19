@@ -16,7 +16,9 @@ _SKIP_RE = re.compile(
         [
             r"\A---[ \t]*\r?\n.*?^---[ \t]*\r?$",  # YAML front matter
             r"<!-- arabic-check: off -->.*?(?:<!-- arabic-check: on -->|\Z)",
-            r"^[ \t]*(```|~~~).*?(?:^[ \t]*\1[^\n]*$|\Z)",
+            # Fenced code: the closing fence uses the same character, is at
+            # least as long as the opening one and has no info string.
+            r"^[ \t]*(`{3,}|~{3,})[^\n]*(?:\n.*?(?:^[ \t]*\1[`~]*[ \t]*$|\Z)|\Z)",
             r"`[^`\n]+`",
             r"https?://\S+",
             r"www\.\S+",
