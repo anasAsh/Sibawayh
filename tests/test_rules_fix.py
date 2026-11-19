@@ -1,6 +1,6 @@
 import unittest
 
-from archeck.engine import fix_text
+from archeck.engine import check, fix_text
 
 
 class FixRulesTest(unittest.TestCase):
@@ -31,10 +31,43 @@ class FixRulesTest(unittest.TestCase):
         self.assertEqual(fix_text(t), t)
 
     def test_persian_letters(self):
-        self.assertEqual(fix_text("کتابی"), "كتابي")
+        self.assertEqual(fix_text("کتاب"), "كتاب")
+        self.assertEqual(fix_text("کبیر"), "كبير")
+
+    def test_persian_final_yeh_is_warn_only(self):
+        for word in ("علی", "إلی", "حتی"):
+            self.assertEqual(fix_text(word), word)
+            found = [f for f in check(word) if f.rule == "persian-letter-final"]
+            self.assertEqual(len(found), 1, word)
+            f = found[0]
+            self.assertEqual(f.severity, "warn")
+            self.assertIsNone(f.replacement)
+            self.assertEqual(f.suggestion, "ي or ى")
+            self.assertEqual((f.start, f.end), (len(word) - 1, len(word)))
+        # ک is still fixed; the final ی stays for the writer to decide.
+        self.assertEqual(fix_text("کرسی"), "كرسی")
+
+    def test_persian_only_letters_skip_token(self):
+        for t in ("گفتگوی", "پیک", "چی", "ژیک"):
+            self.assertEqual(fix_text(t), t)
+            self.assertEqual([f for f in check(t) if f.rule.startswith("persian-letter")], [])
+
+    def test_token_without_letters(self):
+        for t in ("ـــ", "\u064e"):
+            self.assertEqual(fix_text(t), t)
+
+    def test_kurdish_ae_not_mapped(self):
+        t = "\u06d5"
+        self.assertEqual(fix_text(t), t)
 
     def test_presentation_forms(self):
         self.assertEqual(fix_text("\ufefb"), "لا")
+        self.assertEqual(fix_text("\ufefc"), "لا")
+
+    def test_word_ligatures_kept(self):
+        for t in ("\ufdfa", "\ufdf2", "\ufdfc", "محمد \ufdfa"):
+            self.assertEqual(fix_text(t), t)
+            self.assertEqual([f for f in check(t) if f.rule == "presentation-form"], [])
 
     def test_tatweel(self):
         self.assertEqual(fix_text("جمـــيل"), "جميل")

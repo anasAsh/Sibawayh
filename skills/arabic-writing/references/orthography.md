@@ -215,5 +215,6 @@ Eras: هـ for Hijri, م for Gregorian (✓ 1448هـ / 2026م).
 ## 9. Tatweel, Unicode, diacritics
 
 - Tatweel ـ (U+0640): never in running text. Allowed only in هـ after a year, a prefix before Latin (بـ Git), and when citing a letter or affix (الـ، ـة).
-- Persian/Urdu look-alikes are always wrong in Arabic: ✗ ی ک ہ ە ۃ → ✓ ي ك ه ة. Presentation forms (ﻛﺘﺎﺏ) → base letters. No ZWNJ/ZWJ inside Arabic words.
+- Persian/Urdu look-alikes are always wrong in Arabic: ✗ ی ک ہ ە ۃ → ✓ ي ك ه ة. The checker fixes ک → ك, ہ → ه and ی → ي inside a word. A word-final ی can stand for ي or ى (✗ علی → ✓ على, ✗ کرسی → ✓ كرسي), so the checker only warns there and you choose. It skips words that contain پ چ ژ گ (quoted Persian) and does not catch ە or ۃ: replace those yourself.
+- Presentation forms (ﻛﺘﺎﺏ) → base letters. Word ligatures and signs (ﷲ ﷺ ﷼) are left as written. No ZWNJ/ZWJ inside Arabic words.
 - Diacritics: prose is unvocalized. Add a mark only to remove real ambiguity (✓ علّم/علم، يُعتبر، عِلم/عَلَم). A wrong mark is worse than none. ✗ random partial vocalization like كتبَ الطالبِ.

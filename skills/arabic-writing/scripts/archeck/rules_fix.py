@@ -96,7 +96,14 @@ def punct_space(text: str, masked: str, opts: Dict[str, str]) -> List[Finding]:
     return out
 
 
-_PERSIAN = {"ی": "ي", "ک": "ك", "ہ": "ه", "ە": "ة"}
+# Persian/Urdu look-alikes with one unambiguous Arabic counterpart.
+# A word-final ی is not here: it may stand for ي or ى, so it is reported as a
+# separate ``persian-letter-final`` warn with no replacement.
+_PERSIAN = {"ی": "ي", "ک": "ك", "ہ": "ه"}
+_FARSI_YEH = "ی"
+# Letters that exist only in Persian/Urdu: a token with one is quoted Persian,
+# not misspelled Arabic, so it is left alone.
+_PERSIAN_ONLY = frozenset("پچژگ")
 _TOKEN = re.compile("[ء-ۓ]+")
 _LATIN_WORD = re.compile(r"[A-Za-z0-9_]")
 
@@ -115,8 +122,17 @@ def persian_letter(text: str, masked: str, opts: Dict[str, str]) -> List[Finding
             for c in tok
         ):
             continue
+        if any(c in _PERSIAN_ONLY for c in tok):
+            continue
+        last = max((k for k, c in enumerate(tok) if _is_ar(c)), default=-1)
         for k, c in enumerate(tok):
-            if c in _PERSIAN:
+            if c == _FARSI_YEH and k == last:
+                out.append(
+                    Finding(a + k, a + k + 1, "warn", "persian-letter-final",
+                            "Persian yeh at the end of a word: Arabic ي or ى?",
+                            suggestion="ي or ى")
+                )
+            elif c in _PERSIAN:
                 out.append(
                     Finding(a + k, a + k + 1, "fix", "persian-letter",
                             "Persian/Urdu letter form in Arabic text",
@@ -125,9 +141,14 @@ def persian_letter(text: str, masked: str, opts: Dict[str, str]) -> List[Finding
     return out
 
 
+# U+FDF0-U+FDFF are word ligatures (ﷲ ﷺ …) and the Rial sign ﷼: they are
+# written on purpose, so only letter presentation forms are expanded.
+_PRESENTATION = re.compile("[\ufb50-\ufdcf\ufe70-\ufeff]")
+
+
 def presentation_form(text: str, masked: str, opts: Dict[str, str]) -> List[Finding]:
     out = []
-    for m in re.finditer("[ﭐ-﷿ﹰ-﻿]", masked):
+    for m in _PRESENTATION.finditer(masked):
         ch = m.group()
         rep = unicodedata.normalize("NFKC", ch)
         if rep != ch:

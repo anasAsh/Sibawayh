@@ -23,7 +23,7 @@ CATEGORIES = ["grammar", "spelling", "translationese", "register", "formatting"]
 MODES = ["baseline", "skill"]
 FAMILIES = {
     "punctuation": ["punct-latin", "punct-space"],
-    "spelling": ["persian-letter", "presentation-form", "tatweel",
+    "spelling": ["persian-letter", "persian-letter-final", "presentation-form", "tatweel",
                  "persian-digit", "misspelling", "hamza-wasl", "hamza-missing",
                  "taa-haa", "alif-maqsura", "tanween-mixed", "spelling-mixed"],
     "grammar": ["sawfa-lan", "jussive-nun", "relative-after-indefinite"],
