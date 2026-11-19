@@ -7,6 +7,11 @@ Both scripts refuse to run if `~/.claude/skills/arabic-writing` exists (it
 would contaminate the baseline). They only check that path; unlink it
 yourself and relink afterwards.
 
+Skill mode copies the skill into the temp dir (no symlink), so a model with
+Write cannot modify the real skill. The baseline can still be contaminated by
+a plugin install of the skill, or by user-level CLAUDE.md and hooks. Check
+`/plugin` before running.
+
 ## 1. Trigger test
 
     python3 evals/run_triggers.py [--limit N]
@@ -42,7 +47,9 @@ are gitignored.
 `rubric.csv` has one row per id x mode. For each response count, as integers:
 `grammar`, `spelling`, `translationese`, `register`, `formatting` (RTL and
 punctuation layout), and `over_corrections` (a correct form the skill made
-wrong; fill on skill rows). Leave unscored rows blank; they are ignored.
+wrong; fill on skill rows). Leave unscored rows completely blank; they are ignored. A partly filled row,
+a scored skill row without `over_corrections`, an unresolved blind id, or a
+scored row without an output file stops the report with an error (exit 2).
 For blind scoring, replace `id` with the blind id and leave `mode` empty.
 
 ## 5. Report

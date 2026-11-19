@@ -66,7 +66,7 @@ def rubric_rates(rows) -> Dict[str, Dict[str, float]]:
     words, pooled over all rows of a mode."""
     sums: Dict[str, Dict[str, float]] = {}
     for row in rows:
-        if not _scored(row):
+        if not _scored(row) or row.get("mode") not in MODES:
             continue
         s = sums.setdefault(row["mode"], {c: 0 for c in CATEGORIES})
         s["words"] = s.get("words", 0) + int(row.get("words") or 0)
@@ -113,12 +113,50 @@ def load_rubric(rubric_path: str, key_path: str = None) -> List[dict]:
         k = key.get(row["id"])
         if k:
             row["id"], row["mode"] = k["id"], k["mode"]
+        elif (row.get("mode") or "").strip() not in MODES:
+            row["_error"] = ("row %r: mode %r is not baseline/skill and the "
+                             "id is not in the blind key (%s)"
+                             % (row["id"], row.get("mode"),
+                                "key found" if key else "key missing or empty"))
     return rows
+
+
+def check_rows(rows) -> List[str]:
+    """Problems that must stop the report. A row with every category cell
+    blank is unscored; a partly filled one is an error."""
+    errors = []
+    for row in rows:
+        if row.get("_error"):
+            errors.append(row["_error"])
+            continue
+        name = "row %s/%s" % (row["id"], row["mode"])
+        cells = {c: str(row.get(c) or "").strip() for c in CATEGORIES}
+        if not any(cells.values()):
+            continue
+        blank = [c for c in CATEGORIES if not cells[c]]
+        if blank:
+            errors.append("%s: partly filled, blank: %s"
+                          % (name, ", ".join(blank)))
+        cols = list(CATEGORIES)
+        if row["mode"] == "skill":
+            cols.append("over_corrections")
+            if not str(row.get("over_corrections") or "").strip():
+                errors.append("%s: over_corrections is required on scored "
+                              "skill rows" % name)
+        for c in cols:
+            v = str(row.get(c) or "").strip()
+            if v and not v.isdigit():
+                errors.append("%s: %s=%r is not a non-negative integer"
+                              % (name, c, v))
+    return errors
 
 
 def _words_for(outputs: str, row) -> int:
     p = os.path.join(outputs, row["mode"], row["id"] + ".txt")
-    return words(_read(p)) if os.path.exists(p) else 0
+    if not os.path.exists(p):
+        raise FileNotFoundError("scored row %s/%s has no output file %s"
+                                % (row["id"], row["mode"], p))
+    return words(_read(p))
 
 
 def main(argv=None) -> int:
@@ -129,8 +167,19 @@ def main(argv=None) -> int:
     a = ap.parse_args(argv)
 
     rows = load_rubric(a.rubric, a.key)
-    for row in rows:
-        row["words"] = _words_for(a.outputs, row)
+    errors = check_rows(rows)
+    if not errors:
+        for row in rows:
+            if _scored(row):
+                try:
+                    row["words"] = _words_for(a.outputs, row)
+                except FileNotFoundError as e:
+                    errors.append(str(e))
+    if errors:
+        print("ERROR: rubric cannot be reported:", file=sys.stderr)
+        for e in errors:
+            print("- " + e, file=sys.stderr)
+        return 2
     rates = rubric_rates(rows)
     over = sum(_num(r.get("over_corrections")) for r in rows
                if r["mode"] == "skill")

@@ -38,6 +38,25 @@ def skill_loaded(stream: str) -> bool:
     return False
 
 
+def has_result(stream: str) -> bool:
+    for line in stream.splitlines():
+        try:
+            if json.loads(line).get("type") == "result":
+                return True
+        except (ValueError, AttributeError):
+            continue
+    return False
+
+
+def classify(returncode, stream: str, expected: str):
+    """Return (loaded, "pass"|"FAIL"|"ERROR"). ERROR means the run itself
+    failed (non-zero exit or no result event), so loaded is unknown."""
+    if returncode != 0 or not has_result(stream):
+        return None, "ERROR"
+    loaded = skill_loaded(stream)
+    return loaded, ("pass" if loaded == expected_load(expected) else "FAIL")
+
+
 def expected_load(expected: str) -> bool:
     return expected in ("load", "format_only")
 
@@ -52,7 +71,7 @@ def main(argv=None) -> int:
     if a.limit:
         rows = rows[:a.limit]
     print("| id | expected | loaded | result |\n|---|---|---|---|")
-    passed = 0
+    passed = errors = 0
     for r in rows:
         try:
             with c.workdir(True) as d:
@@ -62,14 +81,14 @@ def main(argv=None) -> int:
                      c.ALLOWED_TOOLS],
                     cwd=d, capture_output=True, text=True, encoding="utf-8",
                     timeout=c.TIMEOUT)
-            loaded = skill_loaded(p.stdout)
-            ok = loaded == expected_load(r["expected"])
-            res = "pass" if ok else "FAIL"
+            loaded, res = classify(p.returncode, p.stdout, r["expected"])
         except Exception as e:
-            loaded, ok, res = None, False, "ERROR " + type(e).__name__
-        passed += ok
+            loaded, res = None, "ERROR"
+        passed += res == "pass"
+        errors += res == "ERROR"
         print("| %s | %s | %s | %s |" % (r["id"], r["expected"], loaded, res))
-    print("\n%d/%d passed" % (passed, len(rows)))
+    print("\n%d/%d passed, %d error(s) (errors excluded from passes)"
+          % (passed, len(rows), errors))
     return 0 if passed == len(rows) else 1
 
 

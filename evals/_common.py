@@ -23,13 +23,17 @@ def refuse_if_globally_installed():
 
 @contextmanager
 def workdir(with_skill: bool):
-    """Fresh temp dir; with_skill links the skill at .claude/skills/."""
+    """Fresh temp dir; with_skill copies the skill to .claude/skills/."""
     d = tempfile.mkdtemp(prefix="arabic-eval-")
     try:
         if with_skill:
             os.makedirs(os.path.join(d, ".claude", "skills"))
-            os.symlink(SKILL_DIR,
-                       os.path.join(d, ".claude", "skills", "arabic-writing"))
+            # Copy, not symlink: a model with Write must not be able to
+            # modify the real skill in the repo.
+            shutil.copytree(
+                SKILL_DIR,
+                os.path.join(d, ".claude", "skills", "arabic-writing"),
+                ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
         yield d
     finally:
         shutil.rmtree(d, ignore_errors=True)
