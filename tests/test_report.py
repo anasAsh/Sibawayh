@@ -112,9 +112,6 @@ class TextTests(unittest.TestCase):
         self.assertEqual(rows[0]["mode"], "skill")
 
 
-if __name__ == "__main__":
-    unittest.main()
-
 
 class RubricValidationTests(unittest.TestCase):
     def row(self, **kw):
@@ -177,3 +174,40 @@ class RubricValidationTests(unittest.TestCase):
         self.assertNotIn("PASS", out.getvalue())
         self.assertNotIn("FAIL", out.getvalue())
         self.assertIn("email-01/skill", err.getvalue())
+
+    def blind_rows(self, d, line):
+        rub = os.path.join(d, "r.csv")
+        key = os.path.join(d, "k.csv")
+        with open(key, "w", encoding="utf-8") as f:
+            f.write("blind_id,id,mode\nabc123,email-01,skill\n")
+        with open(rub, "w", encoding="utf-8") as f:
+            f.write("id,mode,grammar,spelling,translationese,register,"
+                    "formatting,over_corrections,notes\n" + line + "\n")
+        return report.load_rubric(rub, key)
+
+    def assert_blind_only(self, errs):
+        self.assertTrue(errs)
+        for e in errs:
+            self.assertIn("abc123", e)
+            self.assertNotIn("email-01", e)
+            self.assertNotIn("skill", e)
+            self.assertNotIn("baseline", e)
+
+    def test_blind_errors_name_blind_id_only(self):
+        with tempfile.TemporaryDirectory() as d:
+            self.assert_blind_only(report.check_rows(
+                self.blind_rows(d, "abc123,,1,,0,0,0,0,")))
+            self.assert_blind_only(report.check_rows(
+                self.blind_rows(d, "abc123,,1,0,0,0,x,0,")))
+            # Resolves to skill: over_corrections is still required.
+            self.assert_blind_only(report.check_rows(
+                self.blind_rows(d, "abc123,,1,0,0,0,0,,")))
+            rows = self.blind_rows(d, "abc123,,1,0,0,0,0,0,")
+            self.assertEqual(report.check_rows(rows), [])
+            with self.assertRaises(FileNotFoundError) as cm:
+                report._words_for(d, rows[0])
+            self.assert_blind_only([str(cm.exception)])
+
+
+if __name__ == "__main__":
+    unittest.main()

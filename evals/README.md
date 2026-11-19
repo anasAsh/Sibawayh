@@ -16,7 +16,7 @@ a plugin install of the skill, or by user-level CLAUDE.md and hooks. Check
 
     python3 evals/run_triggers.py [--limit N]
 
-Runs the 20 prompts in `triggers.tsv` with the skill linked into a temp dir
+Runs the 20 prompts in `triggers.tsv` with the skill copied into a temp dir
 and checks for a `Skill` tool use naming `arabic-writing`. Expected values:
 `load`, `no_load`, and `format_only`. `format_only` (dialect requests) is
 judged manually for behaviour: the skill should only fix formatting and leave
@@ -30,9 +30,9 @@ still loads.
 
 50 prompts (`prompts.tsv`, 10 each of email, docs, social, tech_explain,
 translate). Output goes to `evals/outputs/<mode>/<id>.txt`; existing files are
-skipped, failures are written to `<id>.error` (300 s timeout per call). Skill
-mode allows `Bash(python3:*)`, `Read`, `Write` so the skill can run its
-checker.
+skipped, failures are written to `<id>.error` (300 s timeout per call). Both
+modes allow the same tools, `Bash(python3:*)`, `Read`, `Write`, so the skill
+can run its checker and the baseline is not handicapped by tool access.
 
 ## 3. Blind scoring
 
@@ -47,10 +47,16 @@ are gitignored.
 `rubric.csv` has one row per id x mode. For each response count, as integers:
 `grammar`, `spelling`, `translationese`, `register`, `formatting` (RTL and
 punctuation layout), and `over_corrections` (a correct form the skill made
-wrong; fill on skill rows). Leave unscored rows completely blank; they are ignored. A partly filled row,
-a scored skill row without `over_corrections`, an unresolved blind id, or a
-scored row without an output file stops the report with an error (exit 2).
+wrong; fill on skill rows). Leave unscored rows completely blank; they are
+ignored. A partly filled row, a scored skill row without `over_corrections`,
+an unresolved blind id, or a scored row without an output file stops the
+report with an error (exit 2).
+
 For blind scoring, replace `id` with the blind id and leave `mode` empty.
+You cannot tell which blind rows are skill rows, so fill `over_corrections`
+on every blind row you score (0 if none). The report requires it on rows the
+key resolves to skill. Errors on blind rows name only the blind id, so they
+do not unblind you.
 
 ## 5. Report
 

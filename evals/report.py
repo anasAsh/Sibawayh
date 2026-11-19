@@ -112,6 +112,8 @@ def load_rubric(rubric_path: str, key_path: str = None) -> List[dict]:
     for row in rows:
         k = key.get(row["id"])
         if k:
+            # Errors name the blind id only, so they do not unblind the scorer.
+            row["_name"] = "blind row %s" % row["id"]
             row["id"], row["mode"] = k["id"], k["mode"]
         elif (row.get("mode") or "").strip() not in MODES:
             row["_error"] = ("row %r: mode %r is not baseline/skill and the "
@@ -119,6 +121,10 @@ def load_rubric(rubric_path: str, key_path: str = None) -> List[dict]:
                              % (row["id"], row.get("mode"),
                                 "key found" if key else "key missing or empty"))
     return rows
+
+
+def _name(row) -> str:
+    return row.get("_name") or "row %s/%s" % (row["id"], row["mode"])
 
 
 def check_rows(rows) -> List[str]:
@@ -129,7 +135,7 @@ def check_rows(rows) -> List[str]:
         if row.get("_error"):
             errors.append(row["_error"])
             continue
-        name = "row %s/%s" % (row["id"], row["mode"])
+        name = _name(row)
         cells = {c: str(row.get(c) or "").strip() for c in CATEGORIES}
         if not any(cells.values()):
             continue
@@ -141,8 +147,9 @@ def check_rows(rows) -> List[str]:
         if row["mode"] == "skill":
             cols.append("over_corrections")
             if not str(row.get("over_corrections") or "").strip():
-                errors.append("%s: over_corrections is required on scored "
-                              "skill rows" % name)
+                errors.append("%s: over_corrections is required on %s"
+                              % (name, "every blind row" if row.get("_name")
+                                 else "scored skill rows"))
         for c in cols:
             v = str(row.get(c) or "").strip()
             if v and not v.isdigit():
@@ -154,6 +161,9 @@ def check_rows(rows) -> List[str]:
 def _words_for(outputs: str, row) -> int:
     p = os.path.join(outputs, row["mode"], row["id"] + ".txt")
     if not os.path.exists(p):
+        if row.get("_name"):
+            raise FileNotFoundError("scored %s has no output file (see the "
+                                    "blind key)" % row["_name"])
         raise FileNotFoundError("scored row %s/%s has no output file %s"
                                 % (row["id"], row["mode"], p))
     return words(_read(p))
