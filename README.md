@@ -1,3 +1,5 @@
+<div align="center">
+
 ```text
  ____   _  _                                      _
 / ___| (_)| |__    __ _ __      __   __ _  _   _ | |__
@@ -5,46 +7,67 @@
  ___) || || |_) || (_| | \ V  V /  | (_| || |_| || | | |
 |____/ |_||_.__/  \__,_|  \_/\_/    \__,_| \__, ||_| |_|
                                            |___/
-          سيبويه · correct Arabic for AI agents
 ```
 
-# Sibawayh (سيبويه)
+# سيبويه · Sibawayh
 
-**An Agent Skill that makes AI agents write correct, natural Arabic and check it before answering.**
+**Your AI writes Arabic. Sibawayh makes it _correct_ Arabic.**
 
-AI models write Arabic that is understandable but often wrong or unnatural:
-- English sentence structure in Arabic words;
-- broken number agreement;
-- the wrong hamza;
-- English punctuation;
-- scrambled right-to-left text whenever English terms or numbers appear.
+An Agent Skill that teaches AI agents to write natural Modern Standard Arabic and to check it before they answer.
 
-Arabic readers notice at once. Sibawayh, named after the founding grammarian of Arabic, gives the agent the rules and a checker, so its Modern Standard Arabic (الفصحى) reads like it was written by a careful native writer.
+[![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f)](LICENSE)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-3776ab?logo=python&logoColor=white)](#-run-the-checker-yourself)
+[![Dependencies: none](https://img.shields.io/badge/dependencies-none-brightgreen)](#-run-the-checker-yourself)
+[![Agent Skill](https://img.shields.io/badge/Agent%20Skill-SKILL.md-d97757)](skills/arabic-writing/SKILL.md)
+[![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757)](#-install)
+[![Status: evaluating](https://img.shields.io/badge/status-evaluating-orange)](evals/README.md)
 
-> **Status:** usable, under evaluation. The before/after evaluation (`evals/`) has not been run yet, so there are no measured results to report.
+[Install](#-install) · [How it works](#-how-it-works) · [What it catches](#-what-it-catches) · [Checker](#-run-the-checker-yourself) · [Contribute](#-contribute)
 
-## How it works
+</div>
 
-The skill loads whenever the agent is about to write Arabic. That covers answers, documents, emails, posts, translations, summaries, UI strings and commit messages. The agent then:
+---
 
-1. **Writes with the rules in mind.** The rules come from `SKILL.md`: prefer verb-first, active sentences; get agreement and numbers right; use Arabic punctuation (، ؛ ؟ « »); keep one digit system; and make the text safe for right-to-left display.
-2. **Runs the checker.** `scripts/check_arabic.py` is a small Python script with no dependencies. It auto-fixes what is certain and flags the rest.
-3. **Reviews against a checklist**, in priority order: agreement, numbers, case endings, إنّ/أنّ, translationese, register, formatting. It changes only what is wrong.
-4. **Answers.** The user sees the final text, not the checker's output.
+## 🤔 Why
 
-The script and the model split the work. The script handles mechanical errors, which it catches every time. The model handles grammar that needs understanding.
+Ask an AI model for Arabic and you get text that is *understandable*, but that a native reader spots in a second:
 
-### Example
+| What goes wrong | Looks like |
+|---|---|
+| English grammar in Arabic words | تم إنشاء الملف من قبل المستخدم |
+| Broken agreement | الملفات الذين تم رفعهم موجودين |
+| Wrong number–noun gender | ثلاث مهندسين |
+| Wrong hamza | إستخدام، الى |
+| English punctuation | نعم, ولكن? |
+| Scrambled RTL | lines starting with an English word flip direction |
+| Dialect slipping into formal text | عشان، بدي، هيك |
 
-Input:
+Sibawayh is named after **سيبويه**, the 8th-century scholar whose *al-Kitāb* is the foundational book of Arabic grammar. It gives the agent the rules, a checker and a review checklist, so that its Arabic reads as if a careful native writer wrote it.
 
-```
-تم إستخدام الأداة من قبل الفريق, وهاذا ساعدنا كثيرا.
-لدينا 3 ملفات و٤ مجلدات.
+## ✨ Before → after
+
+<table>
+<tr><th>✗ Typical AI output</th><th>✓ With Sibawayh</th></tr>
+<tr>
+<td dir="rtl">
+
+تم إستخدام الأداة من قبل الفريق, وهاذا ساعدنا كثيرا.<br>
+لدينا 3 ملفات و٤ مجلدات.<br>
 الملفات الذين تم رفعهم موجودين هنا
-```
 
-The checker's output (format: `line:column  SEVERITY  rule  message  → suggestion`):
+</td>
+<td dir="rtl">
+
+استخدم الفريق الأداة، وهذا ساعدنا كثيرًا.<br>
+لدينا 3 ملفات و4 مجلدات.<br>
+الملفات التي رُفعت موجودة هنا
+
+</td>
+</tr>
+</table>
+
+<details>
+<summary><b>See what the checker reported on the left-hand text</b></summary>
 
 ```
 1:1   INFO   translationese-density  Translationese density 15.8 per 100 words (تم/يتم: 2, من قبل: 1) …
@@ -54,43 +77,54 @@ The checker's output (format: `line:column  SEVERITY  rule  message  → suggest
 2:16  WARN   digit-mix     Mixed digit systems; this text uses Western (0-9) digits  → 4
 ```
 
-Line 3 has agreement errors that no regex can catch reliably. A non-human plural like الملفات takes feminine singular agreement in its relative pronoun, verb and predicate (التي، رُفعت، موجودة). The model's checklist catches these:
+The script finds nothing on line 3: a regex can't reliably catch agreement with non-human plurals. That line gets fixed in the model's checklist review. This is exactly the split Sibawayh is designed around.
 
+</details>
+
+## ⚙️ How it works
+
+```mermaid
+flowchart LR
+    A["✍️ Write<br/>with SKILL.md rules"] --> B["🔍 Check<br/>check_arabic.py --fix"]
+    B --> C["📋 Review<br/>7-point checklist"]
+    C --> D["✅ Answer<br/>clean Arabic only"]
 ```
-✗ الملفات الذين تم رفعهم موجودين هنا
-✓ الملفات التي رُفعت موجودة هنا
-```
 
-## What it covers
+1. **Write.** The skill loads whenever the agent is about to produce Arabic: answers, docs, emails, posts, translations, summaries, UI strings and commit messages. While writing, the agent follows the rules in `SKILL.md`: verb-first active sentences, correct agreement and numbers, Arabic punctuation, one digit system, and RTL-safe lines.
+2. **Check.** It runs a tiny Python script with no dependencies. The script auto-fixes what is certain and flags the rest.
+3. **Review.** It works through a prioritized checklist: agreement, numbers, case endings, إنّ/أنّ, translationese, register, formatting. It changes only what is wrong.
+4. **Answer.** The user gets clean Arabic, with no checker noise.
 
-| Area | Examples | Handled by |
-|---|---|---|
-| Punctuation | `,` `?` `;` → ، ؟ ؛ and spacing | Checker (auto-fix) |
-| Unicode | Persian ک/ی, presentation forms, tatweel | Checker (auto-fix or warn) |
-| Spelling | إستخدام, هاذا, لاكن, الى, إنشاء الله, ة/ه, ى/ي | Checker (word lists) |
-| Digits and RTL | mixed 3 and ٣; lines that start with an English word or a digit | Checker |
-| Dialect leakage | عشان, بدي, هيك in formal text | Checker |
-| Verb endings | لم يكونون, لن يذهبون, سوف لن | Checker plus checklist |
-| Agreement and numbers | non-human plurals, ثلاث مهندسين, العدد والمعدود | Checklist and reference tables |
-| Translationese | تم + masdar, قام بـ, من قبل, كـ "as a" | Checker (density) plus checklist |
-| Technical terms | standard Arabic term with the English term in parentheses | Glossary (450+ terms) |
+> **🛡️ Golden rule: never over-correct.**
+> Forms that purists reject but the Cairo Arabic Language Academy approved are never flagged. Examples: يعتبر، ساهم في، أكد على، في نفس الوقت، أبحاث. Contested forms are left alone, and auto-fixes run only where they can't be wrong.
 
-The design rests on one rule: **never over-correct.** Forms that purists reject but the Cairo Arabic Language Academy approved, such as يعتبر، ساهم في، أكد على، في نفس الوقت and أبحاث, are never flagged. Contested forms are left alone. Auto-fixes only apply where they can't be wrong.
+## 🎯 What it catches
 
-## Install
+| | Area | Examples | Handled by |
+|---|---|---|---|
+| ✏️ | Punctuation | `,` `?` `;` → ، ؟ ؛, spacing | 🤖 checker (auto-fix) |
+| 🔤 | Unicode | Persian ک/ی, presentation forms, tatweel | 🤖 checker |
+| 📝 | Spelling | إستخدام, هاذا, لاكن, الى, إنشاء الله, ة/ه, ى/ي | 🤖 checker (word lists) |
+| 🔢 | Digits and RTL | mixed 3 / ٣, lines that flip direction | 🤖 checker |
+| 🗣️ | Dialect leakage | عشان, بدي, هيك in formal text | 🤖 checker |
+| ⚖️ | Verb endings | لم يكونون, لن يذهبون, سوف لن | 🤖 checker + 🧠 checklist |
+| 🧮 | Agreement and numbers | non-human plurals, العدد والمعدود | 🧠 checklist + 📚 tables |
+| 🌐 | Translationese | تم + masdar, قام بـ, من قبل, كـ "as a" | 🤖 density + 🧠 checklist |
+| 💻 | Tech terms | واجهة برمجة التطبيقات (API) | 📚 glossary (450+ terms) |
+
+## 📦 Install
 
 ### Claude Code
-
-As a plugin:
 
 ```
 /plugin marketplace add anasAsh/Sibawayh
 /plugin install arabic-writing@sibawayh
 ```
 
-From a shell, the same commands are `claude plugin marketplace add anasAsh/Sibawayh` and `claude plugin install arabic-writing@sibawayh`.
+That's it. The skill now loads by itself whenever Claude writes Arabic.
 
-Or copy or symlink the skill folder:
+<details>
+<summary>Prefer a manual install?</summary>
 
 ```bash
 git clone https://github.com/anasAsh/Sibawayh.git
@@ -99,47 +133,72 @@ ln -s "$PWD/skills/arabic-writing" ~/.claude/skills/arabic-writing
 # or: cp -r skills/arabic-writing ~/.claude/skills/
 ```
 
+From a shell, the plugin commands are `claude plugin marketplace add anasAsh/Sibawayh` and `claude plugin install arabic-writing@sibawayh`.
+
+</details>
+
 ### Cursor, GitHub Copilot and other agents
 
-Copy `skills/arabic-writing/` into the tool's skills folder. The path differs per tool and version, so check that tool's documentation. The skill uses the standard `SKILL.md` format. If an agent has no shell, it falls back to the checklist alone.
+Copy `skills/arabic-writing/` into your tool's skills folder; check its documentation for the path. The skill uses the standard `SKILL.md` format. If an agent has no shell, it falls back to the checklist alone.
 
-## Running the checker by hand
+## 🔍 Run the checker yourself
 
 It needs Python 3.8 or later and nothing else.
 
 ```bash
 python3 skills/arabic-writing/scripts/check_arabic.py file.md          # report findings
-python3 skills/arabic-writing/scripts/check_arabic.py --fix file.md    # print the text with safe fixes applied
+python3 skills/arabic-writing/scripts/check_arabic.py --fix file.md    # print text with safe fixes applied
 python3 skills/arabic-writing/scripts/check_arabic.py --json -         # JSON findings from stdin
 ```
 
-- **Options:** `--digits western|arabic|auto` sets the expected digit system. The default, `auto`, follows the majority in the text.
-- **Severities:** `fix` (applied by `--fix`), `error`, `warn`, `info`.
-- **Exit code:** 1 when findings above `info` remain, otherwise 0.
-- **Skipped regions:** code blocks, inline code, URLs, file paths, emails, YAML front matter, Qur'an quotes in ﴿…﴾, and anything between `<!-- arabic-check: off -->` and `<!-- arabic-check: on -->`.
+| Severity | Meaning |
+|---|---|
+| `fix` | certain; applied by `--fix` |
+| `error` | almost always wrong |
+| `warn` | probably wrong; check the context |
+| `info` | style or consistency note |
 
-## Repository layout
+<details>
+<summary>More options</summary>
+
+- `--digits western|arabic|auto` sets the expected digit system. The default, `auto`, follows the majority in the text.
+- Exit code: `1` when findings above `info` remain, otherwise `0`.
+- Never touched: code blocks, inline code, URLs, file paths, emails, YAML front matter, Qur'an quotes in ﴿…﴾, and anything between `<!-- arabic-check: off -->` and `<!-- arabic-check: on -->`.
+
+</details>
+
+## 🗂️ What's inside
 
 ```
 skills/arabic-writing/
-  SKILL.md                 the agent's writing rules, workflow and checklist
-  references/              grammar, orthography, style, common errors,
-                           approved forms, tech glossary
-  scripts/check_arabic.py  the checker (stdlib only)
-  scripts/archeck/         checker rules
-  scripts/data/            word lists (misspellings, hamza, dialect, approved forms, …)
-evals/                     before/after evaluation harness (see evals/README.md)
-tests/                     unit tests: python3 -m unittest discover -s tests -t .
-research/                  the research notes the rules are based on
-docs/                      design and implementation plan
+├── SKILL.md                  writing rules, workflow, checklist
+├── references/
+│   ├── grammar.md            agreement, numbers, case endings
+│   ├── orthography.md        hamza, ة/ه, ى/ي, punctuation, digits, RTL
+│   ├── style.md              translationese → natural Arabic
+│   ├── common-errors.md      قل ولا تقل
+│   ├── approved-forms.md     never "fix" these
+│   └── glossary.md           450+ tech terms, English → Arabic
+└── scripts/
+    ├── check_arabic.py       the checker (stdlib only)
+    ├── archeck/              rules
+    └── data/                 word lists
+evals/                        before/after evaluation harness
+tests/                        unit tests
+research/                     the research the rules are built on
 ```
 
-## Contributing
+## 📊 Evaluation
 
-Native speakers' review is the most valuable contribution, and these areas need it most:
-- **Glossary** (`references/glossary.md`): better or more standard terms. Some terms have no settled Arabic equivalent yet, for example epoch, tokenization and pipeline.
-- **Word lists** (`scripts/data/*.tsv`): a new entry must be wrong in *every* context. Add a test in `tests/` for each one.
-- **False flags:** if the checker flags correct Arabic, open an issue with the sentence.
+The harness in [`evals/`](evals/README.md) answers 50 realistic prompts with and without the skill. A native speaker scores both versions blind, without knowing which is which. The success bar is **zero over-corrections** and **about 50% fewer errors per 100 words**, with no category getting worse. The evaluation hasn't been run yet; results will appear here when it has.
+
+## 🤝 Contribute
+
+Native-speaker review is the most valuable contribution. Three ways to help:
+
+- 💻 **Glossary.** Suggest better or more standard terms in [`glossary.md`](skills/arabic-writing/references/glossary.md). Some terms, such as epoch, tokenization and pipeline, still have no settled Arabic equivalent.
+- 📝 **Word lists.** Add misspellings to `scripts/data/*.tsv`. The rule is strict: an entry must be wrong in *every* context, and each entry needs a test.
+- 🚩 **False flags.** If the checker flags correct Arabic, [open an issue](https://github.com/anasAsh/Sibawayh/issues) with the sentence.
 
 Run the tests before opening a pull request:
 
@@ -147,6 +206,11 @@ Run the tests before opening a pull request:
 python3 -m unittest discover -s tests -t .
 ```
 
-## License
+## 📄 License
 
-MIT, see [`LICENSE`](LICENSE). The project contains no GPL code. Any entries adapted from LanguageTool (LGPL) would live only in `skills/arabic-writing/scripts/data/third_party/` with their own licence notice.
+MIT, see [`LICENSE`](LICENSE). The project contains no GPL code. Any entries adapted from LanguageTool (LGPL) would live only in `skills/arabic-writing/scripts/data/third_party/`, with their own licence notice.
+
+<div align="center">
+<br>
+<sub>Built for Arabic speakers who are tired of AI that writes <i>almost</i> right. 🌙</sub>
+</div>
