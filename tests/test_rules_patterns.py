@@ -1,0 +1,135 @@
+import unittest
+
+from archeck.engine import check
+
+
+def of(text, rule, **kw):
+    return [f for f in check(text, **kw) if f.rule == rule]
+
+
+def spans(text, rule, **kw):
+    return [text[f.start:f.end] for f in of(text, rule, **kw)]
+
+
+DENSE = (
+    "تم إنشاء المشروع في العام الماضي، وتم تطوير النظام من قبل فريق صغير "
+    "من المهندسين، ثم تم اختبار الوظائف بعناية قبل إطلاق النسخة الأولى "
+    "للمستخدمين في المنطقة العربية كلها خلال الشهر"
+)
+
+_FILLER = (
+    "كتب الباحث تقريرا مفصلا عن حالة المدارس في القرى البعيدة وشرح فيه "
+    "الصعوبات التي يواجهها المعلمون والطلاب كل يوم "
+)
+
+
+class DigitMixTest(unittest.TestCase):
+    def test_digit_mix_auto(self):
+        found = of("لدينا 3 ملفات و٤ مجلدات و5 صور", "digit-mix")
+        self.assertEqual(len(found), 1)
+        self.assertEqual(found[0].suggestion, "4")
+        self.assertEqual(found[0].severity, "warn")
+
+    def test_digit_mix_arabic_option(self):
+        text = "لدينا 3 ملفات و٤ مجلدات و5 صور"
+        self.assertEqual(spans(text, "digit-mix", digits="arabic"), ["3", "5"])
+        self.assertEqual(
+            [f.suggestion for f in of(text, "digit-mix", digits="arabic")],
+            ["٣", "٥"],
+        )
+
+    def test_digit_mix_tie_is_western(self):
+        self.assertEqual(spans("لدينا 12 ملفا و٣٤ مجلدا", "digit-mix"), ["٣٤"])
+
+    def test_digits_in_code_ignored(self):
+        self.assertEqual(of("الأمر `ls -1` يعرض ٣ ملفات", "digit-mix"), [])
+
+    def test_digits_in_latin_tokens_ignored(self):
+        self.assertEqual(of("حمّل ملف mp3 وثبّت IPv6 في ٣ أجهزة", "digit-mix"), [])
+
+    def test_english_only_line_ignored(self):
+        self.assertEqual(of("نص فيه ٣ ملفات\nversion 2 of 5", "digit-mix"), [])
+
+
+class TanweenSpellingTest(unittest.TestCase):
+    def test_tanween_mixed(self):
+        self.assertEqual(spans("شكراً جزيلًا", "tanween-mixed"), ["شكراً"])
+        self.assertEqual(of("شكراً جزيلًا", "tanween-mixed")[0].suggestion, "شكرًا")
+        self.assertEqual(of("شكرًا جزيلًا", "tanween-mixed"), [])
+        self.assertEqual(of("شكراً جزيلاً", "tanween-mixed"), [])
+
+    def test_spelling_mixed(self):
+        found = of("المسئولون", "spelling-mixed")
+        self.assertEqual(len(found), 1)
+        self.assertEqual(found[0].suggestion, "المسؤولون")
+        self.assertEqual(of("مائة", "spelling-mixed")[0].suggestion, "مئة")
+        self.assertEqual(of("المسؤولون عن مئة موظف", "spelling-mixed"), [])
+
+
+class LatinTest(unittest.TestCase):
+    def test_stray_english(self):
+        self.assertEqual(spans("هذا feature جديد", "stray-english"), ["feature"])
+        self.assertEqual(of("واجهة برمجة التطبيقات (API)", "stray-english"), [])
+        self.assertEqual(of("ملف JSON", "stray-english"), [])
+        self.assertEqual(of("ميزة جديدة (new feature)", "stray-english"), [])
+        self.assertEqual(of("This is plain English text", "stray-english"), [])
+
+    def test_rtl_line_start(self):
+        self.assertEqual(spans("- Python لغة سهلة", "rtl-line-start"), ["Python"])
+        self.assertEqual(spans("## 1. Git أداة", "rtl-line-start"), ["Git"])
+        self.assertEqual(of("- لغة Python سهلة", "rtl-line-start"), [])
+        self.assertEqual(of("Python is easy to learn", "rtl-line-start"), [])
+        self.assertEqual(of("1. لغة سهلة", "rtl-line-start"), [])
+
+
+class GrammarPatternTest(unittest.TestCase):
+    def test_sawfa_lan(self):
+        found = of("سوف لن أذهب", "sawfa-lan")
+        self.assertEqual(len(found), 1)
+        self.assertEqual(found[0].suggestion, "لن")
+
+    def test_jussive_nun(self):
+        self.assertEqual(of("لم يكونون هناك", "jussive-nun")[0].suggestion, "يكونوا")
+        self.assertEqual(of("لن يذهبون", "jussive-nun")[0].suggestion, "يذهبوا")
+        self.assertEqual(of("لم تذهبين", "jussive-nun")[0].suggestion, "تذهبي")
+        self.assertEqual(len(of("يجب أن يعملون معا", "jussive-nun")), 1)
+        self.assertEqual(of("لم يكونوا هناك", "jussive-nun"), [])
+
+    def test_jussive_nun_no_false_positives(self):
+        for t in ("أن يكون", "لن يكون", "أن تكون", "أن يتكون", "يمكن أن يتعاون",
+                  "لم يتبين", "لم يبين السبب", "لم تتبين", "لن يكتبن",
+                  "أن يلون", "أنّ تعاون البلدين", "لم يكن", "لم تكوني"):
+            self.assertEqual(of(t, "jussive-nun"), [], t)
+
+    def test_relative_after_indefinite(self):
+        self.assertEqual(
+            spans("كتاب الذي قرأته", "relative-after-indefinite"), ["كتاب الذي"]
+        )
+        self.assertEqual(len(of("قرأت كتابًا الذي", "relative-after-indefinite")), 1)
+        for t in ("الكتاب الذي", "كتابه الذي", "هذا الذي", "إن الذين آمنوا",
+                  "في الذي", "كل الذين حضروا", "رأيت الذي", "يحب الذين",
+                  "شكروا الذين", "ما الذي حدث", "للطلاب الذين", "والكتاب الذي"):
+            self.assertEqual(of(t, "relative-after-indefinite"), [], t)
+
+    def test_translationese_density(self):
+        found = of(DENSE, "translationese-density")
+        self.assertEqual(len(found), 1)
+        self.assertEqual(found[0].severity, "info")
+        self.assertIn("تم", found[0].message)
+        sparse = "تم " + " ".join([_FILLER] * 6)
+        self.assertGreaterEqual(len(sparse.split()), 100)
+        self.assertEqual(of(sparse, "translationese-density"), [])
+
+    def test_translationese_span_survives_approved_filter(self):
+        text = "بشكل كبير تحسن الأداء بشكل واضح"
+        found = of(text, "translationese-density")
+        self.assertEqual(len(found), 1)
+        self.assertEqual(text[found[0].start:found[0].end], "بشكل كبير")
+
+    def test_temporal_min_qabl_not_counted(self):
+        text = "لم أره من قبل. ولم أسمع به من قبل، ولا أعرفه"
+        self.assertEqual(of(text, "translationese-density"), [])
+
+
+if __name__ == "__main__":
+    unittest.main()
