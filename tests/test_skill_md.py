@@ -39,6 +39,12 @@ class TestSkillMd(unittest.TestCase):
         self.assertIn("Arabic", desc)
         for kw in ("عربي", "العربية", "فصحى"):
             self.assertIn(kw, desc)
+        # Arabic task verbs: a bare "لخّص …" request must load the skill.
+        for kw in ("لخّص", "أعد صياغة", "صحّح", "راجع", "حرّر", "أجب"):
+            self.assertIn(kw, desc)
+        for kw in ("summar", "rewrit", "proofread", "review", "edit"):
+            self.assertIn(kw, desc.lower())
+        self.assertIn("Do not use for English-only work", desc)
 
     def test_length(self):
         self.assertLessEqual(len(read_skill().splitlines()), 250)
@@ -65,6 +71,18 @@ class TestSkillMd(unittest.TestCase):
     def test_workflow_command(self):
         text = read_skill()
         self.assertIn("python3 <skill-dir>/scripts/check_arabic.py --fix", text)
+
+    def test_workflow_dialect_mode(self):
+        text = read_skill()
+        step3 = text.split("3. **Read the output.**", 1)[1].split("\n4. ", 1)[0]
+        bullet = [l for l in step3.splitlines() if "dialect" in l]
+        self.assertEqual(len(bullet), 1, step3)
+        for word in ("`fix`", "digit-mix", "rtl-line-start", "dialect-word",
+                     "hamza", "misspelling", "grammar", "item 7"):
+            self.assertIn(word, bullet[0])
+        skipped = [l for l in step3.splitlines() if "checker skips" in l]
+        self.assertEqual(len(skipped), 1)
+        self.assertIn("emails", skipped[0])
 
     def test_referenced_files_exist(self):
         text = read_skill()
