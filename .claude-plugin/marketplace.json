@@ -1,6 +1,7 @@
 {
-  "name": "arabic-writing",
+  "name": "sibawayh",
   "owner": { "name": "Anas Al-Hamdan" },
+  "description": "Sibawayh (سيبويه): skills that help AI agents write correct Modern Standard Arabic.",
   "plugins": [
     {
       "name": "arabic-writing",
