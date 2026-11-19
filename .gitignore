@@ -5,3 +5,4 @@ evals/outputs/
 .superpowers/
 evals/blind/
 evals/blind_key.csv
+.playwright-mcp/
