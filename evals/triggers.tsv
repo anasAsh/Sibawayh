@@ -1,0 +1,21 @@
+id	prompt	expected
+t01	اكتب لي رسالة اعتذار لمعلم ابني لأنه تأخر عن الحصة اليوم.	load
+t02	لخّص لي هذه الفقرة في ثلاث جمل: التعلم الآلي فرع من الذكاء الاصطناعي يمكّن الأنظمة من التعلم من البيانات دون برمجة صريحة.	load
+t03	صحّح الأخطاء الإملائية والنحوية في هذه الجملة: ذهبنا الى المدرسه وقابلنا المدرسين الذين لم يكونوا موجودين.	load
+t04	اكتب منشورًا قصيرًا عن أهمية القراءة للأطفال.	load
+t05	ما الفرق بين الهمزة المتوسطة والهمزة المتطرفة في الكتابة؟ اشرح مع أمثلة.	load
+t06	اكتب وصفًا لمنتج حقيبة ظهر مقاومة للماء لمتجر إلكتروني.	load
+t07	Write a short product announcement in Arabic for our new note-taking app.	load
+t08	Translate this sentence into Arabic: "The meeting has been postponed until further notice."	load
+t09	Please draft a polite email in Arabic asking my landlord to repair the heater.	load
+t10	Can you explain recursion to me in Arabic, in two short paragraphs?	load
+t11	I need a formal cover letter written in Arabic for a marketing manager position.	load
+t12	اكتب لي email للعميل يوضح فيه أن الـ deployment تأجل إلى الأسبوع القادم بسبب مشكلة في الـ database.	load
+t13	Write a README for my project in Arabic, but keep the code blocks and command names in English.	load
+t14	اشرح لي ما هو الـ pull request وكيف أفتح واحدًا على GitHub، وضع الأوامر داخل code block.	load
+t15	Write a Python function that reverses a linked list, with type hints and a docstring.	no_load
+t16	Summarize the main differences between PostgreSQL and MySQL in a short English paragraph.	no_load
+t17	Write a polite English email to my manager asking to move our one-on-one to Thursday.	no_load
+t18	Fix the failing test in my project: pytest reports an AssertionError in test_parse_date.	no_load
+t19	اكتب لي رسالة قصيرة بالعامية المصرية أقول فيها لصاحبي إني هتأخر نص ساعة عن الميعاد.	format_only
+t20	اكتب لي تعليقًا بالعامية الخليجية على صورة رحلة برية مع الشباب.	format_only

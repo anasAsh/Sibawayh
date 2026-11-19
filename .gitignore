@@ -3,3 +3,5 @@ __pycache__/
 evals/outputs/
 .DS_Store
 .superpowers/
+evals/blind/
+evals/blind_key.csv
