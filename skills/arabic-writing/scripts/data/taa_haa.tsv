@@ -1,0 +1,29 @@
+# source: research/02 §2.1, §8; research/03 §1.1 #4
+# Feminine nouns written with final ه. Only forms with ال are listed: ال
+# cannot take a pronoun suffix, so these are never "his X" (كتابه، مدرسه).
+# Plus root-ه nouns written with ة.
+wrong	right	note
+المدرسه	المدرسة	ة ending
+الجامعه	الجامعة	ة ending
+الحكومه	الحكومة	ة ending
+الدوله	الدولة	ة ending
+الشركه	الشركة	ة ending
+اللغه	اللغة	ة ending
+الشبكه	الشبكة	ة ending
+الطريقه	الطريقة	ة ending
+المرحله	المرحلة	ة ending
+الخدمه	الخدمة	ة ending
+المنطقه	المنطقة	ة ending
+الساعه	الساعة	ة ending
+الصفحه	الصفحة	ة ending
+القائمه	القائمة	ة ending
+الرساله	الرسالة	ة ending
+المشكله	المشكلة	ة ending
+الحياه	الحياة	ة ending
+الصلاه	الصلاة	ة ending
+مياة	مياه	root ه
+اتجاة	اتجاه	root ه
+انتباة	انتباه	root ه
+اشتباة	اشتباه	root ه
+تنبية	تنبيه	root ه
+توجية	توجيه	root ه

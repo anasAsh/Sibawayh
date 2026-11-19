@@ -1,0 +1,26 @@
+# source: research/02 §1.1, §8; research/03 §1.1 #1
+# Hamzat al-qat' missing on particles, pronouns and أفعل forms.
+# Matched as whole words only: after a prefix these letters collide with real
+# words (كانت، كانا، بانت، لانت، والى، واو), so prefixed forms are listed
+# explicitly. ان is left out (إن or أن cannot be told apart).
+wrong	right	note
+الى	إلى	particle
+انا	أنا	pronoun
+وانا	وأنا	pronoun
+انت	أنت	pronoun
+وانت	وأنت	pronoun
+انتم	أنتم	pronoun
+وانتم	وأنتم	pronoun
+اذا	إذا	particle
+واذا	وإذا	particle
+فاذا	فإذا	particle
+او	أو	particle
+اكثر	أكثر	elative
+واكثر	وأكثر	elative
+الاكثر	الأكثر	elative
+اول	أول	elative
+واول	وأول	elative
+الاول	الأول	elative
+لاول	لأول	elative
+الاولى	الأولى	elative
+ايضا	أيضًا	hamza and tanween
