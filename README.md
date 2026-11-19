@@ -1,3 +1,13 @@
+```text
+ ____   _  _                                      _
+/ ___| (_)| |__    __ _ __      __   __ _  _   _ | |__
+\___ \ | || '_ \  / _` |\ \ /\ / /  / _` || | | || '_ \
+ ___) || || |_) || (_| | \ V  V /  | (_| || |_| || | | |
+|____/ |_||_.__/  \__,_|  \_/\_/    \__,_| \__, ||_| |_|
+                                           |___/
+          سيبويه · correct Arabic for AI agents
+```
+
 # Sibawayh (سيبويه)
 
 **An Agent Skill that makes AI agents write correct, natural Arabic and check it before answering.**
