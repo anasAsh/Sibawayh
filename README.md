@@ -197,7 +197,7 @@ research/                     the research the rules are built on
 
 ## 📊 Evaluation
 
-The harness in [`evals/`](evals/README.md) answers 50 realistic prompts with and without the skill. A native speaker scores both versions blind, without knowing which is which. The success bar is **zero over-corrections** and **about 50% fewer errors per 100 words**, with no category getting worse. **Triggering** (does the skill load when it should?): **18/20** in a first run.
+The harness in [`evals/`](evals/README.md) answers 50 realistic prompts with and without the skill, and a judge scores both versions blind, without knowing which is which. So far the judge is an AI model from a different family; a native-speaker round is planned. The success bar is **zero over-corrections** and **about 50% fewer errors per 100 words**, with no category getting worse. **Triggering** (does the skill load when it should?): **18/20** in a first run.
 - All 14 requests in Arabic, or for Arabic output, loaded the skill. That includes summarise, rewrite and proofread.
 - All 4 English-only requests correctly left it unloaded.
 - The 2 dialect requests did not load it.
