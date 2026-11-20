@@ -45,8 +45,9 @@ def pairs(c, min_count, ratio):
         if n < min_count:
             continue
         m = _HAMZA_AT_STEM.match(w)
-        # Skip اCCC words: the bare form is also an imperative (اجلس، اسأل، اقبل).
-        if m and not (m.group(1) in ("", "و", "ف") and len(w) - len(m.group(1)) == 4):
+        # Skip اCC and اCCC words: the bare form is also an imperative
+        # (انسَ، ادعُ، اجلس، اسأل، اقبل).
+        if m and not (m.group(1) in ("", "و", "ف") and len(w) - len(m.group(1)) in (3, 4)):
             bare = m.group(1) + "ا" + w[m.end():]
             if c[bare] <= ratio * n:
                 hamza.append((bare, w, n))

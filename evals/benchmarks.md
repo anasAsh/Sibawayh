@@ -20,18 +20,18 @@ python3 evals/gec_eval.py evals/corpus/qalb/qalb14_test.areta.txt
 
 | Error type (ARETA tag) | ZAEBUC 0.1.2 | ZAEBUC **now** | QALB 0.1.2 | QALB **now** |
 |---|---|---|---|---|
-| Hamza (OH) | 41% | **69%** | 35% | **61%** |
+| Hamza (OH) | 41% | **68%** | 35% | **59%** |
 | و written apart (SP) | 0% | **98%** | 0% | **86%** |
-| ة/ه (OT) | 5% | **43%** | 4% | **42%** |
+| ة/ه (OT) | 5% | **43%** | 4% | **41%** |
 | ى/ي (OA) | 14% | 14% | 26% | **40%** |
 | Missing alif after plural و (OW) | 0% | 17% | 3% | 19% |
 | يا/لا/ما joined to the next word (MG) | 0% | 25% | 0% | 13% |
-| Wrong letter (OR) | 2% | 13% | 5% | 14% |
+| Wrong letter (OR) | 2% | 12% | 5% | 14% |
 | **All error types** | **23%** | **53%** | **20%** | **42%** |
 
 The checker's suggestion matches the annotators' correction in 80% (ZAEBUC) and 91% (QALB) of the single-word errors it catches.
 
-All error types includes grammar, word choice and punctuation choices (. or ،), which a script cannot judge and the skill leaves to the model's checklist. On the six spelling types in the table above (hamza, و apart, ة/ه, ى/ي, plural alif, joined particles), recall is 69% on ZAEBUC and 58% on QALB.
+All error types includes grammar, word choice and punctuation choices (. or ،), which a script cannot judge and the skill leaves to the model's checklist. On the six spelling types in the table above (hamza, و apart, ة/ه, ى/ي, plural alif, joined particles), recall is 69% on ZAEBUC and 56% on QALB.
 
 ## False flags
 
@@ -46,7 +46,7 @@ Two real false flags found during development, واهم ("deluded") and والا
 
 - **waw-split (auto-fix):** و "and" written apart from its word (و الكتاب → والكتاب). In 450 Wikipedia articles every standalone و before a word was an error.
 - **Frequency lexicons** built from 3.7 million words of Arabic Wikipedia featured articles (`evals/build_lexicon.py`). An entry says that clean text almost always writes a word with a hamza, ة, ي or a final alif, and almost never without it. They raise warnings, not errors, and each kind is limited to shapes where the other spelling is not a real word:
-  - hamza: not اCCC, which is also an imperative (اجلس، اسأل);
+  - hamza: not اCC or اCCC, which are also imperatives (انسَ، اجلس، اسأل);
   - ة: only definite words (a definite word cannot take a pronoun suffix, while مكتبه "his office" is a word), and common nisba adjectives (سلبيه), but not فاعية (باقيه "the rest of it");
   - ى for a final ي: only definite words and long stems, never verbs (يُسمى/يسمي، نادى/نادي);
   - the plural alif: only past-tense verbs (كانو), not imperfects (أدعو، يرجو).

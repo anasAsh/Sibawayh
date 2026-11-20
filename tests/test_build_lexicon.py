@@ -6,12 +6,13 @@ from evals import build_lexicon as bl
 
 class BuildLexiconTest(unittest.TestCase):
     def test_hamza_pairs(self):
-        c = Counter({"الأطفال": 50, "الاطفال": 0, "أجلس": 50, "الاستخدام": 80,
+        c = Counter({"الأطفال": 50, "الاطفال": 0, "أجلس": 50, "وأنس": 50, "الاستخدام": 80,
                      "الإستخدام": 1, "أكثر": 90, "اكثر": 20})
         hamza, _ = bl.pairs(c, 5, 0.01)
         wrong = {w for w, _, _ in hamza}
         self.assertIn("الاطفال", wrong)
         self.assertNotIn("اجلس", wrong)  # also the imperative اجلِس
+        self.assertNotIn("وانس", wrong)  # also وانسَ "and forget"
         self.assertNotIn("اكثر", wrong)  # bare form too common in the corpus
         self.assertFalse(any(r.startswith("الإست") for _, r, _ in hamza))
 

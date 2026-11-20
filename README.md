@@ -208,7 +208,7 @@ The harness in [`evals/`](evals/README.md) answers 50 realistic prompts with and
 
 The pilot is not a measured claim; the full 50-prompt run is next, and the human-scored evaluation is still to come.
 
-**The checker against human corrections** ([`evals/benchmarks.md`](evals/benchmarks.md)): on two public corpora that people corrected word by word, it catches **53%** of all errors in student essays (ZAEBUC) and **42%** in native-speaker comments (QALB), up from 23% and 20% in release 0.1.2. For hamza it catches 69% and 61%; for و written apart from its word, 98% and 86%. Every flag on a word the annotators left unchanged was either a real error they missed or a counting artifact.
+**The checker against human corrections** ([`evals/benchmarks.md`](evals/benchmarks.md)): on two public corpora that people corrected word by word, it catches **53%** of all errors in student essays (ZAEBUC) and **42%** in native-speaker comments (QALB), up from 23% and 20% in release 0.1.2. For hamza it catches 68% and 59%; for و written apart from its word, 98% and 86%. Every flag on a word the annotators left unchanged was either a real error they missed or a counting artifact.
 
 **Over-correction check** ([`evals/corpus_check.md`](evals/corpus_check.md)): on Arabic Wikipedia featured articles, every error-level flag was a real error, including in a held-out set used for no tuning.
 
