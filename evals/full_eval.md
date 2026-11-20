@@ -1,0 +1,52 @@
+# Full evaluation: 50 prompts, with and without the skill (2026-11-20)
+
+Claude Code answered all 50 prompts in [`prompts.tsv`](prompts.tsv) twice: once without the skill (baseline) and once with release 0.2.0. These are 10 each of emails, social posts, documentation, technical explanations and translations, in Arabic and in English. A model from a different family (GPT, through Codex) judged the 50 pairs blind, with the method and instructions of the [AI-judge pilot](ai_judge.md).
+
+## Result
+
+| Errors per 100 words | Baseline | Skill | Change |
+|---|---|---|---|
+| Grammar | 0.11 | 0.00 | −100% |
+| Spelling | 0.28 | 0.03 | −89% |
+| Translationese | 0.29 | 0.07 | −75% |
+| Register | 0.84 | 0.09 | −89% |
+| Formatting | 0.14 | 0.00 | −100% |
+| **Total** | **1.66** | **0.20** | **−88%** |
+
+- **Preference:** skill 29, baseline 1, tie 20.
+- **Over-corrections:** 0.
+- **Success bar** (0 over-corrections, at most 50% of the baseline's errors, no category worse): **pass**.
+- **By task** (total errors, baseline → skill): technical explanations 112 → 9, documentation 20 → 5, social posts 20 → 3, translations 6 → 2, emails 3 → 0.
+- **Words:** 9,686 (baseline) and 9,696 (skill), so the answers are the same length.
+
+Most of the baseline's errors were register and spelling errors in technical explanations: untranslated English terms outside parentheses (Caching, Hypervisor, B-Tree), the article written apart before an English word (الـ API), and lines starting with a Latin word. It also slipped into Gulf dialect in a social post that asked for nothing of the kind (وش، تبي، اللي).
+
+## The skill's remaining errors
+
+19 errors in 50 answers. They led to changes after the run:
+
+- **8** in one answer: HTTP methods (GET، POST) written bare in headings and text. SKILL.md now lists HTTP methods, commands, flags and file names as code to keep in backticks.
+- **7 translationese**, mostly English idioms translated word for word (يصنع الفرق، أفكار بقيت معي، يعيد تشكيل الطريقة التي…). They are now in `references/style.md` §4.1. The one pair where the judge preferred the baseline (translate-03) was this kind of error.
+- **3 spelling**: بـ written apart from a following code span (بـ `good-first-issue`). Writing a prefix apart before Latin text is common practice, so this one is left as is.
+- **1 register**: a Latin word outside code in a heading.
+
+## How it was run
+
+```bash
+python3 evals/generate.py --mode baseline
+python3 evals/generate.py --mode skill
+python3 evals/pair.py evals/judge evals/judge-key.csv   # blind A/B pairs; the key stays outside the judge's folder
+# judge pairs/ in batches of 10 with the prompt in ai_judge.md
+python3 evals/judge_report.py evals/judge-scores.csv evals/judge-key.csv
+```
+
+- **Isolation:** both modes ran with `--setting-sources project`, so an installed copy of the plugin could not load the skill in baseline runs. A test run confirmed that it loads without the flag and not with it.
+- **Files:** four answers (docs-05 and docs-06 in baseline mode; docs-06 and docs-10 with the skill) saved their document to a file and only summarised it in the reply. The harness deleted those files, so `generate.py` now appends any file the model writes. Those four were regenerated, and their pairs were judged again.
+- **Judge instructions:** the judge was told that when a prompt is in English, English notes to the user outside the Arabic text are not errors. Without that rule, both sides are penalised for notes that are correct.
+- **Raw data:** every answer, the blind key and the judge's scores are in [`results/2026-11-20/`](results/2026-11-20/).
+
+## Limits
+
+- **An AI judge, not a human.** AI models are only moderately reliable at judging Arabic grammar. The judge is from a different family from the model being judged, and it was blind, but a native-speaker score is still needed to confirm the size of the effect.
+- **One run per prompt.** Answers vary from run to run, and no repeat runs were made.
+- **Mid-run change:** a lexicon exception (وانسَ) was added while the skill answers were being generated. It affects one rare word.

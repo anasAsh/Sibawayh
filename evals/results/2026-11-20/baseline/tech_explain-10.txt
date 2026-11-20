@@ -1,0 +1,99 @@
+## ما هي الاختبارات الآلية (Unit Tests)؟
+
+**اختبار الوحدة** كود صغير يتحقق من أن جزءًا محددًا ومعزولًا من برنامجك، كدالة واحدة مثلًا، يعطي النتيجة المتوقعة. تكتب مدخلات معروفة، وتحدد الناتج الذي تتوقعه، ثم يقارن الاختبار الناتج الفعلي بالمتوقع تلقائيًا.
+
+## لماذا نكتبها؟
+
+1. **اكتشاف الأخطاء مبكرًا**: تظهر المشكلة لحظة كتابة الكود، لا بعد وصوله إلى المستخدمين.
+2. **التعديل بثقة (Refactoring)**: عندما تعدّل الكود أو تحسّنه، تخبرك الاختبارات فورًا إن كسرت شيئًا كان يعمل.
+3. **توثيق حيّ**: تبيّن الاختبارات كيف تُستخدم الدالة وما سلوكها المتوقع، خصوصًا في الحالات الحدّية.
+4. **توفير الوقت**: تشغيل مئات الاختبارات يستغرق ثوانٍ، أما التجربة اليدوية فتتكرر مع كل تعديل.
+5. **تصميم أفضل**: الكود السهل الاختبار يكون غالبًا مقسّمًا إلى أجزاء صغيرة وواضحة.
+
+## مثال عملي
+
+### الدالة: `calculator.py`
+
+```python
+def divide(a, b):
+    """تقسم a على b، وترفع خطأ عند القسمة على صفر."""
+    if b == 0:
+        raise ValueError("لا يمكن القسمة على صفر")
+    return a / b
+```
+
+### الاختبارات: `test_calculator.py`
+
+باستخدام مكتبة `unittest` المدمجة في بايثون:
+
+```python
+import unittest
+from calculator import divide
+
+
+class TestDivide(unittest.TestCase):
+
+    def test_positive_numbers(self):
+        self.assertEqual(divide(10, 2), 5)
+
+    def test_negative_numbers(self):
+        self.assertEqual(divide(-9, 3), -3)
+
+    def test_float_result(self):
+        self.assertAlmostEqual(divide(1, 3), 0.3333, places=4)
+
+    def test_divide_by_zero_raises_error(self):
+        with self.assertRaises(ValueError):
+            divide(5, 0)
+
+
+if __name__ == "__main__":
+    unittest.main()
+```
+
+### التشغيل
+
+```bash
+python -m unittest test_calculator.py
+```
+
+إذا نجحت كل الاختبارات ستظهر نتيجة مثل:
+
+```
+....
+----------------------------------------------------------------------
+Ran 4 tests in 0.001s
+
+OK
+```
+
+كل نقطة تمثل اختبارًا ناجحًا. وإذا حذف أحدهم مثلًا شرط `if b == 0` من الدالة، يفشل الاختبار `test_divide_by_zero_raises_error` فورًا ويخبرك بموضع المشكلة.
+
+## البديل الأبسط: `pytest`
+
+أغلب مشاريع بايثون تستخدم مكتبة `pytest` لأن صياغتها أقصر:
+
+```python
+import pytest
+from calculator import divide
+
+def test_positive_numbers():
+    assert divide(10, 2) == 5
+
+def test_divide_by_zero_raises_error():
+    with pytest.raises(ValueError):
+        divide(5, 0)
+```
+
+ثبّتها وشغّلها هكذا:
+
+```bash
+pip install pytest
+pytest
+```
+
+## نصائح سريعة
+
+- اختبر **الحالات الحدّية** مثل الصفر والقيم السالبة والقوائم الفارغة، لا الحالة العادية فقط.
+- اجعل كل اختبار يتحقق من **سلوك واحد**، وأعطه اسمًا يصف ذلك السلوك.
+- يجب أن تكون الاختبارات **سريعة ومستقلة**، فلا يعتمد أي اختبار على نتيجة اختبار آخر.

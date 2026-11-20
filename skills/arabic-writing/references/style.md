@@ -86,6 +86,21 @@ Other machine-translation idioms to thin out: يمهّد الطريق، يسلّ
 
 Also vary sentence and paragraph length; don't turn every answer into bullets.
 
+### 4.1 Idiom calques
+
+English idioms translated word for word. Found in AI-written Arabic during the 50-prompt evaluation.
+
+| ✗ calque | ✓ natural |
+|---|---|
+| ✗ يصنع الفرق / يحدث الفرق ("makes the difference") | ✓ يُحدث فرقًا / ✓ له أثر واضح |
+| ✗ أفكار بقيت معي ("stayed with me") | ✓ أفكار علقت بذهني / ✓ ظلّت حاضرة في ذهني |
+| ✗ يعيد تشكيل الطريقة التي يعيش بها الناس ("reshapes the way…") | ✓ يغيّر أسلوب عيش الناس |
+| ✗ يضع المزارعين تحت ضغط متزايد ("puts … under pressure") | ✓ يزيد الضغط على المزارعين |
+| ✗ كل طلب يأخذ 10 دقائق ("takes") | ✓ يستغرق كل طلب 10 دقائق |
+| ✗ في نهاية اليوم ("at the end of the day") | ✓ في المحصّلة / ✓ في النهاية |
+| ✗ الفرع محدَّث مع `main` ("up to date with") | ✓ الفرع متزامن مع `main` |
+| ✗ أفضل بـ 37 مرة ("37 times better") | ✓ يتحسّن نحو 37 ضعفًا |
+
 ## 5. Register
 
 - **Default: semi-formal MSA** (فصحى معاصرة): correct grammar, modern vocabulary, short sentences, no ornament. The register of good tech journalism and Arabic product docs.

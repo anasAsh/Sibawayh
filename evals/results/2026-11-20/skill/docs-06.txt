@@ -1,0 +1,224 @@
+# دليل نشر تطبيق ويب على خادم لينكس باستخدام Docker وNginx
+
+## مقدمة
+
+يشرح هذا الدليل نشر تطبيق ويب على خادم يعمل بنظام لينكس (Ubuntu 24.04 أو ما يشابهه). يعمل التطبيق داخل حاوية (Container) يديرها Docker، ويستقبل Nginx الطلبات من الإنترنت بصفته وكيلًا عكسيًّا (Reverse Proxy) يمرّرها إلى الحاوية. ثم نؤمّن الاتصال بشهادة طبقة المقابس الآمنة (SSL/TLS) مجانية من Let's Encrypt.
+
+نفترض في الأمثلة أن التطبيق يستمع إلى المنفذ (Port) `3000`، وأن اسم النطاق (Domain) هو `example.com`. استبدل هذه القيم بما يناسب مشروعك.
+
+## المتطلبات
+
+- خادم لينكس تستطيع الدخول إليه عبر بروتوكول الصدفة الآمنة (SSH) بمستخدم له صلاحيات `sudo`.
+- اسم نطاق يشير سجلّه من النوع `A` إلى عنوان IP الخاص بالخادم.
+- شيفرة التطبيق في مستودع Git أو على جهازك المحلي.
+
+## الخطوة 1: تحديث الخادم
+
+اتصل بالخادم وحدّث الحزم:
+
+```bash
+ssh user@server_ip
+sudo apt update && sudo apt upgrade -y
+```
+
+## الخطوة 2: تثبيت Docker
+
+ثبّت Docker من مستودعه الرسمي، فنسخته أحدث من النسخة الموجودة في مستودعات التوزيعة:
+
+```bash
+sudo apt install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] \
+  https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" \
+  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+أضف مستخدمك إلى مجموعة `docker` لتشغيل الأوامر دون `sudo`، ثم سجّل الخروج وادخل من جديد:
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+تحقّق من نجاح التثبيت:
+
+```bash
+docker --version
+docker compose version
+docker run --rm hello-world
+```
+
+## الخطوة 3: إعداد الجدار الناري
+
+اسمح بالاتصالات عبر SSH وHTTP وHTTPS فقط:
+
+```bash
+sudo ufw allow OpenSSH
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw enable
+sudo ufw status
+```
+
+**تنبيه:** يتجاوز Docker قواعد `ufw` حين ينشر منافذ الحاويات. لذلك اربط منفذ التطبيق بالعنوان `127.0.0.1` كما في الخطوة 5، حتى لا يصل إليه أحد من خارج الخادم إلا عبر Nginx.
+
+## الخطوة 4: تجهيز ملف Dockerfile
+
+انقل شيفرة التطبيق إلى الخادم، مثلًا:
+
+```bash
+git clone https://github.com/your-org/your-app.git ~/app
+cd ~/app
+```
+
+أنشئ ملف `Dockerfile` في جذر المشروع إن لم يكن موجودًا. هذا مثال لتطبيق مكتوب بـ Node.js:
+
+```dockerfile
+FROM node:22-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev
+COPY . .
+ENV NODE_ENV=production
+EXPOSE 3000
+USER node
+CMD ["node", "server.js"]
+```
+
+ثم أنشئ ملف `.dockerignore` لاستبعاد ما لا تحتاج إليه الصورة (Image):
+
+```
+node_modules
+.git
+.env
+```
+
+## الخطوة 5: إعداد Docker Compose
+
+أنشئ ملف `compose.yaml` لتعريف الخدمة:
+
+```yaml
+services:
+  web:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:3000:3000"
+```
+
+احفظ المتغيرات السرية، مثل كلمات المرور ومفاتيح واجهات برمجة التطبيقات (API)، في ملف `.env`. لا تُدخل هذا الملف في نظام التحكم في الإصدارات، وقيّد صلاحياته:
+
+```bash
+chmod 600 .env
+```
+
+## الخطوة 6: بناء الصورة وتشغيل الحاوية
+
+```bash
+docker compose up -d --build
+docker compose ps
+docker compose logs -f web
+```
+
+تأكّد من أن التطبيق يستجيب محليًّا قبل الانتقال إلى Nginx:
+
+```bash
+curl -I http://127.0.0.1:3000
+```
+
+## الخطوة 7: تثبيت Nginx وإعداده وكيلًا عكسيًّا
+
+ثبّت Nginx:
+
+```bash
+sudo apt install -y nginx
+```
+
+أنشئ ملف إعداد للموقع في `/etc/nginx/sites-available/example.com`:
+
+```nginx
+server {
+    listen 80;
+    listen [::]:80;
+    server_name example.com www.example.com;
+
+    client_max_body_size 20M;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+```
+
+فعّل الموقع، واحذف الموقع الافتراضي، ثم افحص الإعداد وأعد تحميل Nginx:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+افتح الآن `http://example.com` في المتصفح وتأكّد من ظهور التطبيق.
+
+## الخطوة 8: تفعيل HTTPS بشهادة Let's Encrypt
+
+ثبّت أداة Certbot واطلب الشهادة:
+
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d example.com -d www.example.com
+```
+
+تعدّل الأداة إعداد Nginx تلقائيًّا، فتفعّل HTTPS وتحوّل طلبات HTTP إليه. تتجدّد الشهادة تلقائيًّا، ويمكنك اختبار التجديد بهذا الأمر:
+
+```bash
+sudo certbot renew --dry-run
+```
+
+## الخطوة 9: التحقق والمراقبة
+
+- افتح `https://example.com` وتأكّد من ظهور رمز القفل في شريط العنوان.
+- راجع سجلات التطبيق بالأمر `docker compose logs --tail=100 web`.
+- راجع سجلات Nginx في `/var/log/nginx/access.log` و`/var/log/nginx/error.log`.
+- تأكّد من أن Docker وNginx يبدآن تلقائيًّا عند إعادة تشغيل الخادم:
+
+```bash
+sudo systemctl enable docker nginx
+```
+
+## الخطوة 10: نشر التحديثات
+
+عند صدور نسخة جديدة من التطبيق، اسحب التغييرات وأعد بناء الحاوية:
+
+```bash
+cd ~/app
+git pull
+docker compose up -d --build
+docker image prune -f
+```
+
+يحرّر الأمر الأخير مساحة القرص التي تشغلها الصور القديمة. ولتقليل مدة توقف التطبيق، ابنِ الصورة أولًا بالأمر `docker compose build`، ثم شغّل `docker compose up -d`.
+
+## استكشاف الأخطاء الشائعة
+
+| العَرَض | السبب المحتمل | الحل |
+|---|---|---|
+| خطأ `502 Bad Gateway` | الحاوية متوقفة أو تستمع إلى منفذ آخر | نفّذ `docker compose ps` وراجع السجلات، وتأكّد من تطابق المنفذ في `proxy_pass` |
+| لا يستجيب التطبيق مع أن الحاوية تعمل | التطبيق يستمع داخل الحاوية إلى `localhost` فقط | اجعله يستمع إلى `0.0.0.0` |
+| فشل إصدار الشهادة | سجلّ DNS لا يشير إلى الخادم، أو المنفذ 80 مغلق | تحقّق من السجل بالأمر `dig example.com`، وراجع قواعد الجدار الناري |
+| خطأ `413 Request Entity Too Large` | حجم الملف المرفوع يتجاوز الحد المسموح به | ارفع قيمة `client_max_body_size` |
+
+## خلاصة
+
+يعمل تطبيقك الآن داخل حاوية Docker معزولة، ويستقبل Nginx الطلبات ويمرّرها إليه عبر اتصال مشفّر. ولتعزيز الأمان والاستقرار، يُستحسن أن تأخذ نسخًا احتياطية دورية من البيانات، وأن تعطّل الدخول إلى SSH بكلمة المرور فتكتفي بالمفاتيح، وأن تؤتمت النشر بأداة للتكامل والنشر المستمرَّين (CI/CD).

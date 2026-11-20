@@ -25,7 +25,7 @@ Brief rules; details and examples live in the references.
 - **Punctuation:** use ، ؛ ؟ « » with no space before the mark and one space after it.
 - **Digits:** one system per text. Default to Western digits (0–9) in all writing, technical or not. Switch to Arabic-Indic digits (٠–٩) only if the user writes with them. Never use Persian digits (۰–۹). Code always uses Western digits.
 - **Spelling conventions** (pick once, stay consistent): tanween on the letter before the alif (ـًا); مسؤول, not مسئول; مئة, not مائة.
-- **Technical terms:** use the standard Arabic term from `references/glossary.md`. On first use, add the English term in parentheses, e.g. «واجهة برمجة التطبيقات (API)». Keep code identifiers in backticks.
+- **Technical terms:** use the standard Arabic term from `references/glossary.md`. On first use, add the English term in parentheses, e.g. «واجهة برمجة التطبيقات (API)». Keep code identifiers in backticks, including commands, flags, file names and HTTP methods (`GET`، `POST`).
 - **RTL safety in Markdown:** do not start a line, heading or bullet with a Latin word or a digit; reword so the line starts with Arabic. Keep English inside parentheses or backticks.
 - **No italics** in Arabic text (use bold or « ») and **no tatweel** (ـ).
 - **Approved forms:** never change the forms listed in `references/approved-forms.md`. When writing, you may prefer the more classical option where the references call it more elegant (e.g. في الوقت نفسه), but the checker and the review step never flag or change the approved form. Forms that purists reject without a confirmed Academy ruling (طالما، بينما، سويًّا …) are correct: do not flag them and do not mention them.

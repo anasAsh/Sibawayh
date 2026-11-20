@@ -20,7 +20,7 @@ An Agent Skill that teaches AI agents to write natural Modern Standard Arabic an
 [![Dependencies: none](https://img.shields.io/badge/dependencies-none-brightgreen)](#-run-the-checker-yourself)
 [![Agent Skill](https://img.shields.io/badge/Agent%20Skill-SKILL.md-d97757)](skills/arabic-writing/SKILL.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757)](#-install)
-[![Status: evaluating](https://img.shields.io/badge/status-evaluating-orange)](evals/README.md)
+[![AI-judged: −88% errors](https://img.shields.io/badge/AI--judged-%E2%88%9288%25%20errors-2ea44f)](evals/full_eval.md)
 
 <img src="docs/assets/social-preview.png" alt="Sibawayh: typical AI Arabic vs. Arabic with Sibawayh" width="820">
 
@@ -202,11 +202,12 @@ The harness in [`evals/`](evals/README.md) answers 50 realistic prompts with and
 - All 4 English-only requests correctly left it unloaded.
 - The 2 dialect requests did not load it.
 
-**Pilot quality check** (10 prompts, judged blind by an AI model from a different family; see [`evals/ai_judge.md`](evals/ai_judge.md)):
-- The Sibawayh version was preferred in **7 of 10** pairs.
-- Grammar and translationese errors went from **8 to 0**.
+**Full evaluation** (50 prompts, judged blind by an AI model from a different family; see [`evals/full_eval.md`](evals/full_eval.md)):
+- Errors per 100 words went from **1.66 to 0.20 (−88%)**, and every category improved: grammar and formatting −100%, spelling and register −89%, translationese −75%.
+- The Sibawayh version was preferred in **29** pairs, the baseline in **1**; 20 were ties.
+- **0** over-corrections. The success bar (≤50% of the baseline's errors, no category worse, no over-corrections) is met.
 
-The pilot is not a measured claim; the full 50-prompt run is next, and the human-scored evaluation is still to come.
+An AI judge is not a native reader, so a human-scored round is still to come. The answers and scores are in [`evals/results/`](evals/results/) for anyone to check.
 
 **The checker against human corrections** ([`evals/benchmarks.md`](evals/benchmarks.md)): on two public corpora that people corrected word by word, it catches **53%** of all errors in student essays (ZAEBUC) and **42%** in native-speaker comments (QALB), up from 23% and 20% in release 0.1.2. For hamza it catches 68% and 59%; for و written apart from its word, 98% and 86%. Every flag on a word the annotators left unchanged was either a real error they missed or a counting artifact.
 

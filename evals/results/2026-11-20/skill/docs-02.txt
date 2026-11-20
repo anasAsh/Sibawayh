@@ -1,0 +1,74 @@
+Here is the installation section in Arabic:
+
+---
+
+## التثبيت
+
+### المتطلبات
+
+- الإصدار 3.9 من بايثون (Python) أو أحدث.
+- مدير الحزم `pip`، وهو مُضمَّن عادةً مع بايثون.
+
+للتحقق من إصدار بايثون المثبت على جهازك، نفِّذ الأمر الآتي:
+
+```bash
+python3 --version
+```
+
+إذا ظهر إصدار أقدم من 3.9، فحدِّث بايثون قبل المتابعة.
+
+### التثبيت باستخدام pip
+
+ثبِّت الأداة بالأمر الآتي:
+
+```bash
+pip install tidy
+```
+
+وإذا كان على جهازك أكثر من إصدار لبايثون، فاستخدم الصيغة التالية لتضمن تثبيت الأداة على الإصدار الصحيح:
+
+```bash
+python3 -m pip install tidy
+```
+
+### التثبيت في بيئة افتراضية (اختياري)
+
+ننصح بتثبيت الأداة داخل بيئة افتراضية (virtual environment) حتى لا تتعارض مع الحزم الأخرى على النظام:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install tidy
+```
+
+على نظام ويندوز، فعِّل البيئة بالأمر `.venv\Scripts\activate` بدلًا من الأمر `source`.
+
+### التحقق من التثبيت
+
+بعد انتهاء التثبيت، تأكد من أن الأداة تعمل:
+
+```bash
+tidy --version
+```
+
+إذا ظهر رقم الإصدار، فالأداة جاهزة للاستخدام. أما إذا ظهرت رسالة تفيد بأن الأمر غير موجود، فتأكد من أن مجلد البرامج التنفيذية الخاص ببايثون مضاف إلى متغير البيئة `PATH`.
+
+### التحديث وإلغاء التثبيت
+
+لتحديث الأداة إلى أحدث إصدار:
+
+```bash
+pip install --upgrade tidy
+```
+
+ولإزالتها من جهازك:
+
+```bash
+pip uninstall tidy
+```
+
+---
+
+**Two things to check before you publish:**
+- I assumed the pip package is called `tidy` and that the tool supports `tidy --version`. If either is different, change the commands.
+- Your docs may get rendered with right-to-left text direction, for example with `dir="rtl"`. If so, keep the code blocks left-to-right so the commands display correctly.

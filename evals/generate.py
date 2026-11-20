@@ -23,9 +23,27 @@ def run_one(prompt: str, with_skill: bool) -> str:
     with c.workdir(with_skill) as d:
         r = subprocess.run(cmd, cwd=d, capture_output=True, text=True,
                            encoding="utf-8", timeout=c.TIMEOUT)
+        files = written_files(d)
     if r.returncode != 0 or not r.stdout.strip():
         raise RuntimeError("exit %s: %s" % (r.returncode, r.stderr.strip()))
-    return r.stdout
+    # A model may save the deliverable to a file and only summarise it; the
+    # temp dir is deleted, so keep what it wrote.
+    return r.stdout + "".join("\n\n--- file: %s ---\n%s" % f for f in files)
+
+
+def written_files(d):
+    """(relative path, text) of files the model wrote, outside .claude/ and /tmp."""
+    out = []
+    for root, dirs, names in os.walk(d):
+        dirs[:] = sorted(x for x in dirs if x != ".claude")
+        for n in sorted(names):
+            path = os.path.join(root, n)
+            try:
+                with open(path, encoding="utf-8") as f:
+                    out.append((os.path.relpath(path, d), f.read()))
+            except (UnicodeDecodeError, OSError):
+                continue
+    return out
 
 
 def main(argv=None) -> int:
