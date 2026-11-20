@@ -206,6 +206,8 @@ The harness in [`evals/`](evals/README.md) answers 50 realistic prompts with and
 - The Sibawayh version was preferred in **7 of 10** pairs.
 - Grammar and translationese errors went from **8 to 0**.
 
+**Over-correction check** (the checker on 416k words of Arabic Wikipedia featured articles; see [`evals/corpus_check.md`](evals/corpus_check.md)): all 29 error flags were real errors, and 1 of 278 auto-fixes was wrong (now fixed).
+
 This is a pilot, not a measured claim. The human-scored evaluation is still to come.
 
 ## 🤝 Contribute

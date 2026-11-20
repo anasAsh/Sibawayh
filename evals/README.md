@@ -66,3 +66,8 @@ Prints rubric errors per 100 words (the headline; word counts come from the
 output files), checker counts by family (supporting detail only: skill output
 has already passed the checker), then `PASS` or `FAIL`. The bar: zero
 over-corrections, skill total <= 50% of baseline total, and no category worse.
+
+## Other checks
+
+- [`ai_judge.md`](ai_judge.md): a blind AI-judged pilot on 10 prompt pairs.
+- [`corpus_check.md`](corpus_check.md): the over-correction check on edited Arabic (Wikipedia featured articles). No human scorer needed.

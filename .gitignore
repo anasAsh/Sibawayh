@@ -6,3 +6,4 @@ evals/outputs/
 evals/blind/
 evals/blind_key.csv
 .playwright-mcp/
+evals/corpus/

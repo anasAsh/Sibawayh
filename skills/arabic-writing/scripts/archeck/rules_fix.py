@@ -124,7 +124,10 @@ def persian_letter(text: str, masked: str, opts: Dict[str, str]) -> List[Finding
             continue
         if any(c in _PERSIAN_ONLY for c in tok):
             continue
-        last = max((k for k, c in enumerate(tok) if _is_ar(c)), default=-1)
+        letters = [k for k, c in enumerate(tok) if _is_ar(c)]
+        if len(letters) == 1:
+            continue  # a letter cited on its own, not a word
+        last = letters[-1] if letters else -1
         for k, c in enumerate(tok):
             if c == _FARSI_YEH and k == last:
                 out.append(

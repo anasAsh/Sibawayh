@@ -52,6 +52,12 @@ class FixRulesTest(unittest.TestCase):
             self.assertEqual(fix_text(t), t)
             self.assertEqual([f for f in check(t) if f.rule.startswith("persian-letter")], [])
 
+    def test_lone_letter_is_left_alone(self):
+        # A letter cited on its own, e.g. in a table of alphabets.
+        t = "اللغة السندية: ک -- كهي"
+        self.assertEqual(fix_text(t), t)
+        self.assertEqual([f for f in check(t) if f.rule.startswith("persian-letter")], [])
+
     def test_token_without_letters(self):
         for t in ("ـــ", "\u064e"):
             self.assertEqual(fix_text(t), t)
