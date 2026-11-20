@@ -102,6 +102,7 @@ class GrammarPatternTest(unittest.TestCase):
         self.assertEqual(of("لن يذهبون", "jussive-nun")[0].suggestion, "يذهبوا")
         self.assertEqual(of("لم تذهبين", "jussive-nun")[0].suggestion, "تذهبي")
         self.assertEqual(len(of("يجب أن يعملون معا", "jussive-nun")), 1)
+        self.assertEqual(of("التزموا بأن يكونون مستعدين", "jussive-nun")[0].suggestion, "يكونوا")
         self.assertEqual(of("لم يكونوا هناك", "jussive-nun"), [])
 
     def test_jussive_nun_no_false_positives(self):

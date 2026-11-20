@@ -2,7 +2,7 @@
 """Download Arabic Wikipedia featured articles as plain text, for the
 over-correction check (corpus_check.py). Stdlib only; needs network.
 
-Usage: python3 evals/fetch_wiki.py [--limit 50] [--out evals/corpus/wiki]
+Usage: python3 evals/fetch_wiki.py [--limit 50] [--skip 0] [--out evals/corpus/wiki]
 """
 import argparse
 import json
@@ -46,10 +46,12 @@ def extract(pageid):
 def main():
     p = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     p.add_argument("--limit", type=int, default=50)
+    p.add_argument("--skip", type=int, default=0,
+                   help="skip the first N articles (for a held-out set)")
     p.add_argument("--out", default=os.path.join(_HERE, "corpus", "wiki"))
     args = p.parse_args()
     os.makedirs(args.out, exist_ok=True)
-    for page in featured(args.limit):
+    for page in featured(args.skip + args.limit)[args.skip:]:
         path = os.path.join(args.out, "%d.txt" % page["pageid"])
         if os.path.exists(path):
             continue

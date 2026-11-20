@@ -2,7 +2,8 @@
 # Hamzat al-qat' missing on particles, pronouns and أفعل forms.
 # Matched as whole words only: after a prefix these letters collide with real
 # words (كانت، كانا، بانت، لانت، والى، واو), so prefixed forms are listed
-# explicitly. ان is left out (إن or أن cannot be told apart).
+# explicitly. Where both إ and أ are possible (ان، انه، اما، الا) the bare
+# form is still always wrong, so it is listed with the commoner reading.
 wrong	right	note
 الى	إلى	particle
 انا	أنا	pronoun; also إنّا or أنّا by context
@@ -25,3 +26,68 @@ wrong	right	note
 الاولى	الأولى	elative
 ايضا	أيضًا	hamza and tanween
 انشاء	إنشاء	Form IV masdar; انشاء الله is the misspelling إن شاء الله
+ان	أن	particle; or إن by context
+انه	أنه	particle; or إنه by context
+انها	أنها	particle; or إنها by context
+انهم	أنهم	particle; or إنهم by context
+وانه	وأنه	particle; or وإنه by context
+وانها	وأنها	particle; or وإنها by context
+انما	إنما	particle
+الا	إلا	particle; or ألا by context
+اما	أما	particle; or إما by context
+اذ	إذ	particle
+اليه	إليه	particle
+اليها	إليها	particle
+اليهم	إليهم	particle
+اثناء	أثناء	noun
+اجل	أجل	noun
+امام	أمام	noun; or إمام by context
+الامام	الإمام	noun
+ابو	أبو	noun
+وابو	وأبو	noun
+اهل	أهل	noun
+واهل	وأهل	noun
+احد	أحد	noun
+احمد	أحمد	name
+ابراهيم	إبراهيم	name
+امر	أمر	noun
+امير	أمير	noun
+الامير	الأمير	noun
+ارض	أرض	noun
+الارض	الأرض	noun
+ايام	أيام	plural
+انواع	أنواع	plural
+احداث	أحداث	plural
+اصحاب	أصحاب	plural
+اعمال	أعمال	plural
+اسماء	أسماء	plural; the singular اسم has hamzat al-wasl
+اربع	أربع	number
+اربعة	أربعة	number
+اخرى	أخرى	elative
+الاخرى	الأخرى	elative
+اكبر	أكبر	elative
+الاكبر	الأكبر	elative
+اقل	أقل	elative
+اهم	أهم	elative
+افضل	أفضل	elative
+اعلى	أعلى	elative
+الاعلى	الأعلى	elative
+اغلب	أغلب	elative
+اهمية	أهمية	noun
+اضافة	إضافة	Form IV masdar
+اعادة	إعادة	Form IV masdar
+اسلوب	أسلوب	noun
+احيانا	أحيانًا	hamza and tanween
+الاسلام	الإسلام	Form IV masdar
+الاسلامية	الإسلامية	Form IV masdar
+الانسان	الإنسان	noun
+الاخير	الأخير	adjective
+الاخيرة	الأخيرة	adjective
+اصبح	أصبح	Form IV verb
+اصبحت	أصبحت	Form IV verb
+اراد	أراد	Form IV verb
+ارسل	أرسل	Form IV verb
+اعلن	أعلن	Form IV verb
+اشار	أشار	Form IV verb
+ادى	أدى	verb
+اخذ	أخذ	verb

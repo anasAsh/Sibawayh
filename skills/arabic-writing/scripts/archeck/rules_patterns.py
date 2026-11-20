@@ -212,7 +212,7 @@ def sawfa_lan(text: str, masked: str, opts: Opts) -> List[Finding]:
 # --- jussive-nun -----------------------------------------------------------------
 
 _JUSSIVE = frozenset(("لم", "ولم", "فلم"))
-_SUBJUNCTIVE = frozenset(("لن", "ولن", "فلن", "أن", "وأن", "كي", "لكي", "ولكي"))
+_SUBJUNCTIVE = frozenset(("لن", "ولن", "فلن", "أن", "وأن", "بأن", "وبأن", "كي", "لكي", "ولكي"))
 _NUN_EXCEPT = frozenset(("يعنون", "تعنون", "تلفزيون"))
 
 

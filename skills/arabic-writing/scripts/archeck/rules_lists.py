@@ -77,6 +77,8 @@ def _scan(masked: str, rule: str, name: str, key: str, value: str,
     words, phrases = _table(name, key, value)
     out = []
     for start, end, word in iter_words(masked):
+        if whole and start and masked[start - 1] == "ـ":
+            continue  # a cited ending such as ـان, not a word
         for p, stem, drop in _candidates(word, whole):
             hit = words.get(stem)
             if hit is None:
@@ -100,9 +102,34 @@ def misspelling(text, masked, opts):
                  "error", "Misspelling")
 
 
+# Masdars of forms VII (انفعال), VIII (افتعال) and X (استفعال) by shape, for
+# words not in wasl_words.tsv. Form IV masdars (إفعال: إنتاج، إنفاق) have one
+# letter fewer, so they never match.
+_C = "[بتثجحخدذرزسشصضطظعغفقكلمنهويءأإآؤئ]"
+_WASL_MASDAR = re.compile(
+    "إ(?:" + _C + "ت" + _C + "ا" + _C + "|ن" + _C + _C + "ا" + _C
+    + "|ست" + _C + _C + "ا" + _C + ")(?:ة|ات|ي|ية|يا|يين|يات|ه|ها|هم|هما)?")
+_WASL_FOREIGN = ("إسترات", "إسترال", "إنكشار")  # loanwords: إستراتيجية، إستراليا، الإنكشارية
+
+
 def hamza_wasl(text, masked, opts):
-    return _scan(masked, "hamza-wasl", "wasl_words.tsv", "wrong", "right",
-                 "error", "Hamzat al-wasl: write a bare alif, not إ")
+    out = _scan(masked, "hamza-wasl", "wasl_words.tsv", "wrong", "right",
+                "error", "Hamzat al-wasl: write a bare alif, not إ")
+    listed = {f.start for f in out}
+    for start, end, word in iter_words(masked):
+        if start in listed:
+            continue
+        plain = stem_candidates(word)
+        for stem in plain:
+            if _WASL_MASDAR.fullmatch(stem) and not stem.startswith(_WASL_FOREIGN):
+                p = len(plain[0]) - len(stem)
+                i = _cut(word, p)
+                out.append(Finding(start, end, "error", "hamza-wasl",
+                                   "Hamzat al-wasl: write a bare alif, not إ "
+                                   "(masdar of form VII, VIII or X)",
+                                   suggestion=word[:i] + "ا" + word[i + 1:]))
+                break
+    return out
 
 
 def hamza_missing(text, masked, opts):

@@ -46,6 +46,19 @@ class ListRulesTest(unittest.TestCase):
         self.assertIn(("hamza-wasl", "اسم"), pairs("إسم"))
         self.assertIn(("hamza-wasl", "للاستخدام"), pairs("للإستخدام"))
 
+    def test_hamza_wasl_masdar_shape(self):
+        # Not in wasl_words.tsv; caught by the form VII/VIII/X masdar shape.
+        self.assertIn(("hamza-wasl", "واستنباط"), pairs("وإستنباط"))
+        self.assertIn(("hamza-wasl", "الانحدار"), pairs("الإنحدار"))
+        self.assertIn(("hamza-wasl", "بالاستمساك"), pairs("بالإستمساك"))
+        self.assertIn(("hamza-wasl", "الاشتراكية"), pairs("الإشتراكية"))
+        self.assertEqual(rules("وإستنباط").count("hamza-wasl"), 1)
+
+    def test_hamza_wasl_shape_skips_form_iv_and_loanwords(self):
+        for t in ("إنتاج", "إنفاق", "إنسانية", "إتقان", "إطلاق", "إستبرق",
+                  "إستراتيجية", "إستراليا", "الإنكشارية"):
+            self.assertNotIn("hamza-wasl", rules(t), t)
+
     def test_hamza_wasl_span(self):
         text = "تم الإستخدام"
         f = [f for f in check(text) if f.rule == "hamza-wasl"][0]
@@ -60,6 +73,17 @@ class ListRulesTest(unittest.TestCase):
         found = [f for f in check("ذهب الى البيت") if f.rule == "hamza-missing"]
         self.assertEqual([(f.suggestion, f.severity) for f in found], [("إلى", "warn")])
         self.assertIn(("hamza-missing", "وإذا"), pairs("واذا"))
+
+    def test_hamza_missing_common_words(self):
+        self.assertIn(("hamza-missing", "أن"), pairs("يجب ان نذهب"))
+        self.assertIn(("hamza-missing", "وأنه"), pairs("وانه قال"))
+        self.assertIn(("hamza-missing", "أهل"), pairs("جمع اهل بيته"))
+        self.assertIn(("hamza-missing", "الإسلام"), pairs("في الاسلام"))
+        # A cited ending is not a word.
+        self.assertNotIn("hamza-missing", rules("المثنى بـان أو ـين"))
+        # Prefixed look-alikes stay valid words.
+        for t in ("كانت", "بان الحق", "لان الحديد", "واحد", "فان"):
+            self.assertNotIn("hamza-missing", rules(t), t)
 
     def test_hamza_missing_inshaa(self):
         found = [f for f in check("تم انشاء الملف") if f.rule == "hamza-missing"]
