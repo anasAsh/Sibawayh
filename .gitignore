@@ -10,3 +10,4 @@ evals/corpus/
 evals/outputs-pilot/
 evals/judge/
 evals/judge-key.csv
+evals/judge-scores.csv
