@@ -100,11 +100,15 @@ class GrammarPatternTest(unittest.TestCase):
         self.assertEqual(found[0].suggestion, "لن")
 
     def test_number_gender(self):
-        self.assertEqual(of("لدينا ثلاث ملفات", "number-gender")[0].suggestion, "ثلاثة ملفات")
-        self.assertEqual(of("خمسة نصائح مفيدة", "number-gender")[0].suggestion, "خمس نصائح")
-        self.assertEqual(of("بعد أربع أيام", "number-gender")[0].suggestion, "أربعة أيام")
-        self.assertEqual(of("وثمانية سنوات", "number-gender")[0].suggestion, "وثماني سنوات")
-        self.assertEqual(of("بضعة دقائق", "number-gender")[0].suggestion, "بضع دقائق")
+        self.assertEqual(of("لدينا ثلاث ملفات", "number-gender")[0].suggestion, "ثلاثة")
+        self.assertEqual(of("خمسة نصائح مفيدة", "number-gender")[0].suggestion, "خمس")
+        self.assertEqual(of("بعد أربع أيام", "number-gender")[0].suggestion, "أربعة")
+        self.assertEqual(of("وثمانية سنوات", "number-gender")[0].suggestion, "وثماني")
+        self.assertEqual(of("بضعة دقائق", "number-gender")[0].suggestion, "بضع")
+        self.assertEqual(of("وبثلاث كتب", "number-gender")[0].suggestion, "وبثلاثة")
+        self.assertEqual(spans("قرأت ثلاث كتب", "number-gender"), ["ثلاث"])
+        for t in ("على مدى ثلاث `x` كتب", "قرأت ثلاث\n\nكتب"):
+            self.assertEqual(of(t, "number-gender"), [], t)
         for t in ("ثلاثة ملفات", "ثلاث خطوات", "خمسة أيام", "سبع سنوات", "ثماني ساعات",
                   "عشرة أسئلة", "بضع سنوات", "خُمس أعضاء المجلس", "ثلاث سيارات",
                   "خمسة عشر يومًا", "ثلاث عشرة سنة", "الأيام الثلاثة", "الخمسة كتب"):

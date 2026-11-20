@@ -5,11 +5,12 @@ SCORES is a CSV with one row per pair and response:
   pair,response,grammar,spelling,translationese,register,formatting,over_corrections
 (response is A or B), plus optional rows with response=pref and the
 preferred response (A, B or tie) in the grammar column. KEY comes from
-pair.py. Word counts come from evals/outputs.
+pair.py; when it carries a_sha1/b_sha1, the outputs must be the ones judged. Word counts come from evals/outputs.
 
 Usage: python3 evals/judge_report.py SCORES KEY
 """
 import csv
+import hashlib
 import os
 import sys
 from collections import Counter, defaultdict
@@ -19,6 +20,11 @@ sys.path.insert(0, os.path.join(os.path.dirname(HERE), "skills", "arabic-writing
 from archeck.text import iter_words, mask  # noqa: E402
 
 CATS = ["grammar", "spelling", "translationese", "register", "formatting"]
+
+
+def digest(mode, pid):
+    with open(os.path.join(HERE, "outputs", mode, pid + ".txt"), "rb") as f:
+        return hashlib.sha1(f.read().strip()).hexdigest()
 
 
 def words(mode, pid):
@@ -47,6 +53,10 @@ def main(argv=None) -> int:
             if (k["pair"], mode) in seen:
                 sys.exit("duplicate row for pair %s %s" % (k["pair"], r["response"]))
             seen.add((k["pair"], mode))
+            sha = k.get(r["response"].lower() + "_sha1")
+            if sha and sha != digest(mode, k["id"]):
+                sys.exit("outputs/%s/%s.txt changed since pair.py made the pairs the judge saw"
+                         % (mode, k["id"]))
             nwords[mode] += words(mode, k["id"])
             task = k["id"].rsplit("-", 1)[0]
             for cat in CATS:
@@ -55,6 +65,10 @@ def main(argv=None) -> int:
                 by_type[task][mode][cat] += n
             if mode == "skill":
                 over += int(r.get("over_corrections") or 0)
+    pairs = Counter(p for p, _ in seen)
+    incomplete = sorted(p for p, n in pairs.items() if n != 2)
+    if incomplete:
+        sys.exit("pairs without both an A and a B row: %s" % ", ".join(incomplete))
     per100 = {m: {c: 100.0 * errors[m][c] / nwords[m] for c in CATS} for m in errors}
     tot = {m: sum(per100[m].values()) for m in errors}
     print("Pairs scored: %d   words: baseline %d, skill %d\n" % (len(seen) // 2, nwords["baseline"], nwords["skill"]))

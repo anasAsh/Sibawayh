@@ -44,13 +44,13 @@ python3 evals/fetch_wiki.py --skip 50 --limit 50 --out evals/corpus/wiki-heldout
 
 The word lists were grown from the first set's frequency list, so the honest number is on a **held-out set**: the next 50 featured articles (389,907 words), not used for any change.
 
-| Error injected | 0.1.1 | 0.1.2 | **0.2.0** |
+| Error injected | 0.1.1 | 0.1.2 | **0.2.2** |
 |---|---|---|---|
 | Latin punctuation (، → ,) | 89% | 89% | **89%** |
 | Space before ، | 100% | 100% | **100%** |
 | Wasl alif written إ (الإستخدام) | 22% | 64% | **64%** |
-| Missing hamza (أ/إ → ا) | 18% | 39% | **69%** |
-| ة → ه | 5% | 5% | **58%** |
+| Missing hamza (أ/إ → ا) | 18% | 39% | **65%** |
+| ة → ه | 5% | 5% | **54%** |
 | ى → ي | 10% | 10% | **10%** |
 | ي → ى | 42% | 42% | **72%** |
 | Persian letter, tatweel | 100% | 100% | **100%** |
@@ -59,7 +59,7 @@ The word lists were grown from the first set's frequency list, so the honest num
 | سوف لن | 97% | 97% | **97%** |
 | هاذا، لاكن، ذالك | 98% | 98% | **98%** |
 
-All columns are on the held-out set. 0.1.2 added the changes below; 0.2.0 added the frequency lexicons described in [benchmarks.md](benchmarks.md), built without the held-out set (on the first set: wasl 33% → 70%, missing hamza 16% → 43%).
+All columns are on the held-out set. 0.1.2 added the changes below; 0.2.x added the frequency lexicons described in [benchmarks.md](benchmarks.md), built without the held-out set (on the first set: wasl 33% → 70%, missing hamza 16% → 43%).
 
 What changed:
 - **hamza-wasl** also matches the shape of form VII, VIII and X masdars (إنفعال، إفتعال، إستفعال), not only listed words. Form IV masdars (إنتاج، إنفاق) are one letter shorter and never match. Loanwords of the same shape (إستراتيجية، الإنكشارية) are excluded.

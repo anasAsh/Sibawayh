@@ -31,6 +31,10 @@ class ListRulesTest(unittest.TestCase):
         self.assertIn(("misspelling", "التي"), pairs("المشاكل اللتي تواجهنا"))
         self.assertNotIn("misspelling", rules("الطالبتين اللتين نجحتا"))
         self.assertNotIn("misspelling", rules("قال والدي"))
+        # Valid words that earlier list entries or lexicons flagged (Codex review).
+        for t in ("الغصنان مادا مع الريح", "اِغْلِبْ خصمك", "عقدة اللَّيّ شديدة",
+                  "وَاقْسِمُوا الميراثَ بالعدل", "علِّميه القراءة"):
+            self.assertEqual([f.rule for f in check(t) if f.severity != "info"], [], t)
 
     def test_misspelling_keeps_prefix(self):
         self.assertIn(("misspelling", "كذلك"), pairs("كذالك"))

@@ -81,12 +81,17 @@ class FixRulesTest(unittest.TestCase):
             self.assertEqual(fix_text(t), t)
 
     def test_waw_split(self):
-        self.assertEqual(fix_text("السرعة و السهولة"), "السرعة والسهولة")
-        self.assertEqual(fix_text("انتهى. و في تلك السنة"), "انتهى. وفي تلك السنة")
-        self.assertEqual(fix_text("قال: «و كانت»"), "قال: «وكانت»")
-        self.assertEqual(fix_text("و وطّد صداقته"), "ووطّد صداقته")
-        for t in ("الحرفان أ و ب", "بين 3 و 4", "A و B", "قرأ والده", "ـو الجمع"):
-            self.assertEqual(fix_text(t), t, t)
+        def waw(t):
+            return [(f.severity, t[f.start:f.end], f.suggestion) for f in check(t) if f.rule == "waw-split"]
+        self.assertEqual(waw("السرعة و السهولة"), [("error", "و ", "و")])
+        self.assertEqual(waw("انتهى. و في تلك السنة"), [("error", "و ", "و")])
+        self.assertEqual(waw("و وطّد صداقته"), [("warn", "و ", "و")])
+        # Not an auto-fix: at the start of a quote it may be the letter itself.
+        t = "«و الحرفُ العشرون»"
+        self.assertEqual(fix_text(t), t)
+        self.assertEqual(waw(t), [("warn", "و ", "و")])
+        for t in ("الحرفان أ و ب", "بين 3 و 4", "A و B", "قرأ والده", "ـو الجمع", "كتب و `x` ثم"):
+            self.assertEqual(waw(t), [], t)
 
     def test_persian_digits(self):
         self.assertEqual(fix_text("العدد \u06f1\u06f2"), "العدد 12")

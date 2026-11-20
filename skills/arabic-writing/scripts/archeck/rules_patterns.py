@@ -402,7 +402,7 @@ _NUM_SWAP = {
 }
 _NUM_SWAP.update({f: m for m, f in list(_NUM_SWAP.items())})
 _NUM_SWAP["ثمان"] = "ثمانية"
-_NUM_PREFIX = re.compile("^(?:[وفبلك]|[وف][بلك])?(?:ال)?")
+_NUM_PREFIX = re.compile("^(?:[وف][بلك]|[وفبلك])?(?:ال)?")
 
 
 def number_gender(text: str, masked: str, opts: Opts) -> List[Finding]:
@@ -410,8 +410,8 @@ def number_gender(text: str, masked: str, opts: Opts) -> List[Finding]:
     words = list(iter_words(masked))
     out = []
     for (a1, b1, w1), (a2, b2, w2) in zip(words, words[1:]):
-        if masked[b1:a2].strip() or "\u064f" in w1:
-            continue  # not adjacent, or خُمس/عُشر "a fifth/tenth"
+        if text[b1:a2].strip(" \t") or "\u064f" in w1:
+            continue  # not adjacent on one line, or خُمس/عُشر "a fifth/tenth"
         noun = nouns.get(_plain(w2))
         plain = _plain(w1)
         # The whole word first, so بضعة is not read as بـ + ضعة.
@@ -421,10 +421,10 @@ def number_gender(text: str, masked: str, opts: Opts) -> List[Finding]:
             continue
         gender, singular = noun
         if (gender == "m") != form.endswith("ة"):  # ثلاثة/ثمانية suit a masculine singular
-            out.append(Finding(a1, b2, "error", "number-gender",
+            out.append(Finding(a1, b1, "error", "number-gender",
                                "3–10 take the opposite gender of the singular (%s is %s)"
                                % (singular, "masculine" if gender == "m" else "feminine"),
-                               suggestion=prefix + _NUM_SWAP[form] + " " + _plain(w2)))
+                               suggestion=prefix + _NUM_SWAP[form]))
     return out
 
 

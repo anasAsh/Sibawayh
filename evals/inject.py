@@ -12,7 +12,7 @@ import random
 import re
 import sys
 from collections import Counter
-from typing import Callable, List, NamedTuple, Optional
+from typing import Callable, List, NamedTuple, Optional, Tuple
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _HERE)
@@ -54,7 +54,7 @@ CORRUPTORS = [
     Corruptor("ي→alif-maqsura", re.compile("(?<=[%s])ي" % L + NA), _const("ى")),
     Corruptor("persian-letter", re.compile("(?<=[%s])ك(?=[%s])" % (L, L)), _const("ک")),
     Corruptor("tatweel", re.compile("(?<=[بتثجحخسشصضطظعغفقكلمنهي])(?=[%s])" % L), _const("ـ")),
-    Corruptor("digit-mix", re.compile(r"(?<![\d.,])\d+(?![\d.,])"),
+    Corruptor("digit-mix", re.compile(r"(?<![\d.,])[0-9]+(?![\d.,])"),
               lambda m: m.group().translate(_AR_DIGITS),
               lambda line: len(re.findall(r"\d+", line)) >= 2),
     Corruptor("jussive-nun", re.compile(
@@ -73,16 +73,24 @@ class Site(NamedTuple):
     repl: str
 
 
-def sites(lines: List[str], c: Corruptor) -> List[Site]:
+def doc_lines(text: str) -> List[Tuple[str, str]]:
+    """(line, masked line) pairs. The whole document is masked first, so a
+    line inside a code fence is masked too."""
+    return list(zip(text.split("\n"), mask(text).split("\n")))
+
+
+def sites(lines: List[Tuple[str, str]], c: Corruptor) -> List[Site]:
     out = []
-    for line in lines:
+    for line, masked in lines:
         if not c.line_ok(line):
             continue
-        masked = mask(line)
         for m in c.pattern.finditer(line):
             if masked[m.start():m.end()] != line[m.start():m.end()]:
                 continue  # inside code, a URL or another skipped region
-            out.append(Site(line, m.start(), m.end(), c.repl(m)))
+            repl = c.repl(m)
+            if repl == m.group():
+                continue  # no change (a number already in Arabic-Indic digits)
+            out.append(Site(line, m.start(), m.end(), repl))
     return out
 
 
@@ -121,7 +129,7 @@ def main() -> int:
     lines = []
     for path in files(args.paths):
         with open(path, encoding="utf-8") as f:
-            lines += [ln for ln in f.read().splitlines() if len(ln.split()) >= 5]
+            lines += [lm for lm in doc_lines(f.read()) if len(lm[0].split()) >= 5]
     rng = random.Random(args.seed)
     print("%-20s %6s %9s %8s %9s  %s" % ("error type", "sites", "detected", "recall",
                                        "restored", "caught by"))

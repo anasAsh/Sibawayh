@@ -198,8 +198,10 @@ def merged_particle(text, masked, opts):
 
 def dialect_word(text, masked, opts):
     # Whole words only: stripped forms collide with real words (كبدي -> بدي).
-    return _scan(masked, "dialect-word", "dialect_words.tsv", "word", "msa",
-                 "warn", "Dialect word in an MSA text", whole=True)
+    found = _scan(masked, "dialect-word", "dialect_words.tsv", "word", "msa",
+                  "warn", "Dialect word in an MSA text", whole=True)
+    # A shadda marks the MSA noun اللَّيّ "twisting", not the dialect اللي.
+    return [f for f in found if "\u0651" not in masked[f.start:f.end]]
 
 
 RULES = [misspelling, hamza_wasl, hamza_missing, taa_haa, alif_maqsura, alif_fariqa,

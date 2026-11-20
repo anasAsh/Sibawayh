@@ -9,6 +9,7 @@ Usage: python3 evals/pair.py [--seed 7] OUT KEY
 """
 import argparse
 import csv
+import hashlib
 import os
 import random
 import sys
@@ -16,6 +17,11 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
 import _common as c  # noqa: E402
+
+
+def sha1(text):
+    """Of the stripped text, as judge_report.py checks it."""
+    return hashlib.sha1(text.encode("utf-8")).hexdigest()
 
 
 def main(argv=None) -> int:
@@ -43,9 +49,10 @@ def main(argv=None) -> int:
         with open(os.path.join(a.out, "pairs", "pair-%02d.md" % n), "w", encoding="utf-8") as f:
             f.write("# Pair %02d\n\n## Prompt\n\n%s\n\n## Response A\n\n%s\n\n## Response B\n\n%s\n"
                     % (n, pr["prompt"], texts[order[0]], texts[order[1]]))
-        rows.append({"pair": "%02d" % n, "id": pr["id"], "a": order[0], "b": order[1]})
+        rows.append({"pair": "%02d" % n, "id": pr["id"], "a": order[0], "b": order[1],
+                     "a_sha1": sha1(texts[order[0]]), "b_sha1": sha1(texts[order[1]])})
     with open(a.key, "w", newline="", encoding="utf-8") as f:
-        w = csv.DictWriter(f, fieldnames=["pair", "id", "a", "b"])
+        w = csv.DictWriter(f, fieldnames=["pair", "id", "a", "b", "a_sha1", "b_sha1"])
         w.writeheader()
         w.writerows(rows)
     print("%d pairs in %s; key in %s" % (len(rows), a.out, a.key))

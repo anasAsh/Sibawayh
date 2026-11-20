@@ -24,6 +24,7 @@ from corpus_check import files  # noqa: E402
 _DIAC = re.compile("[ً-ٰٟ]")
 _WORD = re.compile("[ء-ي]+")
 # Prefixes before the word's own first letter: و/ف, then ب/ل/ك, then ال (or لل).
+_IMPERATIVE = re.compile("^[أإآ][^ا]{2,3}(?:وا|ي|ا|ن|وه|وها|وهم|يه|يها|يهم|ه|ها|هم|ني|نا)?$")
 _PREFIXES = re.compile("^(?:[وف]?(?:[بلك]?ال|لل|[بلك])?)")
 _IMPERFECT = re.compile("^[وف]?[يتنأ]")
 _IMPERFECT_WAW = re.compile("^[وف]?[يتنأا]")  # also ادعو, a hamza slip for أدعو
@@ -45,9 +46,9 @@ def pairs(c, min_count, ratio):
         if n < min_count:
             continue
         m = _HAMZA_AT_STEM.match(w)
-        # Skip اCC and اCCC words: the bare form is also an imperative
-        # (انسَ، ادعُ، اجلس، اسأل، اقبل).
-        if m and not (m.group(1) in ("", "و", "ف") and len(w) - len(m.group(1)) in (3, 4)):
+        # Skip imperative shapes: the bare form is also a valid imperative
+        # (انسَ، ادعُ، اجلس، اسأل، اقبل، واقسموا، اكتبيه).
+        if m and not (m.group(1) in ("", "و", "ف") and _IMPERATIVE.match(w[len(m.group(1)):])):
             bare = m.group(1) + "ا" + w[m.end():]
             if c[bare] <= ratio * n:
                 hamza.append((bare, w, n))
@@ -56,8 +57,9 @@ def pairs(c, min_count, ratio):
         # Without ال, only nisba adjectives (سلبية) that are common in clean text:
         # the يه spelling is then not a pronoun form in practice.
         # Not فاعية (باقية، ماضية): باقيه "the rest of it" and ماضيه "his past" are words.
-        nisba = (w.endswith("ية") and len(w) >= 5 and n >= 4 * min_count
-                 and not (len(w) == 5 and w[1] == "ا"))
+        # 6+ letters: a 5-letter يه word may be a feminine imperative with a
+        # pronoun (علِّميه "teach her"), and فاعية shapes (باقيه) are words.
+        nisba = w.endswith("ية") and len(w) >= 6 and n >= 4 * min_count
         if w.endswith("ة") and (_DEFINITE.match(w) and len(w) >= 5 or nisba):
             haa = w[:-1] + "ه"
             if c[haa] <= ratio * n:

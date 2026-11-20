@@ -37,6 +37,18 @@ class JudgeReportTest(unittest.TestCase):
         self.assertIn("Preferred: skill 1, baseline 0, tie 0", out)
         self.assertIn("PASS", out)
 
+    def test_incomplete_pair_is_refused(self):
+        key = self.KEY + "02,email-01,baseline,skill\n"
+        with self.assertRaises(SystemExit) as e:
+            self.run_report(self.HEAD + "01,A,0,0,0,0,0,0\n01,B,1,0,0,0,0,\n02,A,20,0,0,0,0,\n", key)
+        self.assertIn("02", str(e.exception))
+
+    def test_changed_output_is_refused(self):
+        key = "pair,id,a,b,a_sha1,b_sha1\n01,email-01,skill,baseline,0000,0000\n"
+        with self.assertRaises(SystemExit) as e:
+            self.run_report(self.HEAD + "01,A,0,0,0,0,0,0\n01,B,1,0,0,0,0,\n", key)
+        self.assertIn("changed", str(e.exception))
+
     def test_worse_category_fails(self):
         out = self.run_report(self.HEAD + "01,A,0,0,0,0,1,0\n01,B,4,0,0,0,0,\n", self.KEY)
         self.assertIn("FAIL", out)
