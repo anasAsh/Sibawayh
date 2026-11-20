@@ -202,6 +202,22 @@ def persian_digit(text: str, masked: str, opts: Dict[str, str]) -> List[Finding]
     return out
 
 
+# و "and" is written joined to the next word: و الكتاب -> والكتاب. Only before
+# a word of 2+ letters, so a cited letter (أ و ب) is left alone.
+_WAW_SPLIT = re.compile(
+    "(?<![^\\s(«\"\\[])(و[\u064b-\u0652]*)[ \t]+(?=" + ARABIC_LETTER + "{2})")
+
+
+def waw_split(text: str, masked: str, opts: Dict[str, str]) -> List[Finding]:
+    return [
+        Finding(m.start(), m.end(), "fix", "waw-split",
+                "The conjunction و is joined to the next word",
+                suggestion=m.group(1), replacement=m.group(1))
+        for m in _WAW_SPLIT.finditer(masked)
+        if text[m.start():m.end()] == m.group()  # not across a masked region
+    ]
+
+
 RULES = [
     punct_latin,
     punct_space,
@@ -209,4 +225,5 @@ RULES = [
     presentation_form,
     tatweel,
     persian_digit,
+    waw_split,
 ]

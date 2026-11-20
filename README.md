@@ -111,11 +111,11 @@ flowchart LR
 |---|---|---|---|
 | ✏️ | Punctuation | `,` `?` `;` → ، ؟ ؛, spacing | 🤖 checker (auto-fix) |
 | 🔤 | Unicode | Persian ک/ی, presentation forms, tatweel | 🤖 checker |
-| 📝 | Spelling | إستخدام, هاذا, لاكن, الى, إنشاء الله, ة/ه, ى/ي | 🤖 checker (word lists) |
+| 📝 | Spelling | إستخدام, هاذا, الى, الاطفال, المدرسه, المصرى, و الكتاب, لايوجد | 🤖 checker (word lists + frequency lexicons) |
 | 🔢 | Digits and RTL | mixed 3 / ٣, lines that flip direction | 🤖 checker |
 | 🗣️ | Dialect leakage | عشان, بدي, هيك in formal text | 🤖 checker |
 | ⚖️ | Verb endings | لم يكونون, لن يذهبون, سوف لن | 🤖 checker + 🧠 checklist |
-| 🧮 | Agreement and numbers | non-human plurals, العدد والمعدود | 🧠 checklist + 📚 tables |
+| 🧮 | Agreement and numbers | non-human plurals, العدد والمعدود (ثلاث ملفات → ثلاثة ملفات) | 🤖 checker (numbers 3–10) + 🧠 checklist + 📚 tables |
 | 🌐 | Translationese | تم + masdar, قام بـ, من قبل, كـ "as a" | 🤖 density + 🧠 checklist |
 | 💻 | Tech terms | واجهة برمجة التطبيقات (API) | 📚 glossary (450+ terms) |
 
@@ -206,9 +206,11 @@ The harness in [`evals/`](evals/README.md) answers 50 realistic prompts with and
 - The Sibawayh version was preferred in **7 of 10** pairs.
 - Grammar and translationese errors went from **8 to 0**.
 
-**Over-correction check** (the checker on 416k words of Arabic Wikipedia featured articles; see [`evals/corpus_check.md`](evals/corpus_check.md)): all 29 error flags were real errors, and 1 of 278 auto-fixes was wrong (now fixed). On a held-out set with injected errors, the checker catches 89–100% of punctuation, letter-form, digit and verb-ending errors, 64% of wasl-alif errors and 39% of missing hamzas; ة/ه and ى/ي are left to the model's review.
+The pilot is not a measured claim; the full 50-prompt run is next, and the human-scored evaluation is still to come.
 
-This is a pilot, not a measured claim. The human-scored evaluation is still to come.
+**The checker against human corrections** ([`evals/benchmarks.md`](evals/benchmarks.md)): on two public corpora that people corrected word by word, it catches **53%** of all errors in student essays (ZAEBUC) and **42%** in native-speaker comments (QALB), up from 23% and 20% in release 0.1.2. For hamza it catches 69% and 61%; for و written apart from its word, 98% and 86%. Every flag on a word the annotators left unchanged was either a real error they missed or a counting artifact.
+
+**Over-correction check** ([`evals/corpus_check.md`](evals/corpus_check.md)): on Arabic Wikipedia featured articles, every error-level flag was a real error, including in a held-out set used for no tuning.
 
 ## 🤝 Contribute
 

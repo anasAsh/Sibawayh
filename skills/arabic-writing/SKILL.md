@@ -48,7 +48,7 @@ Brief rules; details and examples live in the references.
    - `error`: almost always wrong. Fix it unless it is clearly a false positive in context (a quote, a name, an approved form).
    - `warn`: likely wrong or unnatural. Decide each one: fix it, or leave it if it is right in context.
    - `info`: a hint (for example translationese density). Consider it; no change is required.
-   - **If the user asked for dialect:** keep only the `fix` results and the `digit-mix` and `rtl-line-start` findings. Ignore `dialect-word`, hamza (`hamza-wasl`, `hamza-missing`), `misspelling` and grammar findings (`sawfa-lan`, `jussive-nun`, `relative-after-indefinite`), and in step 4 apply only checklist item 7.
+   - **If the user asked for dialect:** keep only the `fix` results and the `digit-mix` and `rtl-line-start` findings. Ignore `dialect-word`, hamza (`hamza-wasl`, `hamza-missing`), `misspelling`, `merged-particle`, `alif-fariqa` and grammar findings (`sawfa-lan`, `jussive-nun`, `relative-after-indefinite`, `number-gender`), and in step 4 apply only checklist item 7.
    - The checker skips code, URLs, emails, paths, ﴿…﴾ and YAML front matter. To exclude other text, wrap it in `<!-- arabic-check: off -->` and `<!-- arabic-check: on -->`.
 4. **Self-review** with the checklist below, in priority order. The checker cannot see most grammar errors, so do this even when it reports `no findings`.
 5. **Output** the final text only. Do not show the checker output or a list of corrections unless the user asked for a review.

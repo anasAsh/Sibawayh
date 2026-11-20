@@ -23,7 +23,8 @@ _SKIP_RE = re.compile(
             r"https?://\S+",
             r"www\.\S+",
             r"[\w.+-]+@[\w-]+(?:\.[\w-]+)+",
-            r"[^\s\u0600-\u06FF]*/[^\s\u0600-\u06FF]+\.[A-Za-z0-9]+",
+            # A path; not starting at a Markdown link's [ or (.
+            r"[^\s\u0600-\u06FF\[\]()]*/[^\s\u0600-\u06FF]+\.[A-Za-z0-9]+",
             r"~/\S+",
             r"﴿[^﴾]*﴾",
         ]

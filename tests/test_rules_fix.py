@@ -80,6 +80,14 @@ class FixRulesTest(unittest.TestCase):
         for t in ("1445هـ", "الـAPI"):
             self.assertEqual(fix_text(t), t)
 
+    def test_waw_split(self):
+        self.assertEqual(fix_text("السرعة و السهولة"), "السرعة والسهولة")
+        self.assertEqual(fix_text("انتهى. و في تلك السنة"), "انتهى. وفي تلك السنة")
+        self.assertEqual(fix_text("قال: «و كانت»"), "قال: «وكانت»")
+        self.assertEqual(fix_text("و وطّد صداقته"), "ووطّد صداقته")
+        for t in ("الحرفان أ و ب", "بين 3 و 4", "A و B", "قرأ والده", "ـو الجمع"):
+            self.assertEqual(fix_text(t), t, t)
+
     def test_persian_digits(self):
         self.assertEqual(fix_text("العدد \u06f1\u06f2"), "العدد 12")
         self.assertEqual(

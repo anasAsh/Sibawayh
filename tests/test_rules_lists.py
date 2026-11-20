@@ -28,6 +28,9 @@ class ListRulesTest(unittest.TestCase):
         self.assertIn(("misspelling", "إن شاء الله"), pairs("إنشاء الله"))
         self.assertIn(("misspelling", "مما"), pairs("من ما"))
         self.assertIn(("misspelling", "عما"), pairs("سألته عن ما حدث"))
+        self.assertIn(("misspelling", "التي"), pairs("المشاكل اللتي تواجهنا"))
+        self.assertNotIn("misspelling", rules("الطالبتين اللتين نجحتا"))
+        self.assertNotIn("misspelling", rules("قال والدي"))
 
     def test_misspelling_keeps_prefix(self):
         self.assertIn(("misspelling", "كذلك"), pairs("كذالك"))

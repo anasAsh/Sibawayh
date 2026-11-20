@@ -72,6 +72,8 @@ class LatinTest(unittest.TestCase):
         self.assertEqual(of("واجهة برمجة التطبيقات (API)", "stray-english"), [])
         self.assertEqual(of("ملف JSON", "stray-english"), [])
         self.assertEqual(of("ميزة جديدة (new feature)", "stray-english"), [])
+        # Names and products keep their spelling.
+        self.assertEqual(of("ثبّت Docker وأدوات مثل Google Analytics", "stray-english"), [])
         self.assertEqual(of("This is plain English text", "stray-english"), [])
         self.assertEqual(of("نظام Windows ولغة python ومنصة GitHub", "stray-english"), [])
 
@@ -96,6 +98,23 @@ class GrammarPatternTest(unittest.TestCase):
         found = of("سوف لن أذهب", "sawfa-lan")
         self.assertEqual(len(found), 1)
         self.assertEqual(found[0].suggestion, "لن")
+
+    def test_number_gender(self):
+        self.assertEqual(of("لدينا ثلاث ملفات", "number-gender")[0].suggestion, "ثلاثة ملفات")
+        self.assertEqual(of("خمسة نصائح مفيدة", "number-gender")[0].suggestion, "خمس نصائح")
+        self.assertEqual(of("بعد أربع أيام", "number-gender")[0].suggestion, "أربعة أيام")
+        self.assertEqual(of("وثمانية سنوات", "number-gender")[0].suggestion, "وثماني سنوات")
+        self.assertEqual(of("بضعة دقائق", "number-gender")[0].suggestion, "بضع دقائق")
+        for t in ("ثلاثة ملفات", "ثلاث خطوات", "خمسة أيام", "سبع سنوات", "ثماني ساعات",
+                  "عشرة أسئلة", "بضع سنوات", "خُمس أعضاء المجلس", "ثلاث سيارات",
+                  "خمسة عشر يومًا", "ثلاث عشرة سنة", "الأيام الثلاثة", "الخمسة كتب"):
+            self.assertEqual(of(t, "number-gender"), [], t)
+
+    def test_maqsura_medial(self):
+        self.assertEqual(len(of("وساىل التواصل", "maqsura-medial")), 1)
+        self.assertEqual(len(of("علىمقاومة", "maqsura-medial")), 1)
+        for t in ("على الطاولة", "مستشفى كبير", "إلى، ومتى؟", "مصطفىً"):
+            self.assertEqual(of(t, "maqsura-medial"), [], t)
 
     def test_jussive_nun(self):
         self.assertEqual(of("لم يكونون هناك", "jussive-nun")[0].suggestion, "يكونوا")

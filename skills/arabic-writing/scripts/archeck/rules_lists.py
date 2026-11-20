@@ -10,7 +10,7 @@ import re
 from functools import lru_cache
 from typing import Dict, List, Pattern, Tuple
 
-from .data import load_tsv
+from .data import load_list, load_tsv
 from .model import Finding
 from .text import ARABIC_LETTER, iter_words, stem_candidates
 
@@ -132,10 +132,20 @@ def hamza_wasl(text, masked, opts):
     return out
 
 
+def _with_lexicon(found, masked, rule, lexicon, message):
+    """Add warnings from a generated frequency lexicon (whole words) where
+    the hand-made list found nothing."""
+    seen = {f.start for f in found}
+    extra = _scan(masked, rule, lexicon, "wrong", "right", "warn", message, whole=True)
+    return found + [f for f in extra if f.start not in seen]
+
+
 def hamza_missing(text, masked, opts):
     # Whole words only: stripped forms collide with real words (كانت -> انت).
     found = _scan(masked, "hamza-missing", "hamza_missing.tsv", "wrong", "right",
                   "warn", "Missing hamza", whole=True)
+    found = _with_lexicon(found, masked, "hamza-missing", "lexicon_hamza.tsv",
+                          "Missing hamza? Clean text almost always writes it")
     # A word inside a misspelled phrase has the phrase's fix instead:
     # انشاء الله is إن شاء الله, never إنشاء الله.
     _, phrases = _table("misspellings.tsv", "wrong", "right")
@@ -145,13 +155,45 @@ def hamza_missing(text, masked, opts):
 
 
 def taa_haa(text, masked, opts):
-    return _scan(masked, "taa-haa", "taa_haa.tsv", "wrong", "right",
-                 "warn", "Taa marbuta / haa confusion")
+    found = _scan(masked, "taa-haa", "taa_haa.tsv", "wrong", "right",
+                  "warn", "Taa marbuta / haa confusion")
+    return _with_lexicon(found, masked, "taa-haa", "lexicon_taa.tsv",
+                         "ة written as ه? Clean text almost always writes ة here")
 
 
 def alif_maqsura(text, masked, opts):
-    return _scan(masked, "alif-maqsura", "alif_maqsura.tsv", "wrong", "right",
-                 "warn", "Alif maqsura / yaa confusion")
+    found = _scan(masked, "alif-maqsura", "alif_maqsura.tsv", "wrong", "right",
+                  "warn", "Alif maqsura / yaa confusion")
+    return _with_lexicon(found, masked, "alif-maqsura", "lexicon_yaa.tsv",
+                         "ى/ي at the end? Clean text almost always writes it the other way")
+
+
+def alif_fariqa(text, masked, opts):
+    return _scan(masked, "alif-fariqa", "lexicon_waw.tsv", "wrong", "right", "warn",
+                 "Missing alif after the plural و? Clean text almost always writes it",
+                 whole=True)
+
+
+_PARTICLES = ("يا", "لا", "ما")
+# لا joins nisba adjectives as a prefix: لاسلكي، لامركزية، لادينية.
+_NISBA = re.compile("(?:ي|ية|يا|يًا|يات|يين)$")
+
+
+def merged_particle(text, masked, opts):
+    """يا، لا and ما are separate words: ياجزيرة -> يا جزيرة، لايوجد -> لا يوجد.
+    Only when the rest is a frequent word of 4+ letters and the joined form
+    is never seen in clean text (ياسر، لاعب، ماكين stay)."""
+    frequent = load_list("lexicon_frequent.txt")
+    attested = load_list("lexicon_merged_ok.txt")
+    out = []
+    for start, end, word in iter_words(masked):
+        plain = _DIAC_RE.sub("", word)
+        head, rest = plain[:2], plain[2:]
+        if head in _PARTICLES and len(rest) >= 4 and rest in frequent \
+                and plain not in attested and not (head == "لا" and _NISBA.search(rest)):
+            out.append(Finding(start, end, "warn", "merged-particle",
+                               head + " is a separate word", suggestion=head + " " + rest))
+    return out
 
 
 def dialect_word(text, masked, opts):
@@ -160,4 +202,5 @@ def dialect_word(text, masked, opts):
                  "warn", "Dialect word in an MSA text", whole=True)
 
 
-RULES = [misspelling, hamza_wasl, hamza_missing, taa_haa, alif_maqsura, dialect_word]
+RULES = [misspelling, hamza_wasl, hamza_missing, taa_haa, alif_maqsura, alif_fariqa,
+         merged_particle, dialect_word]

@@ -10,6 +10,10 @@ ROOT = os.path.dirname(HERE)
 SKILL_DIR = os.path.join(ROOT, "skills", "arabic-writing")
 TIMEOUT = 300
 ALLOWED_TOOLS = "Bash(python3:*),Read,Write"
+# Project settings only: the user's settings may enable an installed copy of
+# the plugin, which would load the skill in baseline runs too. The skill
+# under test is the repo copy in the temp dir's .claude/skills.
+ISOLATE = ["--setting-sources", "project"]
 
 
 def refuse_if_globally_installed():

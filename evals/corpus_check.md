@@ -44,22 +44,22 @@ python3 evals/fetch_wiki.py --skip 50 --limit 50 --out evals/corpus/wiki-heldout
 
 The word lists were grown from the first set's frequency list, so the honest number is on a **held-out set**: the next 50 featured articles (389,907 words), not used for any change.
 
-| Error injected | Before | **After** |
-|---|---|---|
-| Latin punctuation (، → ,) | 89% | **89%** |
-| Space before ، | 100% | **100%** |
-| Wasl alif written إ (الإستخدام) | 22% | **64%** |
-| Missing hamza (أ/إ → ا) | 18% | **39%** |
-| ة → ه | 5% | **5%** |
-| ى → ي | 10% | **10%** |
-| ي → ى | 42% | **42%** |
-| Persian letter, tatweel | 100% | **100%** |
-| Mixed digit systems | 99% | **99%** |
-| لم/لن/أن + verb keeping its ن | 97% | **97%** |
-| سوف لن | 97% | **97%** |
-| هاذا، لاكن، ذالك | 98% | **98%** |
+| Error injected | 0.1.1 | 0.1.2 | **0.2.0** |
+|---|---|---|---|
+| Latin punctuation (، → ,) | 89% | 89% | **89%** |
+| Space before ، | 100% | 100% | **100%** |
+| Wasl alif written إ (الإستخدام) | 22% | 64% | **64%** |
+| Missing hamza (أ/إ → ا) | 18% | 39% | **69%** |
+| ة → ه | 5% | 5% | **58%** |
+| ى → ي | 10% | 10% | **10%** |
+| ي → ى | 42% | 42% | **72%** |
+| Persian letter, tatweel | 100% | 100% | **100%** |
+| Mixed digit systems | 99% | 99% | **99%** |
+| لم/لن/أن + verb keeping its ن | 97% | 97% | **97%** |
+| سوف لن | 97% | 97% | **97%** |
+| هاذا، لاكن، ذالك | 98% | 98% | **98%** |
 
-Both columns are on the held-out set, before and after the changes below (on the first set: wasl 33% → 70%, missing hamza 16% → 43%).
+All columns are on the held-out set. 0.1.2 added the changes below; 0.2.0 added the frequency lexicons described in [benchmarks.md](benchmarks.md), built without the held-out set (on the first set: wasl 33% → 70%, missing hamza 16% → 43%).
 
 What changed:
 - **hamza-wasl** also matches the shape of form VII, VIII and X masdars (إنفعال، إفتعال، إستفعال), not only listed words. Form IV masdars (إنتاج، إنفاق) are one letter shorter and never match. Loanwords of the same shape (إستراتيجية، الإنكشارية) are excluded.
@@ -69,6 +69,6 @@ What changed:
 On the held-out set, the over-correction check found 0 false errors in 62 error flags. The 4 false warnings were the names بيغ شو (Big Show) and the Sindhi letter table. The Persian-letter fix also converts letters inside a quoted Persian inscription, a rare case left as is.
 
 What stays low, by design:
-- **ة/ه and ى/ي** are ambiguous without grammar: مدرسه is wrong, but عليه and فيه are right; إلي and علي are real words. These are left to the model's checklist.
+- **ة/ه and ى/ي** are ambiguous without grammar: مدرسه is wrong, but عليه and فيه are right; إلي and علي are real words. The frequency lexicons cover the unambiguous shapes; the rest is left to the model's checklist.
 - **Missing hamza** is capped by how many words can be listed safely. ان is always wrong, but بان and لان are real words, so prefixed forms are listed one by one.
 - **Latin punctuation next to digits or Latin words** (1929, ثم) is left alone, because 1,000 is a number.

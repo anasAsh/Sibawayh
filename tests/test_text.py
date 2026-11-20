@@ -21,6 +21,11 @@ class MaskTest(unittest.TestCase):
         for bad in ("x", ",", "https"):
             self.assertNotIn(bad, m)
 
+    def test_mask_markdown_link_url_whole(self):
+        m = mask("نزّله من [python.org](https://www.python.org/downloads/) ثم ثبّته")
+        self.assertNotIn("downloads", m)
+        self.assertIn("ثبّته", m)
+
     def test_mask_path_ascii_only(self):
         self.assertEqual(mask("المعلم/المعلمة.ثم"), "المعلم/المعلمة.ثم")
         self.assertEqual(mask("و/أو.كلمة"), "و/أو.كلمة")

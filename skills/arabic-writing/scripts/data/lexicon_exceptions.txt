@@ -1,0 +1,30 @@
+# Bare or ه spellings that are real words, kept out of the generated lexicons
+# (evals/build_lexicon.py). One word per line.
+الكره
+والكره
+بالكره
+اثنى
+واثنى
+# Words whose و is part of the root, not the conjunction (واهم "deluded").
+واهم
+والاهم
+واتى
+وارى
+واسى
+وافى
+والى
+واعد
+واصر
+واثر
+# Real words ending in ي that look like ى misspellings, and the reverse.
+إلي
+وإلي
+علي
+وعلي
+لدي
+ولدي
+الن
+# Real words of the nisba shape: "his sons", "his guidance".
+بنيه
+هديه
+وسبو

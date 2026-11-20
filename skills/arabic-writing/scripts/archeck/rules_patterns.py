@@ -7,7 +7,7 @@ URLs, paths and Qur'an quotes are never looked at.
 import re
 from typing import Dict, Iterator, List, Tuple
 
-from .data import load_list
+from .data import load_list, load_tsv
 from .model import Finding
 from .text import ARABIC_LETTER, has_arabic, iter_words
 
@@ -139,6 +139,8 @@ def stray_english(text: str, masked: str, opts: Opts) -> List[Finding]:
             tok = m.group()
             if len(tok) < 2 or re.search("[0-9]", tok) or tok.lower() in acronyms:
                 continue
+            if tok[0].isupper():
+                continue  # a name or product (Docker, Google Analytics, UFW): keep it
             if any(s < m.start() and m.end() < e for s, e in inside):
                 continue
             out.append(Finding(off + m.start(), off + m.end(), "info", "stray-english",
@@ -376,7 +378,59 @@ def translationese_density(text: str, masked: str, opts: Opts) -> List[Finding]:
                     % (rate, counts))]
 
 
+# --- maqsura-medial -------------------------------------------------------------
+
+# ى only ends a word. Inside one it is a typo for ئ (وساىل) or ي, or a missing
+# space (علىمقاومة).
+_MEDIAL_YAA = re.compile("ى[\u064b-\u0652]*(?=" + ARABIC_LETTER + ")")
+
+
+def maqsura_medial(text: str, masked: str, opts: Opts) -> List[Finding]:
+    return [Finding(m.start(), m.start() + 1, "error", "maqsura-medial",
+                    "ى only ends a word: inside a word write ئ or ي, or add the missing space",
+                    suggestion="ئ or ي")
+            for m in _MEDIAL_YAA.finditer(masked)]
+
+
+# --- number-gender ----------------------------------------------------------------
+
+# 3–10 (and بضع) take the opposite gender of the counted noun's singular.
+# Each form, and the form of the other gender.
+_NUM_SWAP = {
+    "ثلاثة": "ثلاث", "أربعة": "أربع", "خمسة": "خمس", "ستة": "ست", "سبعة": "سبع",
+    "ثمانية": "ثماني", "تسعة": "تسع", "عشرة": "عشر", "بضعة": "بضع",
+}
+_NUM_SWAP.update({f: m for m, f in list(_NUM_SWAP.items())})
+_NUM_SWAP["ثمان"] = "ثمانية"
+_NUM_PREFIX = re.compile("^(?:[وفبلك]|[وف][بلك])?(?:ال)?")
+
+
+def number_gender(text: str, masked: str, opts: Opts) -> List[Finding]:
+    nouns = {r["plural"]: (r["gender"], r["singular"]) for r in load_tsv("number_nouns.tsv")}
+    words = list(iter_words(masked))
+    out = []
+    for (a1, b1, w1), (a2, b2, w2) in zip(words, words[1:]):
+        if masked[b1:a2].strip() or "\u064f" in w1:
+            continue  # not adjacent, or خُمس/عُشر "a fifth/tenth"
+        noun = nouns.get(_plain(w2))
+        plain = _plain(w1)
+        # The whole word first, so بضعة is not read as بـ + ضعة.
+        cut = 0 if plain in _NUM_SWAP else _NUM_PREFIX.match(plain).end()
+        prefix, form = plain[:cut], plain[cut:]
+        if noun is None or form not in _NUM_SWAP:
+            continue
+        gender, singular = noun
+        if (gender == "m") != form.endswith("ة"):  # ثلاثة/ثمانية suit a masculine singular
+            out.append(Finding(a1, b2, "error", "number-gender",
+                               "3–10 take the opposite gender of the singular (%s is %s)"
+                               % (singular, "masculine" if gender == "m" else "feminine"),
+                               suggestion=prefix + _NUM_SWAP[form] + " " + _plain(w2)))
+    return out
+
+
 RULES = [
+    maqsura_medial,
+    number_gender,
     digit_mix,
     tanween_mixed,
     spelling_mixed,

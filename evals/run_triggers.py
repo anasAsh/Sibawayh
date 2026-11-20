@@ -77,7 +77,7 @@ def main(argv=None) -> int:
             with c.workdir(True) as d:
                 p = subprocess.run(
                     ["claude", "-p", r["prompt"], "--output-format",
-                     "stream-json", "--verbose", "--allowedTools",
+                     "stream-json", "--verbose", *c.ISOLATE, "--allowedTools",
                      c.ALLOWED_TOOLS],
                     cwd=d, capture_output=True, text=True, encoding="utf-8",
                     timeout=c.TIMEOUT)
