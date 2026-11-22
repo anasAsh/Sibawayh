@@ -1,0 +1,145 @@
+# ما هي واجهة REST؟
+
+**واجهة برمجة التطبيقات (API)** هي مجموعة من القواعد تتيح لبرنامجين أن يتواصلا معًا. أما **REST** (اختصار Representational State Transfer، أي «نقل الحالة التمثيلية») فهو نمط معماري لتصميم هذه الواجهات على الويب، اقترحه روي فيلدنغ عام 2000.
+
+تعتمد واجهة REST على بروتوكول HTTP، وتتعامل مع البيانات على أنها **موارد (Resources)**، لكل مورد عنوان فريد (URL)، مثل:
+
+```
+https://api.example.com/users/42
+```
+
+## مبادئ REST الأساسية
+
+- **الفصل بين العميل والخادم (Client–Server):** يهتم العميل بالواجهة، ويهتم الخادم بالبيانات ومنطق العمل.
+- **انعدام الحالة (Stateless):** يحمل كل طلب كل المعلومات التي يحتاج إليها الخادم، فلا يحتفظ الخادم بحالة الجلسة بين الطلبات.
+- **واجهة موحدة:** تُستخدم طرق HTTP القياسية للتعامل مع الموارد، وتُمثَّل البيانات غالبًا بصيغة JSON.
+- **قابلية التخزين المؤقت (Cacheable):** يمكن أن تحدد الاستجابة هل يجوز تخزينها مؤقتًا أم لا.
+
+## أشهر طرق HTTP
+
+لنفترض أن لدينا واجهة لإدارة المستخدمين على العنوان `https://api.example.com/users`.
+
+### أولًا: طريقة `GET` لجلب البيانات
+
+تطلب هذه الطريقة قراءة مورد دون تعديله، فهي آمنة ولا تغيّر شيئًا على الخادم.
+
+```http
+GET /users/42 HTTP/1.1
+Host: api.example.com
+```
+
+الاستجابة:
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": 42,
+  "name": "سارة",
+  "email": "sara@example.com"
+}
+```
+
+### ثانيًا: طريقة `POST` لإنشاء مورد جديد
+
+ترسل هذه الطريقة بيانات إلى الخادم لينشئ بها موردًا جديدًا، ويحدد الخادم عادةً معرّف المورد الجديد.
+
+```http
+POST /users HTTP/1.1
+Host: api.example.com
+Content-Type: application/json
+
+{
+  "name": "أحمد",
+  "email": "ahmed@example.com"
+}
+```
+
+الاستجابة:
+
+```http
+HTTP/1.1 201 Created
+Location: /users/43
+
+{
+  "id": 43,
+  "name": "أحمد",
+  "email": "ahmed@example.com"
+}
+```
+
+### ثالثًا: طريقة `PUT` لتحديث مورد أو استبداله
+
+تستبدل هذه الطريقة المورد كاملًا بالبيانات المرسلة، لذا يجب إرسال جميع الحقول. وتتميز بأنها **متساوية القوى (Idempotent)**، أي أن تكرار الطلب نفسه يعطي النتيجة نفسها.
+
+```http
+PUT /users/42 HTTP/1.1
+Host: api.example.com
+Content-Type: application/json
+
+{
+  "name": "سارة علي",
+  "email": "sara.ali@example.com"
+}
+```
+
+الاستجابة:
+
+```http
+HTTP/1.1 200 OK
+
+{
+  "id": 42,
+  "name": "سارة علي",
+  "email": "sara.ali@example.com"
+}
+```
+
+> **ملاحظة:** إذا أردت تعديل حقل واحد فقط، فالأنسب استخدام الطريقة `PATCH` بدلًا من `PUT`.
+
+### رابعًا: طريقة `DELETE` لحذف مورد
+
+تحذف هذه الطريقة المورد المحدد من الخادم.
+
+```http
+DELETE /users/42 HTTP/1.1
+Host: api.example.com
+```
+
+الاستجابة:
+
+```http
+HTTP/1.1 204 No Content
+```
+
+## ملخص
+
+| الطريقة | الغرض | مثال | رمز الاستجابة المعتاد |
+|---|---|---|---|
+| `GET` | قراءة مورد | `GET /users/42` | `200 OK` |
+| `POST` | إنشاء مورد | `POST /users` | `201 Created` |
+| `PUT` | استبدال مورد | `PUT /users/42` | `200 OK` |
+| `DELETE` | حذف مورد | `DELETE /users/42` | `204 No Content` |
+
+## مثال عملي بأداة `curl`
+
+```bash
+# جلب مستخدم
+curl https://api.example.com/users/42
+
+# إنشاء مستخدم
+curl -X POST https://api.example.com/users \
+  -H "Content-Type: application/json" \
+  -d '{"name": "أحمد", "email": "ahmed@example.com"}'
+
+# تحديث مستخدم
+curl -X PUT https://api.example.com/users/42 \
+  -H "Content-Type: application/json" \
+  -d '{"name": "سارة علي", "email": "sara.ali@example.com"}'
+
+# حذف مستخدم
+curl -X DELETE https://api.example.com/users/42
+```
+
+باختصار، تجعل REST التعامل مع البيانات بسيطًا ومتوقعًا: لكل مورد عنوان، ولكل عملية طريقة HTTP تناسبها.

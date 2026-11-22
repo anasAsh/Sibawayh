@@ -1,0 +1,229 @@
+تعذّر إنشاء الوثيقة في Claude Docs لأن الإذن بذلك لم يُمنح، فوضعتها هنا بصيغة Markdown، ويمكنك حفظها في ملف أو لصقها حيث تريد.
+
+---
+
+# دليل نشر تطبيق ويب على خادم لينكس باستخدام Docker وNginx
+
+## المقدمة
+
+يشرح هذا الدليل كيف تنشر تطبيق ويب على خادم لينكس. ستشغّل التطبيق داخل حاوية (Container) عبر Docker، وتضع أمامه Nginx ليعمل وكيلًا عكسيًّا (Reverse Proxy) يستقبل الطلبات ويمرّرها إلى التطبيق. بعد ذلك تؤمّن الاتصال بشهادة طبقة المقابس الآمنة (SSL/TLS) المجانية من Let's Encrypt.
+
+## المتطلبات المسبقة
+
+- خادم بنظام أوبونتو (Ubuntu) 22.04 أو أحدث، مع صلاحيات `sudo`.
+- اسم نطاق (Domain) يشير سجلّه من النوع `A` إلى عنوان IP الخاص بالخادم.
+- شيفرة التطبيق في مستودع Git أو على جهازك المحلي.
+- منفذا الويب `80` و`443` مفتوحان لدى مزوّد الخدمة.
+
+## خطوات النشر
+
+### الخطوة 1: الاتصال بالخادم وتحديثه
+
+اتصل بالخادم عبر بروتوكول SSH، ثم حدّث الحزم:
+
+```bash
+ssh user@your-server-ip
+sudo apt update && sudo apt upgrade -y
+```
+
+### الخطوة 2: إعداد الجدار الناري
+
+فعّل الجدار الناري (Firewall)، واسمح بالمنافذ الضرورية فقط:
+
+```bash
+sudo ufw allow OpenSSH
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+sudo ufw enable
+sudo ufw status
+```
+
+اسمح بـ `OpenSSH` قبل تفعيل الجدار الناري، وإلا فقدت الاتصال بالخادم.
+
+### الخطوة 3: تثبيت Docker وDocker Compose
+
+ثبّت Docker من مستودعه الرسمي:
+
+```bash
+sudo apt install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] \
+  https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" \
+  | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+
+أضف مستخدمك إلى مجموعة `docker` لتشغيل الأوامر دون `sudo`، ثم سجّل الخروج وادخل من جديد:
+
+```bash
+sudo usermod -aG docker $USER
+```
+
+تحقّق من نجاح التثبيت:
+
+```bash
+docker --version
+docker compose version
+```
+
+### الخطوة 4: نقل شيفرة التطبيق إلى الخادم
+
+استنسخ المستودع في مجلد مخصّص للتطبيق:
+
+```bash
+sudo mkdir -p /opt/myapp && sudo chown $USER:$USER /opt/myapp
+git clone https://github.com/your-user/myapp.git /opt/myapp
+cd /opt/myapp
+```
+
+### الخطوة 5: كتابة ملف Dockerfile
+
+أنشئ ملف `Dockerfile` في جذر المشروع. يفترض المثال الآتي أن التطبيق مبني بـ Node.js، فعدّله بحسب لغة تطبيقك:
+
+```dockerfile
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev
+COPY . .
+ENV NODE_ENV=production
+EXPOSE 3000
+USER node
+CMD ["node", "server.js"]
+```
+
+أنشئ أيضًا ملف `.dockerignore` لاستبعاد الملفات غير اللازمة من الصورة:
+
+```text
+node_modules
+.git
+.env
+```
+
+### الخطوة 6: إعداد متغيرات البيئة
+
+احفظ الإعدادات السرّية، مثل كلمات المرور ومفاتيح الواجهات البرمجية، في ملف `.env`، ولا تضفه إلى نظام التحكم في الإصدارات:
+
+```bash
+cat > /opt/myapp/.env <<'EOF'
+PORT=3000
+DATABASE_URL=postgres://user:password@db:5432/myapp
+EOF
+chmod 600 /opt/myapp/.env
+```
+
+### الخطوة 7: كتابة ملف docker-compose.yml
+
+يعرّف هذا الملف خدمات التطبيق في مكان واحد. يرتبط منفذ التطبيق بالعنوان `127.0.0.1` فقط، فلا يمكن الوصول إليه من الخارج إلا عبر Nginx:
+
+```yaml
+services:
+  app:
+    build: .
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:3000:3000"
+```
+
+### الخطوة 8: بناء الحاوية وتشغيلها
+
+```bash
+docker compose up -d --build
+docker compose ps
+curl http://127.0.0.1:3000
+```
+
+إذا أعاد الأمر الأخير استجابة من التطبيق، فالحاوية تعمل كما ينبغي.
+
+### الخطوة 9: تثبيت Nginx
+
+```bash
+sudo apt install -y nginx
+sudo systemctl enable --now nginx
+```
+
+### الخطوة 10: إعداد Nginx وكيلًا عكسيًّا
+
+أنشئ ملف إعداد للموقع:
+
+```bash
+sudo nano /etc/nginx/sites-available/myapp
+```
+
+ضع فيه المحتوى الآتي، واستبدل `example.com` باسم نطاقك:
+
+```nginx
+server {
+    listen 80;
+    server_name example.com www.example.com;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+```
+
+فعّل الموقع واختبر صحة الإعداد، ثم أعد تحميل Nginx:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/myapp /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+افتح الرابط `http://example.com` في المتصفح لتتأكد من ظهور التطبيق.
+
+### الخطوة 11: تفعيل HTTPS بشهادة Let's Encrypt
+
+ثبّت أداة Certbot واطلب الشهادة:
+
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d example.com -d www.example.com
+```
+
+تعدّل الأداة إعداد Nginx تلقائيًّا، وتضيف إعادة توجيه من HTTP إلى HTTPS. تتجدّد الشهادة تلقائيًّا، ويمكنك اختبار التجديد بهذا الأمر:
+
+```bash
+sudo certbot renew --dry-run
+```
+
+### الخطوة 12: تحديث التطبيق لاحقًا
+
+عند صدور نسخة جديدة من الشيفرة، نفّذ الأوامر الآتية:
+
+```bash
+cd /opt/myapp
+git pull
+docker compose up -d --build
+docker image prune -f
+```
+
+يعيد Compose بناء الصورة ويضع حاوية جديدة مكان القديمة. أما الأمر الأخير فيحذف الصور القديمة غير المستخدمة ليوفّر المساحة.
+
+## التحقق واستكشاف الأخطاء
+
+- **سجلات التطبيق:** `docker compose logs -f app`
+- **سجلات Nginx:** `sudo tail -f /var/log/nginx/error.log`
+- **الخطأ 502 (Bad Gateway):** سببه في الغالب أن الحاوية متوقفة، أو أن المنفذ في `proxy_pass` لا يطابق منفذ التطبيق. تحقّق من ذلك بالأمر `docker compose ps`.
+- **فشل إصدار الشهادة:** تأكّد أن سجلّ النطاق يشير إلى الخادم، وأن المنفذ `80` مفتوح.
+- **إعادة تشغيل الخادم:** يعيد الخيار `restart: unless-stopped` تشغيل الحاوية تلقائيًّا، بشرط أن تكون خدمة Docker مفعّلة عند الإقلاع (`sudo systemctl enable docker`).
+
+## الخلاصة
+
+يعمل تطبيقك الآن داخل حاوية Docker معزولة. يستقبل Nginx الطلبات على المنفذين `80` و`443`، ويمرّرها إلى التطبيق بعد تشفير الاتصال مع المستخدمين. لتقوية هذا الإعداد، يمكنك لاحقًا إضافة نسخ احتياطي دوري للبيانات وأدوات لمراقبة الخادم.
+
+---
+
+إذا منحت إذن الوصول إلى Claude Docs، فيمكنني إنشاء الوثيقة هناك أيضًا.

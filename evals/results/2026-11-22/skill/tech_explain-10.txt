@@ -1,0 +1,92 @@
+## ما اختبارات الوحدة؟
+
+الاختبارات الآلية شيفرة تكتبها لتفحص شيفرتك بدلًا منك، وأشهر أنواعها اختبار الوحدة (unit test). يتحقق اختبار الوحدة من أن جزءًا صغيرًا ومحددًا من برنامجك، كدالة واحدة، يعطي النتيجة المتوقعة لمدخلات معينة. تشغّل هذه الاختبارات بأمر واحد، فتخبرك فورًا أيها نجح وأيها فشل.
+
+## لماذا نكتبها؟
+
+- **اكتشاف الأخطاء مبكرًا:** تظهر المشكلة لحظة كتابة الشيفرة، لا بعد وصولها إلى المستخدمين.
+- **التعديل بثقة:** عند إعادة هيكلة الشيفرة (refactoring) أو إضافة ميزة، تكشف الاختبارات فورًا إن كسرت شيئًا كان يعمل.
+- **توثيق حي:** يوضح الاختبار كيف تُستخدم الدالة وما السلوك المتوقع منها، ويبقى صحيحًا ما دام ينجح.
+- **تصميم أفضل:** الشيفرة التي يسهل اختبارها تكون غالبًا أبسط وأقل تشابكًا.
+- **توفير الوقت:** بدل تجربة البرنامج يدويًّا بعد كل تعديل، يفحص أمر واحد عشرات الحالات في ثوانٍ.
+
+## مثال
+
+لنفترض أن لدينا دالة تحسب السعر بعد الخصم، في ملف `pricing.py`:
+
+```python
+def apply_discount(price, percent):
+    """يعيد السعر بعد تطبيق نسبة الخصم."""
+    if price < 0:
+        raise ValueError("السعر لا يمكن أن يكون سالبًا")
+    if not 0 <= percent <= 100:
+        raise ValueError("نسبة الخصم يجب أن تكون بين 0 و100")
+    return round(price * (1 - percent / 100), 2)
+```
+
+نكتب اختباراتها في ملف `test_pricing.py` باستخدام مكتبة `pytest`:
+
+```python
+import pytest
+from pricing import apply_discount
+
+
+def test_normal_discount():
+    assert apply_discount(100, 20) == 80
+
+
+def test_zero_discount():
+    assert apply_discount(50, 0) == 50
+
+
+def test_full_discount():
+    assert apply_discount(50, 100) == 0
+
+
+def test_rounding():
+    assert apply_discount(19.99, 15) == 16.99
+
+
+def test_negative_price_raises():
+    with pytest.raises(ValueError):
+        apply_discount(-10, 20)
+
+
+def test_invalid_percent_raises():
+    with pytest.raises(ValueError):
+        apply_discount(100, 150)
+```
+
+ثم نشغّلها:
+
+```bash
+pip install pytest
+pytest -v
+```
+
+فتظهر نتيجة كل اختبار:
+
+```
+test_pricing.py::test_normal_discount PASSED
+test_pricing.py::test_zero_discount PASSED
+test_pricing.py::test_full_discount PASSED
+test_pricing.py::test_rounding PASSED
+test_pricing.py::test_negative_price_raises PASSED
+test_pricing.py::test_invalid_percent_raises PASSED
+```
+
+## ما الذي يغطيه المثال؟
+
+- **الحالة العادية:** خصم 20% من 100.
+- **الحالات الحدية (edge cases):** خصم 0% وخصم 100%.
+- **التقريب:** التأكد من أن الناتج يُقرَّب إلى منزلتين عشريتين.
+- **المدخلات الخاطئة:** يجب أن يثير السعر السالب أو النسبة الخارجة عن النطاق خطأ `ValueError`.
+
+لنفترض أن أحدهم عدّل الدالة لاحقًا فكتب خطأً `percent / 10` بدل `percent / 100`. عندها سيفشل اختبار `test_normal_discount` فورًا، فيظهر الخطأ قبل وصول الشيفرة إلى بيئة الإنتاج.
+
+## نصائح سريعة
+
+- اجعل كل اختبار يفحص سلوكًا واحدًا، وسمّه اسمًا يصف هذا السلوك.
+- اختبر الحالات الحدية والمدخلات الخاطئة، لا المسار المعتاد (happy path) وحده.
+- اجعل الاختبارات مستقلة بعضها عن بعض وسريعة التنفيذ.
+- في بايثون مكتبة مدمجة للاختبار اسمها `unittest`، لكن صياغة `pytest` أبسط وهي أوسع انتشارًا.

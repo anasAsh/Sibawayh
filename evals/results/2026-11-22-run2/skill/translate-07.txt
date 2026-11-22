@@ -1,0 +1,9 @@
+Here's the Arabic translation:
+
+بدأنا عام 2012 ورشةً صغيرة يعمل فيها شخصان، نصلح الحواسيب المحمولة لجيراننا وأصدقائنا. واليوم أصبحنا فريقًا من أربعين مهندسًا ومصممًا، نبني برمجيات تساعد الشركات الصغيرة على إدارة مخزونها وفواتيرها وعملائها. نؤمن بأن الأدوات الجيدة ينبغي أن تكون بسيطة وفي متناول الجميع، وأن تحترم وقت الناس. لا نطرح أي منتج قبل أن نختبره مع مستخدمين حقيقيين، ونقرأ كل ملاحظة تصلنا. وهدفنا أن نساعد مليون شركة صغيرة على النمو دون الحاجة إلى فريق تقني كبير.
+
+I changed a few phrases so they read naturally in Arabic instead of word for word:
+
+- **"Two-person workshop"** became "a small workshop with two people working in it."
+- **"Tested with real users before launch"** became "we don't release any product before testing it with real users." This avoids saying "release" twice in one sentence.
+- **"Affordable"** became «في متناول الجميع» ("within everyone's reach"), which is the usual way to say it in Arabic.

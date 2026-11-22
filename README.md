@@ -9,30 +9,32 @@
                                            |___/
 ```
 
-# سيبويه · Sibawayh
+# سيبويه · Sibawayh: Arabic writing skill and grammar checker for AI agents
 
 **Your AI writes Arabic. Sibawayh makes it _correct_ Arabic.**
 
-An Agent Skill that teaches AI agents to write natural Modern Standard Arabic and to check it before they answer.
+An open-source Agent Skill (`SKILL.md`) and Arabic spelling, grammar and punctuation checker. It makes Claude Code, Cursor, GitHub Copilot and other AI coding agents write correct, natural Modern Standard Arabic (MSA, فصحى), and check it before they answer.
+
+<p dir="rtl"><b>سيبويه</b> مهارة مفتوحة المصدر لوكلاء الذكاء الاصطناعي (Agent Skill)، ومدقّق إملائي ونحوي للغة العربية. تجعل Claude Code وCursor وGitHub Copilot وغيرها تكتب العربية الفصحى سليمةً وطبيعية، ثم تراجعها قبل الإجابة: الهمزات والإملاء وعلامات الترقيم والنحو والأسلوب واتجاه النص من اليمين إلى اليسار.</p>
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-3776ab?logo=python&logoColor=white)](#-run-the-checker-yourself)
 [![Dependencies: none](https://img.shields.io/badge/dependencies-none-brightgreen)](#-run-the-checker-yourself)
 [![Agent Skill](https://img.shields.io/badge/Agent%20Skill-SKILL.md-d97757)](skills/arabic-writing/SKILL.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757)](#-install)
-[![AI-judged: −88% errors](https://img.shields.io/badge/AI--judged-%E2%88%9288%25%20errors-2ea44f)](evals/full_eval.md)
+[![AI-judged: −96% errors](https://img.shields.io/badge/AI--judged-%E2%88%9296%25%20errors-2ea44f)](evals/full_eval.md)
 
-<img src="docs/assets/social-preview.png" alt="Sibawayh: typical AI Arabic vs. Arabic with Sibawayh" width="820">
+<img src="docs/assets/social-preview.png" alt="Sibawayh Arabic grammar checker: typical AI-generated Arabic with errors next to corrected Arabic" width="820">
 
-[Install](#-install) · [How it works](#-how-it-works) · [What it catches](#-what-it-catches) · [Checker](#-run-the-checker-yourself) · [Contribute](#-contribute)
+[Install](#-install) · [How it works](#-how-it-works) · [What it catches](#-what-it-catches) · [Checker](#-run-the-checker-yourself) · [FAQ](#-faq) · [Contribute](#-contribute)
 
 </div>
 
 ---
 
-## 🤔 Why
+## 🤔 Why AI-generated Arabic needs checking
 
-Ask an AI model for Arabic and you get text that is *understandable*, but that a native reader spots in a second:
+Ask ChatGPT, Claude or any other AI model for Arabic and you get text that is *understandable*, but that a native reader spots in a second:
 
 | What goes wrong | Looks like |
 |---|---|
@@ -46,10 +48,10 @@ Ask an AI model for Arabic and you get text that is *understandable*, but that a
 
 Sibawayh is named after **سيبويه**, the 8th-century scholar whose *al-Kitāb* is the foundational book of Arabic grammar. It gives the agent the rules, a checker and a review checklist, so that its Arabic reads as if a careful native writer wrote it.
 
-## ✨ Before → after
+## ✨ Before and after: AI Arabic with and without Sibawayh
 
 <div align="center">
-<img src="docs/assets/demo.gif" alt="The same LinkedIn prompt answered by Claude Code without and with Sibawayh" width="720">
+<img src="docs/assets/demo.gif" alt="Demo: Claude Code writes an Arabic LinkedIn post without Sibawayh, then with Sibawayh" width="720">
 <br><sub>Real Claude Code outputs for the same prompt, with and without the skill.</sub>
 </div>
 
@@ -116,7 +118,7 @@ flowchart LR
 | 🗣️ | Dialect leakage | عشان, بدي, هيك in formal text | 🤖 checker |
 | ⚖️ | Verb endings | لم يكونون, لن يذهبون, سوف لن | 🤖 checker + 🧠 checklist |
 | 🧮 | Agreement and numbers | non-human plurals, العدد والمعدود (ثلاث ملفات → ثلاثة ملفات) | 🤖 checker (numbers 3–10) + 🧠 checklist + 📚 tables |
-| 🌐 | Translationese | تم + masdar, قام بـ, من قبل, كـ "as a" | 🤖 density + 🧠 checklist |
+| 🌐 | Translationese | تم + masdar, قام بـ, من قبل, كـ "as a"; idioms translated word for word (يصنع الفرق) | 🤖 density and idiom list + 🧠 checklist |
 | 💻 | Tech terms | واجهة برمجة التطبيقات (API) | 📚 glossary (450+ terms) |
 
 ## 📦 Install
@@ -203,15 +205,35 @@ The harness in [`evals/`](evals/README.md) answers 50 realistic prompts with and
 - The 2 dialect requests load it too, for the formatting checks only. In the first run they did not.
 
 **Full evaluation** (50 prompts, judged blind by an AI model from a different family; see [`evals/full_eval.md`](evals/full_eval.md)):
-- Errors per 100 words went from **1.66 to 0.20 (−88%)**, and every category improved: grammar and formatting −100%, spelling and register −89%, translationese −75%.
-- The Sibawayh version was preferred in **29** pairs, the baseline in **1**; 20 were ties.
-- **0** over-corrections. The success bar (≤50% of the baseline's errors, no category worse, no over-corrections) is met.
+- Errors per 100 words went from **2.02 to 0.09 (−96%)**, averaged over three blind judgings (−94%, −96%, −96%). Register errors fell to 0 and translationese by 86%.
+- The Sibawayh version was preferred in **42–46** of the 50 pairs, the baseline in 0–3.
+- **0** over-corrections. The success bar (≤50% of the baseline's errors, no category worse, no over-corrections) is met in all three judgings. The first run (2026-11-20, one judging) was −88%.
 
 An AI judge is not a native reader, so a human-scored round is still to come. The answers and scores are in [`evals/results/`](evals/results/) for anyone to check.
 
 **The checker against human corrections** ([`evals/benchmarks.md`](evals/benchmarks.md)): on two public corpora that people corrected word by word, it catches **52%** of all errors in student essays (ZAEBUC) and **41%** in native-speaker comments (QALB), up from 23% and 20% in release 0.1.2. For hamza it catches 68% and 59%; for و written apart from its word, 98% and 86%. Every flag on a word the annotators left unchanged was a real error they missed, or (in ZAEBUC) a Latin comma they chose to keep.
 
 **Over-correction check** ([`evals/corpus_check.md`](evals/corpus_check.md)): on Arabic Wikipedia featured articles, every error-level flag was a real error, including in a held-out set used for no tuning.
+
+## ❓ FAQ
+
+**How do I make Claude or another AI agent write better Arabic?**
+Install Sibawayh (see [Install](#-install)). The skill loads by itself whenever the agent writes Arabic. It gives the agent the writing rules, runs the checker, and reviews the text against a checklist before answering.
+
+**Is it an Arabic spell checker?**
+Partly. The checker catches Arabic spelling (hamza, ة/ه, ى/ي, tanween), punctuation, digit and RTL errors, some grammar (verb endings, number–noun gender, compound numbers), and English idioms translated word for word. A script can't reliably catch agreement and case endings, so the model's checklist review handles those.
+
+**Can I use the checker without an AI agent?**
+Yes. `check_arabic.py` is a standalone Python script with no dependencies. Run it on any Markdown or text file to proofread Arabic, or use `--json` in CI. See [Run the checker yourself](#-run-the-checker-yourself).
+
+**Does it change correct Arabic?**
+No, that is the golden rule. It never flags forms approved by the Cairo Arabic Language Academy, or contested forms. Its false flags are measured on Arabic Wikipedia featured articles.
+
+**Does it work with Arabic dialects?**
+Yes. When you ask for Egyptian, Gulf, Levantine or another dialect, the agent writes in that dialect. The skill then fixes only formatting (punctuation, digits, RTL lines), never the dialect itself.
+
+**Which agents does it work with?**
+Any agent that supports the `SKILL.md` Agent Skills format, including Claude Code (as a plugin), Cursor and GitHub Copilot. Agents without a shell use the checklist alone.
 
 ## 🤝 Contribute
 

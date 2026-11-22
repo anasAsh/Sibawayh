@@ -1,0 +1,175 @@
+# نشر تطبيق ويب على خادم لينكس باستخدام دوكر (Docker) وإنجن إكس (Nginx)
+
+تشرح هذه الوثيقة خطوات نشر تطبيق ويب على خادم لينكس (Linux). يعمل التطبيق داخل حاوية (Container) يديرها دوكر. أما إنجن إكس فيعمل وكيلًا عكسيًّا (Reverse Proxy)، فيستقبل الطلبات القادمة من الإنترنت ويمررها إلى التطبيق. تفترض الأمثلة أن الخادم يعمل بتوزيعة أوبونتو (Ubuntu) 24.04، وأن التطبيق يستمع على المنفذ 3000.
+
+## المتطلبات
+
+- خادم لينكس تملك عليه صلاحيات `sudo`.
+- اسم نطاق (Domain) يشير سجله من النوع `A` إلى عنوان الخادم.
+- شيفرة التطبيق في مستودع غِت (Git).
+
+## الخطوات
+
+1. **حدّث النظام وثبّت الأدوات الأساسية**
+
+   ```bash
+   sudo apt update && sudo apt upgrade -y
+   sudo apt install -y ca-certificates curl git ufw
+   ```
+
+2. **ثبّت دوكر**
+
+   ثبّت دوكر بنص التثبيت الرسمي، ثم أضف مستخدمك إلى المجموعة `docker` كي تشغّل الأوامر دون `sudo`:
+
+   ```bash
+   curl -fsSL https://get.docker.com | sudo sh
+   sudo usermod -aG docker $USER
+   ```
+
+   سجّل الخروج ثم ادخل مجددًا لتسري عضوية المجموعة، وتحقق من التثبيت:
+
+   ```bash
+   docker --version
+   docker compose version
+   ```
+
+3. **اضبط الجدار الناري (Firewall)**
+
+   اسمح فقط بالاتصال الآمن عن بعد (SSH) وبمنفذي الويب 80 و443:
+
+   ```bash
+   sudo ufw allow OpenSSH
+   sudo ufw allow 80/tcp
+   sudo ufw allow 443/tcp
+   sudo ufw enable
+   ```
+
+   اسمح بالاتصال الآمن عن بعد قبل تفعيل الجدار الناري، وإلا انقطع اتصالك بالخادم.
+
+4. **انقل شيفرة التطبيق إلى الخادم**
+
+   ```bash
+   sudo mkdir -p /opt/myapp && sudo chown $USER:$USER /opt/myapp
+   git clone https://github.com/USER/myapp.git /opt/myapp
+   cd /opt/myapp
+   ```
+
+5. **اكتب ملف `Dockerfile`**
+
+   هذا مثال لتطبيق مكتوب بنود (Node.js)، فعدّل الصورة الأساسية والأوامر بحسب لغة تطبيقك:
+
+   ```dockerfile
+   FROM node:22-alpine
+   WORKDIR /app
+   COPY package*.json ./
+   RUN npm ci --omit=dev
+   COPY . .
+   ENV NODE_ENV=production
+   EXPOSE 3000
+   USER node
+   CMD ["node", "server.js"]
+   ```
+
+6. **اكتب ملف `compose.yaml`**
+
+   ```yaml
+   services:
+     app:
+       build: .
+       container_name: myapp
+       restart: unless-stopped
+       env_file: .env
+       ports:
+         - "127.0.0.1:3000:3000"
+   ```
+
+   يربط السطر الأخير المنفذ بالعنوان المحلي `127.0.0.1` وحده، فلا يصل أحد إلى التطبيق من خارج الخادم إلا عبر إنجن إكس. ضع متغيرات البيئة والأسرار في الملف `.env`، ولا تضفه إلى المستودع.
+
+7. **ابنِ الصورة وشغّل الحاوية**
+
+   ```bash
+   docker compose up -d --build
+   docker compose ps
+   curl -I http://127.0.0.1:3000
+   ```
+
+   إذا لم يستجب التطبيق، فراجع سجلاته بالأمر `docker compose logs -f app`.
+
+8. **ثبّت إنجن إكس**
+
+   ```bash
+   sudo apt install -y nginx
+   sudo systemctl enable --now nginx
+   ```
+
+9. **أنشئ ملف إعداد الموقع**
+
+   أنشئ الملف `/etc/nginx/sites-available/myapp` بالمحتوى الآتي، وضع اسم نطاقك مكان `example.com`:
+
+   ```nginx
+   server {
+       listen 80;
+       server_name example.com www.example.com;
+
+       location / {
+           proxy_pass http://127.0.0.1:3000;
+           proxy_http_version 1.1;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+       }
+   }
+   ```
+
+10. **فعّل الموقع وأعد تحميل إنجن إكس**
+
+    ```bash
+    sudo ln -s /etc/nginx/sites-available/myapp /etc/nginx/sites-enabled/
+    sudo rm -f /etc/nginx/sites-enabled/default
+    sudo nginx -t
+    sudo systemctl reload nginx
+    ```
+
+    يفحص الأمر `nginx -t` الإعداد بحثًا عن الأخطاء قبل إعادة التحميل. افتح بعد ذلك `http://example.com` في المتصفح للتحقق.
+
+11. **فعّل الاتصال المشفّر (HTTPS) بشهادة مجانية من ليتس إنكربت (Let's Encrypt)**
+
+    ```bash
+    sudo apt install -y certbot python3-certbot-nginx
+    sudo certbot --nginx -d example.com -d www.example.com
+    sudo certbot renew --dry-run
+    ```
+
+    تعدّل أداة سيرت بوت (Certbot) ملف الإعداد تلقائيًّا، وتحوّل الطلبات غير المشفّرة إلى الاتصال المشفّر، وتجدد الشهادة قبل انتهاء صلاحيتها. أما الأمر الأخير فيجرّب التجديد دون أن يجدد الشهادة فعليًّا.
+
+12. **حدّث التطبيق عند صدور نسخة جديدة**
+
+    ```bash
+    cd /opt/myapp
+    git pull
+    docker compose up -d --build
+    docker image prune -f
+    ```
+
+    يعيد دوكر بناء الصورة ويستبدل الحاوية القديمة، ويحذف الأمر الأخير الصور غير المستخدمة لتوفير المساحة.
+
+## استكشاف الأخطاء وإصلاحها
+
+| العَرَض | ما ينبغي فحصه |
+| --- | --- |
+| الخطأ 502 (Bad Gateway) | هل الحاوية تعمل (`docker compose ps`)؟ وهل يطابق المنفذ في `proxy_pass` منفذ التطبيق؟ |
+| الموقع لا يفتح | سجل النطاق، وحالة الجدار الناري (`sudo ufw status`). |
+| فشل إصدار الشهادة | تأكد أن النطاق يشير إلى الخادم وأن المنفذ 80 مفتوح. |
+| أخطاء أخرى في إنجن إكس | راجع سجل الأخطاء: `sudo tail -f /var/log/nginx/error.log` |
+
+## ملاحظات أمنية
+
+- لا تنشر منافذ الحاوية على جميع العناوين (`0.0.0.0`)، لأن دوكر يتجاوز قواعد `ufw` عند نشر المنافذ.
+- شغّل التطبيق داخل الحاوية بمستخدم غير جذري، كما في السطر `USER node`.
+- عطّل الدخول بكلمة المرور في الاتصال الآمن عن بعد، واستخدم المفاتيح بدلًا منها.
+- فعّل التحديثات الأمنية التلقائية بالحزمة `unattended-upgrades`.
+
+---
+
+هل تريد أن أحفظ هذه الوثيقة في ملف داخل المشروع، مثل `docs/deployment.md`؟

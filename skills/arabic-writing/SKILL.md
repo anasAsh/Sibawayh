@@ -25,7 +25,7 @@ Brief rules; details and examples live in the references.
 - **Punctuation:** use ، ؛ ؟ « » with no space before the mark and one space after it.
 - **Digits:** one system per text. Default to Western digits (0–9) in all writing, technical or not. Switch to Arabic-Indic digits (٠–٩) only if the user writes with them. Never use Persian digits (۰–۹). Code always uses Western digits.
 - **Spelling conventions** (pick once, stay consistent): tanween on the letter before the alif (ـًا); مسؤول, not مسئول; مئة, not مائة.
-- **Technical terms:** use the standard Arabic term from `references/glossary.md`. On first use, add the English term in parentheses, e.g. «واجهة برمجة التطبيقات (API)». Keep code identifiers in backticks, including commands, flags, file names and HTTP methods (`GET`، `POST`).
+- **Technical terms:** use the standard Arabic term from `references/glossary.md`. On first use, add the English term in parentheses, e.g. «واجهة برمجة التطبيقات (API)»; after that, write the Arabic term. An English word or acronym never stands bare in an Arabic sentence, not even a familiar one (HTTP، REST، JSON، HTTPS) or a button label: ✗ عبر IPC، ✗ اضغط «Fork»; ✓ عبر الاتصال بين العمليات (IPC)، ✓ اضغط زر الاشتقاق (Fork). Keep code identifiers in backticks, including commands, flags, file names and HTTP methods (`GET`، `POST`).
 - **RTL safety in Markdown:** do not start a line, heading or bullet with a Latin word or a digit; reword so the line starts with Arabic. Keep English inside parentheses or backticks.
 - **No italics** in Arabic text (use bold or « ») and **no tatweel** (ـ).
 - **Approved forms:** never change the forms listed in `references/approved-forms.md`. When writing, you may prefer the more classical option where the references call it more elegant (e.g. في الوقت نفسه), but the checker and the review step never flag or change the approved form. Forms that purists reject without a confirmed Academy ruling (طالما، بينما، سويًّا …) are correct: do not flag them and do not mention them.
@@ -65,8 +65,8 @@ Go through these in order. Change only what is wrong; do not rewrite text that i
 2. **Numbers:** every number + counted noun: gender reversal for 3–10, singular accusative after 11–99, genitive singular after 100 and 1000, and ordinals. Check against `references/grammar.md`.
 3. **Visible endings:** ـون/ـين and ـان/ـين by position; ن dropped after أن/لن/لم/كي and in idafa; the weak letter dropped after لم and لا الناهية; the accusative alif where required, and absent on diptotes.
 4. **إنّ vs أنّ**, idafa without ال on the first term, no الذي/التي after an indefinite noun, فاء in conditional answers, never سوف before لن (لن alone negates the future).
-5. **Translationese density** and stock paragraph openers (see `references/style.md`).
-6. **Register and language mixing:** no stray English words outside parentheses or code, no English sentences or notes, no dialect words.
+5. **Translationese:** density, stock paragraph openers, and English idioms translated word for word (`references/style.md` §4.1). In posts and translations, read each sentence and ask whether an Arabic writer would put it that way; rephrase any that follow an English idiom (✗ يصنع الفرق، ✗ جعلوا الحفل ممكنًا، ✗ يضع … تحت الضغط).
+6. **Register and language mixing:** no English word or acronym outside parentheses or code (after its first use, the Arabic term alone), no English sentences or notes, no dialect words.
 7. **Formatting:** RTL-safe line starts, one digit system, consistent spelling conventions.
 
 ## References

@@ -100,6 +100,13 @@ English idioms translated word for word. Found in AI-written Arabic during the 5
 | ✗ في نهاية اليوم ("at the end of the day") | ✓ في المحصّلة / ✓ في النهاية |
 | ✗ الفرع محدَّث مع `main` ("up to date with") | ✓ الفرع متزامن مع `main` |
 | ✗ أفضل بـ 37 مرة ("37 times better") | ✓ يتحسّن نحو 37 ضعفًا |
+| ✗ جعلوا الحفل ممكنًا بجهدهم ("made … possible") | ✓ بفضل جهدهم استطعنا إقامة الحفل / ✓ أتاح جهدهم إقامة الحفل |
+| ✗ كل عادة تُدلي بصوت لصالح الهوية ("casts a vote for") | ✓ كل عادة تقرّبك خطوة من الشخص الذي تريد أن تكونه |
+| ✗ كلمة تشجيع على الطريق ("along the way") | ✓ كلمة تشجيع في مسيرتي |
+| ✗ إن كسرت شيئًا كان يعمل ("broke something") | ✓ إن أحدث التعديل خللًا في ما كان يعمل |
+| ✗ تُخدم الطلبات من الذاكرة المؤقتة ("served from cache") | ✓ تُلبّى الطلبات من الذاكرة المؤقتة |
+
+The checker's `calque` rule flags the first rows of this table (and جعل … ممكنًا، تُدلي بصوت لصالح); the rest need your own reading.
 
 ## 5. Register
 

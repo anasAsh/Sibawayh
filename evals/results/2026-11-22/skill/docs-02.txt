@@ -1,0 +1,71 @@
+Here is the installation section:
+
+---
+
+## التثبيت
+
+### المتطلبات
+
+- لغة بايثون (Python) بالإصدار 3.9 أو أحدث.
+- مدير الحزم `pip`، ويأتي عادةً مع بايثون.
+
+تحقّق من إصدار بايثون المثبّت على جهازك:
+
+```bash
+python3 --version
+```
+
+إذا ظهر إصدار أقدم من 3.9، فحدّث بايثون قبل المتابعة.
+
+### التثبيت باستخدام `pip`
+
+ثبّت الأداة بالأمر التالي:
+
+```bash
+python3 -m pip install tidy
+```
+
+ننصح بتثبيت الأداة داخل بيئة افتراضية (virtual environment) حتى لا تتعارض حزمها مع حزم النظام:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install tidy
+```
+
+على نظام ويندوز (Windows)، فعّل البيئة الافتراضية بالأمر `.venv\Scripts\activate` بدلًا من الأمر `source`.
+
+### التحقق من التثبيت
+
+شغّل الأمر التالي للتأكد من نجاح التثبيت:
+
+```bash
+tidy --version
+```
+
+إذا ظهر رقم الإصدار، فالأداة جاهزة للاستخدام.
+
+### التحديث وإلغاء التثبيت
+
+لتحديث الأداة إلى أحدث إصدار:
+
+```bash
+python3 -m pip install --upgrade tidy
+```
+
+ولإزالتها من جهازك:
+
+```bash
+python3 -m pip uninstall tidy
+```
+
+### حل المشكلات الشائعة
+
+- **ظهور رسالة «الأمر غير موجود» (command not found) عند تشغيل `tidy`:** يعني ذلك غالبًا أن المجلد الذي يضع فيه `pip` الأوامر المثبّتة غير مضاف إلى متغير البيئة `PATH`. أضف هذا المجلد إلى `PATH`، أو ثبّت الأداة داخل بيئة افتراضية كما سبق.
+- **خطأ يشير إلى إصدار بايثون غير مدعوم:** تأكّد من أن الأمر `python3` يشير إلى الإصدار 3.9 أو أحدث، لا إلى إصدار أقدم مثبّت على النظام.
+
+---
+
+I made two assumptions you should check:
+- **Package name:** I used `tidy` as the name on PyPI. If the published package has a different name, change it in the `pip` commands.
+- **Version check:** I used `tidy --version` to confirm the install. If the tool doesn't have that flag, replace it with one it does have, such as `--help`.

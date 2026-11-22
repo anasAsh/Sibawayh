@@ -393,6 +393,45 @@ def translationese_density(text: str, masked: str, opts: Opts) -> List[Finding]:
                     % (rate, counts))]
 
 
+# --- calque -----------------------------------------------------------------------
+
+# English idioms translated word for word (style.md §4.1). A warn, since a
+# literal reading can be right; the model decides in context.
+_W = "(?:\\S+\\s+)"
+_CALQUES = (
+    (_NB + "[ويتنأ]?(?:صنع|يحدث|تحدث|أحدث|نحدث)[" + _DIAC + "\\w]*\\s+الفرق" + _NA,
+     '"makes the difference"', "يُحدث فرقًا"),
+    (_NB + "[وف]?(?:يضع|تضع|نضع|يضعون|وضع|وضعت|وضعوا)" + _NA + "\\s+" + _W + "{0,6}?"
+     "تحت\\s+(?:ال)?ضغط" + _NA,
+     '"puts … under pressure"', "يزيد الضغط على …"),
+    (_NB + "[وف]?(?:جعل|جعلت|جعلوا|يجعل|تجعل|نجعل)[" + _DIAC + "\\w]*\\s+"
+     "(?!المستحيل)" + _W + "{0,5}?ممكن[" + _DIAC + "اة]*" + _NA,
+     '"made … possible"', "بفضل … استطعنا / أتاح"),
+    (_NB + "(?:ت|ي)دلي\\s+بصوت[" + _DIAC + "\\w]*\\s+لصالح" + _NA,
+     '"cast a vote for"', "تقترب خطوة من …"),
+    (_NB + "[وف]?(?:أفكار|كلمات)\\s+(?:بقيت|ظلت)\\s+معي" + _NA,
+     '"stayed with me"', "علقت بذهني"),
+    (_NB + "[ويت]?عيد\\s+تشكيل\\s+الطريقة" + _NA,
+     '"reshapes the way"', "يغيّر أسلوب …"),
+)
+_CALQUE_RES = tuple((re.compile(p), what, better) for p, what, better in _CALQUES)
+
+
+def calque(text: str, masked: str, opts: Opts) -> List[Finding]:
+    # Match on the text without diacritics (تُدلي، يُحدث); idx maps back.
+    idx = [i for i, ch in enumerate(masked) if not _DIAC_RE.match(ch)]
+    bare = "".join(masked[i] for i in idx)
+    out = []
+    for r, what, better in _CALQUE_RES:
+        for m in r.finditer(bare):
+            if "\n" in m.group():
+                continue
+            out.append(Finding(idx[m.start()], idx[m.end() - 1] + 1, "warn", "calque",
+                               "Word-for-word English idiom (%s); rephrase it the "
+                               "Arabic way" % what, suggestion=better))
+    return out
+
+
 # --- maqsura-medial -------------------------------------------------------------
 
 # ى only ends a word. Inside one it is a typo for ئ (وساىل) or ي, or a missing
@@ -535,4 +574,5 @@ RULES = [
     jussive_nun,
     relative_after_indefinite,
     translationese_density,
+    calque,
 ]

@@ -1,0 +1,26 @@
+Here's the email draft:
+
+---
+
+**الموضوع:** تغيير موعد الاجتماع الأسبوعي إلى يوم الثلاثاء
+
+الزملاء الأعزاء،
+
+تحية طيبة، وبعد،
+
+أودّ إعلامكم بأن الاجتماع الأسبوعي للفريق سينتقل من يوم الأحد إلى يوم الثلاثاء في الساعة 10:30 صباحًا، ابتداءً من الأسبوع المقبل. ويبقى مكان الاجتماع وجدول أعماله دون تغيير.
+
+يُرجى تأكيد حضوركم بالرد على هذه الرسالة في أقرب وقت ممكن. وإن تعذّر على أحدكم الحضور في الموعد الجديد، فليُبلغني بذلك لنبحث عن حل مناسب.
+
+شكرًا لتعاونكم.
+
+مع خالص التحيات،
+[اسمك]
+
+---
+
+**I assumed two things you may want to change:**
+- **10:30 is in the morning.** If you meant the evening, replace «صباحًا» with «مساءً».
+- **The change starts next week.** You could give an exact date instead, for example «ابتداءً من يوم الثلاثاء 1 ديسمبر».
+
+Gmail is connected, so I can also save this as a draft there if you tell me who it should go to.

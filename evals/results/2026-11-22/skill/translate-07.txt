@@ -1,0 +1,8 @@
+Here's the Arabic translation:
+
+بدأنا عام 2012 ورشةً صغيرة يعمل فيها شخصان، نصلح الحواسيب المحمولة للجيران والأصدقاء. واليوم أصبحنا فريقًا من أربعين مهندسًا ومصممًا، نبني برمجيات تساعد الشركات الصغيرة على إدارة مخزونها وفواتيرها وعملائها. نؤمن بأن الأدوات الجيدة ينبغي أن تكون بسيطة، وبأسعار في متناول الجميع، وأن تحترم وقت الناس. نختبر كل منتج مع مستخدمين حقيقيين قبل طرحه، ونقرأ كل ملاحظة تصلنا. هدفنا أن نساعد مليون شركة صغيرة على النمو دون أن تحتاج إلى فريق تقني كبير.
+
+A few wording choices:
+- **"Affordable"** became «بأسعار في متناول الجميع» ("priced within everyone's reach"). It reads more naturally than a literal one-word translation.
+- **"Every product we release is tested... before launch"** is in the active voice («نختبر كل منتج... قبل طرحه», "we test every product... before releasing it"). This avoids saying "release" twice and the stiff passive.
+- **The year** is written as 2012 in Western digits, which is common on Arabic websites. I can switch it to Arabic-Indic digits (٢٠١٢) if your site uses them.

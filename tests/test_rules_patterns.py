@@ -122,6 +122,20 @@ class LatinTest(unittest.TestCase):
         # Already in misspellings.tsv: reported once.
         self.assertEqual(of("بدأ البناءاً", "tanween-alif"), [])
 
+    def test_calque(self):
+        for t, span in (("هذا العمل يصنع الفرق في حياتنا", "يصنع الفرق"),
+                        ("هذا يُحدِثُ الفرقَ", "يُحدِثُ الفرق"),
+                        ("وجعلوا فعاليتنا الخيرية ممكنة بجهدهم", "وجعلوا فعاليتنا الخيرية ممكنة"),
+                        ("كل عادة تُدلي بصوتٍ لصالح الهوية", "تُدلي بصوتٍ لصالح"),
+                        ("مما يضع المزارعين والمدن على حدّ سواء تحت الضغط",
+                         "يضع المزارعين والمدن على حدّ سواء تحت الضغط")):
+            self.assertEqual(spans(t, "calque"), [span], t)
+        # Natural Arabic and literal uses (Wikipedia).
+        for ok in ("جعل المستحيل ممكنًا", "يحدث فرقًا كبيرًا",
+                   "بوضع مذيبات حاوية على المتفاعلات تحت ضغط ودرجة حرارة",
+                   "للانصراف في نهاية اليوم"):
+            self.assertEqual(of(ok, "calque"), [], ok)
+
     def test_compound_number(self):
         found = of("لدينا ثلاثة عشرة طالبًا", "compound-number")
         self.assertEqual([(f.severity, f.suggestion) for f in found],

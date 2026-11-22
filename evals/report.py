@@ -30,7 +30,8 @@ FAMILIES = {
                  "tanween-alif"],
     "grammar": ["sawfa-lan", "jussive-nun", "relative-after-indefinite", "number-gender",
                 "compound-number"],
-    "style": ["dialect-word", "stray-english", "english-line", "translationese-density"],
+    "style": ["dialect-word", "stray-english", "english-line", "translationese-density",
+              "calque"],
     "formatting": ["digit-mix", "rtl-line-start"],
 }
 _RULE_FAMILY = {r: f for f, rules in FAMILIES.items() for r in rules}
