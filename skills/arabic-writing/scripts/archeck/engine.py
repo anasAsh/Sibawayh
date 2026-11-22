@@ -22,10 +22,14 @@ def check(text: str, digits: str = "auto") -> List[Finding]:
     masked = mask(text)
     opts = {"digits": digits}
     found = []
-    for rule in rules_fix.RULES + rules_lists.RULES + rules_patterns.RULES:
+    for rule in rules_fix.RULES + rules_patterns.RULES:
         found.extend(rule(text, masked, opts))
-    kept = [f for f in found if not _approved(text[f.start:f.end])]
-    return sorted(kept, key=lambda f: (f.start, f.rule))
+    # Approved forms protect word choice only, so they filter word-list
+    # findings; mood, tanween and spacing rules still apply to them.
+    for rule in rules_lists.RULES:
+        found.extend(f for f in rule(text, masked, opts)
+                     if not _approved(text[f.start:f.end]))
+    return sorted(found, key=lambda f: (f.start, f.rule))
 
 
 def apply_fixes(text: str, findings: List[Finding]) -> str:

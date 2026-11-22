@@ -90,6 +90,52 @@ class LatinTest(unittest.TestCase):
         self.assertEqual(of("---\ntitle: مقال\ndescription: نص\n---\nنص", "rtl-line-start"), [])
         self.assertEqual(of("- لغة Python سهلة", "rtl-line-start"), [])
         self.assertEqual(of("Python is easy to learn", "rtl-line-start"), [])
+
+    def test_rtl_line_start_code_or_link(self):
+        # Masked code and URLs at the start of a line still render LTR.
+        self.assertEqual(spans("- `git status` يعرض الحالة", "rtl-line-start"),
+                         ["`git status`"])
+        self.assertEqual(spans("## `API` في النظام", "rtl-line-start"), ["`API`"])
+        self.assertEqual(spans("- https://example.com موقع جيد", "rtl-line-start"),
+                         ["https://example.com"])
+        self.assertEqual(of("- الأمر `git status` يعرض الحالة", "rtl-line-start"), [])
+        self.assertEqual(of("```\ngit status يعرض\n```", "rtl-line-start"), [])
+        self.assertEqual(of("- `مثال` نص عربي", "rtl-line-start"), [])
+
+    def test_tanween_alif(self):
+        self.assertEqual([f.suggestion for f in of("زرت مدرسةًا جديدة", "tanween-alif")],
+                         ["مدرسةً"])
+        self.assertEqual([f.suggestion for f in of("جاء مساءًا", "tanween-alif")],
+                         ["مساءً or مساءَ"])
+        self.assertEqual([f.suggestion for f in of("كانوا أعضاءًا", "tanween-alif")],
+                         ["أعضاءً or أعضاءَ"])
+        self.assertEqual([f.suggestion for f in of("زرت المدرسةاً", "tanween-alif")],
+                         ["المدرسة"])
+        for wrong, right in (("عادتاً", "عادةً"), ("وخاصتاً", "وخاصةً"),
+                             ("نتيجتًا", "نتيجةً"), ("مرتاً", "مرةً")):
+            self.assertEqual([f.suggestion for f in of(wrong + " نذهب", "tanween-alif")],
+                             [right])
+            self.assertEqual(of(wrong + " نذهب", "tanween-mixed"), [])
+        # عادتا without tanween is a dual; شيئًا and جزءًا are correct.
+        for ok in ("عادتا الطفلين", "قرأت شيئًا وجزءًا", "جاءا معًا", "مدرسةً"):
+            self.assertEqual(of(ok, "tanween-alif"), [])
+        # Already in misspellings.tsv: reported once.
+        self.assertEqual(of("بدأ البناءاً", "tanween-alif"), [])
+
+    def test_compound_number(self):
+        found = of("لدينا ثلاثة عشرة طالبًا", "compound-number")
+        self.assertEqual([(f.severity, f.suggestion) for f in found],
+                         [("error", "ثلاثة عشر (m.) or ثلاث عشرة (f.)")])
+        self.assertEqual(of("بعد ثماني عشرة", "compound-number"), [])
+        self.assertEqual(of("ثمانية عشرة", "compound-number")[0].suggestion,
+                         "ثمانية عشر (m.) or ثماني عشرة (f.)")
+        self.assertEqual(spans("جاء بخمسة عشرة سفينة", "compound-number"), ["بخمسة عشرة"])
+        found = of("طيلة خمس عشر عامًا", "compound-number")
+        self.assertEqual([(f.severity, f.suggestion) for f in found],
+                         [("warn", "خمسة عشر (m.) or خمس عشرة (f.)")])
+        for ok in ("ثلاثة عشر رجلًا وثلاث عشرة امرأة", "ستة عشر عامًا",
+                   "خمسة، عشرة", "خمس عُشر"):
+            self.assertEqual(of(ok, "compound-number"), [])
         self.assertEqual(of("1. لغة سهلة", "rtl-line-start"), [])
 
 

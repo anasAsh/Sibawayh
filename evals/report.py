@@ -26,8 +26,10 @@ FAMILIES = {
     "spelling": ["persian-letter", "persian-letter-final", "presentation-form", "tatweel",
                  "persian-digit", "misspelling", "hamza-wasl", "hamza-missing",
                  "taa-haa", "alif-maqsura", "tanween-mixed", "spelling-mixed",
-                 "waw-split", "maqsura-medial", "alif-fariqa", "merged-particle"],
-    "grammar": ["sawfa-lan", "jussive-nun", "relative-after-indefinite", "number-gender"],
+                 "waw-split", "maqsura-medial", "alif-fariqa", "merged-particle",
+                 "tanween-alif"],
+    "grammar": ["sawfa-lan", "jussive-nun", "relative-after-indefinite", "number-gender",
+                "compound-number"],
     "style": ["dialect-word", "stray-english", "english-line", "translationese-density"],
     "formatting": ["digit-mix", "rtl-line-start"],
 }

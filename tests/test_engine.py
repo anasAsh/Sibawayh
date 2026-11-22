@@ -45,6 +45,13 @@ class EngineTest(unittest.TestCase):
         with mock.patch.object(rules_lists, "RULES", [lambda *a: [multi]]):
             self.assertEqual(check(t), [multi])
 
+    def test_approved_form_keeps_grammar_and_tanween_findings(self):
+        rules = lambda t: {f.rule for f in check(t)}
+        self.assertIn("jussive-nun", rules("لم يعتبرون ذلك مهما"))
+        self.assertIn("jussive-nun", rules("لن تعتبرون ذلك مهما"))
+        self.assertIn("tanween-mixed",
+                      rules("قرأت كتابًا جديدًا ولم أره أبداً من قبل"))
+
     def test_apply_fixes_skips_overlap(self):
         t = "abcdef"
         a = Finding(1, 4, "fix", "r1", "m", replacement="X")

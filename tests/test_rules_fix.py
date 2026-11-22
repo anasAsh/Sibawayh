@@ -16,6 +16,16 @@ class FixRulesTest(unittest.TestCase):
     def test_punct_space(self):
         self.assertEqual(fix_text("قال ، ثم"), "قال، ثم")
         self.assertEqual(fix_text("قال،ثم"), "قال، ثم")
+        # Through a closing » or ) (orthography.md: ✗ (مسرعًا) .).
+        self.assertEqual(fix_text("قال «نعم» ، ثم ذهب"), "قال «نعم»، ثم ذهب")
+        self.assertEqual(fix_text("جاء (مسرعًا) ."), "جاء (مسرعًا).")
+
+    def test_punct_space_before_quote(self):
+        # A stray space before : moves after it; no space at all is a house
+        # style and is left alone, as are verse refs and footnote markers.
+        self.assertEqual(fix_text("قال :«سأحضر»"), "قال: «سأحضر»")
+        for t in ("قال:«سأحضر»", "[النساء:80]", "وروسيا،(2)", "لدينا،3 ملفات"):
+            self.assertEqual(fix_text(t), t)
 
     def test_dot_never_false_positive(self):
         for t in ("د.أحمد", "ج.م.ع", "ص.ب 123", "كلمة ... ثم", "كلمة…ثم",

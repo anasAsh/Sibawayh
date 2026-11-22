@@ -32,6 +32,20 @@ python3 evals/fetch_wiki.py --skip 50 --limit 50 --out evals/corpus/wiki-heldout
 - **Fixes: 1 wrong auto-fix in 278.** It converted a Persian ک cited on its own in a table of alphabets. The rule now leaves a lone cited letter alone (test added).
 - **Warnings:** the 6 false warnings are all proper names or cited letters. Warnings ask the model to look at the context, so these are acceptable. A name list isn't worth maintaining.
 
+## New rules (2026-11-22)
+
+Both sets were checked before and after, and every changed finding was reviewed by hand.
+
+| Rule | Severity | wiki | heldout | False flags |
+|---|---|---|---|---|
+| compound-number (ة on both parts of 13–19) | error | 3 | 8 | 0 (خمسة عشرة سفينة، ثلاثة عشرة صفة، ستة عشرة عامًا…) |
+| compound-number (ة on neither part) | warn | 0 | 2 | 0 (خمس عشر عاماً) |
+| tanween-alif (ةًا، اءًا) | error | 3 | 0 | 0 (أعضاءًا، وضياءاً، رداءاً) |
+| punct-space, through a closing » or ) | fix | +7 | +2 | 0 («…» ، → «…»، and (…) ، → (…)،) |
+| punct-space, ` :«` → `: «` | fix | 0 | 3 changed | 0 (the stray space is moved, not deleted) |
+
+`قال:«` with no space at all is common in these articles, so it is a house style and is left alone, as are verse references (`[النساء:80]`) and footnote markers (`،(2)`).
+
 ## Limits
 
 - Wikipedia is edited but not professionally proofread; that's why it contains real errors.

@@ -70,7 +70,7 @@ def punct_space(text: str, masked: str, opts: Dict[str, str]) -> List[Finding]:
     out = []
     for m in re.finditer("[،؛؟.:!]", masked):
         i = m.start()
-        if _left_letter(text, masked, i) < 0:
+        if _left_letter(text, masked, i, skip_close=True) < 0:
             continue
         s = i
         while s > 0 and _blank(text, masked, s - 1):
@@ -80,11 +80,13 @@ def punct_space(text: str, masked: str, opts: Dict[str, str]) -> List[Finding]:
             # Dots are abbreviations, runs, or paths far too often: only
             # tidy a lone sentence-ending dot (space before it).
             prv = masked[i - 1] if i > 0 else ""
-            if prv in ".…" or nxt in ".…" or (nxt and not nxt.isspace()):
+            if (prv and prv in ".…") or (nxt and (nxt in ".…" or not nxt.isspace())):
                 continue
             need_after = False
         else:
-            need_after = _is_ar(nxt)
+            # قال :«…»: the writer meant a space, just on the wrong side.
+            # Without that stray space, قال:« is a house style, left alone.
+            need_after = _is_ar(nxt) or (s < i and nxt in "«“")
         if s == i and not need_after:
             continue
         rep = masked[i] + (" " if need_after else "")

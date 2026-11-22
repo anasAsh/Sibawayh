@@ -9,7 +9,7 @@ from typing import Dict, Iterator, List, Tuple
 
 from .data import load_list, load_tsv
 from .model import Finding
-from .text import ARABIC_LETTER, has_arabic, iter_words
+from .text import ARABIC_LETTER, has_arabic, iter_words, stem_candidates
 
 _DIAC = "ً-ٰٟ"
 _DIAC_RE = re.compile("[" + _DIAC + "]")
@@ -92,7 +92,7 @@ def tanween_mixed(text: str, masked: str, opts: Opts) -> List[Finding]:
         return []
     out = []
     for a, b, w in iter_words(masked):
-        if _ALIF_FIRST in w:
+        if _ALIF_FIRST in w and not _tanween_alif_word(w):  # tanween-alif reports it
             out.append(Finding(a, b, "info", "tanween-mixed",
                                "Tanween is written both ways; the convention is ـًا "
                                "(tanween on the letter before the alif)",
@@ -184,6 +184,21 @@ def rtl_line_start(text: str, masked: str, opts: Opts) -> List[Finding]:
         if not has_arabic(line):
             continue
         i = _LEAD.match(line).end()
+        # The line may start with a masked code span or URL (blanked in
+        # masked); it renders left-to-right too, so look at the real text.
+        raw = text[off:off + len(line)]
+        k = _LEAD.match(raw).end()
+        if k < i and k < len(raw):
+            j = k + 1 if raw[k] == "`" else k
+            if j < len(raw) and re.match("[A-Za-z0-9]", raw[j]):
+                end = raw.find("`", j) + 1 if j > k else 0
+                if end == 0:  # a URL or path: up to the next space
+                    end = k + len(raw[k:].split(None, 1)[0])
+                out.append(Finding(off + k, off + end, "warn", "rtl-line-start",
+                                   "Arabic line starts with code or a link; it may "
+                                   "render left-to-right. Start the line with an "
+                                   "Arabic word"))
+            continue
         # Only Latin letters and Western digits. Arabic-Indic digits (٠-٩) are
         # not flagged: they belong with Arabic text and are not used in code.
         if i < len(line) and re.match("[A-Za-z0-9]", line[i]):
@@ -392,6 +407,51 @@ def maqsura_medial(text: str, masked: str, opts: Opts) -> List[Finding]:
             for m in _MEDIAL_YAA.finditer(masked)]
 
 
+# --- tanween-alif -----------------------------------------------------------------
+
+# ة and a final اء take tanween fath with no alif after it (مدرسةً، مساءً).
+# عادتاً and the like are ة written as ت; without the tanween, عادتا is a
+# valid dual, so the tanween is required to match.
+_TANWEEN_ALIF = re.compile("(?:ة|(?<=ا)ء)[" + _DIAC + "]*(?:ًا|اً)" + _NA)
+_TAA_AS_TAA = re.compile(_NB + "([وف]?)(عادت|خاصت|نتيجت|مرت)(?:ًا|اً)" + _NA)
+_WITH_AL = re.compile("^(?:[وف]?[بك]?ال|[وف]?لل)")
+
+
+def _tanween_alif_word(word: str) -> bool:
+    m = _TANWEEN_ALIF.search(word)
+    return (m is not None and m.end() == len(word)) or bool(_TAA_AS_TAA.search(word))
+
+
+def tanween_alif(text: str, masked: str, opts: Opts) -> List[Finding]:
+    out = []
+    for m in _TAA_AS_TAA.finditer(masked):
+        out.append(Finding(m.start(), m.end(), "error", "tanween-alif",
+                           "ة takes tanween with no alif, and stays ة",
+                           suggestion=m.group(1) + m.group(2)[:-1] + "ةً"))
+    listed = {_plain(r["wrong"]) for r in load_tsv("misspellings.tsv")}
+    for a, b, w in iter_words(masked):
+        if not _tanween_alif_word(w) or _TAA_AS_TAA.search(w):
+            continue
+        if any(c in listed for c in stem_candidates(w)):
+            continue  # misspellings.tsv already reports it
+        base = w[:_TANWEEN_ALIF.search(w).start() + 1]
+        if _WITH_AL.match(_plain(w)):
+            # ال and tanween never go together.
+            out.append(Finding(a, b, "error", "tanween-alif",
+                               "A word with ال takes no tanween and no alif",
+                               suggestion=base))
+        elif base.endswith("ة"):
+            out.append(Finding(a, b, "error", "tanween-alif",
+                               "ة takes tanween with no alif after it",
+                               suggestion=base + "ً"))
+        else:
+            out.append(Finding(a, b, "error", "tanween-alif",
+                               "A final اء takes tanween with no alif after it; "
+                               "a diptote (أعضاء، علماء) takes no tanween",
+                               suggestion=base + "ً or " + base + "َ"))
+    return out
+
+
 # --- number-gender ----------------------------------------------------------------
 
 # 3–10 (and بضع) take the opposite gender of the counted noun's singular.
@@ -428,9 +488,43 @@ def number_gender(text: str, masked: str, opts: Opts) -> List[Finding]:
     return out
 
 
+# 13–19: the units reverse the counted noun's gender, عشر agrees with it, so
+# ة is on exactly one part (ثلاثة عشر، ثلاث عشرة).
+_TEENS = ("ثلاث", "أربع", "خمس", "ست", "سبع", "ثماني", "تسع")
+
+
+def compound_number(text: str, masked: str, opts: Opts) -> List[Finding]:
+    words = list(iter_words(masked))
+    out = []
+    for (a1, b1, w1), (a2, b2, w2) in zip(words, words[1:]):
+        if text[b1:a2].strip(" \t") or "\u064f" in w1 + w2:
+            continue  # not adjacent on one line, or عُشر "a tenth"
+        plain = _plain(w1)
+        cut = _NUM_PREFIX.match(plain).end()
+        prefix, unit = plain[:cut], plain[cut:]
+        tens = _plain(w2)
+        if unit.endswith("ة") and unit[:-1] in _TEENS and tens == "عشرة":
+            severity, base = "error", unit[:-1]
+        elif unit in _TEENS + ("ثمان",) and tens == "عشر":
+            # تسع and ست are also a verb and a noun, so this side is a warn.
+            severity, base = "warn", "ثماني" if unit == "ثمان" else unit
+        else:
+            continue
+        masc = prefix + (base + "ية" if base == "ثماني" else base + "ة")
+        masc = masc.replace("ثمانيية", "ثمانية")
+        out.append(Finding(a1, b2, severity, "compound-number",
+                           "In 13–19, ة goes on exactly one part: the unit for a "
+                           "masculine noun, عشرة for a feminine one",
+                           suggestion="%s عشر (m.) or %s عشرة (f.)"
+                           % (masc, prefix + base)))
+    return out
+
+
 RULES = [
     maqsura_medial,
     number_gender,
+    compound_number,
+    tanween_alif,
     digit_mix,
     tanween_mixed,
     spelling_mixed,

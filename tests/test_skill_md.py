@@ -44,6 +44,9 @@ class TestSkillMd(unittest.TestCase):
             self.assertIn(kw, desc)
         for kw in ("summar", "rewrit", "proofread", "review", "edit"):
             self.assertIn(kw, desc.lower())
+        # Dialect requests load the skill for its formatting checks.
+        for kw in ("عامية", "لهجة"):
+            self.assertIn(kw, desc)
         self.assertIn("Do not use for English-only work", desc)
 
     def test_length(self):
