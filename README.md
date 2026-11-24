@@ -148,9 +148,45 @@ From a shell, the plugin commands are `claude plugin marketplace add anasAsh/Sib
 
 </details>
 
-### Cursor, GitHub Copilot and other agents
+### Codex, Cursor, GitHub Copilot and most other agents
 
-Copy `skills/arabic-writing/` into your tool's skills folder; check its documentation for the path. The skill uses the standard `SKILL.md` format. If an agent has no shell, it falls back to the checklist alone.
+The skill is a standard [`SKILL.md`](https://agentskills.io/specification) folder, and most agents read skills from one shared place: `~/.agents/skills/` for all your projects, or `.agents/skills/` inside one project.
+
+```bash
+git clone https://github.com/anasAsh/Sibawayh.git
+mkdir -p ~/.agents/skills
+cp -r Sibawayh/skills/arabic-writing ~/.agents/skills/
+```
+
+According to their documentation, that folder is read by OpenAI Codex, Cursor, GitHub Copilot (CLI and VS Code), Gemini CLI, OpenCode, Amp, Goose, Roo Code, Zed, JetBrains Junie and Windsurf (Devin Local). A few agents use their own folder; copy the same `arabic-writing` folder there instead:
+
+| Agent | Folder for your user | Folder inside a project |
+|---|---|---|
+| Claude Code | plugin (above), or `~/.claude/skills/` | `.claude/skills/` |
+| Cline | `~/.cline/skills/` | `.cline/skills/` |
+| Kiro | `~/.kiro/skills/` | `.kiro/skills/` |
+| Google Antigravity | `~/.gemini/config/skills/` | `.agents/skills/` |
+
+If you use Node, [`npx skills add anasAsh/Sibawayh`](https://github.com/vercel-labs/skills) installs the skill into the agents you pick. It is a third-party tool that we have not tested.
+
+### Claude Desktop and claude.ai
+
+1. Make a zip with the skill folder at its root: `cd Sibawayh/skills && zip -r arabic-writing.zip arabic-writing -x '*__pycache__*'`
+2. In Claude, open **Customize → Skills**, choose **Create skill → Upload a skill**, and upload the zip.
+3. Turn on **Code execution and file creation** in **Settings → Capabilities**, so that Claude can run the checker.
+
+The Code tab of Claude Desktop reads `~/.claude/skills/` and Claude Code plugins, so the Claude Code install covers it.
+
+### What has been tested
+
+| Agent | Status |
+|---|---|
+| Claude Code | Full evaluation: 100 requests, see [Evaluation](#-evaluation) |
+| OpenAI Codex CLI | Smoke-tested 2026-11-24: loads the skill from `.agents/skills/` and runs the checker |
+| OpenCode | Smoke-tested 2026-11-24: loads the skill from `.agents/skills/` and runs the checker |
+| All others | Install paths taken from each agent's documentation on 2026-11-24; not run by us yet |
+
+A smoke test is one Arabic request, checked to see that the agent read `SKILL.md` and ran `check_arabic.py`. It does not measure quality. If an agent has no shell, the skill falls back to its checklist alone. Reports from other agents are welcome in the [issues](https://github.com/anasAsh/Sibawayh/issues).
 
 ## 🔍 Run the checker yourself
 
@@ -235,7 +271,7 @@ No, that is the golden rule. It never flags forms approved by the Cairo Arabic L
 Yes. When you ask for Egyptian, Gulf, Levantine or another dialect, the agent writes in that dialect. The skill then fixes only formatting (punctuation, digits, RTL lines), never the dialect itself.
 
 **Which agents does it work with?**
-Any agent that supports the `SKILL.md` Agent Skills format, including Claude Code (as a plugin), Cursor and GitHub Copilot. Agents without a shell use the checklist alone.
+Any agent that supports the `SKILL.md` Agent Skills format: Claude Code (as a plugin), Claude Desktop, Codex, Cursor, GitHub Copilot, OpenCode and others. See [Install](#-install) for each one's folder and for which agents we have tested. Agents without a shell use the checklist alone.
 
 ## 🤝 Contribute
 
