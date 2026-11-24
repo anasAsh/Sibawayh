@@ -171,9 +171,11 @@ If you use Node, [`npx skills add anasAsh/Sibawayh`](https://github.com/vercel-l
 
 ### Claude Desktop and claude.ai
 
-1. Make a zip with the skill folder at its root: `cd Sibawayh/skills && zip -r arabic-writing.zip arabic-writing -x '*__pycache__*'`
+1. Download [`arabic-writing.zip`](https://github.com/anasAsh/Sibawayh/releases/latest/download/arabic-writing.zip) from the latest release. To build it yourself: `cd Sibawayh/skills && zip -r arabic-writing.zip arabic-writing -x '*__pycache__*'`
 2. In Claude, open **Customize → Skills**, choose **Create skill → Upload a skill**, and upload the zip.
 3. Turn on **Code execution and file creation** in **Settings → Capabilities**, so that Claude can run the checker.
+
+We have not tested the upload yet; if Claude rejects it, please open an issue.
 
 The Code tab of Claude Desktop reads `~/.claude/skills/` and Claude Code plugins, so the Claude Code install covers it.
 
