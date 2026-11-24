@@ -1,0 +1,107 @@
+# واجهة الطقس البرمجية (Weather API)
+
+واجهة بسيطة تُرجع حالة الطقس الحالية في مدينة محددة.
+
+- **العنوان الأساسي:** `https://api.example.com/v1`
+- **صيغة البيانات:** JSON بترميز UTF-8
+- **المصادقة:** مفتاح API يُرسل في الترويسة `X-API-Key`
+
+## نقطة النهاية
+
+```
+GET /weather
+```
+
+تُرجع حالة الطقس الحالية للمدينة المطلوبة.
+
+### معاملات الاستعلام (Query Parameters)
+
+| المعامل | النوع | مطلوب | الافتراضي | الوصف |
+|---------|-------|-------|-----------|-------|
+| `city` | string | نعم | — | اسم المدينة، مثل `Riyadh` أو `الرياض`. |
+| `country` | string | لا | — | رمز الدولة من حرفين وفق ISO 3166-1 (مثل `SA`)، ويفيد في التمييز بين المدن المتشابهة في الاسم. |
+| `units` | string | لا | `metric` | نظام الوحدات: `metric` (مئوية، كم/س) أو `imperial` (فهرنهايت، ميل/س). |
+| `lang` | string | لا | `ar` | لغة وصف حالة الطقس، مثل `ar` أو `en`. |
+
+### الترويسات (Headers)
+
+| الترويسة | مطلوبة | الوصف |
+|----------|--------|-------|
+| `X-API-Key` | نعم | مفتاح API الخاص بك. |
+
+## مثال على الطلب
+
+```bash
+curl -G "https://api.example.com/v1/weather" \
+  -H "X-API-Key: YOUR_API_KEY" \
+  --data-urlencode "city=Riyadh" \
+  --data-urlencode "country=SA" \
+  --data-urlencode "units=metric" \
+  --data-urlencode "lang=ar"
+```
+
+## مثال على الاستجابة
+
+**`200 OK`**
+
+```json
+{
+  "city": "الرياض",
+  "country": "SA",
+  "coordinates": {
+    "lat": 24.7136,
+    "lon": 46.6753
+  },
+  "weather": {
+    "condition": "clear",
+    "description": "سماء صافية",
+    "temperature": 24.5,
+    "feels_like": 23.8,
+    "humidity": 28,
+    "wind_speed": 12.4,
+    "wind_direction": 320
+  },
+  "units": "metric",
+  "observed_at": "2026-11-23T09:30:00Z"
+}
+```
+
+### حقول الاستجابة
+
+| الحقل | النوع | الوصف |
+|-------|-------|-------|
+| `city` | string | اسم المدينة باللغة المطلوبة. |
+| `country` | string | رمز الدولة (ISO 3166-1). |
+| `coordinates.lat` / `coordinates.lon` | number | خط العرض وخط الطول. |
+| `weather.condition` | string | رمز الحالة: `clear`، `clouds`، `rain`، `snow`، `storm`، `fog`، `dust`. |
+| `weather.description` | string | وصف نصي للحالة بلغة `lang`. |
+| `weather.temperature` | number | درجة الحرارة الحالية. |
+| `weather.feels_like` | number | درجة الحرارة المحسوسة. |
+| `weather.humidity` | integer | الرطوبة النسبية (٪). |
+| `weather.wind_speed` | number | سرعة الرياح (كم/س أو ميل/س حسب `units`). |
+| `weather.wind_direction` | integer | اتجاه الرياح بالدرجات (0–360). |
+| `units` | string | نظام الوحدات المستخدم في الاستجابة. |
+| `observed_at` | string | وقت الرصد بصيغة ISO 8601 (UTC). |
+
+## الأخطاء
+
+تُرجع الأخطاء بالصيغة الموحدة التالية:
+
+```json
+{
+  "error": {
+    "code": "city_not_found",
+    "message": "لم يُعثر على المدينة المطلوبة."
+  }
+}
+```
+
+| رمز HTTP | `code` | السبب |
+|----------|--------|-------|
+| `400` | `invalid_parameter` | معامل مفقود أو قيمته غير صالحة (مثل غياب `city`). |
+| `401` | `unauthorized` | مفتاح API مفقود أو غير صحيح. |
+| `404` | `city_not_found` | لا توجد مدينة مطابقة للاسم المُرسل. |
+| `429` | `rate_limit_exceeded` | تجاوزت الحد المسموح من الطلبات. |
+| `500` | `internal_error` | خطأ داخلي في الخادم. |
+
+العنوان `api.example.com` وأسماء الحقول وقيم الأمثلة افتراضية، فاستبدل بها ما يطابق واجهتك الفعلية.

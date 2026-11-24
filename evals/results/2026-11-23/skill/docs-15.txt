@@ -1,0 +1,218 @@
+The guide is written in Modern Standard Arabic and saved as `STYLE_GUIDE.md` in the project root; it is not committed.
+
+It has the three sections you asked for:
+
+- **Naming (التسمية):** `camelCase` for variables and functions, `PascalCase` for classes and components, `UPPER_SNAKE_CASE` for constants, and `kebab-case` for files. It also covers boolean prefixes (`is`/`has`/`can`/`should`), verb-first function names, and a wrong/right code example.
+- **Formatting (التنسيق):** Prettier is the only authority on formatting. The section gives a `.prettierrc.json`, a `.prettierignore`, the `format` and `format:check` npm scripts, a CI check, and `eslint-config-prettier` to avoid rule conflicts.
+- **Commit messages (رسائل الإيداع):** Conventional Commits with the `<type>(<scope>): <description>` format, a table of types, writing rules, three good examples and a table of rejected messages.
+
+The repo was empty, so these are my choices rather than existing conventions; change them if they don't match your project:
+
+- **Prettier values:** 100-character lines, 2-space indent, semicolons, single quotes, trailing commas.
+- **Commit language:** the type and scope stay in English, but the description is in Arabic and starts with a verbal noun (e.g. `fix(cart): إصلاح حساب الخصم`). If your team writes commit messages in English, that rule and the examples need swapping.
+- **File naming:** component files use `PascalCase` (`LoginForm.jsx`), which assumes a component-based front end such as React.
+
+
+--- file: STYLE_GUIDE.md ---
+# دليل أسلوب كتابة الشيفرة
+
+يحدد هذا الدليل القواعد التي نلتزمها في مشروعنا المكتوب بلغة `JavaScript`: تسمية المعرّفات والملفات، وتنسيق الشيفرة بأداة `Prettier`، وصيغة رسائل الإيداع (commit). غايته أن تبدو الشيفرة كأن شخصًا واحدًا كتبها، فتسهل قراءتها ومراجعتها.
+
+## التسمية
+
+### قواعد عامة
+
+- اكتب الأسماء كلها بالإنجليزية، واختر اسمًا يصف الغرض لا النوع: `userCount` لا `num`.
+- تجنب الاختصارات غير الشائعة: `button` لا `btn`، و`message` لا `msg`. تُقبل الاختصارات المعروفة مثل `id` و`url`.
+- عامل الاختصار معاملة الكلمة العادية: `userId` و`parseHtml`، لا `userID` و`parseHTML`.
+- لا تستعمل اسمًا من حرف واحد إلا لعدّاد حلقة قصيرة مثل `i`.
+
+### نمط كل عنصر
+
+| العنصر | النمط | مثال |
+| --- | --- | --- |
+| المتغيرات والدوالّ | سنام الجمل (`camelCase`) | `totalPrice`، `fetchUser` |
+| الأصناف والمكوّنات | باسكال (`PascalCase`) | `UserService`، `LoginForm` |
+| الثوابت العامة | أحرف كبيرة تفصلها شرطة سفلية (`UPPER_SNAKE_CASE`) | `MAX_RETRIES` |
+| الملفات والمجلدات | أحرف صغيرة تفصلها شرطة (`kebab-case`) | `user-service.js` |
+| ملفات المكوّنات | باسكال، مطابقًا لاسم المكوّن | `LoginForm.jsx` |
+| ملفات الاختبار | اسم الملف المختبَر متبوعًا باللاحقة `.test.js` | `user-service.test.js` |
+
+### القيم المنطقية
+
+تبدأ أسماء المتغيرات والدوالّ التي تحمل قيمة منطقية أو تعيدها بإحدى البادئات `is` أو `has` أو `can` أو `should`، وتُصاغ بالإثبات لا بالنفي: `isEnabled` لا `isNotDisabled`.
+
+### الدوالّ
+
+- يبدأ اسم الدالّة بفعل يصف عملها: `getUser`، `createOrder`، `validateEmail`.
+- تبدأ معالجات الأحداث بالبادئة `handle`، وتبدأ الخصائص التي تستقبلها بالبادئة `on`: نمرّر `handleSubmit` إلى الخاصية `onSubmit`.
+- تُسمّى المصفوفات بصيغة الجمع (`users`)، ويُسمّى عنصرها بالمفرد (`user`).
+
+### مثال
+
+```js
+// خطأ
+const d = 86400000;
+const user_list = [];
+function data(u) {}
+class order_manager {}
+
+// صواب
+const MILLISECONDS_PER_DAY = 86_400_000;
+const users = [];
+function formatUserName(user) {}
+class OrderManager {}
+
+const isLoggedIn = Boolean(session);
+const hasPermission = roles.includes('admin');
+```
+
+## التنسيق
+
+تتولى أداة `Prettier` تنسيق الشيفرة كلها، وإعداداتها هي المرجع الوحيد. لا ننسّق يدويًّا، ولا نناقش المسافات والفواصل في مراجعة الشيفرة.
+
+### الإعدادات
+
+نثبّت الأداة بإصدار محدد حتى يحصل الجميع على الناتج نفسه:
+
+```bash
+npm install --save-dev --save-exact prettier
+```
+
+ونضع الإعدادات في الملف `.prettierrc.json` في جذر المستودع:
+
+```json
+{
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "arrowParens": "always",
+  "endOfLine": "lf"
+}
+```
+
+| الإعداد | القاعدة |
+| --- | --- |
+| `printWidth` | لا يتجاوز طول السطر 100 حرف |
+| `tabWidth` و`useTabs` | الإزاحة مسافتان، ولا نستعمل علامات الجدولة |
+| `semi` | تنتهي كل عبارة بفاصلة منقوطة |
+| `singleQuote` | تُكتب السلاسل النصية بعلامات اقتباس مفردة |
+| `trailingComma` | توضع فاصلة بعد العنصر الأخير في القوائم المتعددة الأسطر |
+| `arrowParens` | تُحاط وسائط الدوالّ السهمية بقوسين دائمًا |
+| `endOfLine` | تنتهي الأسطر بالمحرف `LF` على كل الأنظمة |
+
+يُدرَج في الملف `.prettierignore` ما لا ينبغي تنسيقه، مثل مجلدات البناء والملفات المولَّدة:
+
+```
+dist/
+build/
+coverage/
+```
+
+### التشغيل
+
+نضيف الأمرين التاليين إلى قسم `scripts` في الملف `package.json`:
+
+```json
+{
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  }
+}
+```
+
+- ينسّق الأمر `npm run format` ملفات المشروع كلها.
+- يتحقق الأمر `npm run format:check` من التنسيق من غير تعديل الملفات، ويعمل في خط التكامل المستمر (CI)، فيُرفض كل طلب دمج (pull request) يخالف التنسيق.
+- فعّل في محررك خيار التنسيق عند الحفظ، حتى لا تصل إلى المستودع شيفرة غير منسّقة.
+
+### العلاقة بأداة فحص الشيفرة
+
+تختص `Prettier` بالشكل، وتختص `ESLint` بجودة الشيفرة وأخطائها المحتملة. نضيف الحزمة `eslint-config-prettier` لتعطيل قواعد `ESLint` التي تتعارض مع التنسيق، فلا تتنازع الأداتان.
+
+## رسائل الإيداع
+
+نتبع اصطلاح الإيداعات المتعارف عليها (Conventional Commits)، فهو يجعل السجل مقروءًا ويتيح توليد سجل التغييرات وأرقام الإصدارات آليًّا.
+
+### الصيغة
+
+```
+<type>(<scope>): <description>
+
+<body>
+
+<footer>
+```
+
+- **النوع (`type`):** إلزامي، ويُكتب بالإنجليزية بأحرف صغيرة من القائمة أدناه.
+- **النطاق (`scope`):** اختياري، وهو اسم الجزء المتأثر من المشروع، مثل `auth` أو `cart`.
+- **الوصف (`description`):** إلزامي، وهو ملخص للتغيير في سطر واحد.
+- **المتن (`body`):** اختياري، يشرح سبب التغيير وما يختلف به السلوك الجديد عن القديم.
+- **التذييل (`footer`):** اختياري، يشير إلى التذاكر المرتبطة أو يعلن تغييرًا كاسرًا.
+
+### الأنواع
+
+| الاستعمال | النوع |
+| --- | --- |
+| ميزة جديدة | `feat` |
+| إصلاح خطأ برمجي | `fix` |
+| تعديل في التوثيق وحده | `docs` |
+| تغيير في التنسيق لا يمس سلوك الشيفرة | `style` |
+| إعادة هيكلة لا تضيف ميزة ولا تصلح خطأ | `refactor` |
+| تحسين في الأداء | `perf` |
+| إضافة اختبارات أو تعديلها | `test` |
+| تغيير في نظام البناء أو الاعتماديات | `build` |
+| تغيير في إعدادات التكامل المستمر | `ci` |
+| أعمال صيانة لا تمس الشيفرة المصدرية ولا الاختبارات | `chore` |
+| تراجع عن إيداع سابق | `revert` |
+
+### قواعد الكتابة
+
+- اكتب الوصف بالعربية وابدأه بمصدر: «إضافة»، «إصلاح»، «حذف»، لا «أضفتُ» ولا «تمت إضافة».
+- لا يتجاوز السطر الأول 72 حرفًا، ولا ينتهي بنقطة.
+- افصل المتن عن السطر الأول بسطر فارغ، ولا تتجاوز أسطره 72 حرفًا.
+- اشرح في المتن سبب التغيير، فالشيفرة نفسها تبيّن ما تغيّر.
+- اربط الإيداع بتذكرته في التذييل: `Closes #123` أو `Refs #123`.
+- أعلن التغيير الكاسر بعلامة `!` قبل النقطتين، وبتذييل يبدأ بعبارة `BREAKING CHANGE:` يشرح ما على المستخدمين فعله.
+- اجعل كل إيداع تغييرًا منطقيًّا واحدًا مكتملًا، ولا تجمع إصلاحًا وميزة وإعادة هيكلة في إيداع واحد.
+
+### أمثلة
+
+إيداع بسيط:
+
+```
+fix(cart): إصلاح حساب الخصم عند تكرار المنتج
+```
+
+إيداع له متن وتذييل:
+
+```
+feat(auth): إضافة تسجيل الدخول برمز التحقق
+
+كان المستخدم يضطر إلى إعادة تعيين كلمة المرور كلما نسيها.
+يتيح هذا الإيداع الدخول برمز يُرسل إلى البريد الإلكتروني
+وتنتهي صلاحيته بعد 10 دقائق.
+
+Closes #214
+```
+
+إيداع فيه تغيير كاسر:
+
+```
+refactor(api)!: توحيد صيغة أخطاء الخادم
+
+BREAKING CHANGE: صار حقل الخطأ `error.message` بدلًا من `msg`،
+وعلى العملاء تحديث معالجة الأخطاء لديهم.
+```
+
+### رسائل مرفوضة
+
+| الرسالة | سبب الرفض |
+| --- | --- |
+| `تعديلات` | بلا نوع، ولا تصف التغيير |
+| `fix: إصلاح خطأ` | لا تبيّن أي خطأ أُصلح |
+| `Feat: إضافة البحث.` | النوع بحرف كبير، والسطر ينتهي بنقطة |
+| `feat: إضافة البحث وإصلاح التذييل` | تغييران في إيداع واحد |

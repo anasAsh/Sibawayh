@@ -1,0 +1,199 @@
+# ما هو REST API؟
+
+**API** (واجهة برمجة التطبيقات) هي طريقة تسمح لبرنامجين بالتواصل وتبادل البيانات. مثلًا، تطبيق الطقس على هاتفك يطلب البيانات من خادم عبر API.
+
+**REST** (Representational State Transfer) هو أسلوب معماري لتصميم هذه الواجهات عبر بروتوكول HTTP. وأهم مبادئه:
+
+1. **الموارد (Resources):** كل شيء في النظام يُعامل كمورد، مثل المستخدمين أو المنتجات أو الطلبات، ولكل مورد عنوان URL خاص به:
+   - `/users` تشير إلى مجموعة المستخدمين.
+   - `/users/5` تشير إلى المستخدم رقم 5.
+2. **عدم حفظ الحالة (Stateless):** كل طلب يحمل كل المعلومات اللازمة لتنفيذه، مثل رمز المصادقة. الخادم لا يتذكر الطلبات السابقة.
+3. **فصل العميل عن الخادم:** الواجهة الأمامية والخادم يتطوران بشكل مستقل عن بعضهما.
+4. **واجهة موحدة:** نستخدم طرق HTTP القياسية لتحديد نوع العملية على المورد.
+5. **تمثيل البيانات:** تُرسل البيانات غالبًا بصيغة **JSON**.
+
+---
+
+## أشهر طرق HTTP
+
+| الطريقة | الوظيفة | ما يقابلها في CRUD |
+|---------|---------|-------------------|
+| GET | جلب البيانات | Read (قراءة) |
+| POST | إنشاء مورد جديد | Create (إنشاء) |
+| PUT | تحديث مورد كاملًا أو استبداله | Update (تحديث) |
+| DELETE | حذف مورد | Delete (حذف) |
+
+---
+
+### 1. طريقة GET: جلب البيانات
+
+تُستخدم لقراءة البيانات فقط، ولا تغيّر شيئًا على الخادم.
+
+**مثال: جلب بيانات المستخدم رقم 5**
+
+```http
+GET /api/users/5 HTTP/1.1
+Host: example.com
+Accept: application/json
+```
+
+**الاستجابة:**
+
+```http
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": 5,
+  "name": "أحمد علي",
+  "email": "ahmed@example.com"
+}
+```
+
+باستخدام JavaScript:
+
+```javascript
+const res = await fetch("https://example.com/api/users/5");
+const user = await res.json();
+console.log(user.name);
+```
+
+---
+
+### 2. طريقة POST: إنشاء مورد جديد
+
+تُرسل البيانات في جسم الطلب (Body) لإنشاء عنصر جديد.
+
+**مثال: إنشاء مستخدم جديد**
+
+```http
+POST /api/users HTTP/1.1
+Host: example.com
+Content-Type: application/json
+
+{
+  "name": "سارة محمد",
+  "email": "sara@example.com"
+}
+```
+
+**الاستجابة:**
+
+```http
+HTTP/1.1 201 Created
+Location: /api/users/6
+
+{
+  "id": 6,
+  "name": "سارة محمد",
+  "email": "sara@example.com"
+}
+```
+
+```javascript
+await fetch("https://example.com/api/users", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ name: "سارة محمد", email: "sara@example.com" })
+});
+```
+
+---
+
+### 3. طريقة PUT: تحديث مورد موجود
+
+تستبدل المورد كاملًا بالبيانات الجديدة، لذلك يجب إرسال جميع الحقول.
+
+**مثال: تحديث بيانات المستخدم رقم 6**
+
+```http
+PUT /api/users/6 HTTP/1.1
+Host: example.com
+Content-Type: application/json
+
+{
+  "name": "سارة محمد",
+  "email": "sara.new@example.com"
+}
+```
+
+**الاستجابة:**
+
+```http
+HTTP/1.1 200 OK
+
+{
+  "id": 6,
+  "name": "سارة محمد",
+  "email": "sara.new@example.com"
+}
+```
+
+```javascript
+await fetch("https://example.com/api/users/6", {
+  method: "PUT",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({ name: "سارة محمد", email: "sara.new@example.com" })
+});
+```
+
+> 💡 **ملاحظة:** توجد أيضًا طريقة **PATCH** لتحديث جزء من المورد فقط، مثل تعديل البريد الإلكتروني وحده دون إرسال باقي الحقول.
+
+---
+
+### 4. طريقة DELETE: حذف مورد
+
+**مثال: حذف المستخدم رقم 6**
+
+```http
+DELETE /api/users/6 HTTP/1.1
+Host: example.com
+```
+
+**الاستجابة:**
+
+```http
+HTTP/1.1 204 No Content
+```
+
+```javascript
+await fetch("https://example.com/api/users/6", { method: "DELETE" });
+```
+
+---
+
+## أشهر رموز الحالة (Status Codes)
+
+| الرمز | المعنى |
+|-------|--------|
+| 200 OK | نجح الطلب |
+| 201 Created | تم إنشاء المورد |
+| 204 No Content | نجح الطلب ولا يوجد محتوى في الرد (شائع مع DELETE) |
+| 400 Bad Request | الطلب غير صحيح |
+| 401 Unauthorized | المصادقة مطلوبة |
+| 403 Forbidden | لا تملك صلاحية |
+| 404 Not Found | المورد غير موجود |
+| 500 Internal Server Error | خطأ في الخادم |
+
+---
+
+## مفهوم مهم: Idempotency
+
+العملية **Idempotent** إذا كان تكرار الطلب نفسه عدة مرات يعطي النتيجة نفسها التي يعطيها تنفيذه مرة واحدة:
+
+- **GET وPUT وDELETE:** نعم. حذف المستخدم 6 مرتين يترك النظام في الحالة نفسها، وهي أن المستخدم محذوف.
+- **POST:** لا. تكرار الطلب قد ينشئ عدة مستخدمين مكررين.
+
+---
+
+## ملخص سريع لمورد المستخدمين
+
+```
+GET    /api/users      ← جلب كل المستخدمين
+GET    /api/users/5    ← جلب المستخدم رقم 5
+POST   /api/users      ← إنشاء مستخدم جديد
+PUT    /api/users/5    ← تحديث المستخدم رقم 5
+DELETE /api/users/5    ← حذف المستخدم رقم 5
+```
+
+لاحظ أن الرابط يمثل **المورد** (اسم)، أما طريقة HTTP فتمثل **الفعل**. لذلك لا نكتب روابط مثل `/getUsers` أو `/deleteUser`، وهذه من أهم قواعد التصميم الجيد في REST.

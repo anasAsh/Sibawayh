@@ -28,7 +28,7 @@ still loads.
     python3 evals/generate.py --mode baseline
     python3 evals/generate.py --mode skill [--only email-01]
 
-50 prompts (`prompts.tsv`, 10 each of email, docs, social, tech_explain,
+100 prompts (`prompts.tsv`, 20 each of email, docs, social, tech_explain,
 translate). Output goes to `evals/outputs/<mode>/<id>.txt`; existing files are
 skipped, failures are written to `<id>.error` (300 s timeout per call). Both
 modes allow the same tools, `Bash(python3:*)`, `Read`, `Write`, so the skill
@@ -69,7 +69,7 @@ over-corrections, skill total <= 50% of baseline total, and no category worse.
 
 ## Other checks
 
-- [`full_eval.md`](full_eval.md): all 50 prompts, judged blind by an AI model (errors −96%, mean of three judgings).
+- [`full_eval.md`](full_eval.md): all 100 prompts, judged blind by an AI model (errors −96%, mean of three judgings).
 - [`ai_judge.md`](ai_judge.md): the AI-judge method, and the 10-pair pilot.
 - [`corpus_check.md`](corpus_check.md): the over-correction check on edited Arabic (Wikipedia featured articles), and recall with injected errors. No human scorer needed.
 - [`benchmarks.md`](benchmarks.md): recall against ZAEBUC and QALB, essays and comments that people corrected by hand.

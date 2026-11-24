@@ -1,0 +1,76 @@
+I wrote the section and ran it through the Arabic checker, which raised nothing that needed changing. Here it is:
+
+---
+
+## التثبيت
+
+### المتطلبات
+
+- لغة بايثون (Python) بالإصدار 3.9 أو أحدث.
+- مدير الحزم `pip`، ويأتي عادةً مع بايثون.
+
+تحقّق من إصدار بايثون المثبّت لديك:
+
+```bash
+python3 --version
+```
+
+إذا ظهر إصدار أقدم من 3.9، فحدّث بايثون قبل المتابعة.
+
+### التثبيت باستخدام `pip`
+
+ثبّت أداة `tidy` بالأمر الآتي:
+
+```bash
+python3 -m pip install tidy
+```
+
+تضمن هذه الصيغة تثبيت الأداة على إصدار بايثون الذي تستدعيه بالأمر `python3`، وهذا مفيد إذا كان على جهازك أكثر من إصدار.
+
+### التثبيت في بيئة افتراضية (مستحسن)
+
+ننصحك بتثبيت الأداة داخل بيئة افتراضية (virtual environment) حتى لا تتعارض مع الحزم الأخرى في نظامك:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python3 -m pip install tidy
+```
+
+على نظام ويندوز (Windows)، فعّل البيئة بالأمر الآتي بدلًا من `source`:
+
+```powershell
+.venv\Scripts\activate
+```
+
+### التحقق من التثبيت
+
+بعد انتهاء التثبيت، تأكّد من أن الأداة تعمل من سطر الأوامر:
+
+```bash
+tidy --version
+```
+
+إذا ظهر رقم الإصدار، فالأداة جاهزة للاستخدام. أما إذا ظهرت رسالة تفيد بأن الأمر غير موجود، فتأكّد من إضافة مجلد السكربتات الخاص ببايثون إلى متغير البيئة `PATH`.
+
+### الترقية
+
+لترقية الأداة إلى أحدث إصدار:
+
+```bash
+python3 -m pip install --upgrade tidy
+```
+
+### إزالة التثبيت
+
+لإزالة الأداة من نظامك:
+
+```bash
+python3 -m pip uninstall tidy
+```
+
+---
+
+I assumed two things you should check:
+- **Package name:** I used `tidy` as the name on the Python package index (PyPI). If the published name is different, change it in the `pip` commands.
+- **`--version` flag:** I assumed the tool supports `tidy --version`. If it doesn't, change the verification step.

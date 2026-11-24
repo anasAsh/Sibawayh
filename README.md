@@ -199,17 +199,17 @@ research/                     the research the rules are built on
 
 ## 📊 Evaluation
 
-The harness in [`evals/`](evals/README.md) answers 50 realistic prompts with and without the skill, and a judge scores both versions blind, without knowing which is which. So far the judge is an AI model from a different family; a native-speaker round is planned. The success bar is **zero over-corrections** and **about 50% fewer errors per 100 words**, with no category getting worse. **Triggering** (does the skill load when it should?): **20/20** (18/20 in the first run).
+The harness in [`evals/`](evals/README.md) answers 100 realistic prompts with and without the skill, and a judge scores both versions blind, without knowing which is which. So far the judge is an AI model from a different family; a native-speaker round is planned. The success bar is **zero over-corrections** and **about 50% fewer errors per 100 words**, with no category getting worse. **Triggering** (does the skill load when it should?): **20/20** (18/20 in the first run).
 - All 14 requests in Arabic, or for Arabic output, loaded the skill. That includes summarise, rewrite and proofread.
 - All 4 English-only requests correctly left it unloaded.
 - The 2 dialect requests load it too, for the formatting checks only. In the first run they did not.
 
-**Full evaluation** (50 prompts, judged blind by an AI model from a different family; see [`evals/full_eval.md`](evals/full_eval.md)):
-- Errors per 100 words went from **2.02 to 0.09 (−96%)**, averaged over three blind judgings (−94%, −96%, −96%). Register errors fell to 0 and translationese by 86%.
-- The Sibawayh version was preferred in **42–46** of the 50 pairs, the baseline in 0–3.
-- **0** over-corrections. The success bar (≤50% of the baseline's errors, no category worse, no over-corrections) is met in all three judgings. The first run (2026-11-20, one judging) was −88%.
+**Full evaluation** (100 prompts, judged blind by an AI model from a different family; see [`evals/full_eval.md`](evals/full_eval.md)):
+- Errors per 100 words went from **2.22 to 0.10 (−96%)**, averaged over three blind judgings (−96% in each). Register errors fell to 0 and translationese by 83%. On the 50 prompts added after the skill's last change, the result is the same (−95%).
+- The Sibawayh version was preferred in **86–90** of the 100 pairs, the baseline in 1–5.
+- **0** over-corrections. The success bar (≤50% of the baseline's errors, no category worse, no over-corrections) is met in all three judgings. The first run (2026-11-20, 50 prompts, one judging) was −88%.
 
-An AI judge is not a native reader, so a human-scored round is still to come. The answers and scores are in [`evals/results/`](evals/results/) for anyone to check.
+An AI judge is not a native reader, so a human-scored round is still to come. [How Sibawayh is tested](https://anasash.github.io/Sibawayh/) describes every test in plain language. The answers and scores are in [`evals/results/`](evals/results/) for anyone to check.
 
 **The checker against human corrections** ([`evals/benchmarks.md`](evals/benchmarks.md)): on two public corpora that people corrected word by word, it catches **52%** of all errors in student essays (ZAEBUC) and **41%** in native-speaker comments (QALB), up from 23% and 20% in release 0.1.2. For hamza it catches 68% and 59%; for و written apart from its word, 98% and 86%. Every flag on a word the annotators left unchanged was a real error they missed, or (in ZAEBUC) a Latin comma they chose to keep.
 

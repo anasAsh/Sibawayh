@@ -1,0 +1,477 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Sibawayh is tested</title>
+<meta name="description" content="How the Sibawayh Arabic writing skill is tested: a blind comparison on 100 prompts, an over-correction check on edited Arabic, recall on human-corrected text, and a trigger test.">
+<meta property="og:title" content="How Sibawayh is tested">
+<meta property="og:description" content="A blind comparison on 100 prompts, an over-correction check, recall on human-corrected text, and a trigger test.">
+<meta property="og:image" content="https://anasash.github.io/Sibawayh/assets/social-preview.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Naskh+Arabic:wght@400;600&family=Readex+Pro:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  color-scheme: light;
+  --page: #eef2f1;
+  --surface: #ffffff;
+  --ink: #16202e;
+  --ink-2: #4c5969;
+  --rule: #d3dbd9;
+  --lapis: #2747a8;
+  --lapis-wash: #e6ebf8;
+  --rubric: #c2452d;
+  --rubric-wash: #fbe9e4;
+  --series-baseline: #c2452d;
+  --series-skill: #2747a8;
+  --latin: "Readex Pro", system-ui, sans-serif;
+  --arabic: "Noto Naskh Arabic", "Readex Pro", serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page: #10141b;
+    --surface: #171c25;
+    --ink: #e9edf2;
+    --ink-2: #a3aebc;
+    --rule: #2c3442;
+    --lapis: #8ea6ee;
+    --lapis-wash: #1e2740;
+    --rubric: #e98670;
+    --rubric-wash: #3a211c;
+    --series-baseline: #d05f48;
+    --series-skill: #5f80e0;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font: 300 1.0625rem/1.65 var(--latin);
+}
+a { color: var(--lapis); text-underline-offset: 0.18em; }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--lapis); outline-offset: 3px; border-radius: 2px;
+}
+[lang="ar"] { font-family: var(--arabic); font-size: 1.12em; line-height: 1.9; }
+code { font: 0.86em var(--mono); background: var(--lapis-wash); padding: 0.1em 0.35em; border-radius: 3px; }
+pre { font: 0.84rem/1.6 var(--mono); background: var(--surface); border: 1px solid var(--rule);
+  border-radius: 6px; padding: 1rem 1.1rem; overflow-x: auto; margin: 1.2rem 0; }
+pre code { background: none; padding: 0; font-size: 1em; }
+strong, b { font-weight: 500; }
+
+.wrap { max-width: 60rem; margin: 0 auto; padding: 0 1.25rem; }
+.text { max-width: 41rem; }
+
+header.top { padding: 4.5rem 0 2.5rem; }
+header.top .repo { font-size: 0.9rem; color: var(--ink-2); margin: 0 0 2.2rem; }
+h1 { font: 600 clamp(2.3rem, 6.2vw, 4rem)/1.05 var(--latin); letter-spacing: -0.025em; margin: 0; max-width: 14ch; }
+.h1-ar { font: 400 clamp(1.5rem, 3.4vw, 2.1rem)/1.5 var(--arabic); color: var(--lapis); margin: 0.5rem 0 0; text-align: left; }
+.lede { font-size: 1.22rem; line-height: 1.55; margin: 1.6rem 0 0; }
+
+h2 { font: 600 1.7rem/1.2 var(--latin); letter-spacing: -0.015em; margin: 0 0 1rem; }
+h3 { font: 500 1.12rem/1.35 var(--latin); margin: 2.2rem 0 0.5rem; }
+section { padding: 3.2rem 0; border-top: 1px solid var(--rule); }
+p { margin: 0 0 1rem; }
+.note { color: var(--ink-2); font-size: 0.95rem; }
+
+/* The blind pair */
+.pair { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; margin: 2.6rem 0 0; }
+.pair-prompt { padding: 1.1rem 1.4rem; border-bottom: 1px solid var(--rule); display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
+.pair-prompt span { font-size: 0.9rem; color: var(--ink-2); }
+.pair-prompt p { margin: 0; flex: 1 1 18rem; }
+.pair-cols { display: grid; grid-template-columns: 1fr 1fr; }
+.resp { padding: 1.3rem 1.4rem 1.5rem; min-width: 0; }
+.resp + .resp { border-inline-start: 1px solid var(--rule); }
+.resp h3 { margin: 0 0 0.8rem; font-size: 1rem; display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+.resp h3 .who { font-weight: 300; color: var(--ink-2); font-size: 0.92rem; }
+.resp [lang="ar"] p { margin: 0 0 0.7rem; }
+.resp mark { background: var(--rubric-wash); color: inherit; border-bottom: 2px solid var(--rubric); padding: 0 0.15em; }
+.resp .tally { font-size: 0.92rem; color: var(--ink-2); margin: 0.9rem 0 0; }
+.pair-foot { border-top: 1px solid var(--rule); padding: 1rem 1.4rem; display: flex; gap: 1rem 1.5rem; align-items: center; flex-wrap: wrap; }
+.pair-foot p { margin: 0; font-size: 0.95rem; flex: 1 1 20rem; }
+.pair-foot button { font: 500 0.98rem var(--latin); color: #fff; background: #2747a8; border: 0; border-radius: 6px; padding: 0.65rem 1.1rem; cursor: pointer; }
+.pair-foot button:hover { background: #1d3888; }
+.pair.blind .who, .pair.blind .tally, .pair.blind .after { display: none; }
+.pair.blind mark { background: none; border-bottom-color: transparent; }
+.pair:not(.blind) .before { display: none; }
+.resp mark { transition: background-color 0.5s, border-color 0.5s; }
+@media (prefers-reduced-motion: reduce) { .resp mark { transition: none; } }
+@media (max-width: 44rem) {
+  .pair-cols { grid-template-columns: 1fr; }
+  .resp + .resp { border-inline-start: 0; border-top: 1px solid var(--rule); }
+}
+
+/* Tables */
+.scroll { overflow-x: auto; margin: 1.4rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+caption { text-align: start; font-weight: 500; padding-bottom: 0.5rem; }
+th, td { text-align: start; padding: 0.55rem 0.9rem 0.55rem 0; border-bottom: 1px solid var(--rule); vertical-align: top; }
+thead th { font-weight: 500; color: var(--ink-2); font-size: 0.88rem; border-bottom-color: var(--ink-2); }
+tbody th { font-weight: 400; }
+td.n, th.n { text-align: end; font-variant-numeric: tabular-nums; white-space: nowrap; padding-right: 0; padding-left: 0.9rem; }
+tr.total th, tr.total td { font-weight: 500; border-bottom: 0; }
+td [lang="ar"], td[lang="ar"] { font-size: 1.05em; line-height: 1.6; }
+
+/* Steps: a real sequence, so it is numbered */
+ol.steps { list-style: none; counter-reset: step; padding: 0; margin: 1.6rem 0 0; }
+ol.steps > li { counter-increment: step; display: grid; grid-template-columns: 2.6rem 1fr; padding: 1.15rem 0; border-top: 1px solid var(--rule); }
+ol.steps > li::before { content: counter(step); font: 600 1.5rem/1.2 var(--latin); color: var(--lapis); }
+ol.steps h3 { margin: 0 0 0.35rem; }
+ol.steps p:last-child { margin-bottom: 0; }
+
+/* Chart */
+.viz { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1.4rem 1.5rem 1.2rem; margin: 1.6rem 0; }
+.viz h3 { margin: 0 0 0.2rem; }
+.viz .sub { color: var(--ink-2); font-size: 0.92rem; margin: 0 0 1rem; }
+.legend { display: flex; gap: 1.3rem; font-size: 0.9rem; color: var(--ink-2); margin: 0 0 1rem; padding: 0; list-style: none; }
+.legend i { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 3px; margin-inline-end: 0.4rem; vertical-align: -0.05em; }
+.sw-b { background: var(--series-baseline); } .sw-s { background: var(--series-skill); }
+.bars { display: grid; grid-template-columns: max-content 1fr; gap: 0.9rem 1rem; align-items: center; margin: 0; }
+.bars dt { font-size: 0.92rem; color: var(--ink-2); }
+.bars dd { margin: 0; display: grid; gap: 2px; border-inline-start: 1px solid var(--rule); }
+.bar { display: flex; align-items: center; gap: 0.5rem; height: 1.15rem; }
+.bar b { display: block; height: 100%; width: calc(var(--v) / 2.4 * (100% - 3.5rem)); min-width: 3px; border-radius: 0 4px 4px 0; }
+.bar.b b { background: var(--series-baseline); } .bar.s b { background: var(--series-skill); }
+.bar span { font-size: 0.86rem; font-variant-numeric: tabular-nums; color: var(--ink); }
+.bar:hover span, .bar:focus span { font-weight: 500; }
+
+.cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 0 2.5rem; margin: 1.2rem 0 0; padding: 0; list-style: none; }
+.cats li { padding: 0.9rem 0; border-top: 1px solid var(--rule); }
+.cats h3 { margin: 0 0 0.2rem; font-size: 1rem; }
+.cats p { margin: 0; font-size: 0.95rem; }
+.x { color: var(--rubric); }
+
+ul.plain { padding-inline-start: 1.1rem; margin: 0 0 1rem; }
+ul.plain li { margin-bottom: 0.45rem; }
+footer { border-top: 1px solid var(--rule); padding: 2rem 0 4rem; color: var(--ink-2); font-size: 0.92rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <p class="repo"><a href="https://github.com/anasAsh/Sibawayh">Sibawayh on GitHub</a></p>
+  <h1>How Sibawayh is tested</h1>
+  <p class="h1-ar" lang="ar" dir="rtl">كيف نختبر «سيبويه»؟</p>
+  <div class="text">
+    <p class="lede">Sibawayh is a skill that makes an AI agent write correct Arabic and check it before answering. This page describes how we measure whether it works, and what the measurements do not show.</p>
+  </div>
+
+  <div class="pair" id="pair">
+    <div class="pair-prompt">
+      <span>The request</span>
+      <p lang="ar" dir="rtl">اشرح مفهوم الـ caching في تطبيقات الويب لمدير غير تقني، وبيّن لماذا يجعل الموقع أسرع.</p>
+    </div>
+    <div class="pair-cols">
+      <div class="resp">
+        <h3>Response A <span class="who">without the skill</span></h3>
+        <div lang="ar" dir="rtl">
+          <p>الـ <mark>Caching</mark> (التخزين المؤقت) يعني أن نحتفظ بنسخة جاهزة من المعلومات التي يكثر طلبها، فنقدّمها مباشرة بدلاً من تحضيرها من جديد في كل مرة.</p>
+          <p>بدون <mark>Caching</mark>: كلما طلب زبون قهوة، يذهب الموظف إلى المخزن ويطحن البُن ويغلي الماء.</p>
+          <p>الـ <mark>Caching</mark> يحفظ الصفحة الجاهزة بعد أول مرة، فيحصل عليها كل زائر بعده فوراً.</p>
+        </div>
+        <p class="tally">Marked: an English word used in place of the Arabic term, three times in this excerpt. The judge counts each as a register error.</p>
+      </div>
+      <div class="resp">
+        <h3>Response B <span class="who">with Sibawayh</span></h3>
+        <div lang="ar" dir="rtl">
+          <p>التخزين المؤقت (Caching) هو أن يحتفظ النظام بنسخة جاهزة من المعلومات التي يكثر طلبها، فيقدّمها مباشرة بدلًا من أن يعيد إعدادها من الصفر في كل مرة.</p>
+          <p>دون تخزين مؤقت: كلما فتح زائر صفحة، يطلبها متصفحه من الخادم (Server)، فيبحث الخادم في قاعدة البيانات ويجمع المحتوى ويبني الصفحة ثم يرسلها.</p>
+          <p>مع التخزين المؤقت: يبني الخادم الصفحة مرة واحدة ويحفظ نسخة منها، ثم يرسل هذه النسخة الجاهزة إلى الزوار التاليين فورًا.</p>
+        </div>
+        <p class="tally">Nothing marked. The English term appears once, in parentheses after the Arabic one.</p>
+      </div>
+    </div>
+    <div class="pair-foot">
+      <p class="before">This is what the judge sees: one request and two unnamed answers. It does not know which one was written with the skill.</p>
+      <p class="after">Excerpts from two real answers in the test. The judge counted errors in both before anyone looked up which was which.</p>
+      <button type="button" id="reveal" hidden>Show which answer used the skill</button>
+    </div>
+  </div>
+</header>
+
+<section id="tests">
+  <div class="text">
+    <h2>Four tests, four questions</h2>
+    <p>No single test covers a writing skill. The blind comparison measures the whole skill on realistic requests. The other three test parts of it that can be checked without a judge.</p>
+  </div>
+  <div class="scroll">
+  <table>
+    <thead><tr><th>Test</th><th>Question</th><th>Who decides</th><th>Result</th></tr></thead>
+    <tbody>
+      <tr><th><a href="#blind">Blind comparison</a></th><td>Does an agent make fewer Arabic errors with the skill than without it?</td><td>An AI judge from a different model family, three times</td><td>2.22 → 0.10 errors per 100 words, 96% fewer; no over-corrections</td></tr>
+      <tr><th><a href="#overcorrection">Over-correction check</a></th><td>Does the checker flag Arabic that is already correct?</td><td>Every flag reviewed by hand</td><td>0 false errors in 191 error flags on 806,509 words</td></tr>
+      <tr><th><a href="#recall">Recall</a></th><td>What share of real errors does the checker catch?</td><td>Human annotators of two public corpora</td><td>52% of all errors in student essays, 41% in news comments</td></tr>
+      <tr><th><a href="#triggers">Trigger test</a></th><td>Does the skill load for Arabic requests, and stay out of English ones?</td><td>Automatic</td><td>20 of 20</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="note text">The checker also has 163 unit tests, one or more for every rule and every bug fixed.</p>
+</section>
+
+<section id="blind">
+  <div class="text">
+    <h2>The blind comparison</h2>
+    <p>The same agent answers the same requests twice, once with the skill and once without. A judge that cannot tell the two apart counts the errors in each answer.</p>
+  </div>
+
+  <ol class="steps text">
+    <li><div>
+      <h3>100 requests</h3>
+      <p>20 each of emails, social posts, documentation, technical explanations and translations into Arabic. 68 are written in Arabic and 32 in English asking for Arabic. They are in <a href="https://github.com/anasAsh/Sibawayh/blob/main/evals/prompts.tsv"><code>evals/prompts.tsv</code></a>.</p>
+      <p>The first 50 were in use while the skill was being developed. The second 50 were written afterwards, and the skill was not changed after it answered them. The results below report the two halves separately.</p>
+    </div></li>
+    <li><div>
+      <h3>Two answers to each</h3>
+      <p>Claude Code answers every request in a fresh, empty folder. In the skill run the folder holds a copy of the skill; in the baseline run it holds nothing. Both runs have the same tools and ignore the user's own settings, so an installed copy of the skill cannot leak into the baseline.</p>
+    </div></li>
+    <li><div>
+      <h3>Blind pairs</h3>
+      <p>Each request and its two answers go into one file as Response A and Response B, in random order. The list of which is which stays outside the folder the judge can read.</p>
+    </div></li>
+    <li><div>
+      <h3>A judge from another model family</h3>
+      <p>GPT, run through Codex with read-only access, counts the errors in each response in five categories and says which response reads as more correct and natural. Claude does not grade its own output.</p>
+      <p>All 100 pairs are judged three times, each time in a new random A/B order, because the judge's counts vary from one reading to the next.</p>
+    </div></li>
+    <li><div>
+      <h3>Unblind and check the bar</h3>
+      <p>The counts are mapped back to baseline and skill and divided by the number of words. The skill passes only if it meets all three conditions: no over-corrections, at most half the baseline's errors per 100 words, and no category worse than the baseline.</p>
+    </div></li>
+  </ol>
+
+  <div class="text">
+    <h3>What the judge counts</h3>
+  </div>
+  <ul class="cats">
+    <li><h3>Grammar</h3><p>Agreement, number and counted noun, case endings, verb mood. <span lang="ar" dir="rtl"><span class="x">ثلاث مهندسين</span> ← ثلاثة مهندسين</span></p></li>
+    <li><h3>Spelling</h3><p>Hamza, ة and ه, ى and ي, tanween, joined or split words. <span lang="ar" dir="rtl"><span class="x">إستخدام</span> ← استخدام</span></p></li>
+    <li><h3>Translationese</h3><p>English structures and idioms in Arabic words. <span lang="ar" dir="rtl"><span class="x">تم إنشاء الملف من قبل المستخدم</span> ← أنشأ المستخدم الملف</span></p></li>
+    <li><h3>Register</h3><p>Dialect in formal text, and English words outside parentheses or code. <span lang="ar" dir="rtl"><span class="x">الـ Caching</span> ← التخزين المؤقت</span></p></li>
+    <li><h3>Formatting</h3><p>Latin punctuation in Arabic text, spacing around punctuation, mixed digit systems, lines that start with a Latin word. <span lang="ar" dir="rtl"><span class="x">نعم, ولكن?</span> ← نعم، ولكن؟</span></p></li>
+    <li><h3>Over-corrections</h3><p>A correct form changed into a wrong one. Forms that the Cairo Arabic Language Academy approves, such as <span lang="ar" dir="rtl">يعتبر</span> and <span lang="ar" dir="rtl">حوالي</span>, are not errors, and a skill that "fixes" them fails the test.</p></li>
+  </ul>
+  <p class="note text" style="margin-top:1.2rem">The judge's full instructions are in <a href="https://github.com/anasAsh/Sibawayh/blob/main/evals/ai_judge.md"><code>evals/ai_judge.md</code></a>. It is told not to count an error when it is unsure.</p>
+</section>
+
+<section id="results">
+  <div class="text">
+    <h2>Results of the blind comparison</h2>
+    <p>Run on 23 November 2026. In all three judgings the skill's answers had about 96% fewer errors per 100 words, no over-corrections, and no category worse than the baseline, so the bar was met each time.</p>
+  </div>
+
+  <div class="viz text">
+    <h3>Errors per 100 words, in each of the three judgings</h3>
+    <p class="sub">100 pairs; 19,181 words without the skill and 20,015 with it.</p>
+    <ul class="legend"><li><i class="sw-b"></i>Without the skill</li><li><i class="sw-s"></i>With Sibawayh</li></ul>
+    <dl class="bars">
+    <dt>First judging</dt>
+    <dd>
+      <div class="bar b" tabindex="0" title="First judging, without the skill: 2.29 errors per 100 words"><b style="--v:2.29"></b><span>2.29</span></div>
+      <div class="bar s" tabindex="0" title="First judging, with Sibawayh: 0.10 errors per 100 words"><b style="--v:0.10"></b><span>0.10</span></div>
+    </dd>
+    <dt>Second judging</dt>
+    <dd>
+      <div class="bar b" tabindex="0" title="Second judging, without the skill: 2.20 errors per 100 words"><b style="--v:2.20"></b><span>2.20</span></div>
+      <div class="bar s" tabindex="0" title="Second judging, with Sibawayh: 0.09 errors per 100 words"><b style="--v:0.09"></b><span>0.09</span></div>
+    </dd>
+    <dt>Third judging</dt>
+    <dd>
+      <div class="bar b" tabindex="0" title="Third judging, without the skill: 2.16 errors per 100 words"><b style="--v:2.16"></b><span>2.16</span></div>
+      <div class="bar s" tabindex="0" title="Third judging, with Sibawayh: 0.09 errors per 100 words"><b style="--v:0.09"></b><span>0.09</span></div>
+    </dd>
+    </dl>
+  </div>
+
+  <div class="scroll text">
+  <table>
+    <caption>By category, mean of the three judgings</caption>
+    <thead><tr><th>Errors per 100 words</th><th class="n">Without</th><th class="n">With</th></tr></thead>
+    <tbody>
+      <tr><th>Register</th><td class="n">1.45</td><td class="n">0.00</td></tr>
+      <tr><th>Translationese</th><td class="n">0.40</td><td class="n">0.07</td></tr>
+      <tr><th>Formatting</th><td class="n">0.24</td><td class="n">0.01</td></tr>
+      <tr><th>Grammar</th><td class="n">0.10</td><td class="n">0.01</td></tr>
+      <tr><th>Spelling</th><td class="n">0.02</td><td class="n">0.00</td></tr>
+      <tr class="total"><th>Total</th><td class="n">2.22</td><td class="n">0.10</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="text">
+    <p>About two thirds of the baseline's errors are register errors, and most of those are English technical terms written as if they were Arabic words, as in the example at the top of this page. The skill's largest effect is therefore on technical writing. Its remaining errors are mostly translationese: 12 to 17 in 100 answers, depending on the judging.</p>
+  </div>
+
+  <div class="scroll text">
+  <table>
+    <caption>By kind of request, mean of the three judgings</caption>
+    <thead><tr><th>Errors per 100 words</th><th class="n">Without</th><th class="n">With</th></tr></thead>
+    <tbody>
+      <tr><th>Technical explanations</th><td class="n">4.33</td><td class="n">0.15</td></tr>
+      <tr><th>Documentation</th><td class="n">1.76</td><td class="n">0.10</td></tr>
+      <tr><th>Social posts</th><td class="n">1.64</td><td class="n">0.07</td></tr>
+      <tr><th>Translations</th><td class="n">0.91</td><td class="n">0.07</td></tr>
+      <tr><th>Emails</th><td class="n">0.27</td><td class="n">0.02</td></tr>
+    </tbody>
+  </table>
+  </div>
+
+  <div class="scroll text">
+  <table>
+    <caption>Requests the skill was developed with, and requests it had never seen</caption>
+    <thead><tr><th>Errors per 100 words</th><th class="n">Without</th><th class="n">With</th><th class="n">Change</th></tr></thead>
+    <tbody>
+      <tr><th>First 50 requests</th><td class="n">2.04</td><td class="n">0.08</td><td class="n">−96%</td></tr>
+      <tr><th>50 new requests</th><td class="n">2.40</td><td class="n">0.11</td><td class="n">−95%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="text">
+    <p>The new requests give almost the same result as the ones used during development, so the result does not depend on the requests the skill was tuned on.</p>
+    <p>Asked which response reads as more correct and natural, the judge chose the skill's in 86 to 90 of the 100 pairs and the baseline's in 1 to 5. The rest were ties.</p>
+    <p class="note">Full report and earlier runs: <a href="https://github.com/anasAsh/Sibawayh/blob/main/evals/full_eval.md"><code>evals/full_eval.md</code></a>.</p>
+  </div>
+</section>
+
+
+<section id="overcorrection">
+  <div class="text">
+    <h2>The over-correction check</h2>
+    <p>The skill's first rule is never to flag correct Arabic. To measure that, the checker runs on Arabic that has already been edited: 100 featured articles from Arabic Wikipedia, 806,509 words. Every error it reports is read in context by hand when a rule is added or changed.</p>
+    <p>Half of the articles were used to tune the rules. The other half were held out and used for no change.</p>
+  </div>
+  <div class="scroll text">
+  <table>
+    <thead><tr><th>Set</th><th class="n">Words</th><th class="n">Error flags</th><th class="n">False</th></tr></thead>
+    <tbody>
+      <tr><th>50 articles used for tuning</th><td class="n">416,602</td><td class="n">88</td><td class="n">0</td></tr>
+      <tr><th>50 held-out articles</th><td class="n">389,907</td><td class="n">103</td><td class="n">0</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="text">
+    <p>The flags were real errors that featured articles still contain, such as <span lang="ar" dir="rtl">إثنين، الإتجاه، شئ، يتسائل، خمسة عشرة سفينة</span>.</p>
+    <p>Two weaker kinds of finding did less well. In the first review, automatic fixes made 1 wrong change in 278: a Persian letter cited on its own in a table of alphabets, which the rule now leaves alone. Warnings only ask the agent to look again at the context, and some of them are wrong, mostly on proper names and cited letters (the surname <span lang="ar" dir="rtl">حتي</span>, the wrestler <span lang="ar" dir="rtl">بيغ شو</span>).</p>
+    <p class="note">Details: <a href="https://github.com/anasAsh/Sibawayh/blob/main/evals/corpus_check.md"><code>evals/corpus_check.md</code></a>.</p>
+  </div>
+</section>
+
+<section id="recall">
+  <div class="text">
+    <h2>Recall: how many real errors the checker catches</h2>
+    <p>A checker that never flags anything would pass the test above, so recall is measured twice.</p>
+
+    <h3>Against people's corrections</h3>
+    <p>Two public corpora in which annotators corrected every word by hand: ZAEBUC, essays by first-year university students (9,932 words), and QALB-2014, comments on news articles by native speakers (50,309 words). Recall is the share of the words they corrected that a checker finding covers.</p>
+  </div>
+  <div class="scroll text">
+  <table>
+    <thead><tr><th>Error type</th><th class="n">Student essays</th><th class="n">News comments</th></tr></thead>
+    <tbody>
+      <tr><th><span lang="ar" dir="rtl">و</span> written apart from its word</th><td class="n">98%</td><td class="n">86%</td></tr>
+      <tr><th>Hamza</th><td class="n">68%</td><td class="n">59%</td></tr>
+      <tr><th><span lang="ar" dir="rtl">ة</span> and <span lang="ar" dir="rtl">ه</span></th><td class="n">37%</td><td class="n">40%</td></tr>
+      <tr><th><span lang="ar" dir="rtl">ى</span> and <span lang="ar" dir="rtl">ي</span></th><td class="n">14%</td><td class="n">40%</td></tr>
+      <tr class="total"><th>All error types</th><td class="n">52%</td><td class="n">41%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="text">
+    <p>"All error types" includes grammar, word choice and punctuation choices that a script cannot judge. The skill leaves those to the agent's own review checklist, so the checker's recall is not the skill's recall. When the checker does catch a single-word error, its suggestion matches the annotators' correction 80% of the time in the essays and 91% in the comments.</p>
+
+    <h3>Against injected errors</h3>
+    <p>A script takes clean lines from the held-out Wikipedia articles, puts one known error into each (for example <span lang="ar" dir="rtl">،</span> becomes <code>,</code>, or <span lang="ar" dir="rtl">أ</span> becomes <span lang="ar" dir="rtl">ا</span>), and checks whether the checker finds it. 200 sites per error type.</p>
+  </div>
+  <div class="scroll text">
+  <table>
+    <thead><tr><th>Error injected</th><th class="n">Caught</th></tr></thead>
+    <tbody>
+      <tr><th>Space before <span lang="ar" dir="rtl">،</span>, Persian letters, tatweel</th><td class="n">100%</td></tr>
+      <tr><th>Mixed digit systems</th><td class="n">99%</td></tr>
+      <tr><th><span lang="ar" dir="rtl">هاذا، لاكن، ذالك</span></th><td class="n">98%</td></tr>
+      <tr><th><span lang="ar" dir="rtl">لم، لن، أن</span> before a verb that keeps its <span lang="ar" dir="rtl">ن</span></th><td class="n">97%</td></tr>
+      <tr><th>Latin comma in Arabic text</th><td class="n">89%</td></tr>
+      <tr><th><span lang="ar" dir="rtl">ي</span> written <span lang="ar" dir="rtl">ى</span></th><td class="n">72%</td></tr>
+      <tr><th>Missing hamza</th><td class="n">65%</td></tr>
+      <tr><th><span lang="ar" dir="rtl">ة</span> written <span lang="ar" dir="rtl">ه</span></th><td class="n">54%</td></tr>
+      <tr><th><span lang="ar" dir="rtl">ى</span> written <span lang="ar" dir="rtl">ي</span></th><td class="n">10%</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="text">
+    <p>The low rows are low on purpose. <span lang="ar" dir="rtl">مدرسه</span> is wrong but <span lang="ar" dir="rtl">عليه</span> is right, and <span lang="ar" dir="rtl">إلي</span> and <span lang="ar" dir="rtl">علي</span> are real words. Telling them apart needs grammar, so the checker flags only the shapes that are wrong in every context and the agent's checklist covers the rest.</p>
+    <p class="note">Details: <a href="https://github.com/anasAsh/Sibawayh/blob/main/evals/benchmarks.md"><code>evals/benchmarks.md</code></a>. The two corpora are not redistributed; their licences do not allow it.</p>
+  </div>
+</section>
+
+<section id="triggers">
+  <div class="text">
+    <h2>The trigger test</h2>
+    <p>A skill that does not load does nothing. Twenty requests check that it loads when Arabic is involved and stays out otherwise:</p>
+    <ul class="plain">
+      <li>14 requests in Arabic or for Arabic output, including summarise, rewrite and proofread. All 14 loaded the skill.</li>
+      <li>4 requests for English text or code only. None loaded it.</li>
+      <li>2 requests for Egyptian and Gulf dialect. Both loaded it. For dialect the skill checks formatting only and must leave the dialect words alone; that part is read by hand.</li>
+    </ul>
+    <p class="note">The requests are in <a href="https://github.com/anasAsh/Sibawayh/blob/main/evals/triggers.tsv"><code>evals/triggers.tsv</code></a>.</p>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="text">
+    <h2>What these tests do not show</h2>
+    <ul class="plain">
+      <li><strong>No native reader has scored the answers yet.</strong> AI models are only moderately reliable at judging Arabic grammar. The judge is from a different model family and works blind, but the size of the effect needs a human round to confirm. The answers and scores are public so that anyone can do it.</li>
+      <li><strong>Each request was answered once per side.</strong> Answers vary from run to run, and that variation is not measured. One bad answer moves the total by about 0.05 errors per 100 words.</li>
+      <li><strong>The judge is noisy.</strong> The same baseline answers score differently in each judging, so the change is compared within a judging and averaged over three.</li>
+      <li><strong>One agent.</strong> All answers come from Claude Code. Other agents can load the skill but have not been measured.</li>
+      <li><strong>Wikipedia is edited, not proofread</strong>, and the articles are the first 100 featured articles in category order, not a random sample.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="run">
+  <div class="text">
+    <h2>Run it yourself</h2>
+    <p>Everything is in the repository and uses only the Python standard library. Generating answers needs the <code>claude</code> command line tool and uses your own usage.</p>
+  </div>
+<pre><code>git clone https://github.com/anasAsh/Sibawayh && cd Sibawayh
+
+python3 -m unittest discover -s tests -t .       # unit tests
+python3 evals/run_triggers.py                    # trigger test
+
+python3 evals/generate.py --mode baseline        # answers without the skill
+python3 evals/generate.py --mode skill           # answers with it
+python3 evals/pair.py --seed 1 judge key.csv     # blind A/B pairs; keep key.csv away from the judge
+python3 evals/judge_report.py scores.csv key.csv # unblind, totals, pass or fail
+
+python3 evals/fetch_wiki.py --limit 50           # over-correction check
+python3 evals/corpus_check.py evals/corpus/wiki
+python3 evals/inject.py evals/corpus/wiki        # recall with injected errors</code></pre>
+  <div class="text">
+    <p>Every answer, blind key and score file from the runs on this page is in <a href="https://github.com/anasAsh/Sibawayh/tree/main/evals/results"><code>evals/results/</code></a>. If you read Arabic natively and want to score a set of pairs, <a href="https://github.com/anasAsh/Sibawayh/issues">open an issue</a>.</p>
+  </div>
+</section>
+
+<footer>
+  <p>Sibawayh is open source under the MIT licence. It is named after <span lang="ar" dir="rtl">سيبويه</span>, the 8th-century author of the first book of Arabic grammar.</p>
+</footer>
+
+</div>
+<script>
+(function () {
+  var pair = document.getElementById('pair'), btn = document.getElementById('reveal');
+  pair.classList.add('blind');
+  btn.hidden = false;
+  btn.addEventListener('click', function () {
+    var blind = pair.classList.toggle('blind');
+    btn.textContent = blind ? 'Show which answer used the skill' : 'Hide the labels again';
+  });
+})();
+</script>
+</body>
+</html>

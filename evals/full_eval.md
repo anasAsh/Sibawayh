@@ -1,6 +1,43 @@
-# Full evaluation: 50 prompts, with and without the skill
+# Full evaluation: 100 prompts, with and without the skill
 
-## Latest: 2026-11-22, judged three times
+A plain-language description of all the tests is at <https://anasash.github.io/Sibawayh/>.
+
+## Latest: 2026-11-23, 100 prompts, judged three times
+
+50 prompts were added to [`prompts.tsv`](prompts.tsv) (ids 11–20 of each task type), written after the skill's last change. Both sides answered them once. The first 50 pairs are the same files as in the 2026-11-22 run. GPT (through Codex) judged all 100 pairs blind three times, each time with its own random A/B order.
+
+| Judging | Baseline | Skill | Change | Preferred (skill–baseline–tie) |
+|---|---|---|---|---|
+| 1 | 2.29 | 0.10 | −96% | 90–1–9 |
+| 2 | 2.20 | 0.09 | −96% | 86–5–9 |
+| 3 | 2.16 | 0.09 | −96% | 86–3–11 |
+| **Mean** | **2.22** | **0.10** | **−96%** | |
+
+Errors per 100 words (19,181 baseline words, 20,015 skill words). Over-corrections: 0 in all three. The success bar passes in all three.
+
+| Errors per 100 words (mean) | Baseline | Skill |
+|---|---|---|
+| Grammar | 0.10 | 0.01 |
+| Spelling | 0.02 | 0.00 |
+| Translationese | 0.40 | 0.07 |
+| Register | 1.45 | 0.00 |
+| Formatting | 0.24 | 0.01 |
+
+| Errors per 100 words (mean) | Baseline | Skill | Change |
+|---|---|---|---|
+| First 50 prompts (used during development) | 2.04 | 0.08 | −96% |
+| 50 new prompts (never seen before) | 2.40 | 0.11 | −95% |
+| Technical explanations | 4.33 | 0.15 | −97% |
+| Documentation | 1.76 | 0.10 | −94% |
+| Social posts | 1.64 | 0.07 | −96% |
+| Translations | 0.91 | 0.07 | −93% |
+| Emails | 0.27 | 0.02 | −92% |
+
+About two thirds of the baseline's errors are register errors (277–281 of 419–439), mostly English terms in technical explanations. The skill's remaining errors are mostly translationese (12–17 of 15–20).
+
+**Limits:** as below: one generation per prompt, and an AI judge. Raw data: [`results/2026-11-23/`](results/2026-11-23/).
+
+## 2026-11-22: 50 prompts, judged three times
 
 The skill answered all 50 prompts again, after the changes listed below. The baseline answers are the same files as in the 2026-11-20 run. GPT (through Codex) judged the 50 pairs blind **three times**, each time with its own random A/B order, using the prompt in [`ai_judge.md`](ai_judge.md).
 

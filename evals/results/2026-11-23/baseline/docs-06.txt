@@ -1,0 +1,267 @@
+كتبتُ الدليل وحفظته في الملف `deploy-guide.md` داخل مجلد العمل. لم أختبر الأوامر على خادم فعلي.
+
+**محتوى الوثيقة:**
+
+- **المتطلبات:** خادم Ubuntu مع صلاحيات `sudo`، ونطاق يشير إلى عنوان الخادم.
+- **12 خطوة مرقمة:**
+  1. تحديث النظام.
+  2. إنشاء مستخدم غير الجذر.
+  3. ضبط الجدار الناري UFW.
+  4. تثبيت Docker وCompose.
+  5. نقل الكود إلى الخادم.
+  6. كتابة `Dockerfile`.
+  7. كتابة `docker-compose.yml`.
+  8. بناء الحاوية وتشغيلها.
+  9. تثبيت Nginx.
+  10. إعداد Nginx كوكيل عكسي.
+  11. تفعيل HTTPS عبر Let's Encrypt.
+  12. التحقق النهائي.
+- **أقسام إضافية:** طريقة تحديث التطبيق، وجدول لحل الأخطاء الشائعة مثل `502 Bad Gateway` وفشل Certbot، ونصائح أمنية.
+
+ملف `Dockerfile` في الدليل مثال لتطبيق Node.js، ويستخدم الدليل المنفذ `3000` والنطاق `example.com`. استبدل هذه القيم بقيم مشروعك. في الخطوة 7 يُربط منفذ الحاوية بـ `127.0.0.1` فقط، لأن Docker يتجاوز قواعد UFW عند نشر المنافذ.
+
+أستطيع تعديل `Dockerfile` ليناسب لغة أخرى مثل Python أو PHP، أو نقل الوثيقة إلى Claude Docs إن أردت.
+
+
+--- file: deploy-guide.md ---
+# دليل نشر تطبيق ويب على خادم لينكس باستخدام Docker وNginx
+
+يشرح هذا الدليل كيف تنشر تطبيق ويب على خادم لينكس (Ubuntu 22.04/24.04). يعمل التطبيق داخل حاوية Docker، ويستقبل Nginx الطلبات أمامه كوكيل عكسي (Reverse Proxy) ويوفّر شهادة HTTPS مجانية من Let's Encrypt.
+
+> **مثال مستخدم في الدليل:** تطبيق يستمع داخل الحاوية على المنفذ `3000`، والنطاق `example.com`. استبدل هذه القيم بقيم مشروعك.
+
+---
+
+## المتطلبات المسبقة
+
+- خادم لينكس عليه صلاحيات `sudo`.
+- نطاق (Domain) يشير سجلّه من نوع `A` إلى عنوان IP الخادم.
+- كود التطبيق في مستودع Git أو على جهازك المحلي.
+
+---
+
+## الخطوات
+
+### 1. الاتصال بالخادم وتحديث النظام
+
+```bash
+ssh user@SERVER_IP
+sudo apt update && sudo apt upgrade -y
+```
+
+### 2. إنشاء مستخدم غير الجذر (اختياري ومستحسن)
+
+```bash
+sudo adduser deploy
+sudo usermod -aG sudo deploy
+su - deploy
+```
+
+### 3. ضبط الجدار الناري (UFW)
+
+```bash
+sudo ufw allow OpenSSH
+sudo ufw allow 'Nginx Full'   # يفتح المنفذين 80 و443 (نفّذه بعد تثبيت Nginx)
+sudo ufw enable
+sudo ufw status
+```
+
+> ملاحظة: Docker يتجاوز قواعد UFW عند نشر المنافذ، لذلك اربط منفذ الحاوية بـ `127.0.0.1` فقط (انظر الخطوة 7).
+
+### 4. تثبيت Docker وDocker Compose
+
+```bash
+sudo apt install -y ca-certificates curl
+sudo install -m 0755 -d /etc/apt/keyrings
+sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] \
+https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" \
+| sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+sudo apt update
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+# تشغيل Docker دون sudo (يتطلب تسجيل الخروج والدخول مجددًا)
+sudo usermod -aG docker $USER
+```
+
+تحقق من التثبيت:
+
+```bash
+docker --version
+docker compose version
+```
+
+### 5. نقل كود التطبيق إلى الخادم
+
+```bash
+sudo mkdir -p /opt/myapp && sudo chown $USER:$USER /opt/myapp
+cd /opt/myapp
+git clone https://github.com/USER/REPO.git .
+```
+
+### 6. كتابة ملف `Dockerfile`
+
+مثال لتطبيق Node.js (عدّله حسب لغة تطبيقك):
+
+```dockerfile
+FROM node:20-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci --omit=dev
+COPY . .
+ENV NODE_ENV=production
+EXPOSE 3000
+USER node
+CMD ["node", "server.js"]
+```
+
+وأضف ملف `.dockerignore` لتقليل حجم الصورة:
+
+```
+node_modules
+.git
+.env
+```
+
+### 7. كتابة ملف `docker-compose.yml`
+
+```yaml
+services:
+  app:
+    build: .
+    container_name: myapp
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:3000:3000"   # متاح محليًا فقط، ويصل إليه Nginx
+```
+
+أنشئ ملف المتغيرات البيئية `.env` ولا ترفعه إلى Git:
+
+```bash
+nano .env
+# مثال:
+# DATABASE_URL=...
+# SECRET_KEY=...
+chmod 600 .env
+```
+
+### 8. بناء الحاوية وتشغيلها
+
+```bash
+docker compose up -d --build
+docker compose ps
+docker compose logs -f app
+curl http://127.0.0.1:3000   # يجب أن يرد التطبيق
+```
+
+### 9. تثبيت Nginx
+
+```bash
+sudo apt install -y nginx
+sudo systemctl enable --now nginx
+```
+
+### 10. إعداد Nginx كوكيل عكسي
+
+أنشئ ملف الإعداد:
+
+```bash
+sudo nano /etc/nginx/sites-available/myapp
+```
+
+وضع فيه:
+
+```nginx
+server {
+    listen 80;
+    server_name example.com www.example.com;
+
+    client_max_body_size 20M;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Host              $host;
+        proxy_set_header X-Real-IP         $remote_addr;
+        proxy_set_header X-Forwarded-For   $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # لدعم WebSocket
+        proxy_set_header Upgrade    $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
+}
+```
+
+فعّل الموقع واختبر الإعداد:
+
+```bash
+sudo ln -s /etc/nginx/sites-available/myapp /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default
+sudo nginx -t
+sudo systemctl reload nginx
+```
+
+افتح `http://example.com` في المتصفح للتأكد.
+
+### 11. تفعيل HTTPS باستخدام Let's Encrypt
+
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+sudo certbot --nginx -d example.com -d www.example.com
+```
+
+يعدّل Certbot إعداد Nginx تلقائيًا ويضيف إعادة توجيه من HTTP إلى HTTPS. تحقق من أن التجديد التلقائي يعمل:
+
+```bash
+sudo certbot renew --dry-run
+```
+
+### 12. التحقق النهائي
+
+```bash
+curl -I https://example.com
+docker compose ps
+sudo systemctl status nginx
+```
+
+---
+
+## تحديث التطبيق لاحقًا
+
+```bash
+cd /opt/myapp
+git pull
+docker compose up -d --build
+docker image prune -f   # حذف الصور القديمة
+```
+
+---
+
+## استكشاف الأخطاء الشائعة
+
+| المشكلة | السبب المحتمل | الحل |
+|---|---|---|
+| `502 Bad Gateway` | الحاوية متوقفة أو المنفذ خاطئ | `docker compose ps` و`docker compose logs app`، وتأكد أن `proxy_pass` يطابق المنفذ |
+| فشل `nginx -t` | خطأ في صياغة الإعداد | راجع السطر المذكور في رسالة الخطأ |
+| فشل Certbot | النطاق لا يشير إلى الخادم أو المنفذ 80 مغلق | `dig example.com` وتحقق من `ufw status` |
+| التطبيق لا يقرأ المتغيرات | ملف `.env` مفقود أو مساره خاطئ | تأكد من وجوده بجوار `docker-compose.yml` ثم أعد التشغيل |
+
+سجلات Nginx للمراجعة:
+
+```bash
+sudo tail -f /var/log/nginx/error.log
+sudo tail -f /var/log/nginx/access.log
+```
+
+---
+
+## نصائح أمنية
+
+1. عطّل تسجيل الدخول بكلمة المرور عبر SSH واستخدم المفاتيح (`PasswordAuthentication no` في `/etc/ssh/sshd_config`).
+2. لا تنشر منافذ الحاويات على `0.0.0.0`، واربطها بـ `127.0.0.1` فقط.
+3. شغّل التطبيق داخل الحاوية بمستخدم غير الجذر (`USER` في Dockerfile).
+4. حدّث النظام وصور Docker الأساسية بانتظام.
+5. فعّل النسخ الاحتياطي لقواعد البيانات والمجلدات المهمة (Volumes).
