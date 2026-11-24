@@ -4,7 +4,7 @@
   "description": "Sibawayh (سيبويه): skills that help AI agents write correct Modern Standard Arabic.",
   "plugins": [
     {
-      "name": "arabic-writing",
+      "name": "sibawayh",
       "source": "./",
       "description": "Agent Skill that makes AI agents write correct, natural Modern Standard Arabic, with a dependency-free orthography and punctuation checker."
     }

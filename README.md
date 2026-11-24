@@ -127,10 +127,12 @@ flowchart LR
 
 ```
 /plugin marketplace add anasAsh/Sibawayh
-/plugin install arabic-writing@sibawayh
+/plugin install sibawayh@sibawayh
 ```
 
 That's it. The skill now loads by itself whenever Claude writes Arabic.
+
+Upgrading from 0.2.x? The plugin was called `arabic-writing` then. Run `/plugin uninstall arabic-writing@sibawayh`, then the install command above.
 
 <details>
 <summary>Prefer a manual install?</summary>
@@ -142,7 +144,7 @@ ln -s "$PWD/skills/arabic-writing" ~/.claude/skills/arabic-writing
 # or: cp -r skills/arabic-writing ~/.claude/skills/
 ```
 
-From a shell, the plugin commands are `claude plugin marketplace add anasAsh/Sibawayh` and `claude plugin install arabic-writing@sibawayh`.
+From a shell, the plugin commands are `claude plugin marketplace add anasAsh/Sibawayh` and `claude plugin install sibawayh@sibawayh`.
 
 </details>
 
