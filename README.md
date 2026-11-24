@@ -13,20 +13,20 @@
 
 **Your AI writes Arabic. Sibawayh makes it _correct_ Arabic.**
 
-An open-source Agent Skill (`SKILL.md`) and Arabic spelling, grammar and punctuation checker. It makes Claude Code, Cursor, GitHub Copilot and other AI coding agents write correct, natural Modern Standard Arabic (MSA, فصحى), and check it before they answer.
+An open-source Agent Skill (`SKILL.md`) and Arabic spelling, grammar and punctuation checker. It makes Claude Code, Codex, Cursor, GitHub Copilot and other AI coding agents write correct, natural Modern Standard Arabic (MSA, فصحى), and check it before they answer.
 
-<p dir="rtl"><b>سيبويه</b> مهارة مفتوحة المصدر لوكلاء الذكاء الاصطناعي (Agent Skill)، ومدقّق إملائي ونحوي للغة العربية. تجعل Claude Code وCursor وGitHub Copilot وغيرها تكتب العربية الفصحى سليمةً وطبيعية، ثم تراجعها قبل الإجابة: الهمزات والإملاء وعلامات الترقيم والنحو والأسلوب واتجاه النص من اليمين إلى اليسار.</p>
+<p dir="rtl"><b>سيبويه</b> مهارة مفتوحة المصدر لوكلاء الذكاء الاصطناعي (Agent Skill)، ومدقّق إملائي ونحوي للغة العربية. تجعل Claude Code وCodex وCursor وGitHub Copilot وغيرها تكتب العربية الفصحى سليمةً وطبيعية، ثم تراجعها قبل الإجابة: الهمزات والإملاء وعلامات الترقيم والنحو والأسلوب واتجاه النص من اليمين إلى اليسار.</p>
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-3776ab?logo=python&logoColor=white)](#-run-the-checker-yourself)
 [![Dependencies: none](https://img.shields.io/badge/dependencies-none-brightgreen)](#-run-the-checker-yourself)
 [![Agent Skill](https://img.shields.io/badge/Agent%20Skill-SKILL.md-d97757)](skills/arabic-writing/SKILL.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757)](#-install)
-[![AI-judged: −96% errors](https://img.shields.io/badge/AI--judged-%E2%88%9296%25%20errors-2ea44f)](evals/full_eval.md)
+[![AI-judged: −96% errors](https://img.shields.io/badge/AI--judged-%E2%88%9296%25%20errors-2ea44f)](https://anasash.github.io/Sibawayh/)
 
 <img src="docs/assets/social-preview.png" alt="Sibawayh Arabic grammar checker: typical AI-generated Arabic with errors next to corrected Arabic" width="820">
 
-[Install](#-install) · [How it works](#-how-it-works) · [What it catches](#-what-it-catches) · [Checker](#-run-the-checker-yourself) · [FAQ](#-faq) · [Contribute](#-contribute)
+[Install](#-install) · [How it works](#-how-it-works) · [What it catches](#-what-it-catches) · [Checker](#-run-the-checker-yourself) · [Evaluation](#-evaluation) · [How it is tested](https://anasash.github.io/Sibawayh/) · [بالعربية](https://anasash.github.io/Sibawayh/ar/) · [FAQ](#-faq) · [Contribute](#-contribute)
 
 </div>
 
@@ -113,11 +113,11 @@ flowchart LR
 |---|---|---|---|
 | ✏️ | Punctuation | `,` `?` `;` → ، ؟ ؛, spacing | 🤖 checker (auto-fix) |
 | 🔤 | Unicode | Persian ک/ی, presentation forms, tatweel | 🤖 checker |
-| 📝 | Spelling | إستخدام, هاذا, الى, الاطفال, المدرسه, المصرى, و الكتاب, لايوجد | 🤖 checker (word lists + frequency lexicons) |
+| 📝 | Spelling | إستخدام, هاذا, الى, الاطفال, المدرسه, المصرى, و الكتاب, لايوجد, مساءًا | 🤖 checker (word lists + frequency lexicons) |
 | 🔢 | Digits and RTL | mixed 3 / ٣, lines that flip direction | 🤖 checker |
 | 🗣️ | Dialect leakage | عشان, بدي, هيك in formal text | 🤖 checker |
 | ⚖️ | Verb endings | لم يكونون, لن يذهبون, سوف لن | 🤖 checker + 🧠 checklist |
-| 🧮 | Agreement and numbers | non-human plurals, العدد والمعدود (ثلاث ملفات → ثلاثة ملفات) | 🤖 checker (numbers 3–10) + 🧠 checklist + 📚 tables |
+| 🧮 | Agreement and numbers | non-human plurals, العدد والمعدود (ثلاث ملفات → ثلاثة ملفات, خمسة عشرة → خمس عشرة) | 🤖 checker (numbers 3–10 and 13–19) + 🧠 checklist + 📚 tables |
 | 🌐 | Translationese | تم + masdar, قام بـ, من قبل, كـ "as a"; idioms translated word for word (يصنع الفرق) | 🤖 density and idiom list + 🧠 checklist |
 | 💻 | Tech terms | واجهة برمجة التطبيقات (API) | 📚 glossary (450+ terms) |
 
@@ -232,7 +232,8 @@ skills/arabic-writing/
     ├── check_arabic.py       the checker (stdlib only)
     ├── archeck/              rules
     └── data/                 word lists
-evals/                        before/after evaluation harness
+evals/                        before/after evaluation harness, results and raw answers
+docs/                         the "How Sibawayh is tested" pages (English and Arabic)
 tests/                        unit tests
 research/                     the research the rules are built on
 ```
@@ -277,8 +278,10 @@ Any agent that supports the `SKILL.md` Agent Skills format: Claude Code (as a pl
 
 ## 🤝 Contribute
 
-Native-speaker review is the most valuable contribution. Three ways to help:
+Native-speaker review is the most valuable contribution. Ways to help:
 
+- 🧑‍⚖️ **Score the answers.** The evaluation was judged by an AI model. If you read Arabic natively, score a set of the blind answer pairs in [`evals/results/`](evals/results/) and [open an issue](https://github.com/anasAsh/Sibawayh/issues) with what you find. The [test page](https://anasash.github.io/Sibawayh/ar/) explains the method.
+- 🤖 **Try another agent.** Most agents in [Install](#-install) are documented but not yet tested by us. Tell us whether the skill loads and the checker runs in yours.
 - 💻 **Glossary.** Suggest better or more standard terms in [`glossary.md`](skills/arabic-writing/references/glossary.md). Some terms, such as epoch, tokenization and pipeline, still have no settled Arabic equivalent.
 - 📝 **Word lists.** Add misspellings to `scripts/data/*.tsv`. The rule is strict: an entry must be wrong in *every* context, and each entry needs a test.
 - 🚩 **False flags.** If the checker flags correct Arabic, [open an issue](https://github.com/anasAsh/Sibawayh/issues) with the sentence.
