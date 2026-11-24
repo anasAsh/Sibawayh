@@ -73,4 +73,5 @@ over-corrections, skill total <= 50% of baseline total, and no category worse.
 - [`ai_judge.md`](ai_judge.md): the AI-judge method, and the 10-pair pilot.
 - [`corpus_check.md`](corpus_check.md): the over-correction check on edited Arabic (Wikipedia featured articles), and recall with injected errors. No human scorer needed.
 - [`benchmarks.md`](benchmarks.md): recall against ZAEBUC and QALB, essays and comments that people corrected by hand.
+- `build_results_page.py`: rebuilds the [full results page](https://anasash.github.io/Sibawayh/results/) (`docs/results/`, `docs/ar/results/`) from a judged run in `results/`.
 - `build_lexicon.py`: rebuilds the checker's frequency lexicons (`scripts/data/lexicon_*`) from downloaded Wikipedia text.
