@@ -209,7 +209,7 @@ The harness in [`evals/`](evals/README.md) answers 100 realistic prompts with an
 - The Sibawayh version was preferred in **86–90** of the 100 pairs, the baseline in 1–5.
 - **0** over-corrections. The success bar (≤50% of the baseline's errors, no category worse, no over-corrections) is met in all three judgings. The first run (2026-11-20, 50 prompts, one judging) was −88%.
 
-An AI judge is not a native reader, so a human-scored round is still to come. [How Sibawayh is tested](https://anasash.github.io/Sibawayh/) describes every test in plain language. The answers and scores are in [`evals/results/`](evals/results/) for anyone to check.
+An AI judge is not a native reader, so a human-scored round is still to come. [How Sibawayh is tested](https://anasash.github.io/Sibawayh/) describes every test in plain language ([بالعربية](https://anasash.github.io/Sibawayh/ar/)). The answers and scores are in [`evals/results/`](evals/results/) for anyone to check.
 
 **The checker against human corrections** ([`evals/benchmarks.md`](evals/benchmarks.md)): on two public corpora that people corrected word by word, it catches **52%** of all errors in student essays (ZAEBUC) and **41%** in native-speaker comments (QALB), up from 23% and 20% in release 0.1.2. For hamza it catches 68% and 59%; for و written apart from its word, 98% and 86%. Every flag on a word the annotators left unchanged was a real error they missed, or (in ZAEBUC) a Latin comma they chose to keep.
 

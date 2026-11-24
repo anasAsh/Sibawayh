@@ -1,0 +1,151 @@
+:root {
+  color-scheme: light;
+  --page: #eef2f1;
+  --surface: #ffffff;
+  --ink: #16202e;
+  --ink-2: #4c5969;
+  --rule: #d3dbd9;
+  --lapis: #2747a8;
+  --lapis-wash: #e6ebf8;
+  --rubric: #c2452d;
+  --rubric-wash: #fbe9e4;
+  --series-baseline: #c2452d;
+  --series-skill: #2747a8;
+  --latin: "Readex Pro", system-ui, sans-serif;
+  --arabic: "Noto Naskh Arabic", "Readex Pro", serif;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --page: #10141b;
+    --surface: #171c25;
+    --ink: #e9edf2;
+    --ink-2: #a3aebc;
+    --rule: #2c3442;
+    --lapis: #8ea6ee;
+    --lapis-wash: #1e2740;
+    --rubric: #e98670;
+    --rubric-wash: #3a211c;
+    --series-baseline: #d05f48;
+    --series-skill: #5f80e0;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--ink);
+  font: 300 1.0625rem/1.65 var(--latin);
+}
+a { color: var(--lapis); text-underline-offset: 0.18em; }
+a:focus-visible, button:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--lapis); outline-offset: 3px; border-radius: 2px;
+}
+[lang="ar"] { font-family: var(--arabic); font-size: 1.12em; line-height: 1.9; }
+code { direction: ltr; unicode-bidi: isolate; font: 0.86em var(--mono); background: var(--lapis-wash); padding: 0.1em 0.35em; border-radius: 3px; }
+pre { font: 0.84rem/1.6 var(--mono); background: var(--surface); border: 1px solid var(--rule);
+  border-radius: 6px; padding: 1rem 1.1rem; overflow-x: auto; margin: 1.2rem 0; direction: ltr; text-align: left; }
+pre code { background: none; padding: 0; font-size: 1em; }
+strong, b { font-weight: 500; }
+
+.wrap { max-width: 60rem; margin: 0 auto; padding: 0 1.25rem; }
+.text { max-width: 41rem; }
+
+header.top { padding: 4.5rem 0 2.5rem; }
+header.top .repo { font-size: 0.9rem; color: var(--ink-2); margin: 0 0 2.2rem; display: flex; justify-content: space-between; gap: 1rem; }
+h1 { font: 600 clamp(2.3rem, 6.2vw, 4rem)/1.05 var(--latin); letter-spacing: -0.025em; margin: 0; max-width: 14ch; }
+.h1-ar { font: 400 clamp(1.5rem, 3.4vw, 2.1rem)/1.5 var(--arabic); color: var(--lapis); margin: 0.5rem 0 0; text-align: left; }
+.lede { font-size: 1.22rem; line-height: 1.55; margin: 1.6rem 0 0; }
+
+h2 { font: 600 1.7rem/1.2 var(--latin); letter-spacing: -0.015em; margin: 0 0 1rem; }
+h3 { font: 500 1.12rem/1.35 var(--latin); margin: 2.2rem 0 0.5rem; }
+section { padding: 3.2rem 0; border-top: 1px solid var(--rule); }
+p { margin: 0 0 1rem; }
+.note { color: var(--ink-2); font-size: 0.95rem; }
+
+/* The blind pair */
+.pair { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; margin: 2.6rem 0 0; }
+.pair-prompt { padding: 1.1rem 1.4rem; border-bottom: 1px solid var(--rule); display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap; }
+.pair-prompt span { font-size: 0.9rem; color: var(--ink-2); }
+.pair-prompt p { margin: 0; flex: 1 1 18rem; }
+.pair-cols { display: grid; grid-template-columns: 1fr 1fr; }
+.resp { padding: 1.3rem 1.4rem 1.5rem; min-width: 0; }
+.resp + .resp { border-inline-start: 1px solid var(--rule); }
+.resp h3 { margin: 0 0 0.8rem; font-size: 1rem; display: flex; justify-content: space-between; gap: 1rem; align-items: baseline; }
+.resp h3 .who { font-weight: 300; color: var(--ink-2); font-size: 0.92rem; }
+.resp [lang="ar"] p { margin: 0 0 0.7rem; }
+.resp mark { background: var(--rubric-wash); color: inherit; border-bottom: 2px solid var(--rubric); padding: 0 0.15em; }
+.resp .tally { font-size: 0.92rem; color: var(--ink-2); margin: 0.9rem 0 0; }
+.pair-foot { border-top: 1px solid var(--rule); padding: 1rem 1.4rem; display: flex; gap: 1rem 1.5rem; align-items: center; flex-wrap: wrap; }
+.pair-foot p { margin: 0; font-size: 0.95rem; flex: 1 1 20rem; }
+.pair-foot button { font: 500 0.98rem var(--latin); color: #fff; background: #2747a8; border: 0; border-radius: 6px; padding: 0.65rem 1.1rem; cursor: pointer; }
+.pair-foot button:hover { background: #1d3888; }
+.pair.blind .who, .pair.blind .tally, .pair.blind .after { display: none; }
+.pair.blind mark { background: none; border-bottom-color: transparent; }
+.pair:not(.blind) .before { display: none; }
+.resp mark { transition: background-color 0.5s, border-color 0.5s; }
+@media (prefers-reduced-motion: reduce) { .resp mark { transition: none; } }
+@media (max-width: 44rem) {
+  .pair-cols { grid-template-columns: 1fr; }
+  .resp + .resp { border-inline-start: 0; border-top: 1px solid var(--rule); }
+}
+
+/* Tables */
+.scroll { overflow-x: auto; margin: 1.4rem 0; }
+table { border-collapse: collapse; width: 100%; font-size: 0.95rem; }
+caption { text-align: start; font-weight: 500; padding-bottom: 0.5rem; }
+th, td { text-align: start; padding: 0.55rem 0; padding-inline-end: 0.9rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+thead th { font-weight: 500; color: var(--ink-2); font-size: 0.88rem; border-bottom-color: var(--ink-2); }
+tbody th { font-weight: 400; }
+td.n, th.n { text-align: end; font-variant-numeric: tabular-nums; white-space: nowrap; padding-inline: 0.9rem 0; }
+tr.total th, tr.total td { font-weight: 500; border-bottom: 0; }
+td [lang="ar"], td[lang="ar"] { font-size: 1.05em; line-height: 1.6; }
+
+/* Steps: a real sequence, so it is numbered */
+ol.steps { list-style: none; counter-reset: step; padding: 0; margin: 1.6rem 0 0; }
+ol.steps > li { counter-increment: step; display: grid; grid-template-columns: 2.6rem 1fr; padding: 1.15rem 0; border-top: 1px solid var(--rule); }
+ol.steps > li::before { content: counter(step); font: 600 1.5rem/1.2 var(--latin); color: var(--lapis); }
+ol.steps h3 { margin: 0 0 0.35rem; }
+ol.steps p:last-child { margin-bottom: 0; }
+
+/* Chart */
+.viz { background: var(--surface); border: 1px solid var(--rule); border-radius: 8px; padding: 1.4rem 1.5rem 1.2rem; margin: 1.6rem 0; }
+.viz h3 { margin: 0 0 0.2rem; }
+.viz .sub { color: var(--ink-2); font-size: 0.92rem; margin: 0 0 1rem; }
+.legend { display: flex; gap: 1.3rem; font-size: 0.9rem; color: var(--ink-2); margin: 0 0 1rem; padding: 0; list-style: none; }
+.legend i { display: inline-block; width: 0.8rem; height: 0.8rem; border-radius: 3px; margin-inline-end: 0.4rem; vertical-align: -0.05em; }
+.sw-b { background: var(--series-baseline); } .sw-s { background: var(--series-skill); }
+.bars { display: grid; grid-template-columns: max-content 1fr; gap: 0.9rem 1rem; align-items: center; margin: 0; }
+.bars dt { font-size: 0.92rem; color: var(--ink-2); }
+.bars dd { margin: 0; display: grid; gap: 2px; border-inline-start: 1px solid var(--rule); }
+.bar { display: flex; align-items: center; gap: 0.5rem; height: 1.15rem; }
+.bar b { display: block; height: 100%; width: calc(var(--v) / 2.4 * (100% - 3.5rem)); min-width: 3px; border-start-end-radius: 4px; border-end-end-radius: 4px; }
+.bar.b b { background: var(--series-baseline); } .bar.s b { background: var(--series-skill); }
+.bar span { font-size: 0.86rem; font-variant-numeric: tabular-nums; color: var(--ink); }
+.bar:hover span, .bar:focus span { font-weight: 500; }
+
+.cats { display: grid; grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); gap: 0 2.5rem; margin: 1.2rem 0 0; padding: 0; list-style: none; }
+.cats li { padding: 0.9rem 0; border-top: 1px solid var(--rule); }
+.cats h3 { margin: 0 0 0.2rem; font-size: 1rem; }
+.cats p { margin: 0; font-size: 0.95rem; }
+.x { color: var(--rubric); }
+
+ul.plain { padding-inline-start: 1.1rem; margin: 0 0 1rem; }
+ul.plain li { margin-bottom: 0.45rem; }
+footer { border-top: 1px solid var(--rule); padding: 2rem 0 4rem; color: var(--ink-2); font-size: 0.92rem; }
+
+/* Arabic page (docs/ar/): right-to-left, Naskh for text, Readex Pro for headings */
+html[lang="ar"] { font-size: 100%; line-height: normal; }
+html[lang="ar"] body { font: 400 1.14rem/1.9 var(--arabic); }
+html[lang="ar"] :is(h1, h2, h3, button, thead th, caption, .bars dt, .legend, .repo) { font-family: var(--latin); letter-spacing: 0; }
+html[lang="ar"] h1 { line-height: 1.3; max-width: none; }
+html[lang="ar"] h2 { line-height: 1.5; }
+html[lang="ar"] .lede { font-size: 1.3rem; line-height: 1.8; }
+html[lang="ar"] :is(strong, tr.total th, tr.total td) { font-weight: 600; }
+html[lang="ar"] td.n { direction: ltr; text-align: left; padding-inline: 0 0.9rem; }
+html[lang="ar"] th.n { text-align: left; }
+html[lang="ar"] :is(.note, .resp .tally, .pair-foot p, .cats p, table, .viz .sub) { font-size: 1rem; }
+html[lang="ar"] .pair-foot button { font-family: var(--latin); }
+[lang="en"] { font-family: var(--latin); }
