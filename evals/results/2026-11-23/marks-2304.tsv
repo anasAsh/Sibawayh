@@ -1,0 +1,479 @@
+03	A	translationese	سنقوم بما يلي لتصحيح الخطأ	سنصحّح الخطأ على النحو الآتي
+04	B	formatting	السيد/	السيد
+04	B	translationese	نحن الآن نكمل تقييم المرشحين	نستكمل الآن تقييم المرشحين
+06	A	formatting	السيد/	السيد
+06	B	translationese	ولم يتم إصلاحها	ولم تُصلَح
+06	B	translationese	التسرب يأتي من	يتسرّب الماء من
+08	B	translationese	أتمنى أن تكون رسالتي هذه قد وصلتكم وأنتم بخير.	أرجو أن تكونوا بخير.
+09	A	formatting	لـ [اسم	لـ[اسم
+10	B	formatting	السيد/	السيد
+11	A	register	CSV	القيم المفصولة بفواصل
+12	B	formatting	Python	بايثون
+12	B	register	Python	بايثون
+12	B	formatting	pip	مدير الحزم
+12	B	register	pip	مدير الحزم
+12	B	register	Python	بايثون
+12	B	grammar	3.9، ثبّت	3.9، فثبّت
+12	B	register	pip	`pip`
+12	B	register	Python	بايثون
+12	B	translationese	تم التثبيت	ثُبّتت الأداة
+12	B	register	pip	`pip`
+12	B	register	Python	بايثون
+12	B	register	Python	بايثون
+13	B	grammar	مهامًا فرعية	مهامَّ فرعية
+13	B	register	Markdown	`Markdown`
+15	B	register	الـ Backend	الواجهة الخلفية
+15	B	translationese	هذا الدليل يساعدك	يساعدك هذا الدليل
+15	B	grammar	يساعدك تبدأ	يساعدك على البدء
+15	B	register	الـ staging	الاختبار المرحلي
+15	B	formatting	ماذا غيّرت، ولماذا، وكيف اختبرته.	ماذا غيّرت؟ ولماذا؟ وكيف اختبرته؟
+15	B	register	الـ CI	التكامل المستمر
+15	B	translationese	المراجعة تكون على الكود	تتناول المراجعة الشيفرة
+15	B	grammar	وليس على الشخص	ولا تتناول الشخص
+15	B	translationese	حفظ الدليل كملف	حفظ الدليل في ملف
+16	A	register	UFW	(UFW)
+16	A	translationese	Nginx كوكيل عكسي	Nginx للعمل وسيطًا عكسيًا
+16	A	register	HTTPS	الاتصال المشفّر (HTTPS)
+16	A	register	UFW	الجدار الناري (UFW)
+16	A	formatting	file	ملف
+16	A	translationese	كوكيل عكسي	بصفته وسيطًا عكسيًا
+16	A	register	HTTPS	للاتصال المشفّر (HTTPS)
+16	A	translationese	يستمع داخل الحاوية على المنفذ	يستمع داخل الحاوية إلى الطلبات الواردة عبر المنفذ
+16	A	register	عنوان IP الخادم	عنوان الخادم (IP)
+16	A	register	UFW	الجدار الناري (UFW)
+16	A	register	Nginx كوكيل عكسي	Nginx للعمل وسيطًا عكسيًا
+16	A	register	HTTPS	الاتصال المشفّر (HTTPS)
+16	A	register	HTTP إلى HTTPS	الاتصال غير المشفّر إلى الاتصال المشفّر
+16	A	register	SSH	الاتصال الآمن عن بُعد (SSH)
+16	A	register	Dockerfile	`Dockerfile`
+16	B	translationese	يستمع على المنفذ	يستمع إلى الطلبات الواردة عبر المنفذ
+17	A	translationese	يتم الدفع	أدفع
+17	A	translationese	تتيح إضافة حتى	تتيح إضافة ما يصل إلى
+18	A	register	OLED	(OLED)
+19	B	translationese	النتائج تعني	تعني النتائج
+20	A	translationese	المجلد كان فارغًا	كان المجلد فارغًا
+20	A	register	Conventional Commits	الالتزامات التقليدية (Conventional Commits)
+20	A	translationese	التغييرات الكاسرة	التغييرات التي تخلّ بالتوافق مع الإصدارات السابقة
+20	B	translationese	الفرع محدّث مع	الفرع متزامن مع
+21	A	translationese	اليوم كان أول يوم لي	كان اليوم أول يوم لي
+21	A	translationese	لي كمهندس برمجيات	لي مهندسَ برمجيات
+21	A	translationese	الشيء الذي بقي معي من اليوم	أكثر ما علق بذهني اليوم
+21	A	grammar	وزملائي السابقين	وزملائي السابقينَ
+23	A	grammar	يسعدنا نعلن	يسعدنا أن نعلن
+23	A	register	لآخرها	إلى آخرها
+23	A	register	وش	ما الذي
+23	A	register	يطلّع	يُبرز
+23	A	grammar	باريستا محترفين	مختصون محترفون بإعداد القهوة
+23	A	grammar	يساعدونك تختار	يساعدونك على اختيار
+23	A	register	اللي	التي
+23	A	register	الشغل	العمل
+23	A	register	سوا	معًا
+23	A	register	بالمنشن	بوسم حسابنا
+23	A	register	#SpecialtyCoffee	
+23	A	register	#RiyadhCafe	
+23	A	register	تبي	تريد
+25	B	translationese	نتطلع لمشاركتها	نتطلع إلى مشاركتها
+25	B	formatting	الـ 100,000	100,000 مستخدم
+26	B	translationese	من اختراقات المواقع	إثر اختراق المواقع
+26	B	grammar	دقيقتان من وقتك اليوم قد توفّر	دقيقتان من وقتك اليوم قد توفّران
+27	A	grammar	الرسوم:** مجانًا بالكامل	الرسوم:** لا توجد
+29	A	translationese	أن تحضر	أن تبدأ بالممارسة
+29	A	grammar	على أفكاره	استنادًا إلى أفكاره
+29	B	grammar	ستصبح بعد سنة	لأصبحت بعد سنة
+29	B	translationese	تصنع الفرق	تُحدث فرقًا
+29	B	translationese	هو صوت تمنحه	هو بمثابة تصويت لصالح
+30	A	grammar	ابتساماتكم وحماسكم تركت	تركت ابتساماتكم وحماسكم
+30	A	translationese	فتصنع الفرق	فتُحدث فرقًا
+30	A	grammar	نتطلع للقائكم	نتطلع إلى لقائكم
+31	A	register	API	واجهة برمجة التطبيقات
+31	A	register	SDK	حزمة تطوير البرمجيات
+31	A	register	SDK	حزمة التطوير
+31	A	register	API	واجهة البرمجة
+31	A	register	API	واجهة البرمجة
+31	A	register	SDK	حزمة التطوير
+31	A	register	SDK	حزمة التطوير
+32	A	register	B-Tree	شجرة باء
+32	A	register	INSERT	الإدراج
+32	A	register	UPDATE	التحديث
+32	A	register	DELETE	الحذف
+32	A	spelling	و UPDATE	و«التحديث»
+32	A	spelling	و DELETE	و«الحذف»
+33	B	register	commits	الإيداعات
+33	B	register	commit	إيداع
+33	B	register	commits	إيداعات
+33	B	register	hash	بصمة رقمية
+33	B	register	rebase	إعادة التأسيس
+33	B	register	commit	إيداع
+33	B	register	rebase	إعادة التأسيس
+33	B	register	merge	الدمج
+33	B	register	Pull Request	طلب الدمج
+33	B	register	merge commits	إيداعات دمج
+33	B	register	commits	إيداعات
+33	B	register	commits	إيداعات
+33	B	register	rebase	إعادة التأسيس
+33	B	register	hashes	البصمات الرقمية
+33	B	register	لا تعمل rebase	لا تُعِد تأسيس
+33	B	register	commits	إيداعات
+33	B	register	rebase	إعادة التأسيس
+33	B	register	force	الدفع القسري
+33	B	register	commits	إيداعات
+33	B	register	PR	طلب الدمج
+33	B	register	hashes	البصمات الرقمية
+34	A	register	Caching	التخزين المؤقت
+34	A	register	Caching	التخزين المؤقت
+34	A	register	Caching	تخزين مؤقت
+34	A	register	Caching	التخزين المؤقت
+34	A	translationese	كل طلب يأخذ	يستغرق كل طلب
+34	A	register	Caching	التخزين المؤقت
+34	A	grammar	بعده	بعدها
+34	A	register	CDN	توصيل المحتوى
+34	A	register	الكاونتر	منضدة الخدمة
+34	A	register	Caching	التخزين المؤقت
+34	A	register	Caching	التخزين المؤقت
+35	A	register	IPC	الاتصال بين العمليات
+35	A	register	GIL	قفل المفسر العام
+35	A	register	GIL	قفل المفسر العام
+36	B	translationese	ما الذي يتم عزله ومحاكاته	ما يُعزَل وما يُحاكى
+36	B	register	Hypervisor	مشرف افتراضي
+36	B	register	VM	آلة افتراضية
+36	B	register	VM	آلة افتراضية
+36	B	formatting	Namespaces	مساحات الأسماء
+36	B	formatting	cgroups	مجموعات التحكم
+36	B	formatting	Union	أنظمة الملفات الاتحادية
+36	B	translationese	البنية كرمز	البنية التحتية بوصفها شيفرة
+36	B	register	CI/CD	التكامل والتسليم المستمرين
+36	B	translationese	يأخذ أمرًا واحدًا	يتطلب أمرًا واحدًا
+36	B	register	VM	الآلة الافتراضية
+37	B	register	REST API	واجهة برمجة تطبيقات لنقل الحالة التمثيلية
+37	B	formatting	API	واجهة برمجة التطبيقات
+37	B	register	API	واجهة برمجة التطبيقات
+37	B	formatting	REST	نقل الحالة التمثيلية
+37	B	register	HTTP	نقل النص التشعبي
+37	B	translationese	يُعامل كمورد	يُعَدّ موردًا
+37	B	register	URL	ويب
+37	B	grammar	تشير إلى مجموعة المستخدمين	يشير إلى مجموعة المستخدمين
+37	B	grammar	تشير إلى المستخدم	يشير إلى المستخدم
+37	B	translationese	بشكل مستقل	باستقلال
+37	B	register	HTTP	نقل النص التشعبي
+37	B	register	JSON	ترميز كائنات جافاسكربت
+37	B	register	HTTP	نقل النص التشعبي
+37	B	register	CRUD	الإنشاء والقراءة والتحديث والحذف
+37	B	formatting	GET	الجلب
+37	B	register	Read	
+37	B	formatting	POST	الإرسال
+37	B	register	Create	
+37	B	formatting	PUT	الاستبدال
+37	B	register	Update	
+37	B	formatting	DELETE	الحذف
+37	B	register	Delete	
+37	B	register	GET	الجلب
+37	B	register	JavaScript	جافاسكربت
+37	B	register	POST	الإرسال
+37	B	register	PUT	الاستبدال
+37	B	register	PATCH	التحديث الجزئي
+37	B	register	DELETE	الحذف
+37	B	register	OK	
+37	B	register	Created	
+37	B	translationese	تم إنشاء المورد	أُنشئ المورد
+37	B	register	No Content	
+37	B	register	Bad Request	
+37	B	register	Unauthorized	
+37	B	register	Forbidden	
+37	B	register	Not Found	
+37	B	register	Internal Server Error	
+37	B	register	Idempotency	ثبات الأثر عند التكرار
+37	B	register	Idempotent	ثابتة الأثر عند التكرار
+37	B	formatting	GET	الجلب
+37	B	register	PUT	الاستبدال
+37	B	register	DELETE	الحذف
+37	B	formatting	POST	الإرسال
+37	B	register	HTTP	نقل النص التشعبي
+37	B	register	REST	نقل الحالة التمثيلية
+38	A	register	Heisenbug	خطأ مراوغ
+38	A	translationese	كخطوة واحدة	في خطوة واحدة
+38	A	register	Java	جافا
+38	A	register	C++	سي++
+38	A	register	Go	غو
+38	A	register	Go	غو
+38	A	formatting	Go	غو
+38	A	formatting	C/C++	سي وسي++
+38	A	formatting	Java	جافا
+38	B	translationese	الرصيد يقول 20	الرصيد الظاهر 20
+39	A	register	HTTPS	بروتوكول نقل النص التشعبي الآمن
+39	A	register	HTTPS	بروتوكول نقل النص التشعبي الآمن
+39	A	translationese	يتم ذلك بطريقة تسمى	يتفق الطرفان على المفتاح بطريقة تسمى
+39	A	register	Diffie-Hellman	ديفي–هيلمان
+39	A	register	AES	معيار التشفير المتقدم
+39	A	register	HTTPS	بروتوكول نقل النص التشعبي الآمن
+39	A	register	HTTPS	بروتوكول نقل النص التشعبي الآمن
+39	A	translationese	أحد في المنتصف	أي طرف وسيط
+39	A	register	Wi-Fi	لاسلكية
+40	A	translationese	إن كسرت شيئًا كان يعمل	إذا عطّلت وظيفةً كانت تعمل
+40	A	grammar	ثوانٍ	ثوانيَ
+40	B	translationese	إن كسرت شيئًا كان يعمل	إذا عطّلت وظيفةً كانت تعمل
+42	B	translationese	وسيقوم أحد أعضاء فريقنا بمراجعته	وسيراجعه أحد أعضاء فريقنا
+43	B	translationese	يُعيد بالفعل تشكيل	أخذ يُعيد تشكيل
+47	A	translationese	بدأنا عام 2012 كورشة	بدأنا عام 2012 ورشةً
+51	A	grammar	السادة قسم	السادة في قسم
+51	B	grammar	السادة قسم	السادة في قسم
+51	B	formatting	يتمثّل في:	يتمثّل في
+57	A	grammar	السادة شركة	السادة في شركة
+57	B	grammar	على البيانات الموضحة	عبر وسائل الاتصال الموضحة
+60	A	grammar	السادة فريق	السادة في فريق
+60	A	register	الـ VPN	الاتصال بالشبكة الافتراضية الخاصة
+60	A	register	الـ VPN	الاتصال بالشبكة الافتراضية الخاصة
+60	A	translationese	يعمل بشكل طبيعي	يعمل دون خلل
+60	B	grammar	السادة فريق	السادة في فريق
+61	A	register	JSON	جيسون (JSON)
+61	A	register	UTF-8	(UTF-8)
+61	A	register	API	واجهة برمجة التطبيقات
+61	A	register	string	نص
+61	A	register	string	نص
+61	A	register	ISO 3166-1	(ISO 3166-1)
+61	A	register	string	نص
+61	A	register	string	نص
+61	A	register	API	واجهة برمجة التطبيقات
+61	A	register	string	نص
+61	A	register	string	نص
+61	A	register	number	عدد
+61	A	register	string	نص
+61	A	register	string	نص
+61	A	register	number	عدد
+61	A	register	number	عدد
+61	A	register	integer	عدد صحيح
+61	A	register	number	عدد
+61	A	register	integer	عدد صحيح
+61	A	register	string	نص
+61	A	register	string	نص
+61	A	register	ISO 8601 (UTC)	(ISO 8601، UTC)
+61	A	register	HTTP	بروتوكول نقل النص الفائق (HTTP)
+61	A	register	API	واجهة برمجة التطبيقات
+62	B	register	الراوتر	الموجّه
+62	B	register	الراوتر	الموجّه
+62	B	register	WAN	الشبكة الواسعة (WAN)
+62	B	register	بالراوتر	بالموجّه
+62	B	grammar	منفصل، أعد	منفصل فأعد
+62	B	register	الراوتر	الموجّه
+62	B	register	الراوتر	الموجّه
+62	B	register	الراوتر	الموجّه
+62	B	register	الراوتر	الموجّه
+62	B	register	الراوتر	الموجّه
+62	B	register	بالراوتر	بالموجّه
+62	B	register	Ethernet	إيثرنت (Ethernet)
+62	B	register	Wi-Fi	الواي فاي (Wi-Fi)
+62	B	register	Wi-Fi	الواي فاي (Wi-Fi)
+62	B	register	الراوتر	الموجّه
+62	B	register	الراوتر	الموجّه
+62	B	register	الراوتر	الموجّه
+62	B	register	Reset	إعادة الضبط (Reset)
+62	B	register	الراوتر	الموجّه
+62	B	register	الراوتر	الموجّه
+62	B	register	الراوتر	الموجّه
+63	B	translationese	أخطاء حرجة لم تُغلق	أخطاء حرجة لم تُصلح
+63	B	translationese	إغلاق الأخطاء	إصلاح الأخطاء
+64	B	translationese	ما يتم من خلال حسابه	ما يجري عبر حسابه
+65	A	translationese	تغييرًا كاسرًا	تغييرًا يُخلّ بالتوافق
+65	A	translationese	التغيير الكاسر	التغيير الذي يُخلّ بالتوافق
+65	B	formatting	Prettier	التنسيق بأداة بريتيير (Prettier)
+65	B	register	Conventional Commits	الإيداعات المتعارف عليها (Conventional Commits)
+65	B	translationese	كأدوات معتمدة	ضمن الأدوات المعتمدة
+65	B	grammar	تنسيق ما، اقترح	تنسيق ما فاقترح
+65	B	register	Unix	يونكس (Unix)
+65	B	register	CI	التكامل المستمر (CI)
+65	B	formatting	Prettier	أداة بريتيير (Prettier)
+65	B	formatting	و ESLint	وأداة (ESLint)
+65	B	formatting	Prettier	تتولّى أداة بريتيير (Prettier)
+65	B	formatting	و ESLint	وتتولّى أداة (ESLint)
+65	B	translationese	تُلفّ أسطره عند ٧٢ حرفًا	تُقسَّم أسطره بحيث لا يتجاوز السطر ٧٢ حرفًا
+65	B	translationese	التغييرات الكاسرة للتوافق	التغييرات التي تُخلّ بالتوافق
+66	A	translationese	يأخذك هذا الدليل من	يبدأ هذا الدليل بإعداد
+66	B	register	LTS	طويلة الدعم (LTS)
+66	B	grammar	Node، ثبّت	Node فثبّت
+66	B	grammar	`npm`، نفّذ	`npm` فنفّذ
+66	B	register	CRLF	صيغة (CRLF)
+66	B	formatting	و Prettier	وأداة (Prettier)
+66	B	formatting	و Visual Studio Build Tools	وأدوات البناء (Visual Studio Build Tools)
+66	B	register	"Desktop development with C++"	تطوير تطبيقات سطح المكتب بلغة سي بلس بلس (Desktop development with C++)
+67	A	register	ETL/ELT	الاستخراج والتحويل والتحميل (ETL/ELT)
+67	A	translationese	وترجمتها إلى حلول تقنية	ووضع حلول تقنية تلبّيها
+67	A	register	SQL	الاستعلامات المهيكلة (SQL)
+67	A	register	CI/CD	التكامل والتسليم المستمرين (CI/CD)
+67	A	translationese	البنية التحتية كشيفرة	إدارة البنية التحتية بالشيفرة
+69	A	register	SQL	لغة الاستعلامات المهيكلة (SQL)
+69	A	register	PL/pgSQL	الإجراءات المخزّنة (PL/pgSQL)
+69	A	register	ORM	الربط الكائني العلائقي (ORM)
+69	A	grammar	1–2 أسبوع	من أسبوع إلى أسبوعين
+69	A	formatting	و PostgreSQL	ونظام PostgreSQL
+69	A	translationese	كخيار للتراجع	لإتاحة التراجع
+69	A	register	CDC	التقاط تغييرات البيانات (CDC)
+69	B	grammar	إلى أربعة	إلى أربع
+70	A	grammar	إذا لن تستخدم	إذا كنت لن تستخدم
+71	A	register	#DataAnalysis	#تحليل_البيانات
+71	A	register	#OpenToWork	#البحث_عن_عمل
+74	B	grammar	وخدمة العملاء	وموظف خدمة العملاء
+75	A	register	غير	لا مثيل له
+75	A	register	ريحة	رائحة
+75	A	register	لحالها	وحدها
+75	A	register	بتلمّ	تجمع
+75	A	register	العيلة	العائلة
+75	A	register	بس	فقط
+75	A	register	وخلصنا	وانتهينا
+75	A	register	مين بدو يعمل الشاي؟	من سيُعدّ الشاي؟
+75	A	register	ما بقدر أتحرك	لا أستطيع الحركة
+75	A	register	الدايت	الحمية
+75	A	register	بكرة	غدًا
+75	A	register	وبكرة عمره ما بيجي	والغد لا يأتي أبدًا
+75	A	register	صحتين	هنيئًا
+75	A	register	وتفضلوا عنا	وتفضّلوا بزيارتنا
+75	A	register	#لمة_العيلة	#اجتماع_العائلة
+75	A	register	#صحتين_وعافية	#هنيئًا_وعافية
+78	B	register	Issues	قسم البلاغات
+78	B	register	#OpenSource	#مفتوح_المصدر
+81	A	register	الـ Load Balancer	موازن الأحمال
+81	A	register	الـ **Load Balancer**	**موازن الأحمال**
+81	A	register	الـ load balancer	موازن الأحمال
+81	A	register	الـ load balancer	موازن الأحمال
+81	A	register	الـ load balancer	موازن الأحمال
+81	A	register	الـ load balancer	موازن الأحمال
+81	A	translationese	أنت كمستخدم لا تلاحظ	لا تلاحظ
+81	A	register	الـ load balancer	موازن الأحمال
+81	A	register	الـ load balancer	موازن الأحمال
+81	A	formatting	Round	التوزيع
+81	A	register	Round Robin (بالدور)	التوزيع بالدور
+81	A	formatting	Least	أقلّ
+81	A	register	Least Connections (الأقل اتصالات)	أقلّ الخوادم اتصالًا
+81	A	grammar	الأقل اتصالات	الأقل اتصالًا
+81	A	formatting	IP	تجزئة
+81	A	register	IP Hash	تجزئة عنوان بروتوكول الإنترنت
+81	A	register	الـ load balancer	موازن الأحمال
+82	A	register	Big O	الرتبة العليا
+82	A	register	Big O	الرتبة العليا
+82	A	translationese	الوصول إلى العنصر الأول يتم بخطوة واحدة	نصل إلى العنصر الأول بخطوة واحدة
+82	A	translationese	بنفس نسبة ازدياد المدخلات	بنسبة ازدياد المدخلات نفسها
+83	B	formatting	SQL	قواعد
+83	B	register	SQL (قواعد البيانات العلائقية)	قواعد البيانات العلائقية (SQL)
+83	B	formatting	NoSQL	القواعد
+83	B	register	NoSQL	القواعد غير العلائقية (NoSQL)
+83	B	register	JSON	صيغة ترميز كائنات جافاسكربت
+83	B	register	SQL	القواعد العلائقية
+83	B	register	NoSQL	القواعد غير العلائقية
+83	B	register	JOIN	ربط
+83	B	register	ACID	ضمان الذرية والاتساق والعزل والديمومة
+83	B	register	SQL	القواعد العلائقية
+83	B	register	NoSQL	القواعد غير العلائقية
+83	B	translationese	تصمّم البيانات حول الاستعلامات	تصمّم البيانات بما يلائم الاستعلامات
+83	B	register	SQL	القواعد العلائقية
+83	B	translationese	صحة البيانات حرجة	صحة البيانات ضرورية
+83	B	register	NoSQL	القواعد غير العلائقية
+83	B	register	NoSQL	القواعد غير العلائقية
+83	B	register	JSON	بصيغة ترميز كائنات جافاسكربت
+83	B	register	NoSQL	القواعد غير العلائقية
+83	B	register	SQL	القواعد العلائقية
+84	A	formatting	CI/CD	التكامل المستمر والتسليم المستمر
+84	A	register	CI/CD	هذا المصطلح
+84	A	register	Continuous Integration	التكامل المستمر
+84	A	formatting	و Continuous	وContinuous
+84	A	register	Continuous Delivery/Deployment	التسليم المستمر أو النشر المستمر
+84	A	translationese	بشكل متكرر	مرارًا
+84	A	translationese	يعمل خط آلي (pipeline) يقوم بـ	ينفّذ خط آلي (pipeline) المهام الآتية
+84	A	grammar	التسليم والنشر المستمر	التسليم المستمر والنشر المستمر
+84	A	register	CI	التكامل المستمر
+84	A	grammar	البناء والاختبار والنشر تجري	تجري عمليات البناء والاختبار والنشر
+84	A	translationese	تغييره كسر شيئًا	تغييره سبّب خللًا
+84	A	translationese	الاختبارات تعمل على كل تغيير	تُجرى الاختبارات عند كل تغيير
+84	A	formatting	و GitLab	وGitLab
+84	A	formatting	و Jenkins	وJenkins
+84	A	formatting	و CircleCI	وCircleCI
+84	A	register	CI/CD	التكامل والتسليم المستمرين
+84	B	translationese	كسر تغييرٌ شيئًا	أحدث تغييرٌ خللًا
+84	B	grammar	البناء والاختبار والنشر تجري	تجري عمليات البناء والاختبار والنشر
+84	B	translationese	الاختبارات تعمل على كل تغيير	تُجرى الاختبارات عند كل تغيير
+85	A	register	IP	بروتوكول الإنترنت
+85	A	register	DNS	نظام أسماء النطاقات
+85	A	register	Enter	مفتاح الإدخال
+85	A	register	IP	بروتوكول الإنترنت
+85	A	register	TTL	مدة البقاء
+85	A	register	IP	بروتوكول الإنترنت
+85	A	register	TCP	عبر بروتوكول التحكم بالنقل
+85	A	register	TLS	بروتوكول أمان طبقة النقل
+85	A	register	HTTP	عبر بروتوكول نقل النص التشعبي
+85	A	register	HTML	مكتوب بلغة ترميز النص التشعبي
+85	A	register	DNS	في نظام أسماء النطاقات
+85	A	register	TTL	صلاحية السجل
+86	B	register	الـ **recursion**	**الاستدعاء الذاتي**
+86	B	register	recursive	ذاتية الاستدعاء
+86	B	register	الـ call stack	مكدّس الاستدعاءات
+86	B	register	recursive	ذاتي
+86	B	register	الـ call stack	مكدّس الاستدعاءات
+86	B	register	الـ stack	المكدّس
+86	B	register	stack overflow	تجاوز سعة المكدّس
+86	B	register	JavaScript	جافاسكربت
+86	B	register	الـ recursion	الاستدعاء الذاتي
+86	B	register	divide and conquer	قسّم تسد
+86	B	register	merge sort	الفرز بالدمج
+87	A	register	الـ shell	صدفة الأوامر
+87	A	translationese	الأسرار لا يجب أن تنتشر	يجب ألّا تنتشر الأسرار
+87	A	register	CI	التكامل المستمر
+87	A	register	commit	إيداع
+87	A	register	الـ API	واجهات برمجة التطبيقات
+87	A	register	الـ tokens	رموز الوصول
+87	A	grammar	وليس كلمات المرور فقط	لا على كلمات المرور وحدها
+88	A	translationese	كمدير منتج	بصفتك مدير منتج
+88	A	translationese	الكود الهش ينكسر	تتعطّل الشيفرة الهشّة
+88	A	grammar	سجّلوا	سجّل
+88	A	grammar	واتفقوا	واتفق
+88	A	translationese	بناء قيمة جديدة للعملاء	تقديم فوائد جديدة للعملاء
+88	B	grammar	فأصلحوه	فأصلحه
+89	A	register	OTP	رمز تحقق
+90	A	grammar	يضيف بايثون	تضيف بايثون
+90	B	register	الـ garbage collector	جامع المهملات
+90	B	register	Java	جافا
+90	B	register	Python	بايثون
+90	B	formatting	Python	بايثون
+90	B	register	Python	بايثون
+90	B	formatting	Reference	عدّ
+90	B	register	Reference counting	عدّ المراجع
+90	B	formatting	Cycle	جامع
+90	B	register	Cycle collector	جامع الحلقات
+90	B	formatting	Java	جافا
+90	B	register	Java	جافا
+90	B	formatting	Tracing	التتبّع
+90	B	register	Tracing	التتبّع
+90	B	register	الـ heap	الكومة
+90	B	grammar	مقسوم	مقسومة
+90	B	register	young generation	جيل حديث
+90	B	register	old generation	جيل قديم
+90	B	translationese	تموت صغيرة	تصبح غير قابلة للوصول بعد إنشائها بقليل
+90	B	formatting	Minor	جمع
+90	B	register	Minor GC	جمع مهملات الجيل الحديث
+90	B	formatting	Major/Full	الجمع
+90	B	register	Major/Full GC	الجمع الشامل
+90	B	register	Java	جافا
+90	B	register	stop-the-world	توقف التطبيق بالكامل
+90	B	register	heap	كومة
+90	B	register	Full GC	جمع شامل
+90	B	translationese	تظهر كقفزات	تتسبّب في ارتفاعات مفاجئة
+90	B	register	Minor GC	جمع مهملات الجيل الحديث
+90	B	formatting	heap	كومة
+90	B	register	heap	كومة
+90	B	register	Full GC	الجمع الشامل
+90	B	register	الـ heap	الكومة
+90	B	register	Python	بايثون
+90	B	register	Python	بايثون
+90	B	register	الـ GIL	قفل المفسّر العام
+90	B	register	Java	جافا
+90	B	register	الـ GC	جامع المهملات
+90	B	register	JFR	مسجّل أحداث جافا
+90	B	register	Python	بايثون
+90	B	register	Java	جافا
+90	B	register	Python	بايثون
+90	B	register	Java	جافا
+90	B	register	heap	كومة
+90	B	register	Python	بايثون
+92	A	translationese	ويقوم مقدِّم الخدمة بإعادة بيانات العميل أو حذفها	ويعيد مقدِّم الخدمة بيانات العميل أو يحذفها
+92	A	translationese	خارجة عن إرادته المعقولة	لا يستطيع السيطرة عليها بتدابير معقولة
+96	B	translationese	تم الاحتفاظ بمسودتك	حفظنا مسودتك
+96	B	grammar	المشكلة، سجّل	المشكلة، فسجّل
+96	B	translationese	قم بترقية	رقِّ
+98	A	grammar	قدر كبير	قدر كبيرة
+99	B	translationese	نقطة الاتصال الرئيسية	جهة الاتصال الرئيسية

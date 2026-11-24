@@ -1,0 +1,480 @@
+id,answer,category,quote,fix
+email-03,baseline,translationese,سنقوم بما يلي لتصحيح الخطأ,سنصحّح الخطأ على النحو الآتي
+email-04,baseline,formatting,السيد/,السيد
+email-04,baseline,translationese,نحن الآن نكمل تقييم المرشحين,نستكمل الآن تقييم المرشحين
+email-06,baseline,translationese,ولم يتم إصلاحها,ولم تُصلَح
+email-06,baseline,translationese,التسرب يأتي من,يتسرّب الماء من
+email-06,skill,formatting,السيد/,السيد
+email-08,baseline,translationese,أتمنى أن تكون رسالتي هذه قد وصلتكم وأنتم بخير.,أرجو أن تكونوا بخير.
+email-09,baseline,formatting,لـ [اسم,لـ[اسم
+email-10,skill,formatting,السيد/,السيد
+docs-01,baseline,register,CSV,القيم المفصولة بفواصل
+docs-02,baseline,formatting,Python,بايثون
+docs-02,baseline,register,Python,بايثون
+docs-02,baseline,formatting,pip,مدير الحزم
+docs-02,baseline,register,pip,مدير الحزم
+docs-02,baseline,register,Python,بايثون
+docs-02,baseline,grammar,3.9، ثبّت,3.9، فثبّت
+docs-02,baseline,register,pip,`pip`
+docs-02,baseline,register,Python,بايثون
+docs-02,baseline,translationese,تم التثبيت,ثُبّتت الأداة
+docs-02,baseline,register,pip,`pip`
+docs-02,baseline,register,Python,بايثون
+docs-02,baseline,register,Python,بايثون
+docs-03,baseline,grammar,مهامًا فرعية,مهامَّ فرعية
+docs-03,baseline,register,Markdown,`Markdown`
+docs-05,baseline,register,الـ Backend,الواجهة الخلفية
+docs-05,baseline,translationese,هذا الدليل يساعدك,يساعدك هذا الدليل
+docs-05,baseline,grammar,يساعدك تبدأ,يساعدك على البدء
+docs-05,baseline,register,الـ staging,الاختبار المرحلي
+docs-05,baseline,formatting,ماذا غيّرت، ولماذا، وكيف اختبرته.,ماذا غيّرت؟ ولماذا؟ وكيف اختبرته؟
+docs-05,baseline,register,الـ CI,التكامل المستمر
+docs-05,baseline,translationese,المراجعة تكون على الكود,تتناول المراجعة الشيفرة
+docs-05,baseline,grammar,وليس على الشخص,ولا تتناول الشخص
+docs-05,baseline,translationese,حفظ الدليل كملف,حفظ الدليل في ملف
+docs-06,baseline,register,UFW,(UFW)
+docs-06,baseline,translationese,Nginx كوكيل عكسي,Nginx للعمل وسيطًا عكسيًا
+docs-06,baseline,register,HTTPS,الاتصال المشفّر (HTTPS)
+docs-06,baseline,register,UFW,الجدار الناري (UFW)
+docs-06,baseline,formatting,file,ملف
+docs-06,baseline,translationese,كوكيل عكسي,بصفته وسيطًا عكسيًا
+docs-06,baseline,register,HTTPS,للاتصال المشفّر (HTTPS)
+docs-06,baseline,translationese,يستمع داخل الحاوية على المنفذ,يستمع داخل الحاوية إلى الطلبات الواردة عبر المنفذ
+docs-06,baseline,register,عنوان IP الخادم,عنوان الخادم (IP)
+docs-06,baseline,register,UFW,الجدار الناري (UFW)
+docs-06,baseline,register,Nginx كوكيل عكسي,Nginx للعمل وسيطًا عكسيًا
+docs-06,baseline,register,HTTPS,الاتصال المشفّر (HTTPS)
+docs-06,baseline,register,HTTP إلى HTTPS,الاتصال غير المشفّر إلى الاتصال المشفّر
+docs-06,baseline,register,SSH,الاتصال الآمن عن بُعد (SSH)
+docs-06,baseline,register,Dockerfile,`Dockerfile`
+docs-06,skill,translationese,يستمع على المنفذ,يستمع إلى الطلبات الواردة عبر المنفذ
+docs-07,baseline,translationese,يتم الدفع,أدفع
+docs-07,baseline,translationese,تتيح إضافة حتى,تتيح إضافة ما يصل إلى
+docs-08,baseline,register,OLED,(OLED)
+docs-09,baseline,translationese,النتائج تعني,تعني النتائج
+docs-10,baseline,translationese,المجلد كان فارغًا,كان المجلد فارغًا
+docs-10,baseline,register,Conventional Commits,الالتزامات التقليدية (Conventional Commits)
+docs-10,baseline,translationese,التغييرات الكاسرة,التغييرات التي تخلّ بالتوافق مع الإصدارات السابقة
+docs-10,skill,translationese,الفرع محدّث مع,الفرع متزامن مع
+social-01,baseline,translationese,اليوم كان أول يوم لي,كان اليوم أول يوم لي
+social-01,baseline,translationese,لي كمهندس برمجيات,لي مهندسَ برمجيات
+social-01,baseline,translationese,الشيء الذي بقي معي من اليوم,أكثر ما علق بذهني اليوم
+social-01,baseline,grammar,وزملائي السابقين,وزملائي السابقينَ
+social-03,baseline,grammar,يسعدنا نعلن,يسعدنا أن نعلن
+social-03,baseline,register,لآخرها,إلى آخرها
+social-03,baseline,register,وش,ما الذي
+social-03,baseline,register,يطلّع,يُبرز
+social-03,baseline,grammar,باريستا محترفين,مختصون محترفون بإعداد القهوة
+social-03,baseline,grammar,يساعدونك تختار,يساعدونك على اختيار
+social-03,baseline,register,اللي,التي
+social-03,baseline,register,الشغل,العمل
+social-03,baseline,register,سوا,معًا
+social-03,baseline,register,بالمنشن,بوسم حسابنا
+social-03,baseline,register,#SpecialtyCoffee,
+social-03,baseline,register,#RiyadhCafe,
+social-03,baseline,register,تبي,تريد
+social-05,baseline,translationese,نتطلع لمشاركتها,نتطلع إلى مشاركتها
+social-05,baseline,formatting,"الـ 100,000","100,000 مستخدم"
+social-06,baseline,translationese,من اختراقات المواقع,إثر اختراق المواقع
+social-06,baseline,grammar,دقيقتان من وقتك اليوم قد توفّر,دقيقتان من وقتك اليوم قد توفّران
+social-07,baseline,grammar,الرسوم:** مجانًا بالكامل,الرسوم:** لا توجد
+social-09,baseline,grammar,ستصبح بعد سنة,لأصبحت بعد سنة
+social-09,baseline,translationese,تصنع الفرق,تُحدث فرقًا
+social-09,baseline,translationese,هو صوت تمنحه,هو بمثابة تصويت لصالح
+social-09,skill,translationese,أن تحضر,أن تبدأ بالممارسة
+social-09,skill,grammar,على أفكاره,استنادًا إلى أفكاره
+social-10,baseline,grammar,ابتساماتكم وحماسكم تركت,تركت ابتساماتكم وحماسكم
+social-10,baseline,translationese,فتصنع الفرق,فتُحدث فرقًا
+social-10,baseline,grammar,نتطلع للقائكم,نتطلع إلى لقائكم
+tech_explain-01,baseline,register,API,واجهة برمجة التطبيقات
+tech_explain-01,baseline,register,SDK,حزمة تطوير البرمجيات
+tech_explain-01,baseline,register,SDK,حزمة التطوير
+tech_explain-01,baseline,register,API,واجهة البرمجة
+tech_explain-01,baseline,register,API,واجهة البرمجة
+tech_explain-01,baseline,register,SDK,حزمة التطوير
+tech_explain-01,baseline,register,SDK,حزمة التطوير
+tech_explain-02,baseline,register,B-Tree,شجرة باء
+tech_explain-02,baseline,register,INSERT,الإدراج
+tech_explain-02,baseline,register,UPDATE,التحديث
+tech_explain-02,baseline,register,DELETE,الحذف
+tech_explain-02,baseline,spelling,و UPDATE,و«التحديث»
+tech_explain-02,baseline,spelling,و DELETE,و«الحذف»
+tech_explain-03,baseline,register,commits,الإيداعات
+tech_explain-03,baseline,register,commit,إيداع
+tech_explain-03,baseline,register,commits,إيداعات
+tech_explain-03,baseline,register,hash,بصمة رقمية
+tech_explain-03,baseline,register,rebase,إعادة التأسيس
+tech_explain-03,baseline,register,commit,إيداع
+tech_explain-03,baseline,register,rebase,إعادة التأسيس
+tech_explain-03,baseline,register,merge,الدمج
+tech_explain-03,baseline,register,Pull Request,طلب الدمج
+tech_explain-03,baseline,register,merge commits,إيداعات دمج
+tech_explain-03,baseline,register,commits,إيداعات
+tech_explain-03,baseline,register,commits,إيداعات
+tech_explain-03,baseline,register,rebase,إعادة التأسيس
+tech_explain-03,baseline,register,hashes,البصمات الرقمية
+tech_explain-03,baseline,register,لا تعمل rebase,لا تُعِد تأسيس
+tech_explain-03,baseline,register,commits,إيداعات
+tech_explain-03,baseline,register,rebase,إعادة التأسيس
+tech_explain-03,baseline,register,force,الدفع القسري
+tech_explain-03,baseline,register,commits,إيداعات
+tech_explain-03,baseline,register,PR,طلب الدمج
+tech_explain-03,baseline,register,hashes,البصمات الرقمية
+tech_explain-04,baseline,register,Caching,التخزين المؤقت
+tech_explain-04,baseline,register,Caching,التخزين المؤقت
+tech_explain-04,baseline,register,Caching,تخزين مؤقت
+tech_explain-04,baseline,register,Caching,التخزين المؤقت
+tech_explain-04,baseline,translationese,كل طلب يأخذ,يستغرق كل طلب
+tech_explain-04,baseline,register,Caching,التخزين المؤقت
+tech_explain-04,baseline,grammar,بعده,بعدها
+tech_explain-04,baseline,register,CDN,توصيل المحتوى
+tech_explain-04,baseline,register,الكاونتر,منضدة الخدمة
+tech_explain-04,baseline,register,Caching,التخزين المؤقت
+tech_explain-04,baseline,register,Caching,التخزين المؤقت
+tech_explain-05,baseline,register,IPC,الاتصال بين العمليات
+tech_explain-05,baseline,register,GIL,قفل المفسر العام
+tech_explain-05,baseline,register,GIL,قفل المفسر العام
+tech_explain-06,baseline,translationese,ما الذي يتم عزله ومحاكاته,ما يُعزَل وما يُحاكى
+tech_explain-06,baseline,register,Hypervisor,مشرف افتراضي
+tech_explain-06,baseline,register,VM,آلة افتراضية
+tech_explain-06,baseline,register,VM,آلة افتراضية
+tech_explain-06,baseline,formatting,Namespaces,مساحات الأسماء
+tech_explain-06,baseline,formatting,cgroups,مجموعات التحكم
+tech_explain-06,baseline,formatting,Union,أنظمة الملفات الاتحادية
+tech_explain-06,baseline,translationese,البنية كرمز,البنية التحتية بوصفها شيفرة
+tech_explain-06,baseline,register,CI/CD,التكامل والتسليم المستمرين
+tech_explain-06,baseline,translationese,يأخذ أمرًا واحدًا,يتطلب أمرًا واحدًا
+tech_explain-06,baseline,register,VM,الآلة الافتراضية
+tech_explain-07,baseline,register,REST API,واجهة برمجة تطبيقات لنقل الحالة التمثيلية
+tech_explain-07,baseline,formatting,API,واجهة برمجة التطبيقات
+tech_explain-07,baseline,register,API,واجهة برمجة التطبيقات
+tech_explain-07,baseline,formatting,REST,نقل الحالة التمثيلية
+tech_explain-07,baseline,register,HTTP,نقل النص التشعبي
+tech_explain-07,baseline,translationese,يُعامل كمورد,يُعَدّ موردًا
+tech_explain-07,baseline,register,URL,ويب
+tech_explain-07,baseline,grammar,تشير إلى مجموعة المستخدمين,يشير إلى مجموعة المستخدمين
+tech_explain-07,baseline,grammar,تشير إلى المستخدم,يشير إلى المستخدم
+tech_explain-07,baseline,translationese,بشكل مستقل,باستقلال
+tech_explain-07,baseline,register,HTTP,نقل النص التشعبي
+tech_explain-07,baseline,register,JSON,ترميز كائنات جافاسكربت
+tech_explain-07,baseline,register,HTTP,نقل النص التشعبي
+tech_explain-07,baseline,register,CRUD,الإنشاء والقراءة والتحديث والحذف
+tech_explain-07,baseline,formatting,GET,الجلب
+tech_explain-07,baseline,register,Read,
+tech_explain-07,baseline,formatting,POST,الإرسال
+tech_explain-07,baseline,register,Create,
+tech_explain-07,baseline,formatting,PUT,الاستبدال
+tech_explain-07,baseline,register,Update,
+tech_explain-07,baseline,formatting,DELETE,الحذف
+tech_explain-07,baseline,register,Delete,
+tech_explain-07,baseline,register,GET,الجلب
+tech_explain-07,baseline,register,JavaScript,جافاسكربت
+tech_explain-07,baseline,register,POST,الإرسال
+tech_explain-07,baseline,register,PUT,الاستبدال
+tech_explain-07,baseline,register,PATCH,التحديث الجزئي
+tech_explain-07,baseline,register,DELETE,الحذف
+tech_explain-07,baseline,register,OK,
+tech_explain-07,baseline,register,Created,
+tech_explain-07,baseline,translationese,تم إنشاء المورد,أُنشئ المورد
+tech_explain-07,baseline,register,No Content,
+tech_explain-07,baseline,register,Bad Request,
+tech_explain-07,baseline,register,Unauthorized,
+tech_explain-07,baseline,register,Forbidden,
+tech_explain-07,baseline,register,Not Found,
+tech_explain-07,baseline,register,Internal Server Error,
+tech_explain-07,baseline,register,Idempotency,ثبات الأثر عند التكرار
+tech_explain-07,baseline,register,Idempotent,ثابتة الأثر عند التكرار
+tech_explain-07,baseline,formatting,GET,الجلب
+tech_explain-07,baseline,register,PUT,الاستبدال
+tech_explain-07,baseline,register,DELETE,الحذف
+tech_explain-07,baseline,formatting,POST,الإرسال
+tech_explain-07,baseline,register,HTTP,نقل النص التشعبي
+tech_explain-07,baseline,register,REST,نقل الحالة التمثيلية
+tech_explain-08,baseline,register,Heisenbug,خطأ مراوغ
+tech_explain-08,baseline,translationese,كخطوة واحدة,في خطوة واحدة
+tech_explain-08,baseline,register,Java,جافا
+tech_explain-08,baseline,register,C++,سي++
+tech_explain-08,baseline,register,Go,غو
+tech_explain-08,baseline,register,Go,غو
+tech_explain-08,baseline,formatting,Go,غو
+tech_explain-08,baseline,formatting,C/C++,سي وسي++
+tech_explain-08,baseline,formatting,Java,جافا
+tech_explain-08,skill,translationese,الرصيد يقول 20,الرصيد الظاهر 20
+tech_explain-09,baseline,register,HTTPS,بروتوكول نقل النص التشعبي الآمن
+tech_explain-09,baseline,register,HTTPS,بروتوكول نقل النص التشعبي الآمن
+tech_explain-09,baseline,translationese,يتم ذلك بطريقة تسمى,يتفق الطرفان على المفتاح بطريقة تسمى
+tech_explain-09,baseline,register,Diffie-Hellman,ديفي–هيلمان
+tech_explain-09,baseline,register,AES,معيار التشفير المتقدم
+tech_explain-09,baseline,register,HTTPS,بروتوكول نقل النص التشعبي الآمن
+tech_explain-09,baseline,register,HTTPS,بروتوكول نقل النص التشعبي الآمن
+tech_explain-09,baseline,translationese,أحد في المنتصف,أي طرف وسيط
+tech_explain-09,baseline,register,Wi-Fi,لاسلكية
+tech_explain-10,baseline,translationese,إن كسرت شيئًا كان يعمل,إذا عطّلت وظيفةً كانت تعمل
+tech_explain-10,baseline,grammar,ثوانٍ,ثوانيَ
+tech_explain-10,skill,translationese,إن كسرت شيئًا كان يعمل,إذا عطّلت وظيفةً كانت تعمل
+translate-02,baseline,translationese,وسيقوم أحد أعضاء فريقنا بمراجعته,وسيراجعه أحد أعضاء فريقنا
+translate-03,baseline,translationese,يُعيد بالفعل تشكيل,أخذ يُعيد تشكيل
+translate-07,baseline,translationese,بدأنا عام 2012 كورشة,بدأنا عام 2012 ورشةً
+email-11,baseline,grammar,السادة قسم,السادة في قسم
+email-11,baseline,formatting,يتمثّل في:,يتمثّل في
+email-11,skill,grammar,السادة قسم,السادة في قسم
+email-17,baseline,grammar,على البيانات الموضحة,عبر وسائل الاتصال الموضحة
+email-17,skill,grammar,السادة شركة,السادة في شركة
+email-20,baseline,grammar,السادة فريق,السادة في فريق
+email-20,baseline,register,الـ VPN,الاتصال بالشبكة الافتراضية الخاصة
+email-20,baseline,register,الـ VPN,الاتصال بالشبكة الافتراضية الخاصة
+email-20,baseline,translationese,يعمل بشكل طبيعي,يعمل دون خلل
+email-20,skill,grammar,السادة فريق,السادة في فريق
+docs-11,baseline,register,JSON,جيسون (JSON)
+docs-11,baseline,register,UTF-8,(UTF-8)
+docs-11,baseline,register,API,واجهة برمجة التطبيقات
+docs-11,baseline,register,string,نص
+docs-11,baseline,register,string,نص
+docs-11,baseline,register,ISO 3166-1,(ISO 3166-1)
+docs-11,baseline,register,string,نص
+docs-11,baseline,register,string,نص
+docs-11,baseline,register,API,واجهة برمجة التطبيقات
+docs-11,baseline,register,string,نص
+docs-11,baseline,register,string,نص
+docs-11,baseline,register,number,عدد
+docs-11,baseline,register,string,نص
+docs-11,baseline,register,string,نص
+docs-11,baseline,register,number,عدد
+docs-11,baseline,register,number,عدد
+docs-11,baseline,register,integer,عدد صحيح
+docs-11,baseline,register,number,عدد
+docs-11,baseline,register,integer,عدد صحيح
+docs-11,baseline,register,string,نص
+docs-11,baseline,register,string,نص
+docs-11,baseline,register,ISO 8601 (UTC),(ISO 8601، UTC)
+docs-11,baseline,register,HTTP,بروتوكول نقل النص الفائق (HTTP)
+docs-11,baseline,register,API,واجهة برمجة التطبيقات
+docs-12,baseline,register,الراوتر,الموجّه
+docs-12,baseline,register,الراوتر,الموجّه
+docs-12,baseline,register,WAN,الشبكة الواسعة (WAN)
+docs-12,baseline,register,بالراوتر,بالموجّه
+docs-12,baseline,grammar,منفصل، أعد,منفصل فأعد
+docs-12,baseline,register,الراوتر,الموجّه
+docs-12,baseline,register,الراوتر,الموجّه
+docs-12,baseline,register,الراوتر,الموجّه
+docs-12,baseline,register,الراوتر,الموجّه
+docs-12,baseline,register,الراوتر,الموجّه
+docs-12,baseline,register,بالراوتر,بالموجّه
+docs-12,baseline,register,Ethernet,إيثرنت (Ethernet)
+docs-12,baseline,register,Wi-Fi,الواي فاي (Wi-Fi)
+docs-12,baseline,register,Wi-Fi,الواي فاي (Wi-Fi)
+docs-12,baseline,register,الراوتر,الموجّه
+docs-12,baseline,register,الراوتر,الموجّه
+docs-12,baseline,register,الراوتر,الموجّه
+docs-12,baseline,register,Reset,إعادة الضبط (Reset)
+docs-12,baseline,register,الراوتر,الموجّه
+docs-12,baseline,register,الراوتر,الموجّه
+docs-12,baseline,register,الراوتر,الموجّه
+docs-13,baseline,translationese,أخطاء حرجة لم تُغلق,أخطاء حرجة لم تُصلح
+docs-13,baseline,translationese,إغلاق الأخطاء,إصلاح الأخطاء
+docs-14,baseline,translationese,ما يتم من خلال حسابه,ما يجري عبر حسابه
+docs-15,baseline,formatting,Prettier,التنسيق بأداة بريتيير (Prettier)
+docs-15,baseline,register,Conventional Commits,الإيداعات المتعارف عليها (Conventional Commits)
+docs-15,baseline,translationese,كأدوات معتمدة,ضمن الأدوات المعتمدة
+docs-15,baseline,grammar,تنسيق ما، اقترح,تنسيق ما فاقترح
+docs-15,baseline,register,Unix,يونكس (Unix)
+docs-15,baseline,register,CI,التكامل المستمر (CI)
+docs-15,baseline,formatting,Prettier,أداة بريتيير (Prettier)
+docs-15,baseline,formatting,و ESLint,وأداة (ESLint)
+docs-15,baseline,formatting,Prettier,تتولّى أداة بريتيير (Prettier)
+docs-15,baseline,formatting,و ESLint,وتتولّى أداة (ESLint)
+docs-15,baseline,translationese,تُلفّ أسطره عند ٧٢ حرفًا,تُقسَّم أسطره بحيث لا يتجاوز السطر ٧٢ حرفًا
+docs-15,baseline,translationese,التغييرات الكاسرة للتوافق,التغييرات التي تُخلّ بالتوافق
+docs-15,skill,translationese,تغييرًا كاسرًا,تغييرًا يُخلّ بالتوافق
+docs-15,skill,translationese,التغيير الكاسر,التغيير الذي يُخلّ بالتوافق
+docs-16,baseline,register,LTS,طويلة الدعم (LTS)
+docs-16,baseline,grammar,Node، ثبّت,Node فثبّت
+docs-16,baseline,grammar,`npm`، نفّذ,`npm` فنفّذ
+docs-16,baseline,register,CRLF,صيغة (CRLF)
+docs-16,baseline,formatting,و Prettier,وأداة (Prettier)
+docs-16,baseline,formatting,و Visual Studio Build Tools,وأدوات البناء (Visual Studio Build Tools)
+docs-16,baseline,register,"""Desktop development with C++""",تطوير تطبيقات سطح المكتب بلغة سي بلس بلس (Desktop development with C++)
+docs-16,skill,translationese,يأخذك هذا الدليل من,يبدأ هذا الدليل بإعداد
+docs-17,baseline,register,ETL/ELT,الاستخراج والتحويل والتحميل (ETL/ELT)
+docs-17,baseline,translationese,وترجمتها إلى حلول تقنية,ووضع حلول تقنية تلبّيها
+docs-17,baseline,register,SQL,الاستعلامات المهيكلة (SQL)
+docs-17,baseline,register,CI/CD,التكامل والتسليم المستمرين (CI/CD)
+docs-17,baseline,translationese,البنية التحتية كشيفرة,إدارة البنية التحتية بالشيفرة
+docs-19,baseline,register,SQL,لغة الاستعلامات المهيكلة (SQL)
+docs-19,baseline,register,PL/pgSQL,الإجراءات المخزّنة (PL/pgSQL)
+docs-19,baseline,register,ORM,الربط الكائني العلائقي (ORM)
+docs-19,baseline,grammar,1–2 أسبوع,من أسبوع إلى أسبوعين
+docs-19,baseline,formatting,و PostgreSQL,ونظام PostgreSQL
+docs-19,baseline,translationese,كخيار للتراجع,لإتاحة التراجع
+docs-19,baseline,register,CDC,التقاط تغييرات البيانات (CDC)
+docs-19,skill,grammar,إلى أربعة,إلى أربع
+docs-20,baseline,grammar,إذا لن تستخدم,إذا كنت لن تستخدم
+social-11,baseline,register,#DataAnalysis,#تحليل_البيانات
+social-11,baseline,register,#OpenToWork,#البحث_عن_عمل
+social-14,baseline,grammar,وخدمة العملاء,وموظف خدمة العملاء
+social-15,baseline,register,غير,لا مثيل له
+social-15,baseline,register,ريحة,رائحة
+social-15,baseline,register,لحالها,وحدها
+social-15,baseline,register,بتلمّ,تجمع
+social-15,baseline,register,العيلة,العائلة
+social-15,baseline,register,بس,فقط
+social-15,baseline,register,وخلصنا,وانتهينا
+social-15,baseline,register,مين بدو يعمل الشاي؟,من سيُعدّ الشاي؟
+social-15,baseline,register,ما بقدر أتحرك,لا أستطيع الحركة
+social-15,baseline,register,الدايت,الحمية
+social-15,baseline,register,بكرة,غدًا
+social-15,baseline,register,وبكرة عمره ما بيجي,والغد لا يأتي أبدًا
+social-15,baseline,register,صحتين,هنيئًا
+social-15,baseline,register,وتفضلوا عنا,وتفضّلوا بزيارتنا
+social-15,baseline,register,#لمة_العيلة,#اجتماع_العائلة
+social-15,baseline,register,#صحتين_وعافية,#هنيئًا_وعافية
+social-18,baseline,register,Issues,قسم البلاغات
+social-18,baseline,register,#OpenSource,#مفتوح_المصدر
+tech_explain-11,baseline,register,الـ Load Balancer,موازن الأحمال
+tech_explain-11,baseline,register,الـ **Load Balancer**,**موازن الأحمال**
+tech_explain-11,baseline,register,الـ load balancer,موازن الأحمال
+tech_explain-11,baseline,register,الـ load balancer,موازن الأحمال
+tech_explain-11,baseline,register,الـ load balancer,موازن الأحمال
+tech_explain-11,baseline,register,الـ load balancer,موازن الأحمال
+tech_explain-11,baseline,translationese,أنت كمستخدم لا تلاحظ,لا تلاحظ
+tech_explain-11,baseline,register,الـ load balancer,موازن الأحمال
+tech_explain-11,baseline,register,الـ load balancer,موازن الأحمال
+tech_explain-11,baseline,formatting,Round,التوزيع
+tech_explain-11,baseline,register,Round Robin (بالدور),التوزيع بالدور
+tech_explain-11,baseline,formatting,Least,أقلّ
+tech_explain-11,baseline,register,Least Connections (الأقل اتصالات),أقلّ الخوادم اتصالًا
+tech_explain-11,baseline,grammar,الأقل اتصالات,الأقل اتصالًا
+tech_explain-11,baseline,formatting,IP,تجزئة
+tech_explain-11,baseline,register,IP Hash,تجزئة عنوان بروتوكول الإنترنت
+tech_explain-11,baseline,register,الـ load balancer,موازن الأحمال
+tech_explain-12,baseline,register,Big O,الرتبة العليا
+tech_explain-12,baseline,register,Big O,الرتبة العليا
+tech_explain-12,baseline,translationese,الوصول إلى العنصر الأول يتم بخطوة واحدة,نصل إلى العنصر الأول بخطوة واحدة
+tech_explain-12,baseline,translationese,بنفس نسبة ازدياد المدخلات,بنسبة ازدياد المدخلات نفسها
+tech_explain-13,baseline,formatting,SQL,قواعد
+tech_explain-13,baseline,register,SQL (قواعد البيانات العلائقية),قواعد البيانات العلائقية (SQL)
+tech_explain-13,baseline,formatting,NoSQL,القواعد
+tech_explain-13,baseline,register,NoSQL,القواعد غير العلائقية (NoSQL)
+tech_explain-13,baseline,register,JSON,صيغة ترميز كائنات جافاسكربت
+tech_explain-13,baseline,register,SQL,القواعد العلائقية
+tech_explain-13,baseline,register,NoSQL,القواعد غير العلائقية
+tech_explain-13,baseline,register,JOIN,ربط
+tech_explain-13,baseline,register,ACID,ضمان الذرية والاتساق والعزل والديمومة
+tech_explain-13,baseline,register,SQL,القواعد العلائقية
+tech_explain-13,baseline,register,NoSQL,القواعد غير العلائقية
+tech_explain-13,baseline,translationese,تصمّم البيانات حول الاستعلامات,تصمّم البيانات بما يلائم الاستعلامات
+tech_explain-13,baseline,register,SQL,القواعد العلائقية
+tech_explain-13,baseline,translationese,صحة البيانات حرجة,صحة البيانات ضرورية
+tech_explain-13,baseline,register,NoSQL,القواعد غير العلائقية
+tech_explain-13,baseline,register,NoSQL,القواعد غير العلائقية
+tech_explain-13,baseline,register,JSON,بصيغة ترميز كائنات جافاسكربت
+tech_explain-13,baseline,register,NoSQL,القواعد غير العلائقية
+tech_explain-13,baseline,register,SQL,القواعد العلائقية
+tech_explain-14,baseline,formatting,CI/CD,التكامل المستمر والتسليم المستمر
+tech_explain-14,baseline,register,CI/CD,هذا المصطلح
+tech_explain-14,baseline,register,Continuous Integration,التكامل المستمر
+tech_explain-14,baseline,formatting,و Continuous,وContinuous
+tech_explain-14,baseline,register,Continuous Delivery/Deployment,التسليم المستمر أو النشر المستمر
+tech_explain-14,baseline,translationese,بشكل متكرر,مرارًا
+tech_explain-14,baseline,translationese,يعمل خط آلي (pipeline) يقوم بـ,ينفّذ خط آلي (pipeline) المهام الآتية
+tech_explain-14,baseline,grammar,التسليم والنشر المستمر,التسليم المستمر والنشر المستمر
+tech_explain-14,baseline,register,CI,التكامل المستمر
+tech_explain-14,baseline,grammar,البناء والاختبار والنشر تجري,تجري عمليات البناء والاختبار والنشر
+tech_explain-14,baseline,translationese,تغييره كسر شيئًا,تغييره سبّب خللًا
+tech_explain-14,baseline,translationese,الاختبارات تعمل على كل تغيير,تُجرى الاختبارات عند كل تغيير
+tech_explain-14,baseline,formatting,و GitLab,وGitLab
+tech_explain-14,baseline,formatting,و Jenkins,وJenkins
+tech_explain-14,baseline,formatting,و CircleCI,وCircleCI
+tech_explain-14,baseline,register,CI/CD,التكامل والتسليم المستمرين
+tech_explain-14,skill,translationese,كسر تغييرٌ شيئًا,أحدث تغييرٌ خللًا
+tech_explain-14,skill,grammar,البناء والاختبار والنشر تجري,تجري عمليات البناء والاختبار والنشر
+tech_explain-14,skill,translationese,الاختبارات تعمل على كل تغيير,تُجرى الاختبارات عند كل تغيير
+tech_explain-15,baseline,register,IP,بروتوكول الإنترنت
+tech_explain-15,baseline,register,DNS,نظام أسماء النطاقات
+tech_explain-15,baseline,register,Enter,مفتاح الإدخال
+tech_explain-15,baseline,register,IP,بروتوكول الإنترنت
+tech_explain-15,baseline,register,TTL,مدة البقاء
+tech_explain-15,baseline,register,IP,بروتوكول الإنترنت
+tech_explain-15,baseline,register,TCP,عبر بروتوكول التحكم بالنقل
+tech_explain-15,baseline,register,TLS,بروتوكول أمان طبقة النقل
+tech_explain-15,baseline,register,HTTP,عبر بروتوكول نقل النص التشعبي
+tech_explain-15,baseline,register,HTML,مكتوب بلغة ترميز النص التشعبي
+tech_explain-15,baseline,register,DNS,في نظام أسماء النطاقات
+tech_explain-15,baseline,register,TTL,صلاحية السجل
+tech_explain-16,baseline,register,الـ **recursion**,**الاستدعاء الذاتي**
+tech_explain-16,baseline,register,recursive,ذاتية الاستدعاء
+tech_explain-16,baseline,register,الـ call stack,مكدّس الاستدعاءات
+tech_explain-16,baseline,register,recursive,ذاتي
+tech_explain-16,baseline,register,الـ call stack,مكدّس الاستدعاءات
+tech_explain-16,baseline,register,الـ stack,المكدّس
+tech_explain-16,baseline,register,stack overflow,تجاوز سعة المكدّس
+tech_explain-16,baseline,register,JavaScript,جافاسكربت
+tech_explain-16,baseline,register,الـ recursion,الاستدعاء الذاتي
+tech_explain-16,baseline,register,divide and conquer,قسّم تسد
+tech_explain-16,baseline,register,merge sort,الفرز بالدمج
+tech_explain-17,baseline,register,الـ shell,صدفة الأوامر
+tech_explain-17,baseline,translationese,الأسرار لا يجب أن تنتشر,يجب ألّا تنتشر الأسرار
+tech_explain-17,baseline,register,CI,التكامل المستمر
+tech_explain-17,baseline,register,commit,إيداع
+tech_explain-17,baseline,register,الـ API,واجهات برمجة التطبيقات
+tech_explain-17,baseline,register,الـ tokens,رموز الوصول
+tech_explain-17,baseline,grammar,وليس كلمات المرور فقط,لا على كلمات المرور وحدها
+tech_explain-18,baseline,translationese,كمدير منتج,بصفتك مدير منتج
+tech_explain-18,baseline,translationese,الكود الهش ينكسر,تتعطّل الشيفرة الهشّة
+tech_explain-18,baseline,grammar,سجّلوا,سجّل
+tech_explain-18,baseline,grammar,واتفقوا,واتفق
+tech_explain-18,baseline,translationese,بناء قيمة جديدة للعملاء,تقديم فوائد جديدة للعملاء
+tech_explain-18,skill,grammar,فأصلحوه,فأصلحه
+tech_explain-19,baseline,register,OTP,رمز تحقق
+tech_explain-20,baseline,register,الـ garbage collector,جامع المهملات
+tech_explain-20,baseline,register,Java,جافا
+tech_explain-20,baseline,register,Python,بايثون
+tech_explain-20,baseline,formatting,Python,بايثون
+tech_explain-20,baseline,register,Python,بايثون
+tech_explain-20,baseline,formatting,Reference,عدّ
+tech_explain-20,baseline,register,Reference counting,عدّ المراجع
+tech_explain-20,baseline,formatting,Cycle,جامع
+tech_explain-20,baseline,register,Cycle collector,جامع الحلقات
+tech_explain-20,baseline,formatting,Java,جافا
+tech_explain-20,baseline,register,Java,جافا
+tech_explain-20,baseline,formatting,Tracing,التتبّع
+tech_explain-20,baseline,register,Tracing,التتبّع
+tech_explain-20,baseline,register,الـ heap,الكومة
+tech_explain-20,baseline,grammar,مقسوم,مقسومة
+tech_explain-20,baseline,register,young generation,جيل حديث
+tech_explain-20,baseline,register,old generation,جيل قديم
+tech_explain-20,baseline,translationese,تموت صغيرة,تصبح غير قابلة للوصول بعد إنشائها بقليل
+tech_explain-20,baseline,formatting,Minor,جمع
+tech_explain-20,baseline,register,Minor GC,جمع مهملات الجيل الحديث
+tech_explain-20,baseline,formatting,Major/Full,الجمع
+tech_explain-20,baseline,register,Major/Full GC,الجمع الشامل
+tech_explain-20,baseline,register,Java,جافا
+tech_explain-20,baseline,register,stop-the-world,توقف التطبيق بالكامل
+tech_explain-20,baseline,register,heap,كومة
+tech_explain-20,baseline,register,Full GC,جمع شامل
+tech_explain-20,baseline,translationese,تظهر كقفزات,تتسبّب في ارتفاعات مفاجئة
+tech_explain-20,baseline,register,Minor GC,جمع مهملات الجيل الحديث
+tech_explain-20,baseline,formatting,heap,كومة
+tech_explain-20,baseline,register,heap,كومة
+tech_explain-20,baseline,register,Full GC,الجمع الشامل
+tech_explain-20,baseline,register,الـ heap,الكومة
+tech_explain-20,baseline,register,Python,بايثون
+tech_explain-20,baseline,register,Python,بايثون
+tech_explain-20,baseline,register,الـ GIL,قفل المفسّر العام
+tech_explain-20,baseline,register,Java,جافا
+tech_explain-20,baseline,register,الـ GC,جامع المهملات
+tech_explain-20,baseline,register,JFR,مسجّل أحداث جافا
+tech_explain-20,baseline,register,Python,بايثون
+tech_explain-20,baseline,register,Java,جافا
+tech_explain-20,baseline,register,Python,بايثون
+tech_explain-20,baseline,register,Java,جافا
+tech_explain-20,baseline,register,heap,كومة
+tech_explain-20,baseline,register,Python,بايثون
+tech_explain-20,skill,grammar,يضيف بايثون,تضيف بايثون
+translate-12,baseline,translationese,ويقوم مقدِّم الخدمة بإعادة بيانات العميل أو حذفها,ويعيد مقدِّم الخدمة بيانات العميل أو يحذفها
+translate-12,baseline,translationese,خارجة عن إرادته المعقولة,لا يستطيع السيطرة عليها بتدابير معقولة
+translate-16,baseline,translationese,تم الاحتفاظ بمسودتك,حفظنا مسودتك
+translate-16,baseline,grammar,المشكلة، سجّل,المشكلة، فسجّل
+translate-16,baseline,translationese,قم بترقية,رقِّ
+translate-18,baseline,grammar,قدر كبير,قدر كبيرة
+translate-19,baseline,translationese,نقطة الاتصال الرئيسية,جهة الاتصال الرئيسية

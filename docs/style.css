@@ -195,3 +195,11 @@ html[lang="ar"] .item table.scores { font-size: 0.9rem; }
   .items-head span:first-child { grid-column: 1; }
   .item > summary code { grid-column: 1 / -1; }
 }
+.ans mark { background: var(--rubric-wash); color: inherit; border-bottom: 2px solid var(--rubric); padding: 0 0.15em; cursor: help; }
+.marks { font-size: 0.92rem; margin: 1.2rem 0 0; }
+details.marks summary { cursor: pointer; color: var(--ink-2); }
+.marks ul { margin: 0.5rem 0 0; padding-inline-start: 1.1rem; }
+.marks li { margin-bottom: 0.3rem; }
+.marks q { font-family: var(--arabic); background: var(--rubric-wash); padding: 0 0.2em; quotes: none; }
+.marks q::before, .marks q::after { content: none; }
+html[lang="ar"] .marks { font-size: 1rem; }

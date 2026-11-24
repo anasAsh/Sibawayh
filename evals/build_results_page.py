@@ -3,8 +3,10 @@
 
 RUN is a folder under evals/results/ with baseline/ and skill/ answers and
 one key-N.csv (from pair.py) and scores-N.csv (from the judge) per judging.
-Writes docs/results/index.html, docs/ar/results/index.html and
-docs/results/results.csv (every score, unblinded).
+An optional marks-N.tsv (pair, response, category, quote, fix) with its
+marks-key-N.csv holds the errors the judge quoted; they are highlighted.
+Writes docs/results/index.html, docs/ar/results/index.html,
+docs/results/results.csv (every score, unblinded) and docs/results/marks.csv.
 
 Usage: python3 evals/build_results_page.py evals/results/2026-11-23
 """
@@ -44,6 +46,9 @@ STRINGS = {
         "words_note": "%s pairs, %s words without the skill and %s with it.",
         "h_all": "The %d requests",
         "read1": "Open a request to read both answers and the judge's counts. The answers are shown as plain text, as the judge read them. Each line takes its direction from its first letter, as most apps do, so a line that starts with a Latin word is aligned to the left.",
+        "read_marks": "Highlighted words are errors the judge quoted in a separate fourth pass, in which it was asked to quote each error and not only count it. Point at a highlight to see the category and the judge's correction; the same list is under each answer. That pass is not one of the three judgings, so its number of errors can differ a little from the tables.",
+        "marked": "Marked by the judge", "no_marks": "The judge marked nothing.",
+        "unplaced": "not highlighted separately",
         "read2": "These are an AI judge's counts, not a native reader's. If you disagree with a count, <a href=\"%s/issues\">open an issue</a> and name the request.",
         "all": "All",
         "f_skill": "Only requests where the judge counted an error in the answer with the skill",
@@ -62,7 +67,7 @@ STRINGS = {
         "tasks": {"email": "Emails", "docs": "Documentation", "social": "Social posts",
                   "tech_explain": "Technical explanations", "translate": "Translation"},
         "h_files": "The files",
-        "files": "<a href=\"%s\">Every score in one CSV file</a>, with the labels already matched to the answers. The original files are in the repository: <a href=\"%s\">the answers, the keys that record which answer was shown as A and which as B, and the judge's score files</a>, and <a href=\"%s\">the instructions the judge received</a>.",
+        "files": "<a href=\"%s\">Every score in one CSV file</a>, with the labels already matched to the answers, and <a href=\"%s\">every error the judge quoted</a> in another. The original files are in the repository: <a href=\"%s\">the answers, the keys that record which answer was shown as A and which as B, and the judge's score files</a>, and <a href=\"%s\">the instructions the judge received</a>.",
         "footer": "Sibawayh is open source under the MIT licence.",
     },
     "ar": {
@@ -82,6 +87,9 @@ STRINGS = {
         "words_note": "عدد الأزواج %s، وفيها %s كلمة دون المهارة و%s كلمة معها.",
         "h_all": "الطلبات المئة",
         "read1": "افتح أي طلب لتقرأ إجابتيه وما أحصاه المحكّم فيهما. تُعرض الإجابات نصًّا خامًا كما قرأها المحكّم. ويأخذ كل سطر اتجاهه من أول حرف فيه، كما في أغلب التطبيقات، فالسطر الذي يبدأ بكلمة لاتينية يظهر محاذيًا لليسار.",
+        "read_marks": "الكلمات المظلّلة أخطاء اقتبسها المحكّم في جولة رابعة مستقلة، طُلب منه فيها أن يقتبس كل خطأ وألّا يكتفي بعدّه. ضع المؤشر على الكلمة المظلّلة لترى فئة الخطأ وتصويب المحكّم، والقائمة نفسها تحت كل إجابة. وليست هذه الجولة من جولات التحكيم الثلاث، فقد يختلف عدد الأخطاء فيها قليلًا عمّا في الجداول.",
+        "marked": "ما ظلّله المحكّم", "no_marks": "لم يظلّل المحكّم شيئًا.",
+        "unplaced": "لم يُظلَّل منفردًا",
         "read2": "هذه الأعداد أحصاها نموذج ذكاء اصطناعي وليس قارئًا من أهل العربية. وإن خالفتَ المحكّم في عدد منها <a href=\"%s/issues\">فافتح تذكرة (issue) في المستودع</a> واذكر معرّف الطلب.",
         "all": "الكل",
         "f_skill": "أظهر فقط الطلبات التي أحصى المحكّم خطأً في إجابة المهارة عنها",
@@ -100,7 +108,7 @@ STRINGS = {
         "tasks": {"email": "رسائل البريد الإلكتروني", "docs": "التوثيق", "social": "منشورات التواصل الاجتماعي",
                   "tech_explain": "الشروح التقنية", "translate": "الترجمة"},
         "h_files": "الملفات",
-        "files": "<a href=\"%s\">الدرجات كلها في ملف واحد</a> بصيغة القيم المفصولة بفواصل (CSV)، وقد قُرنت فيه كل درجة بإجابتها. والملفات الأصلية في المستودع: <a href=\"%s\">الإجابات، ومفاتيح الترتيب التي تبيّن أي الإجابتين عُرضت أولًا، وملفات درجات المحكّم</a>، ثم <a href=\"%s\">التعليمات التي تلقّاها المحكّم</a> (بالإنجليزية).",
+        "files": "<a href=\"%s\">الدرجات كلها في ملف واحد</a> بصيغة القيم المفصولة بفواصل (CSV)، وقد قُرنت فيه كل درجة بإجابتها، و<a href=\"%s\">الأخطاء التي اقتبسها المحكّم</a> في ملف آخر. والملفات الأصلية في المستودع: <a href=\"%s\">الإجابات، ومفاتيح الترتيب التي تبيّن أي الإجابتين عُرضت أولًا، وملفات درجات المحكّم</a>، ثم <a href=\"%s\">التعليمات التي تلقّاها المحكّم</a> (بالإنجليزية).",
         "footer": "«سيبويه» مفتوح المصدر برخصة MIT.",
     },
 }
@@ -148,14 +156,47 @@ def load(run):
     return prompts, judgings
 
 
+def load_marks(run, prompts):
+    """Return {(id, mode): [mark]}; each mark gets its span in the answer, or None."""
+    texts = {p["id"]: p["text"] for p in prompts}
+    marks = {}
+    for path in sorted(glob.glob(os.path.join(run, "marks-*.tsv"))):
+        with open(path.replace("marks-", "marks-key-").replace(".tsv", ".csv"), encoding="utf-8") as f:
+            key = {r["pair"]: r for r in csv.DictReader(f)}
+        with open(path, encoding="utf-8") as f:
+            for line in f:
+                cells = line.rstrip("\n").split("\t")
+                if len(cells) < 4 or cells[1] not in ("A", "B") or cells[2] not in CATS:
+                    continue
+                k = key[cells[0].strip().zfill(2)]
+                mode = k[cells[1].lower()]
+                marks.setdefault((k["id"], mode), []).append(
+                    {"cat": cells[2], "quote": cells[3].strip(), "fix": cells[4].strip() if len(cells) > 4 else ""})
+    for (pid, mode), ms in marks.items():
+        text, taken = texts[pid][mode], []
+        for m in ms:
+            q, m["span"] = m["quote"], None
+            at = text.find(q) if q and "\n" not in q else -1
+            while at >= 0:
+                # The first occurrence that no earlier mark has taken.
+                if all(at >= e or at + len(q) <= b for b, e in taken):
+                    taken.append((at, at + len(q)))
+                    m["span"] = (at, at + len(q))
+                    break
+                at = text.find(q, at + 1)
+    return marks
+
+
 def num(x):
     return "%.1f" % x if x else "0"
 
 
-def answer_html(text):
+def answer_html(text, marks, s):
     """Plain text, one block per line; fenced code stays left-to-right."""
-    out, code = [], None
+    spans = sorted((m["span"], m) for m in marks if m["span"])
+    out, code, pos = [], None, 0
     for line in text.split("\n"):
+        start, pos = pos, pos + len(line) + 1
         if line.lstrip().startswith("```"):
             if code is None:
                 code = []
@@ -165,7 +206,16 @@ def answer_html(text):
         elif code is not None:
             code.append(line)
         elif line.strip():
-            out.append('<p dir="auto">%s</p>' % html.escape(line))
+            parts, at = [], start
+            for (b, e), m in spans:
+                if start <= b and e <= start + len(line):
+                    parts.append(html.escape(text[at:b]))
+                    parts.append('<mark title="%s">%s</mark>' % (
+                        html.escape(s["cats"][m["cat"]] + (" → " + m["fix"] if m["fix"] else ""), quote=True),
+                        html.escape(text[b:e])))
+                    at = e
+            parts.append(html.escape(text[at:start + len(line)]))
+            out.append('<p dir="auto">%s</p>' % "".join(parts))
         else:
             out.append('<p class="gap"></p>')
     if code:
@@ -173,11 +223,24 @@ def answer_html(text):
     return "\n".join(out)
 
 
+def marks_html(marks, s):
+    if not marks:
+        return '<p class="marks note">%s</p>' % s["no_marks"]
+    rows = "".join(
+        '<li>%s: <q dir="auto">%s</q>%s%s</li>' % (
+            s["cats"][m["cat"]], html.escape(m["quote"]),
+            ' → <span dir="auto">%s</span>' % html.escape(m["fix"]) if m["fix"] else "",
+            "" if m["span"] else " (%s)" % s["unplaced"])
+        for m in marks)
+    return '<details class="marks"><summary>%s (%s)</summary><ul>%s</ul></details>' % (
+        s["marked"], ltr(len(marks)), rows)
+
+
 def ltr(s):
     return '<span dir="ltr">%s</span>' % s
 
 
-def item_html(p, judgings, s):
+def item_html(p, judgings, marks, s):
     pid = p["id"]
     js = [j[pid] for j in judgings]
     mean = {m: sum(sum(e[m].values()) for e in js) / len(js) for m in MODES}
@@ -194,9 +257,10 @@ def item_html(p, judgings, s):
             '<div class="resp">\n<h3>%s <span class="who">%s</span></h3>\n'
             '<div class="scroll"><table class="scores"><caption>%s</caption>'
             '<thead><tr><th></th>%s</tr></thead><tbody>%s</tbody></table></div>\n'
-            '<div class="ans" lang="ar" dir="rtl">\n%s\n</div>\n</div>' % (
+            '<div class="ans" lang="ar" dir="rtl">\n%s\n</div>\n%s\n</div>' % (
                 s[m], s["words"] % ltr(p["words"][m]), s["cap_scores"], head, rows,
-                answer_html(p["text"][m])))
+                answer_html(p["text"][m], marks.get((pid, m), []), s),
+                marks_html(marks.get((pid, m), []), s) if marks else ""))
     names = {"baseline": s["baseline"], "skill": s["skill"], "tie": s["tie"]}
     verdict = "<dl class=\"verdict\"><dt>%s</dt><dd>%s</dd><dt>%s</dt><dd>%s</dd></dl>" % (
         s["preferred"], " · ".join(names[e["pref"]] for e in js),
@@ -284,7 +348,7 @@ SCRIPT = """<script>
 </script>"""
 
 
-def page_html(lang, prompts, judgings, date):
+def page_html(lang, prompts, judgings, marks, date):
     s = STRINGS[lang]
     y, mo, d = (int(x) for x in date.split("-"))
     when = "%d %s %d" % (d, (MONTHS_EN if lang == "en" else MONTHS_AR)[mo - 1], y)
@@ -333,7 +397,7 @@ def page_html(lang, prompts, judgings, date):
   <div class="text">
     <h2>{h_all}</h2>
     <p>{read1}</p>
-    <p class="note">{read2}</p>
+{read_marks}    <p class="note">{read2}</p>
   </div>
   <div class="filters" id="filters" hidden>
     <div class="tasks">{buttons}</div>
@@ -367,13 +431,13 @@ def page_html(lang, prompts, judgings, date):
         lede=s["lede"], ran=s["ran"] % (when, s["up"] + "#blind"),
         h_summary=s["h_summary"], summary=summary_html(prompts, judgings, s),
         h_all=s["h_all"] % len(prompts) if "%d" in s["h_all"] else s["h_all"],
-        read1=s["read1"], read2=s["read2"] % REPO, buttons=buttons,
+        read1=s["read1"], read_marks="    <p>%s</p>\n" % s["read_marks"] if marks else "", read2=s["read2"] % REPO, buttons=buttons,
         f_skill=s["f_skill"], f_base=s["f_base"], showing=s["showing"],
         col_req=s["col_req"], col_err=s["col_err"],
         baseline_short=s["baseline_short"], skill_short=s["skill_short"],
-        items="\n".join(item_html(p, judgings, s) for p in prompts),
+        items="\n".join(item_html(p, judgings, marks, s) for p in prompts),
         h_files=s["h_files"],
-        files=s["files"] % (root + "results/results.csv", run_url, REPO + "/blob/main/evals/ai_judge.md"),
+        files=s["files"] % (root + "results/results.csv", root + "results/marks.csv", run_url, REPO + "/blob/main/evals/ai_judge.md"),
         footer=s["footer"], script=SCRIPT)
 
 
@@ -395,13 +459,21 @@ def main(argv=None) -> int:
         sys.exit(__doc__)
     run = os.path.abspath(args[0])
     prompts, judgings = load(run)
+    marks = load_marks(run, prompts)
     date = os.path.basename(run)
     for lang, s in STRINGS.items():
         out = os.path.join(ROOT, "docs", s["out"])
         os.makedirs(out, exist_ok=True)
         with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
-            f.write(page_html(lang, prompts, judgings, date))
+            f.write(page_html(lang, prompts, judgings, marks, date))
     write_csv(os.path.join(ROOT, "docs", "results", "results.csv"), prompts, judgings)
+    with open(os.path.join(ROOT, "docs", "results", "marks.csv"), "w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["id", "answer", "category", "quote", "fix"])
+        for p in prompts:
+            for m in MODES:
+                for k in marks.get((p["id"], m), []):
+                    w.writerow([p["id"], m, k["cat"], k["quote"], k["fix"]])
     print("Wrote docs/results/index.html, docs/ar/results/index.html and docs/results/results.csv "
           "(%d requests, %d judgings)" % (len(prompts), len(judgings)))
     return 0
