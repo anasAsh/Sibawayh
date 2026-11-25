@@ -215,6 +215,66 @@
 60	B	register	الـ VPN	الاتصال بالشبكة الخاصة الافتراضية
 60	B	register	الـ VPN	الاتصال بالشبكة الخاصة الافتراضية
 60	B	translationese	بشكل طبيعي	على النحو المعتاد
+61	B	register	JSON	صيغة تبادل البيانات (JSON)
+61	B	register	UTF-8	الترميز الموحّد (UTF-8)
+61	B	register	API	الواجهة
+61	B	register	string	سلسلة نصية
+61	B	register	string	سلسلة نصية
+61	B	register	ISO 3166-1	المعيار الدولي (ISO 3166-1)
+61	B	register	string	سلسلة نصية
+61	B	register	string	سلسلة نصية
+61	B	register	API	الواجهة
+61	B	register	string	سلسلة نصية
+61	B	register	string	سلسلة نصية
+61	B	register	number	عدد
+61	B	register	string	سلسلة نصية
+61	B	register	string	سلسلة نصية
+61	B	register	number	عدد
+61	B	register	number	عدد
+61	B	register	integer	عدد صحيح
+61	B	register	number	عدد
+61	B	register	integer	عدد صحيح
+61	B	register	string	سلسلة نصية
+61	B	register	string	سلسلة نصية
+61	B	register	ISO 8601	المعيار الدولي (ISO 8601)
+61	B	register	HTTP	استجابة الويب (HTTP)
+61	B	register	API	الواجهة
+62	A	register	WAN	الشبكة الواسعة (WAN)
+62	A	register	Ethernet	شبكة سلكية (Ethernet)
+62	A	register	Wi-Fi	الشبكة اللاسلكية
+62	A	register	Wi-Fi	لاسلكية
+62	A	register	Reset	إعادة الضبط
+64	A	translationese	ما يتم من خلال حسابه	ما يُجرى عبر حسابه
+64	B	grammar	فإنك توافق	توافق
+65	A	register	Conventional Commits	الإيداعات الاصطلاحية (Conventional Commits)
+65	A	translationese	كأدوات معتمدة	ضمن الأدوات المعتمدة
+65	A	register	CI	التكامل المستمر (CI)
+65	A	spelling	و ESLint	وESLint
+65	A	spelling	و ESLint	وESLint
+65	A	translationese	تُلفّ أسطره عند ٧٢ حرفًا	يُقسَّم متنه إلى أسطر لا تتجاوز ٧٢ حرفًا
+66	B	register	LTS (الدعم طويل الأمد)	طويلة الدعم (LTS)
+66	B	grammar	ثبّت nvm-windows بدلًا	فثبّت nvm-windows بدلًا
+66	B	grammar	نفّذ هذا الأمر	فنفّذ هذا الأمر
+66	B	register	CRLF	زوج محرفَي نهاية السطر (CRLF)
+66	B	spelling	و Prettier	وPrettier
+66	B	spelling	و Visual	وVisual
+67	A	spelling	فأبقِ منها	فأبقِ منها
+67	B	register	ETL/ELT	استخراج البيانات وتحويلها وتحميلها (ETL/ELT)
+67	B	register	SQL	الاستعلام البنيوية (SQL)
+67	B	register	CI/CD	التكامل والتسليم المستمرين (CI/CD)
+67	B	translationese	البنية التحتية كشيفرة	إدارة البنية التحتية بالشيفرة
+68	A	translationese	تغييرًا كاسرًا في المصادقة	تغييرًا في المصادقة يفقدها التوافق مع التطبيقات الحالية
+68	A	translationese	تغييرات كاسرة	تغييرات تؤثر في التوافق مع الإصدارات السابقة
+69	B	register	SQL	لغة الاستعلام البنيوية (SQL)
+69	B	spelling	بـ MySQL	بـMySQL
+69	B	register	PL/pgSQL	الإجراءات المخزنة (PL/pgSQL)
+69	B	register	ORM	الربط الكائني العلائقي (ORM)
+69	B	grammar	1–2 أسبوع	من أسبوع إلى أسبوعين
+69	B	spelling	و PostgreSQL	وPostgreSQL
+69	B	translationese	كخيار للتراجع	لإتاحة التراجع
+69	B	register	CDC	التقاط تغييرات البيانات (CDC)
+69	B	spelling	بـ MySQL	بـMySQL
+70	B	grammar	إذا لن تستخدم	إذا كنت لن تستخدم
 71	A	grammar	غير المتخصصين	غير المتخصصينَ
 71	B	register	#DataAnalysis	#تحليل_البيانات
 71	B	register	#OpenToWork	#أبحث_عن_عمل
@@ -245,6 +305,143 @@
 78	A	register	Issues	قسم البلاغات
 78	A	register	#OpenSource	#مفتوح_المصدر
 79	A	translationese	الخبر الجيد	الخبر السار
+81	A	grammar	تعطّل أحدها تولّى	تعطّل أحدهما تولّى
+81	B	register	Load Balancer	موازن الأحمال
+81	B	register	Load Balancer	موازن الأحمال
+81	B	register	load balancer	موازن الأحمال
+81	B	register	load balancer	موازن الأحمال
+81	B	register	load balancer	موازن الأحمال
+81	B	register	load balancer	موازن الأحمال
+81	B	translationese	أنت كمستخدم لا تلاحظ	لا تلاحظ
+81	B	register	load balancer	موازن الأحمال
+81	B	register	load balancer	موازن الأحمال
+81	B	register	Round Robin	التناوب
+81	B	formatting	Round	التناوب
+81	B	register	Least Connections	أقل عدد من الاتصالات
+81	B	formatting	Least	الأقل
+81	B	register	IP Hash	التوزيع بحسب عنوان المستخدم
+81	B	formatting	IP	التوزيع
+81	B	register	load balancer	موازن الأحمال
+82	B	register	Big O	الرتبة التقاربية العليا
+82	B	register	Big O	الرتبة التقاربية العليا
+82	B	translationese	هو لا يقيس الزمن	لا يقيس الزمن
+82	B	formatting	O(1)	الزمن الثابت
+82	B	grammar	على 10 عناصر أو 10 ملايين، الوصول	على 10 عناصر أم على 10 ملايين، فالوصول
+82	B	translationese	الوصول إلى العنصر الأول يتم بخطوة واحدة	نصل إلى العنصر الأول بخطوة واحدة
+82	B	formatting	O(n)	الزمن الخطي
+82	B	formatting	O(n²)	الزمن التربيعي
+83	B	register	SQL	قواعد البيانات العلائقية
+83	B	formatting	SQL	القواعد العلائقية
+83	B	register	NoSQL	قواعد البيانات غير العلائقية
+83	B	formatting	NoSQL	القواعد غير العلائقية
+83	B	register	JSON	صيغة ترميز كائنات جافاسكربت
+83	B	register	SQL	العلائقية
+83	B	register	NoSQL	غير العلائقية
+83	B	register	JOIN	ربط الجداول
+83	B	register	ACID	ضمانات المعاملات
+83	B	register	SQL	القواعد العلائقية
+83	B	register	NoSQL	القواعد غير العلائقية
+83	B	translationese	تصمّم البيانات حول الاستعلامات	تصمّم بنية البيانات بما يلائم الاستعلامات
+83	B	register	SQL	القواعد العلائقية
+83	B	register	NoSQL	القواعد غير العلائقية
+83	B	register	NoSQL	قاعدة غير علائقية
+83	B	register	JSON	بصيغة ترميز كائنات جافاسكربت
+83	B	register	NoSQL	قاعدة غير علائقية
+83	B	register	SQL	قاعدة علائقية
+84	B	register	CI/CD	التكامل والتسليم المستمران
+84	B	formatting	CI/CD	التكامل والتسليم المستمران
+84	B	register	Continuous Integration	التكامل المستمر
+84	B	register	Continuous Delivery/Deployment	التسليم أو النشر المستمر
+84	B	formatting	و Continuous	والتسليم
+84	B	translationese	بشكل متكرر	مرارًا
+84	B	translationese	يقوم بـ	يتولّى
+84	B	register	CI	التكامل المستمر
+84	B	grammar	تغييره كسر شيئًا	تغييره قد كسر شيئًا
+84	B	translationese	كسر شيئًا	سبّب خللًا
+84	B	translationese	الاختبارات تعمل على كل تغيير	تُجرى الاختبارات عند كل تغيير
+84	B	translationese	المطوّر يرفع الكود	يرفع المطوّر الكود
+84	B	translationese	الخط الآلي يبني المشروع	يبني الخط الآلي المشروع
+84	B	formatting	و GitLab	وGitLab
+84	B	formatting	و Jenkins	وJenkins
+84	B	formatting	و CircleCI	وCircleCI
+84	B	register	CI/CD	التكامل والتسليم المستمرين
+85	A	register	IP	بروتوكول الإنترنت
+85	A	register	DNS	نظام أسماء النطاقات
+85	A	register	Enter	مفتاح الإدخال
+85	A	register	IP	بروتوكول الإنترنت
+85	A	register	الراوتر	الموجّه
+85	A	grammar	تنتهي عملية الترجمة	فتنتهي عملية الترجمة
+85	A	grammar	مخزنة لديه يعيدها	مخزنة لديه أعادها
+85	A	register	TTL	مدة البقاء
+85	A	register	IP	بروتوكول الإنترنت
+85	A	register	TCP	بروتوكول التحكم في النقل
+85	A	register	TLS	أمن طبقة النقل
+85	A	register	HTTP	بروتوكول نقل النص التشعبي
+85	A	register	HTML	بلغة ترميز النص التشعبي
+85	A	register	DNS	لنظام أسماء النطاقات
+85	A	register	TTL	البقاء
+85	B	grammar	السؤال على أحد	السؤال على مسمع أحد
+86	B	register	recursion	الاستدعاء الذاتي
+86	B	register	recursive	تعاودية
+86	B	register	call stack	مكدس الاستدعاءات
+86	B	register	recursive	تعاودي
+86	B	register	call stack	مكدس الاستدعاءات
+86	B	register	stack	المكدس
+86	B	grammar	لذا القيم الكبيرة جدًا	لذا فإن القيم الكبيرة جدًا
+86	B	register	stack overflow	فيض المكدس
+86	B	register	recursion	الاستدعاء الذاتي
+86	B	register	divide and conquer	التقسيم والحل
+86	B	register	merge sort	الفرز بالدمج
+87	B	register	shell	صدفة الأوامر
+87	B	register	shell	صدفة الأوامر
+87	B	translationese	الأسرار لا يجب أن تنتشر	يجب ألّا تنتشر الأسرار
+87	B	register	CI	التكامل المستمر
+87	B	register	commit	إيداع
+87	B	translationese	المطوّر يحتاج إلى الشيفرة	يحتاج المطوّر إلى الشيفرة
+87	B	register	API	واجهات البرمجة
+87	B	register	tokens	رموز الوصول
+87	B	grammar	وليس كلمات المرور فقط	ولا تقتصر على كلمات المرور
+88	A	translationese	الكود الهش ينكسر	تتعطّل الشيفرة الهشّة
+88	A	translationese	في أماكن غير متوقعة	في مواضع غير متوقعة
+88	A	translationese	كمدير منتج	وأنت مدير المنتج
+88	A	grammar	سجّلوا ذلك واتفقوا	سجّل ذلك واتفق
+88	A	translationese	بناء قيمة جديدة للعملاء	تقديم مزايا جديدة للعملاء
+89	B	translationese	المصادقة تأتي أولًا	تأتي المصادقة أولًا
+89	B	register	OTP	رمز مؤقت
+90	A	grammar	أي أن التكلفة	أي إن التكلفة
+90	A	translationese	تستهدف 200 ميلي ثانية	يسعى الجامع إلى حصرها في 200 ملّي ثانية
+90	A	spelling	ميلي ثانية	ملّي ثانية
+90	A	spelling	ميلي ثانية	ملّي ثانية
+90	B	register	garbage collector	جامع المهملات
+90	B	register	Reference counting	عدّ المراجع
+90	B	formatting	Reference	عدّ
+90	B	register	Cycle collector	كاشف الدورات
+90	B	formatting	Cycle	كاشف
+90	B	register	Tracing	التتبّع
+90	B	formatting	Tracing	التتبّع
+90	B	translationese	الجامع يبدأ من	يبدأ الجامع من
+90	B	register	heap	الكومة
+90	B	register	young generation	جيل حديث
+90	B	register	old generation	جيل قديم
+90	B	translationese	على فرضية أن	بافتراض أن
+90	B	translationese	تموت صغيرة	تموت بعد إنشائها بقليل
+90	B	register	Minor GC	جمع الجيل الحديث
+90	B	formatting	Minor	جمع
+90	B	register	Major/Full GC	جمع الجيل القديم أو الجمع الكامل
+90	B	formatting	Major/Full	جمع
+90	B	register	stop-the-world	إيقاف البرنامج بالكامل
+90	B	register	heap كبير	كومة كبيرة
+90	B	register	Full GC	جمع كامل
+90	B	translationese	تظهر كقفزات	تزيد فجأةً
+90	B	register	Minor GC	جمع الجيل الحديث
+90	B	register	heap شبه ممتلئ	كومة شبه ممتلئة
+90	B	formatting	heap	كومة
+90	B	register	Full GC	الجمع الكامل
+90	B	register	heap	الكومة
+90	B	register	GIL	القفل العام للمفسّر
+90	B	register	GC	جامع المهملات
+90	B	register	JFR	مسجّل أحداث جافا
+90	B	register	heap مناسبًا	مناسبًا للكومة
 92	A	translationese	خارجة عن سيطرته في الحدود المعقولة	لا يستطيع السيطرة عليها بوسائل معقولة
 92	B	translationese	ويقوم مقدِّم الخدمة بإعادة بيانات العميل أو حذفها	ويعيد مقدِّم الخدمة بيانات العميل أو يحذفها
 92	B	translationese	خارجة عن إرادته المعقولة	لا يستطيع السيطرة عليها بوسائل معقولة

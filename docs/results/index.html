@@ -5529,13 +5529,13 @@ OK</pre>
 <h3>Without the skill <span class="who"><span dir="ltr">184</span> words</span></h3>
 <div class="scroll"><table class="scores"><caption>Errors the judge counted in each judging</caption><thead><tr><th></th><th class="n"><span class="long">Judging 1</span><span class="short">1</span></th><th class="n"><span class="long">Judging 2</span><span class="short">2</span></th><th class="n"><span class="long">Judging 3</span><span class="short">3</span></th></tr></thead><tbody><tr><th>Grammar</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Spelling</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Translationese</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Register</th><td class="n">25</td><td class="n">24</td><td class="n">24</td></tr><tr><th>Formatting</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr class="total"><th>Total</th><td class="n">25</td><td class="n">24</td><td class="n">24</td></tr></tbody></table></div>
 <div class="ans" lang="ar" dir="rtl">
-<p dir="auto"># واجهة الطقس البرمجية (Weather API)</p>
+<p dir="auto"># واجهة الطقس البرمجية (Weather <mark title="Register → الواجهة">API</mark>)</p>
 <p class="gap"></p>
 <p dir="auto">واجهة بسيطة تُرجع حالة الطقس الحالية في مدينة محددة.</p>
 <p class="gap"></p>
 <p dir="auto">- **العنوان الأساسي:** `https://api.example.com/v1`</p>
-<p dir="auto">- **صيغة البيانات:** JSON بترميز UTF-8</p>
-<p dir="auto">- **المصادقة:** مفتاح API يُرسل في الترويسة `X-API-Key`</p>
+<p dir="auto">- **صيغة البيانات:** <mark title="Register → صيغة تبادل البيانات (JSON)">JSON</mark> بترميز <mark title="Register → الترميز الموحّد (UTF-8)">UTF-8</mark></p>
+<p dir="auto">- **المصادقة:** مفتاح <mark title="Register → الواجهة">API</mark> يُرسل في الترويسة `X-<mark title="Register → الواجهة">API</mark>-Key`</p>
 <p class="gap"></p>
 <p dir="auto">## نقطة النهاية</p>
 <p class="gap"></p>
@@ -5547,10 +5547,10 @@ OK</pre>
 <p class="gap"></p>
 <p dir="auto">| المعامل | النوع | مطلوب | الافتراضي | الوصف |</p>
 <p dir="auto">|---------|-------|-------|-----------|-------|</p>
-<p dir="auto">| `city` | string | نعم | — | اسم المدينة، مثل `Riyadh` أو `الرياض`. |</p>
-<p dir="auto">| `country` | string | لا | — | رمز الدولة من حرفين وفق ISO 3166-1 (مثل `SA`)، ويفيد في التمييز بين المدن المتشابهة في الاسم. |</p>
-<p dir="auto">| `units` | string | لا | `metric` | نظام الوحدات: `metric` (مئوية، كم/س) أو `imperial` (فهرنهايت، ميل/س). |</p>
-<p dir="auto">| `lang` | string | لا | `ar` | لغة وصف حالة الطقس، مثل `ar` أو `en`. |</p>
+<p dir="auto">| `city` | <mark title="Register → سلسلة نصية">string</mark> | نعم | — | اسم المدينة، مثل `Riyadh` أو `الرياض`. |</p>
+<p dir="auto">| `country` | <mark title="Register → سلسلة نصية">string</mark> | لا | — | رمز الدولة من حرفين وفق <mark title="Register → المعيار الدولي (ISO 3166-1)">ISO 3166-1</mark> (مثل `SA`)، ويفيد في التمييز بين المدن المتشابهة في الاسم. |</p>
+<p dir="auto">| `units` | <mark title="Register → سلسلة نصية">string</mark> | لا | `metric` | نظام الوحدات: `metric` (مئوية، كم/س) أو `imperial` (فهرنهايت، ميل/س). |</p>
+<p dir="auto">| `lang` | <mark title="Register → سلسلة نصية">string</mark> | لا | `ar` | لغة وصف حالة الطقس، مثل `ar` أو `en`. |</p>
 <p class="gap"></p>
 <p dir="auto">### الترويسات (Headers)</p>
 <p class="gap"></p>
@@ -5595,18 +5595,18 @@ OK</pre>
 <p class="gap"></p>
 <p dir="auto">| الحقل | النوع | الوصف |</p>
 <p dir="auto">|-------|-------|-------|</p>
-<p dir="auto">| `city` | string | اسم المدينة باللغة المطلوبة. |</p>
-<p dir="auto">| `country` | string | رمز الدولة (ISO 3166-1). |</p>
-<p dir="auto">| `coordinates.lat` / `coordinates.lon` | number | خط العرض وخط الطول. |</p>
-<p dir="auto">| `weather.condition` | string | رمز الحالة: `clear`، `clouds`، `rain`، `snow`، `storm`، `fog`، `dust`. |</p>
-<p dir="auto">| `weather.description` | string | وصف نصي للحالة بلغة `lang`. |</p>
-<p dir="auto">| `weather.temperature` | number | درجة الحرارة الحالية. |</p>
-<p dir="auto">| `weather.feels_like` | number | درجة الحرارة المحسوسة. |</p>
-<p dir="auto">| `weather.humidity` | integer | الرطوبة النسبية (٪). |</p>
-<p dir="auto">| `weather.wind_speed` | number | سرعة الرياح (كم/س أو ميل/س حسب `units`). |</p>
-<p dir="auto">| `weather.wind_direction` | integer | اتجاه الرياح بالدرجات (0–360). |</p>
-<p dir="auto">| `units` | string | نظام الوحدات المستخدم في الاستجابة. |</p>
-<p dir="auto">| `observed_at` | string | وقت الرصد بصيغة ISO 8601 (UTC). |</p>
+<p dir="auto">| `city` | <mark title="Register → سلسلة نصية">string</mark> | اسم المدينة باللغة المطلوبة. |</p>
+<p dir="auto">| `country` | <mark title="Register → سلسلة نصية">string</mark> | رمز الدولة (ISO 3166-1). |</p>
+<p dir="auto">| `coordinates.lat` / `coordinates.lon` | <mark title="Register → عدد">number</mark> | خط العرض وخط الطول. |</p>
+<p dir="auto">| `weather.condition` | <mark title="Register → سلسلة نصية">string</mark> | رمز الحالة: `clear`، `clouds`، `rain`، `snow`، `storm`، `fog`، `dust`. |</p>
+<p dir="auto">| `weather.description` | <mark title="Register → سلسلة نصية">string</mark> | وصف نصي للحالة بلغة `lang`. |</p>
+<p dir="auto">| `weather.temperature` | <mark title="Register → عدد">number</mark> | درجة الحرارة الحالية. |</p>
+<p dir="auto">| `weather.feels_like` | <mark title="Register → عدد">number</mark> | درجة الحرارة المحسوسة. |</p>
+<p dir="auto">| `weather.humidity` | <mark title="Register → عدد صحيح">integer</mark> | الرطوبة النسبية (٪). |</p>
+<p dir="auto">| `weather.wind_speed` | <mark title="Register → عدد">number</mark> | سرعة الرياح (كم/س أو ميل/س حسب `units`). |</p>
+<p dir="auto">| `weather.wind_direction` | <mark title="Register → عدد صحيح">integer</mark> | اتجاه الرياح بالدرجات (0–360). |</p>
+<p dir="auto">| `units` | <mark title="Register → سلسلة نصية">string</mark> | نظام الوحدات المستخدم في الاستجابة. |</p>
+<p dir="auto">| `observed_at` | <mark title="Register → سلسلة نصية">string</mark> | وقت الرصد بصيغة <mark title="Register → المعيار الدولي (ISO 8601)">ISO 8601</mark> (UTC). |</p>
 <p class="gap"></p>
 <p dir="auto">## الأخطاء</p>
 <p class="gap"></p>
@@ -5619,7 +5619,7 @@ OK</pre>
   }
 }</pre>
 <p class="gap"></p>
-<p dir="auto">| رمز HTTP | `code` | السبب |</p>
+<p dir="auto">| رمز <mark title="Register → استجابة الويب (HTTP)">HTTP</mark> | `code` | السبب |</p>
 <p dir="auto">|----------|--------|-------|</p>
 <p dir="auto">| `400` | `invalid_parameter` | معامل مفقود أو قيمته غير صالحة (مثل غياب `city`). |</p>
 <p dir="auto">| `401` | `unauthorized` | مفتاح API مفقود أو غير صحيح. |</p>
@@ -5629,7 +5629,7 @@ OK</pre>
 <p class="gap"></p>
 <p dir="auto">العنوان `api.example.com` وأسماء الحقول وقيم الأمثلة افتراضية، فاستبدل بها ما يطابق واجهتك الفعلية.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">24</span>)</summary><ul><li>Register: <q dir="auto">JSON</q> → <span dir="auto">صيغة تبادل البيانات (JSON)</span></li><li>Register: <q dir="auto">UTF-8</q> → <span dir="auto">الترميز الموحّد (UTF-8)</span></li><li>Register: <q dir="auto">API</q> → <span dir="auto">الواجهة</span></li><li>Register: <q dir="auto">string</q> → <span dir="auto">سلسلة نصية</span></li><li>Register: <q dir="auto">string</q> → <span dir="auto">سلسلة نصية</span></li><li>Register: <q dir="auto">ISO 3166-1</q> → <span dir="auto">المعيار الدولي (ISO 3166-1)</span></li><li>Register: <q dir="auto">string</q> → <span dir="auto">سلسلة نصية</span></li><li>Register: <q dir="auto">string</q> → <span dir="auto">سلسلة نصية</span></li><li>Register: <q dir="auto">API</q> → <span dir="auto">الواجهة</span></li><li>Register: <q dir="auto">string</q> → <span dir="auto">سلسلة نصية</span></li><li>Register: <q dir="auto">string</q> → <span dir="auto">سلسلة نصية</span></li><li>Register: <q dir="auto">number</q> → <span dir="auto">عدد</span></li><li>Register: <q dir="auto">string</q> → <span dir="auto">سلسلة نصية</span></li><li>Register: <q dir="auto">string</q> → <span dir="auto">سلسلة نصية</span></li><li>Register: <q dir="auto">number</q> → <span dir="auto">عدد</span></li><li>Register: <q dir="auto">number</q> → <span dir="auto">عدد</span></li><li>Register: <q dir="auto">integer</q> → <span dir="auto">عدد صحيح</span></li><li>Register: <q dir="auto">number</q> → <span dir="auto">عدد</span></li><li>Register: <q dir="auto">integer</q> → <span dir="auto">عدد صحيح</span></li><li>Register: <q dir="auto">string</q> → <span dir="auto">سلسلة نصية</span></li><li>Register: <q dir="auto">string</q> → <span dir="auto">سلسلة نصية</span></li><li>Register: <q dir="auto">ISO 8601</q> → <span dir="auto">المعيار الدولي (ISO 8601)</span></li><li>Register: <q dir="auto">HTTP</q> → <span dir="auto">استجابة الويب (HTTP)</span></li><li>Register: <q dir="auto">API</q> → <span dir="auto">الواجهة</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">362</span> words</span></h3>
@@ -5757,7 +5757,7 @@ OK</pre>
 <p class="gap"></p>
 <p dir="auto">**ملاحظة:** لم تذكر مواصفات محددة، فالعنوان الأساسي وطريقة المصادقة وحد الطلبات وأسماء الحقول ورموز الأخطاء أمثلة افترضتها، فضع مكانها ما يطابق واجهتك الفعلية.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -5777,7 +5777,7 @@ OK</pre>
 <p class="gap"></p>
 <p dir="auto">انطفاء مؤشر الإنترنت (Internet) يعني أن الراوتر لا يستقبل إشارة من مزوّد الخدمة.</p>
 <p class="gap"></p>
-<p dir="auto">1. تأكد من أن كابل الإنترنت موصول بإحكام في منفذ WAN (أو DSL) بالراوتر، ومن أن طرفه الآخر موصول بمقبس الجدار أو بالمودم.</p>
+<p dir="auto">1. تأكد من أن كابل الإنترنت موصول بإحكام في منفذ <mark title="Register → الشبكة الواسعة (WAN)">WAN</mark> (أو DSL) بالراوتر، ومن أن طرفه الآخر موصول بمقبس الجدار أو بالمودم.</p>
 <p dir="auto">2. افحص الكابل، واستبدله إن وجدت فيه قطعًا أو انثناءً حادًّا.</p>
 <p dir="auto">3. أعد تشغيل الراوتر: افصله عن الكهرباء، وانتظر 30 ثانية، ثم أعد توصيله وانتظر دقيقتين حتى يكتمل التشغيل.</p>
 <p dir="auto">4. إذا كان لديك مودم منفصل، أعد تشغيله أولًا، ثم شغّل الراوتر بعد أن تستقر مؤشرات المودم.</p>
@@ -5790,12 +5790,12 @@ OK</pre>
 <p dir="auto">3. **اقترب من الراوتر:** تضعف الإشارة كلما ابتعدت عنه أو زاد عدد الجدران بينك وبينه.</p>
 <p dir="auto">4. **قلّل عدد الأجهزة المتصلة:** افصل الأجهزة التي لا تستخدمها، وأوقف التنزيلات الكبيرة أو البث عالي الدقة مؤقتًا.</p>
 <p dir="auto">5. **بدّل النطاق الترددي:** إذا كان الراوتر يدعم النطاقين، فاستخدم شبكة 5 جيجاهرتز للأجهزة القريبة لأنها أسرع، وشبكة 2.4 جيجاهرتز للأجهزة البعيدة لأن مداها أوسع.</p>
-<p dir="auto">6. **اختبر السرعة بكابل:** صِل حاسوبك بالراوتر مباشرةً بكابل Ethernet وأجرِ اختبار سرعة. إذا كانت السرعة جيدة عبر الكابل، فالمشكلة في إشارة Wi-Fi. وإذا كانت بطيئة أيضًا، فاتصل بمزوّد الخدمة.</p>
+<p dir="auto">6. **اختبر السرعة بكابل:** صِل حاسوبك بالراوتر مباشرةً بكابل <mark title="Register → شبكة سلكية (Ethernet)">Ethernet</mark> وأجرِ اختبار سرعة. إذا كانت السرعة جيدة عبر الكابل، فالمشكلة في إشارة <mark title="Register → الشبكة اللاسلكية">Wi-Fi</mark>. وإذا كانت بطيئة أيضًا، فاتصل بمزوّد الخدمة.</p>
 <p dir="auto">7. **غيّر كلمة مرور الشبكة** إذا اشتبهت في أن أشخاصًا غير مصرّح لهم يستخدمونها.</p>
 <p class="gap"></p>
 <p dir="auto">## 3. نسيت كلمة المرور</p>
 <p class="gap"></p>
-<p dir="auto">**كلمة مرور شبكة Wi-Fi**</p>
+<p dir="auto">**كلمة مرور شبكة <mark title="Register → لاسلكية">Wi-Fi</mark>**</p>
 <p class="gap"></p>
 <p dir="auto">- إذا لم تكن قد غيّرت كلمة المرور من قبل، فستجد الكلمة الافتراضية مطبوعة على الملصق أسفل الراوتر أو خلفه.</p>
 <p dir="auto">- إذا كنت قد غيّرتها ولديك جهاز ما زال متصلًا بالشبكة، فافتح صفحة إعدادات الراوتر من المتصفح بإدخال العنوان المطبوع على الملصق، ثم ادخل إلى إعدادات الشبكة اللاسلكية لعرض كلمة المرور أو تغييرها.</p>
@@ -5805,7 +5805,7 @@ OK</pre>
 <p dir="auto">إذا تعذّرت الحلول السابقة، أو نسيت كلمة مرور صفحة الإعدادات نفسها، فأعد الراوتر إلى إعدادات المصنع:</p>
 <p class="gap"></p>
 <p dir="auto">1. تأكد من أن الراوتر في وضع التشغيل.</p>
-<p dir="auto">2. اضغط زر Reset الموجود في الجهة الخلفية بطرف دبوس أو مشبك ورق، واستمر في الضغط نحو 10 ثوانٍ حتى تومض المؤشرات.</p>
+<p dir="auto">2. اضغط زر <mark title="Register → إعادة الضبط">Reset</mark> الموجود في الجهة الخلفية بطرف دبوس أو مشبك ورق، واستمر في الضغط نحو 10 ثوانٍ حتى تومض المؤشرات.</p>
 <p dir="auto">3. انتظر دقيقتين حتى يعيد الراوتر تشغيل نفسه.</p>
 <p dir="auto">4. اتصل بالشبكة باستخدام الاسم وكلمة المرور الافتراضيين المطبوعين على الملصق.</p>
 <p class="gap"></p>
@@ -5815,7 +5815,7 @@ OK</pre>
 <p class="gap"></p>
 <p dir="auto">إذا استمرت المشكلة بعد تجربة هذه الحلول، فاتصل بخدمة العملاء، واذكر رقم الطراز والرقم التسلسلي المطبوعين على ملصق الراوتر.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">5</span>)</summary><ul><li>Register: <q dir="auto">WAN</q> → <span dir="auto">الشبكة الواسعة (WAN)</span></li><li>Register: <q dir="auto">Ethernet</q> → <span dir="auto">شبكة سلكية (Ethernet)</span></li><li>Register: <q dir="auto">Wi-Fi</q> → <span dir="auto">الشبكة اللاسلكية</span></li><li>Register: <q dir="auto">Wi-Fi</q> → <span dir="auto">لاسلكية</span></li><li>Register: <q dir="auto">Reset</q> → <span dir="auto">إعادة الضبط</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">508</span> words</span></h3>
@@ -5885,7 +5885,7 @@ OK</pre>
 <p class="gap"></p>
 <p dir="auto">اتصل بالدعم الفني، وجهّز رقم الطراز والرقم التسلسلي المطبوعين على الملصق، ووصفًا لحالة المؤشرات والخطوات التي جرّبتها.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -5931,7 +5931,7 @@ OK</pre>
 <p class="gap"></p>
 <p dir="auto">الأسماء والتواريخ بين الأقواس المربعة خانات تُملأ ببيانات اجتماعكم، وكذلك تفاصيل النقاش إن اختلفت عمّا افترضته هنا.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">200</span> words</span></h3>
@@ -5977,7 +5977,7 @@ OK</pre>
 <p class="gap"></p>
 <p dir="auto">**ملاحظة:** لم تصلني تفاصيل الاجتماع، فافترضتُ أسباب التأجيل ومجريات النقاش وتوزيع المهام والقرارات كلها عدا التأجيل نفسه. راجعها قبل اعتماد المحضر، واملأ ما بين الأقواس.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · Tie</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -5991,7 +5991,7 @@ OK</pre>
 <div class="ans" lang="ar" dir="rtl">
 <p dir="auto"># شروط الاستخدام</p>
 <p class="gap"></p>
-<p dir="auto">1. **التسجيل والحساب:** يلتزم المستخدم بتقديم بيانات صحيحة عند إنشاء الحساب، وهو مسؤول عن سرية بيانات الدخول وعن كل ما يتم من خلال حسابه.</p>
+<p dir="auto">1. **التسجيل والحساب:** يلتزم المستخدم بتقديم بيانات صحيحة عند إنشاء الحساب، وهو مسؤول عن سرية بيانات الدخول وعن كل <mark title="Translationese → ما يُجرى عبر حسابه">ما يتم من خلال حسابه</mark>.</p>
 <p class="gap"></p>
 <p dir="auto">2. **الحجز والدفع:** لا يُعدّ الحجز مؤكدًا إلا بعد إتمام الدفع واستلام إشعار التأكيد عبر التطبيق. الأسعار المعروضة تشمل مدة الحجز المحددة فقط.</p>
 <p class="gap"></p>
@@ -6005,7 +6005,7 @@ OK</pre>
 <p class="gap"></p>
 <p dir="auto">مهلة الإلغاء (24 ساعة) افتراضية، فعدّلها حسب سياسة تطبيقك، ويُفضّل عرض النص على مختص قانوني قبل النشر.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">1</span>)</summary><ul><li>Translationese: <q dir="auto">ما يتم من خلال حسابه</q> → <span dir="auto">ما يُجرى عبر حسابه</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">296</span> words</span></h3>
@@ -6013,7 +6013,7 @@ OK</pre>
 <div class="ans" lang="ar" dir="rtl">
 <p dir="auto"># شروط الاستخدام</p>
 <p class="gap"></p>
-<p dir="auto">باستخدامك تطبيق [اسم التطبيق] فإنك توافق على الشروط الآتية:</p>
+<p dir="auto">باستخدامك تطبيق [اسم التطبيق] <mark title="Grammar → توافق">فإنك توافق</mark> على الشروط الآتية:</p>
 <p class="gap"></p>
 <p dir="auto">**البند الأول: الحساب.** يُشترط ألا يقل عمر المستخدم عن 18 عامًا، أو أن يستخدم التطبيق بموافقة ولي أمره. ويلتزم المستخدم بتقديم بيانات صحيحة وبالمحافظة على سرية حسابه، وهو مسؤول عن كل حجز يُجرى من خلاله.</p>
 <p class="gap"></p>
@@ -6033,7 +6033,7 @@ OK</pre>
 <p class="gap"></p>
 <p dir="auto">**ملاحظة:** المدد والنسب وسن 18 عامًا وشمول الأسعار للضرائب افتراضات من عندي، فعدّلها وفق سياستك، واملأ ما بين المعقوفين، واعرض النص على محامٍ في بلدك قبل نشره.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">1</span>)</summary><ul><li>Grammar: <q dir="auto">فإنك توافق</q> → <span dir="auto">توافق</span></li></ul></details>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -6049,13 +6049,13 @@ OK</pre>
 <p class="gap"></p>
 <p dir="auto">- **التسمية:** جدول بالصيغ (`camelCase` للمتغيّرات والدوال، `PascalCase` للأصناف، `UPPER_SNAKE_CASE` للثوابت، `kebab-case` للملفات)، مع قواعد للمتغيّرات المنطقية والدوال ومعالجات الأحداث، وأمثلة للصحيح والخطأ.</p>
 <p dir="auto">- **Prettier:** ملف إعدادات مقترح مع شرح كل خيار، وملف الاستثناءات، وأوامر `format` و`format:check`، والتنسيق التلقائي عبر `husky` و`lint-staged`، والتعايش مع ESLint.</p>
-<p dir="auto">- **رسائل الإيداع:** صيغة Conventional Commits مع جدول الأنواع، وقواعد العنوان والمتن والتذييل، وأمثلة مقبولة ومرفوضة.</p>
+<p dir="auto">- **رسائل الإيداع:** صيغة <mark title="Register → الإيداعات الاصطلاحية (Conventional Commits)">Conventional Commits</mark> مع جدول الأنواع، وقواعد العنوان والمتن والتذييل، وأمثلة مقبولة ومرفوضة.</p>
 <p class="gap"></p>
 <p dir="auto">المجلد كان فارغًا، فالقيم التالية اختياراتي وليست مأخوذة من مشروع قائم، وعدّلها إن خالفت ما تعتمدونه:</p>
 <p class="gap"></p>
 <p dir="auto">- طول السطر ١٠٠ حرف، وعلامات اقتباس مفردة، وفاصلة منقوطة.</p>
 <p dir="auto">- المعرّفات ورسائل الإيداع بالإنجليزية.</p>
-<p dir="auto">- الدليل يذكر `husky` و`lint-staged` و`commitlint` و`eslint-config-prettier` كأدوات معتمدة.</p>
+<p dir="auto">- الدليل يذكر `husky` و`lint-staged` و`commitlint` و`eslint-config-prettier` <mark title="Translationese → ضمن الأدوات المعتمدة">كأدوات معتمدة</mark>.</p>
 <p class="gap"></p>
 <p dir="auto">لم أُنشئ ملفات الإعدادات نفسها (`.prettierrc.json` و`.prettierignore` و`package.json`)؛ الدليل يصفها فقط. ولم أُجرِ أي إيداع في git.</p>
 <p class="gap"></p>
@@ -6175,7 +6175,7 @@ package-lock.json</pre>
 }</pre>
 <p class="gap"></p>
 <p dir="auto">- `npm run format`: ينسّق جميع الملفات.</p>
-<p dir="auto">- `npm run format:check`: يتحقّق من التنسيق دون تعديل، ويُشغَّل في CI، ويفشل البناء إن وُجد ملف غير منسّق.</p>
+<p dir="auto">- `npm run format:check`: يتحقّق من التنسيق دون تعديل، ويُشغَّل في <mark title="Register → التكامل المستمر (CI)">CI</mark>، ويفشل البناء إن وُجد ملف غير منسّق.</p>
 <p class="gap"></p>
 <p dir="auto">### التنسيق التلقائي</p>
 <p class="gap"></p>
@@ -6188,9 +6188,9 @@ package-lock.json</pre>
   }
 }</pre>
 <p class="gap"></p>
-<p dir="auto">### Prettier و ESLint</p>
+<p dir="auto">### Prettier <mark title="Spelling → وESLint">و ESLint</mark></p>
 <p class="gap"></p>
-<p dir="auto">Prettier يتولّى الشكل، و ESLint يتولّى جودة الشيفرة. نضيف `eslint-config-prettier` في آخر إعدادات ESLint لتعطيل قواعده التي تتعارض مع Prettier.</p>
+<p dir="auto">Prettier يتولّى الشكل، <mark title="Spelling → وESLint">و ESLint</mark> يتولّى جودة الشيفرة. نضيف `eslint-config-prettier` في آخر إعدادات ESLint لتعطيل قواعده التي تتعارض مع Prettier.</p>
 <p class="gap"></p>
 <p dir="auto">### تعطيل التنسيق</p>
 <p class="gap"></p>
@@ -6242,7 +6242,7 @@ const matrix = [
 <p class="gap"></p>
 <p dir="auto">### المتن والتذييل</p>
 <p class="gap"></p>
-<p dir="auto">- يُفصل المتن عن العنوان بسطر فارغ، وتُلفّ أسطره عند ٧٢ حرفًا.</p>
+<p dir="auto">- يُفصل المتن عن العنوان بسطر فارغ، و<mark title="Translationese → يُقسَّم متنه إلى أسطر لا تتجاوز ٧٢ حرفًا">تُلفّ أسطره عند ٧٢ حرفًا</mark>.</p>
 <p dir="auto">- يشرح المتن **لماذا** جرى التغيير، لا **كيف**؛ فالشيفرة نفسها تبيّن الكيفية.</p>
 <p dir="auto">- يُذكر في التذييل رقم المسألة المرتبطة: `Closes #123` أو `Refs #456`.</p>
 <p dir="auto">- التغييرات الكاسرة للتوافق تُعلَّم بـ `!` بعد النوع أو النطاق، وتُشرح في التذييل بعد `BREAKING CHANGE:`.</p>
@@ -6275,7 +6275,7 @@ update                     ← لا يقول شيئًا</pre>
 <p dir="auto">- يجب أن يجتاز كل إيداع الاختبارات وفحص التنسيق.</p>
 <p dir="auto">- نفرض الصيغة آليًا عبر `commitlint` مع `@commitlint/config-conventional` في خطّاف `commit-msg`.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">6</span>)</summary><ul><li>Register: <q dir="auto">Conventional Commits</q> → <span dir="auto">الإيداعات الاصطلاحية (Conventional Commits)</span></li><li>Translationese: <q dir="auto">كأدوات معتمدة</q> → <span dir="auto">ضمن الأدوات المعتمدة</span></li><li>Register: <q dir="auto">CI</q> → <span dir="auto">التكامل المستمر (CI)</span></li><li>Spelling: <q dir="auto">و ESLint</q> → <span dir="auto">وESLint</span></li><li>Spelling: <q dir="auto">و ESLint</q> → <span dir="auto">وESLint</span></li><li>Translationese: <q dir="auto">تُلفّ أسطره عند ٧٢ حرفًا</q> → <span dir="auto">يُقسَّم متنه إلى أسطر لا تتجاوز ٧٢ حرفًا</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">666</span> words</span></h3>
@@ -6520,7 +6520,7 @@ echo &#x27;npx --no -- commitlint --edit &quot;$1&quot;&#x27; &gt; .husky/commit
 <p dir="auto">- [ ] كل إيداع يحمل تغييرًا منطقيًّا واحدًا.</p>
 <p dir="auto">- [ ] رسائل الإيداع مطابقة للمواصفة، والتغييرات الكاسرة موثّقة.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -6542,7 +6542,7 @@ echo &#x27;npx --no -- commitlint --edit &quot;$1&quot;&#x27; &gt; .husky/commit
 <p class="gap"></p>
 <p dir="auto">## 2. تثبيت Node.js</p>
 <p class="gap"></p>
-<p dir="auto">ثبّت نسخة LTS (الدعم طويل الأمد):</p>
+<p dir="auto">ثبّت نسخة <mark title="Register → طويلة الدعم (LTS)">LTS (الدعم طويل الأمد)</mark>:</p>
 <p class="gap"></p>
 <pre dir="ltr">winget install OpenJS.NodeJS.LTS</pre>
 <p class="gap"></p>
@@ -6551,7 +6551,7 @@ echo &#x27;npx --no -- commitlint --edit &quot;$1&quot;&#x27; &gt; .husky/commit
 <pre dir="ltr">node -v
 npm -v</pre>
 <p class="gap"></p>
-<p dir="auto">إذا كنت تعمل على مشاريع تتطلب إصدارات مختلفة من Node، ثبّت nvm-windows بدلًا من ذلك:</p>
+<p dir="auto">إذا كنت تعمل على مشاريع تتطلب إصدارات مختلفة من Node، <mark title="Grammar → فثبّت nvm-windows بدلًا">ثبّت nvm-windows بدلًا</mark> من ذلك:</p>
 <p class="gap"></p>
 <pre dir="ltr">winget install CoreyButler.NVMforWindows
 nvm install lts
@@ -6559,7 +6559,7 @@ nvm use lts</pre>
 <p class="gap"></p>
 <p dir="auto">## 3. السماح بتشغيل سكربتات PowerShell</p>
 <p class="gap"></p>
-<p dir="auto">إذا ظهر الخطأ `running scripts is disabled on this system` عند تشغيل `npm`، نفّذ هذا الأمر مرة واحدة:</p>
+<p dir="auto">إذا ظهر الخطأ `running scripts is disabled on this system` عند تشغيل `npm`، <mark title="Grammar → فنفّذ هذا الأمر">نفّذ هذا الأمر</mark> مرة واحدة:</p>
 <p class="gap"></p>
 <pre dir="ltr">Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</pre>
 <p class="gap"></p>
@@ -6568,7 +6568,7 @@ nvm use lts</pre>
 <pre dir="ltr">git config --global core.longpaths true
 git config --global core.autocrlf input</pre>
 <p class="gap"></p>
-<p dir="auto">الأمر الأول يمنع أخطاء المسارات الطويلة داخل `node_modules`. الثاني يمنع تحويل نهايات الأسطر إلى CRLF، وهو تحويل يُفشل فحوص التنسيق (ESLint و Prettier) في كثير من المشاريع.</p>
+<p dir="auto">الأمر الأول يمنع أخطاء المسارات الطويلة داخل `node_modules`. الثاني يمنع تحويل نهايات الأسطر إلى <mark title="Register → زوج محرفَي نهاية السطر (CRLF)">CRLF</mark>، وهو تحويل يُفشل فحوص التنسيق (ESLint <mark title="Spelling → وPrettier">و Prettier</mark>) في كثير من المشاريع.</p>
 <p class="gap"></p>
 <p dir="auto">## 5. جلب المشروع وتثبيت الاعتماديات</p>
 <p class="gap"></p>
@@ -6604,13 +6604,13 @@ pnpm install</pre>
 <p dir="auto">| العَرَض | السبب | الحل |</p>
 <p dir="auto">|---|---|---|</p>
 <p dir="auto">| `&#x27;NODE_ENV&#x27; is not recognized` | السكربت مكتوب بصيغة يونكس (`NODE_ENV=test jest`) | ثبّت `cross-env` واكتب السكربت هكذا: `cross-env NODE_ENV=test jest` |</p>
-<p dir="auto">| أخطاء `node-gyp` عند التثبيت | حزمة فيها كود أصلي تحتاج أدوات بناء | ثبّت Python و Visual Studio Build Tools مع مكوّن &quot;Desktop development with C++&quot; |</p>
+<p dir="auto">| أخطاء `node-gyp` عند التثبيت | حزمة فيها كود أصلي تحتاج أدوات بناء | ثبّت Python <mark title="Spelling → وVisual">و Visual</mark> Studio Build Tools مع مكوّن &quot;Desktop development with C++&quot; |</p>
 <p dir="auto">| `node` غير معروف بعد التثبيت | الطرفية لم تُحدّث `PATH` | أعد فتح الطرفية |</p>
 <p dir="auto">| `EPERM` أو `EBUSY` عند التثبيت | ملف مقفل من محرر أو من مضاد الفيروسات | أغلق المحرر وخادم التطوير ثم أعد المحاولة |</p>
 <p class="gap"></p>
 <p dir="auto">إذا كان المشروع يعتمد بكثافة على سكربتات bash، فالعمل داخل WSL2 (`wsl --install`) أسهل من تكييف كل سكربت لويندوز.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">6</span>)</summary><ul><li>Register: <q dir="auto">LTS (الدعم طويل الأمد)</q> → <span dir="auto">طويلة الدعم (LTS)</span></li><li>Grammar: <q dir="auto">ثبّت nvm-windows بدلًا</q> → <span dir="auto">فثبّت nvm-windows بدلًا</span></li><li>Grammar: <q dir="auto">نفّذ هذا الأمر</q> → <span dir="auto">فنفّذ هذا الأمر</span></li><li>Register: <q dir="auto">CRLF</q> → <span dir="auto">زوج محرفَي نهاية السطر (CRLF)</span></li><li>Spelling: <q dir="auto">و Prettier</q> → <span dir="auto">وPrettier</span></li><li>Spelling: <q dir="auto">و Visual</q> → <span dir="auto">وVisual</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">592</span> words</span></h3>
@@ -6830,7 +6830,7 @@ winget install --id Microsoft.VisualStudio.2022.BuildTools -e --override &quot;-
 <p class="gap"></p>
 <p dir="auto">**تنبيه:** لم أجرّب الأوامر والأمثلة عمليًّا، فبيئتي لينكس ولم يُسمح لي فيها بتشغيل الشيفرة، ولم يُتح لي البحث في الوثائق على الإنترنت. إن تغيّر معرّف إحدى الحزم، فابحث عنه بالأمر `winget search`.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -6856,7 +6856,7 @@ winget install --id Microsoft.VisualStudio.2022.BuildTools -e --override &quot;-
 <p class="gap"></p>
 <p dir="auto">## المهام والمسؤوليات</p>
 <p class="gap"></p>
-<p dir="auto">- تصميم وتطوير وصيانة مسارات ETL/ELT لاستخراج البيانات من مصادر متعددة وتحويلها وتحميلها إلى مستودع البيانات.</p>
+<p dir="auto">- تصميم وتطوير وصيانة مسارات <mark title="Register → استخراج البيانات وتحويلها وتحميلها (ETL/ELT)">ETL/ELT</mark> لاستخراج البيانات من مصادر متعددة وتحويلها وتحميلها إلى مستودع البيانات.</p>
 <p dir="auto">- بناء نماذج البيانات (Data Modeling) وتطوير مستودعات وبحيرات البيانات بما يخدم احتياجات التحليل والتقارير.</p>
 <p dir="auto">- ضمان جودة البيانات عبر تطبيق اختبارات التحقق والمراقبة والتنبيه على الأعطال والانحرافات.</p>
 <p dir="auto">- تحسين أداء الاستعلامات ومسارات المعالجة وخفض تكاليف التشغيل والتخزين.</p>
@@ -6874,14 +6874,14 @@ winget install --id Microsoft.VisualStudio.2022.BuildTools -e --override &quot;-
 <p dir="auto">- خبرة عملية لا تقل عن 3 سنوات في هندسة البيانات أو مجال مشابه.</p>
 <p class="gap"></p>
 <p dir="auto">**المهارات التقنية**</p>
-<p dir="auto">- إتقان لغة SQL وكتابة الاستعلامات المعقدة وتحسينها.</p>
+<p dir="auto">- إتقان لغة <mark title="Register → الاستعلام البنيوية (SQL)">SQL</mark> وكتابة الاستعلامات المعقدة وتحسينها.</p>
 <p dir="auto">- خبرة قوية في لغة Python (أو Scala/Java) لمعالجة البيانات.</p>
 <p dir="auto">- خبرة عملية في أحد مستودعات البيانات السحابية مثل Snowflake أو BigQuery أو Redshift.</p>
 <p dir="auto">- خبرة في أدوات التنسيق مثل Apache Airflow أو Dagster.</p>
 <p dir="auto">- معرفة بأطر المعالجة الموزعة مثل Apache Spark.</p>
 <p dir="auto">- خبرة في إحدى المنصات السحابية: AWS أو Azure أو Google Cloud.</p>
 <p dir="auto">- إلمام بمفاهيم نمذجة البيانات (Star Schema، Data Vault وغيرها).</p>
-<p dir="auto">- استخدام Git وممارسات CI/CD.</p>
+<p dir="auto">- استخدام Git وممارسات <mark title="Register → التكامل والتسليم المستمرين (CI/CD)">CI/CD</mark>.</p>
 <p class="gap"></p>
 <p dir="auto">**المهارات الشخصية**</p>
 <p dir="auto">- قدرة عالية على تحليل المشكلات وحلها.</p>
@@ -6893,7 +6893,7 @@ winget install --id Microsoft.VisualStudio.2022.BuildTools -e --override &quot;-
 <p class="gap"></p>
 <p dir="auto">- خبرة في معالجة البيانات اللحظية (Streaming) باستخدام Kafka أو Kinesis.</p>
 <p dir="auto">- خبرة في أدوات التحويل مثل dbt.</p>
-<p dir="auto">- معرفة بالحاويات (Docker، Kubernetes) والبنية التحتية كشيفرة (Terraform).</p>
+<p dir="auto">- معرفة بالحاويات (Docker، Kubernetes) و<mark title="Translationese → إدارة البنية التحتية بالشيفرة">البنية التحتية كشيفرة</mark> (Terraform).</p>
 <p dir="auto">- شهادات مهنية سحابية معتمدة في مجال البيانات.</p>
 <p dir="auto">- إلمام بأنظمة حماية البيانات الشخصية المحلية والدولية.</p>
 <p class="gap"></p>
@@ -6917,7 +6917,7 @@ winget install --id Microsoft.VisualStudio.2022.BuildTools -e --override &quot;-
 <p class="gap"></p>
 <p dir="auto">*ملاحظة: الحقول بين الأقواس المربعة [ ] تحتاج إلى تعبئتها بما يناسب جهة العمل، ويمكن تعديل قائمة التقنيات بحسب الأدوات المستخدمة فعليًا لديكم.*</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">4</span>)</summary><ul><li>Register: <q dir="auto">ETL/ELT</q> → <span dir="auto">استخراج البيانات وتحويلها وتحميلها (ETL/ELT)</span></li><li>Register: <q dir="auto">SQL</q> → <span dir="auto">الاستعلام البنيوية (SQL)</span></li><li>Register: <q dir="auto">CI/CD</q> → <span dir="auto">التكامل والتسليم المستمرين (CI/CD)</span></li><li>Translationese: <q dir="auto">البنية التحتية كشيفرة</q> → <span dir="auto">إدارة البنية التحتية بالشيفرة</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">446</span> words</span></h3>
@@ -6983,9 +6983,9 @@ winget install --id Microsoft.VisualStudio.2022.BuildTools -e --override &quot;-
 <p class="gap"></p>
 <p dir="auto">---</p>
 <p class="gap"></p>
-<p dir="auto">ما بين الأقواس المربعة بيانات تخص شركتك، فاملأها قبل النشر. أما المزايا والأدوات التقنية فمقترحة، فأبقِ منها ما ينطبق على شركتك فعلًا.</p>
+<p dir="auto">ما بين الأقواس المربعة بيانات تخص شركتك، فاملأها قبل النشر. أما المزايا والأدوات التقنية فمقترحة، <mark title="Spelling → فأبقِ منها">فأبقِ منها</mark> ما ينطبق على شركتك فعلًا.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">1</span>)</summary><ul><li>Spelling: <q dir="auto">فأبقِ منها</q> → <span dir="auto">فأبقِ منها</span></li></ul></details>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -7017,7 +7017,7 @@ winget install --id Microsoft.VisualStudio.2022.BuildTools -e --override &quot;-
 <p class="gap"></p>
 <p dir="auto">أسماء نقاط النهاية والحقول وتفاصيل تغيير المصادقة أمثلة افتراضية لأن طلبك لم يحددها، فاستبدل بها القيم الفعلية لواجهتك.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">135</span> words</span></h3>
@@ -7025,9 +7025,9 @@ winget install --id Microsoft.VisualStudio.2022.BuildTools -e --override &quot;-
 <div class="ans" lang="ar" dir="rtl">
 <p dir="auto">## الإصدار 1.8.0 (25 نوفمبر 2026)</p>
 <p class="gap"></p>
-<p dir="auto">&gt; **تنبيه:** يتضمن هذا الإصدار من واجهة برمجة التطبيقات (API) تغييرًا كاسرًا في المصادقة. عدّل تطبيقك قبل الترقية.</p>
+<p dir="auto">&gt; **تنبيه:** يتضمن هذا الإصدار من واجهة برمجة التطبيقات (API) <mark title="Translationese → تغييرًا في المصادقة يفقدها التوافق مع التطبيقات الحالية">تغييرًا كاسرًا في المصادقة</mark>. عدّل تطبيقك قبل الترقية.</p>
 <p class="gap"></p>
-<p dir="auto">### تغييرات كاسرة (Breaking changes)</p>
+<p dir="auto">### <mark title="Translationese → تغييرات تؤثر في التوافق مع الإصدارات السابقة">تغييرات كاسرة</mark> (Breaking changes)</p>
 <p class="gap"></p>
 <p dir="auto">**المصادقة برمز الوصول (access token) بدلًا من مفتاح الواجهة**</p>
 <p class="gap"></p>
@@ -7062,7 +7062,7 @@ Authorization: Bearer &lt;ACCESS_TOKEN&gt;</pre>
 <p class="gap"></p>
 <p dir="auto">The endpoint paths, field names, authentication details, 90-day expiry, 2.0 removal target and release date are placeholders I made up, so replace them with your real values. If you follow semantic versioning, a breaking change would normally call for 2.0 rather than 1.8.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">2</span>)</summary><ul><li>Translationese: <q dir="auto">تغييرًا كاسرًا في المصادقة</q> → <span dir="auto">تغييرًا في المصادقة يفقدها التوافق مع التطبيقات الحالية</span></li><li>Translationese: <q dir="auto">تغييرات كاسرة</q> → <span dir="auto">تغييرات تؤثر في التوافق مع الإصدارات السابقة</span></li></ul></details>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>Without the skill · Without the skill · Without the skill</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -7074,14 +7074,14 @@ Authorization: Bearer &lt;ACCESS_TOKEN&gt;</pre>
 <h3>Without the skill <span class="who"><span dir="ltr">383</span> words</span></h3>
 <div class="scroll"><table class="scores"><caption>Errors the judge counted in each judging</caption><thead><tr><th></th><th class="n"><span class="long">Judging 1</span><span class="short">1</span></th><th class="n"><span class="long">Judging 2</span><span class="short">2</span></th><th class="n"><span class="long">Judging 3</span><span class="short">3</span></th></tr></thead><tbody><tr><th>Grammar</th><td class="n">1</td><td class="n">1</td><td class="n">1</td></tr><tr><th>Spelling</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Translationese</th><td class="n">1</td><td class="n">1</td><td class="n">1</td></tr><tr><th>Register</th><td class="n">4</td><td class="n">4</td><td class="n">4</td></tr><tr><th>Formatting</th><td class="n">1</td><td class="n">4</td><td class="n">1</td></tr><tr class="total"><th>Total</th><td class="n">7</td><td class="n">10</td><td class="n">7</td></tr></tbody></table></div>
 <div class="ans" lang="ar" dir="rtl">
-<p dir="auto"># خطة نقل قاعدة البيانات من MySQL إلى PostgreSQL</p>
+<p dir="auto"># خطة نقل قاعدة البيانات من My<mark title="Register → لغة الاستعلام البنيوية (SQL)">SQL</mark> إلى PostgreSQL</p>
 <p class="gap"></p>
 <p dir="auto">## المرحلة الأولى: التقييم والتحضير (2–3 أسابيع)</p>
 <p class="gap"></p>
 <p dir="auto">- **جرد قاعدة البيانات:** حصر الجداول، الفهارس، الإجراءات المخزنة، المشغّلات (Triggers)، والعروض (Views)، مع أحجام البيانات.</p>
 <p dir="auto">- **تحليل التوافق:** تحديد الفروقات بين النظامين، وأهمها:</p>
 <p dir="auto">  - أنواع البيانات (`TINYINT(1)` ← `BOOLEAN`، `DATETIME` ← `TIMESTAMP`، `AUTO_INCREMENT` ← `IDENTITY`، `ENUM`).</p>
-<p dir="auto">  - صياغة SQL الخاصة بـ MySQL في كود التطبيق (علامات الاقتباس العكسية، `LIMIT x,y`، `ON DUPLICATE KEY UPDATE`، `GROUP BY` المتساهل).</p>
+<p dir="auto">  - صياغة SQL الخاصة <mark title="Spelling → بـMySQL">بـ MySQL</mark> في كود التطبيق (علامات الاقتباس العكسية، `LIMIT x,y`، `ON DUPLICATE KEY UPDATE`، `GROUP BY` المتساهل).</p>
 <p dir="auto">  - حساسية حالة الأحرف في المقارنات النصية والترتيب (Collation).</p>
 <p dir="auto">- **اختيار الأدوات:** مثل `pgloader` للنقل المباشر، أو AWS DMS / Debezium للنقل مع التزامن المستمر.</p>
 <p dir="auto">- **تجهيز بيئة PostgreSQL** تجريبية مطابقة لبيئة الإنتاج، وتحديد معايير النجاح وخطة التراجع.</p>
@@ -7090,8 +7090,8 @@ Authorization: Bearer &lt;ACCESS_TOKEN&gt;</pre>
 <p class="gap"></p>
 <p dir="auto">## المرحلة الثانية: التحويل والاختبار (4–6 أسابيع)</p>
 <p class="gap"></p>
-<p dir="auto">- **تحويل المخطط (Schema):** إنشاء الجداول والفهارس والقيود في PostgreSQL، وإعادة كتابة الإجراءات المخزنة والمشغّلات بلغة PL/pgSQL.</p>
-<p dir="auto">- **تعديل التطبيق:** تحديث الاستعلامات غير المتوافقة وإعدادات الاتصال وطبقة ORM.</p>
+<p dir="auto">- **تحويل المخطط (Schema):** إنشاء الجداول والفهارس والقيود في PostgreSQL، وإعادة كتابة الإجراءات المخزنة والمشغّلات بلغة <mark title="Register → الإجراءات المخزنة (PL/pgSQL)">PL/pgSQL</mark>.</p>
+<p dir="auto">- **تعديل التطبيق:** تحديث الاستعلامات غير المتوافقة وإعدادات الاتصال وطبقة <mark title="Register → الربط الكائني العلائقي (ORM)">ORM</mark>.</p>
 <p dir="auto">- **نقل تجريبي كامل للبيانات** على نسخة من بيانات الإنتاج، وقياس المدة الفعلية.</p>
 <p dir="auto">- **التحقق من سلامة البيانات:** مقارنة أعداد الصفوف، المجاميع الاختبارية (Checksums)، وعينات من السجلات.</p>
 <p dir="auto">- **اختبارات الأداء والوظائف:** تشغيل مجموعة الاختبارات كاملة، واختبار الحمل، وضبط الفهارس وإعدادات PostgreSQL.</p>
@@ -7099,12 +7099,12 @@ Authorization: Bearer &lt;ACCESS_TOKEN&gt;</pre>
 <p class="gap"></p>
 <p dir="auto">**المخرجات:** مخطط محوَّل، تطبيق متوافق، نتائج اختبار موثقة، ومدة نقل معروفة.</p>
 <p class="gap"></p>
-<p dir="auto">## المرحلة الثالثة: الانتقال والتشغيل (1–2 أسبوع)</p>
+<p dir="auto">## المرحلة الثالثة: الانتقال والتشغيل (<mark title="Grammar → من أسبوع إلى أسبوعين">1–2 أسبوع</mark>)</p>
 <p class="gap"></p>
-<p dir="auto">- **تفعيل التزامن المستمر** (CDC) بين MySQL و PostgreSQL لتقليل زمن التوقف.</p>
+<p dir="auto">- **تفعيل التزامن المستمر** (<mark title="Register → التقاط تغييرات البيانات (CDC)">CDC</mark>) بين MySQL <mark title="Spelling → وPostgreSQL">و PostgreSQL</mark> لتقليل زمن التوقف.</p>
 <p dir="auto">- **نافذة الانتقال:** إيقاف الكتابة على MySQL، انتظار اكتمال التزامن، التحقق النهائي من البيانات، ثم تحويل التطبيق إلى PostgreSQL.</p>
 <p dir="auto">- **مراقبة مكثفة** بعد الانتقال: الاستعلامات البطيئة، الأخطاء، استهلاك الموارد.</p>
-<p dir="auto">- **الإبقاء على MySQL** في وضع القراءة فقط لمدة 2–4 أسابيع كخيار للتراجع، ثم إيقافه نهائيًا.</p>
+<p dir="auto">- **الإبقاء على MySQL** في وضع القراءة فقط لمدة 2–4 أسابيع <mark title="Translationese → لإتاحة التراجع">كخيار للتراجع</mark>، ثم إيقافه نهائيًا.</p>
 <p class="gap"></p>
 <p dir="auto">**المخرجات:** نظام إنتاجي يعمل على PostgreSQL، وتوثيق محدَّث.</p>
 <p class="gap"></p>
@@ -7119,11 +7119,11 @@ Authorization: Bearer &lt;ACCESS_TOKEN&gt;</pre>
 <p dir="auto">| صعوبة تحويل الإجراءات المخزنة والمشغّلات | متوسط | حصرها مبكرًا في المرحلة الأولى، وإعادة كتابتها يدويًا مع اختبارات لكل منها |</p>
 <p dir="auto">| فشل التراجع بعد بدء الكتابة على PostgreSQL | مرتفع | تزامن عكسي نحو MySQL خلال الفترة الأولى، أو تحديد مهلة قصيرة لقرار التراجع |</p>
 <p dir="auto">| نقص خبرة الفريق في PostgreSQL | متوسط | تدريب مسبق، وإعداد أدلة تشغيل للنسخ الاحتياطي والمراقبة والصيانة (`VACUUM`) |</p>
-<p dir="auto">| أنظمة تابعة غير محصورة (تقارير، مهام مجدولة، تكاملات خارجية) | متوسط | مراجعة سجلات الاتصال بـ MySQL لحصر كل العملاء قبل الانتقال |</p>
+<p dir="auto">| أنظمة تابعة غير محصورة (تقارير، مهام مجدولة، تكاملات خارجية) | متوسط | مراجعة سجلات الاتصال <mark title="Spelling → بـMySQL">بـ MySQL</mark> لحصر كل العملاء قبل الانتقال |</p>
 <p class="gap"></p>
 <p dir="auto">المدد المذكورة تقديرية لقاعدة بيانات متوسطة الحجم، وتتغير بحسب حجم البيانات وعدد الإجراءات المخزنة ومدى اعتماد التطبيق على خصائص MySQL.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">9</span>)</summary><ul><li>Register: <q dir="auto">SQL</q> → <span dir="auto">لغة الاستعلام البنيوية (SQL)</span></li><li>Spelling: <q dir="auto">بـ MySQL</q> → <span dir="auto">بـMySQL</span></li><li>Register: <q dir="auto">PL/pgSQL</q> → <span dir="auto">الإجراءات المخزنة (PL/pgSQL)</span></li><li>Register: <q dir="auto">ORM</q> → <span dir="auto">الربط الكائني العلائقي (ORM)</span></li><li>Grammar: <q dir="auto">1–2 أسبوع</q> → <span dir="auto">من أسبوع إلى أسبوعين</span></li><li>Spelling: <q dir="auto">و PostgreSQL</q> → <span dir="auto">وPostgreSQL</span></li><li>Translationese: <q dir="auto">كخيار للتراجع</q> → <span dir="auto">لإتاحة التراجع</span></li><li>Register: <q dir="auto">CDC</q> → <span dir="auto">التقاط تغييرات البيانات (CDC)</span></li><li>Spelling: <q dir="auto">بـ MySQL</q> → <span dir="auto">بـMySQL</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">412</span> words</span></h3>
@@ -7182,7 +7182,7 @@ Authorization: Bearer &lt;ACCESS_TOKEN&gt;</pre>
 <p class="gap"></p>
 <p dir="auto">لتدقيق المدد أحتاج إلى حجم القاعدة، وعدد التطبيقات المتصلة بها، ومدة التوقف المقبولة، وإصداري النظامين.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -7247,7 +7247,7 @@ Authorization: Bearer &lt;ACCESS_TOKEN&gt;</pre>
 <p class="gap"></p>
 <p dir="auto">**عند الحاجة**</p>
 <p dir="auto">- أعد ملء الملح وسائل التلميع عند إضاءة مؤشريهما.</p>
-<p dir="auto">- إذا لن تستخدم الغسالة مدة طويلة، فشغّل دورة فارغة، ثم افصل الكهرباء وأغلق صنبور الماء واترك الباب مواربًا.</p>
+<p dir="auto">- <mark title="Grammar → إذا كنت لن تستخدم">إذا لن تستخدم</mark> الغسالة مدة طويلة، فشغّل دورة فارغة، ثم افصل الكهرباء وأغلق صنبور الماء واترك الباب مواربًا.</p>
 <p class="gap"></p>
 <p dir="auto">## تنبيهات السلامة</p>
 <p class="gap"></p>
@@ -7256,7 +7256,7 @@ Authorization: Bearer &lt;ACCESS_TOKEN&gt;</pre>
 <p dir="auto">- احفظ المنظفات بعيدًا عن متناول الأطفال، ولا تدعهم يعبثون بالغسالة.</p>
 <p dir="auto">- لا تستخدم سائل الجلي اليدوي داخل الغسالة، لأنه يسبب رغوة زائدة قد تتلفها.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">1</span>)</summary><ul><li>Grammar: <q dir="auto">إذا لن تستخدم</q> → <span dir="auto">إذا كنت لن تستخدم</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">843</span> words</span></h3>
@@ -7389,7 +7389,7 @@ Authorization: Bearer &lt;ACCESS_TOKEN&gt;</pre>
 <p class="gap"></p>
 <p dir="auto">إذا تسرب الماء أو تكرر ظهور رمز خطأ، فأوقف الغسالة وافصل الكهرباء وأغلق الصنبور، ثم اتصل بمركز الصيانة المعتمد.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -7989,42 +7989,42 @@ Authorization: Bearer &lt;ACCESS_TOKEN&gt;</pre>
 <h3>Without the skill <span class="who"><span dir="ltr">286</span> words</span></h3>
 <div class="scroll"><table class="scores"><caption>Errors the judge counted in each judging</caption><thead><tr><th></th><th class="n"><span class="long">Judging 1</span><span class="short">1</span></th><th class="n"><span class="long">Judging 2</span><span class="short">2</span></th><th class="n"><span class="long">Judging 3</span><span class="short">3</span></th></tr></thead><tbody><tr><th>Grammar</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Spelling</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Translationese</th><td class="n">1</td><td class="n">1</td><td class="n">1</td></tr><tr><th>Register</th><td class="n">12</td><td class="n">12</td><td class="n">12</td></tr><tr><th>Formatting</th><td class="n">3</td><td class="n">3</td><td class="n">3</td></tr><tr class="total"><th>Total</th><td class="n">16</td><td class="n">16</td><td class="n">16</td></tr></tbody></table></div>
 <div class="ans" lang="ar" dir="rtl">
-<p dir="auto">## ما هو الـ Load Balancer؟</p>
+<p dir="auto">## ما هو الـ <mark title="Register → موازن الأحمال">Load Balancer</mark>؟</p>
 <p class="gap"></p>
-<p dir="auto">الـ **Load Balancer** (موزِّع الأحمال) هو جهاز أو برنامج يقف أمام مجموعة من الخوادم (servers)، يستقبل طلبات المستخدمين ويوزّعها على هذه الخوادم حتى لا يتحمّل خادم واحد كل الضغط.</p>
+<p dir="auto">الـ **<mark title="Register → موازن الأحمال">Load Balancer</mark>** (موزِّع الأحمال) هو جهاز أو برنامج يقف أمام مجموعة من الخوادم (servers)، يستقبل طلبات المستخدمين ويوزّعها على هذه الخوادم حتى لا يتحمّل خادم واحد كل الضغط.</p>
 <p class="gap"></p>
 <p dir="auto">### تشبيه من الحياة اليومية</p>
 <p class="gap"></p>
-<p dir="auto">تخيّل مطعمًا مزدحمًا فيه عشرة محاسبين. لو وقف كل الزبائن في طابور أمام محاسب واحد، لانتظروا طويلًا بينما التسعة الآخرون بلا عمل. لذلك يقف موظف عند المدخل ويوجّه كل زبون إلى المحاسب الأقل ازدحامًا. هذا الموظف هو الـ load balancer، والمحاسبون هم الخوادم، والزبائن هم طلبات المستخدمين.</p>
+<p dir="auto">تخيّل مطعمًا مزدحمًا فيه عشرة محاسبين. لو وقف كل الزبائن في طابور أمام محاسب واحد، لانتظروا طويلًا بينما التسعة الآخرون بلا عمل. لذلك يقف موظف عند المدخل ويوجّه كل زبون إلى المحاسب الأقل ازدحامًا. هذا الموظف هو الـ <mark title="Register → موازن الأحمال">load balancer</mark>، والمحاسبون هم الخوادم، والزبائن هم طلبات المستخدمين.</p>
 <p class="gap"></p>
 <p dir="auto">### كيف يعمل؟</p>
 <p class="gap"></p>
-<p dir="auto">1. تكتب عنوان الموقع في المتصفح، فيصل طلبك إلى الـ load balancer وليس إلى خادم بعينه.</p>
-<p dir="auto">2. يختار الـ load balancer أحد الخوادم المتاحة ويحوّل الطلب إليه.</p>
-<p dir="auto">3. يعالج الخادم الطلب ويعيد الرد إليك عبر الـ load balancer.</p>
+<p dir="auto">1. تكتب عنوان الموقع في المتصفح، فيصل طلبك إلى الـ <mark title="Register → موازن الأحمال">load balancer</mark> وليس إلى خادم بعينه.</p>
+<p dir="auto">2. يختار الـ <mark title="Register → موازن الأحمال">load balancer</mark> أحد الخوادم المتاحة ويحوّل الطلب إليه.</p>
+<p dir="auto">3. يعالج الخادم الطلب ويعيد الرد إليك عبر الـ <mark title="Register → موازن الأحمال">load balancer</mark>.</p>
 <p class="gap"></p>
-<p dir="auto">أنت كمستخدم لا تلاحظ شيئًا من هذا؛ ترى موقعًا واحدًا فقط.</p>
+<p dir="auto"><mark title="Translationese → لا تلاحظ">أنت كمستخدم لا تلاحظ</mark> شيئًا من هذا؛ ترى موقعًا واحدًا فقط.</p>
 <p class="gap"></p>
 <p dir="auto">### لماذا تحتاجه المواقع الكبيرة؟</p>
 <p class="gap"></p>
 <p dir="auto">- **تحمّل عدد كبير من الزوار:** خادم واحد يستطيع خدمة عدد محدود من الطلبات في الثانية. موقع يزوره ملايين الأشخاص يحتاج مئات أو آلاف الخوادم، ولا بد من شيء يوزّع الطلبات بينها.</p>
-<p dir="auto">- **استمرار الخدمة عند الأعطال:** الـ load balancer يفحص الخوادم باستمرار. إذا تعطّل أحدها، يتوقف عن إرسال الطلبات إليه ويحوّلها إلى الخوادم السليمة، فيبقى الموقع يعمل.</p>
-<p dir="auto">- **سهولة التوسّع:** عند ازدياد الضغط (مثل يوم تخفيضات أو إعلان نتائج)، تُضاف خوادم جديدة خلف الـ load balancer دون أن يتغيّر شيء عند المستخدم.</p>
+<p dir="auto">- **استمرار الخدمة عند الأعطال:** الـ <mark title="Register → موازن الأحمال">load balancer</mark> يفحص الخوادم باستمرار. إذا تعطّل أحدها، يتوقف عن إرسال الطلبات إليه ويحوّلها إلى الخوادم السليمة، فيبقى الموقع يعمل.</p>
+<p dir="auto">- **سهولة التوسّع:** عند ازدياد الضغط (مثل يوم تخفيضات أو إعلان نتائج)، تُضاف خوادم جديدة خلف الـ <mark title="Register → موازن الأحمال">load balancer</mark> دون أن يتغيّر شيء عند المستخدم.</p>
 <p dir="auto">- **الصيانة بلا توقف:** يمكن إخراج خادم من الخدمة لتحديثه ثم إعادته، والموقع يعمل طوال الوقت.</p>
 <p class="gap"></p>
 <p dir="auto">### كيف يختار الخادم؟</p>
 <p class="gap"></p>
 <p dir="auto">أشهر الطرق:</p>
 <p class="gap"></p>
-<p dir="auto">- **Round Robin (بالدور):** الطلب الأول للخادم 1، الثاني للخادم 2، وهكذا ثم يعود للأول.</p>
-<p dir="auto">- **Least Connections (الأقل اتصالات):** يرسل الطلب إلى الخادم الذي يخدم أقل عدد من المستخدمين حاليًا.</p>
-<p dir="auto">- **IP Hash:** يرسل المستخدم نفسه دائمًا إلى الخادم نفسه، وهذا مفيد إذا كان الخادم يحتفظ ببيانات جلسة المستخدم.</p>
+<p dir="auto">- **<mark title="Register → التناوب">Round Robin</mark> (بالدور):** الطلب الأول للخادم 1، الثاني للخادم 2، وهكذا ثم يعود للأول.</p>
+<p dir="auto">- **<mark title="Register → أقل عدد من الاتصالات">Least Connections</mark> (الأقل اتصالات):** يرسل الطلب إلى الخادم الذي يخدم أقل عدد من المستخدمين حاليًا.</p>
+<p dir="auto">- **<mark title="Register → التوزيع بحسب عنوان المستخدم">IP Hash</mark>:** يرسل المستخدم نفسه دائمًا إلى الخادم نفسه، وهذا مفيد إذا كان الخادم يحتفظ ببيانات جلسة المستخدم.</p>
 <p class="gap"></p>
 <p dir="auto">### الخلاصة</p>
 <p class="gap"></p>
-<p dir="auto">الـ load balancer هو &quot;شرطي مرور&quot; يوزّع طلبات المستخدمين على عدة خوادم، وبدونه لا يستطيع موقع كبير أن يبقى سريعًا ومتاحًا عندما يكثر الزوار أو يتعطّل أحد خوادمه.</p>
+<p dir="auto">الـ <mark title="Register → موازن الأحمال">load balancer</mark> هو &quot;شرطي مرور&quot; يوزّع طلبات المستخدمين على عدة خوادم، وبدونه لا يستطيع موقع كبير أن يبقى سريعًا ومتاحًا عندما يكثر الزوار أو يتعطّل أحد خوادمه.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">16</span>)</summary><ul><li>Register: <q dir="auto">Load Balancer</q> → <span dir="auto">موازن الأحمال</span></li><li>Register: <q dir="auto">Load Balancer</q> → <span dir="auto">موازن الأحمال</span></li><li>Register: <q dir="auto">load balancer</q> → <span dir="auto">موازن الأحمال</span></li><li>Register: <q dir="auto">load balancer</q> → <span dir="auto">موازن الأحمال</span></li><li>Register: <q dir="auto">load balancer</q> → <span dir="auto">موازن الأحمال</span></li><li>Register: <q dir="auto">load balancer</q> → <span dir="auto">موازن الأحمال</span></li><li>Translationese: <q dir="auto">أنت كمستخدم لا تلاحظ</q> → <span dir="auto">لا تلاحظ</span></li><li>Register: <q dir="auto">load balancer</q> → <span dir="auto">موازن الأحمال</span></li><li>Register: <q dir="auto">load balancer</q> → <span dir="auto">موازن الأحمال</span></li><li>Register: <q dir="auto">Round Robin</q> → <span dir="auto">التناوب</span></li><li>Formatting: <q dir="auto">Round</q> → <span dir="auto">التناوب</span> (not highlighted separately)</li><li>Register: <q dir="auto">Least Connections</q> → <span dir="auto">أقل عدد من الاتصالات</span></li><li>Formatting: <q dir="auto">Least</q> → <span dir="auto">الأقل</span> (not highlighted separately)</li><li>Register: <q dir="auto">IP Hash</q> → <span dir="auto">التوزيع بحسب عنوان المستخدم</span></li><li>Formatting: <q dir="auto">IP</q> → <span dir="auto">التوزيع</span> (not highlighted separately)</li><li>Register: <q dir="auto">load balancer</q> → <span dir="auto">موازن الأحمال</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">343</span> words</span></h3>
@@ -8071,13 +8071,13 @@ Users ──► Balancer ─┼──► Server 2
 <p class="gap"></p>
 <p dir="auto">## ماذا لو تعطّل موازن الأحمال نفسه؟</p>
 <p class="gap"></p>
-<p dir="auto">إذا كان لدينا موازن واحد وتعطّل، فلن تصل الطلبات إلى أي خادم وإن كانت الخوادم كلها سليمة. ويسمى هذا **نقطة فشل وحيدة (single point of failure)**. لذلك تستخدم المواقع الكبيرة موازنين أو أكثر، فإذا تعطّل أحدها تولّى غيره العمل.</p>
+<p dir="auto">إذا كان لدينا موازن واحد وتعطّل، فلن تصل الطلبات إلى أي خادم وإن كانت الخوادم كلها سليمة. ويسمى هذا **نقطة فشل وحيدة (single point of failure)**. لذلك تستخدم المواقع الكبيرة موازنين أو أكثر، فإذا <mark title="Grammar → تعطّل أحدهما تولّى">تعطّل أحدها تولّى</mark> غيره العمل.</p>
 <p class="gap"></p>
 <p dir="auto">## الخلاصة</p>
 <p class="gap"></p>
 <p dir="auto">يوزع موازن الأحمال طلبات المستخدمين على عدة خوادم، فيبقى الموقع **سريعًا** عند الزحام، و**متاحًا** عند الأعطال، و**قابلًا للتوسع** كلما زاد عدد زواره.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">1</span>)</summary><ul><li>Grammar: <q dir="auto">تعطّل أحدها تولّى</q> → <span dir="auto">تعطّل أحدهما تولّى</span></li></ul></details>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -8089,22 +8089,22 @@ Users ──► Balancer ─┼──► Server 2
 <h3>Without the skill <span class="who"><span dir="ltr">201</span> words</span></h3>
 <div class="scroll"><table class="scores"><caption>Errors the judge counted in each judging</caption><thead><tr><th></th><th class="n"><span class="long">Judging 1</span><span class="short">1</span></th><th class="n"><span class="long">Judging 2</span><span class="short">2</span></th><th class="n"><span class="long">Judging 3</span><span class="short">3</span></th></tr></thead><tbody><tr><th>Grammar</th><td class="n">1</td><td class="n">1</td><td class="n">1</td></tr><tr><th>Spelling</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Translationese</th><td class="n">1</td><td class="n">2</td><td class="n">4</td></tr><tr><th>Register</th><td class="n">2</td><td class="n">2</td><td class="n">2</td></tr><tr><th>Formatting</th><td class="n">3</td><td class="n">0</td><td class="n">3</td></tr><tr class="total"><th>Total</th><td class="n">7</td><td class="n">5</td><td class="n">10</td></tr></tbody></table></div>
 <div class="ans" lang="ar" dir="rtl">
-<p dir="auto"># ما هو ترميز Big O؟</p>
+<p dir="auto"># ما هو ترميز <mark title="Register → الرتبة التقاربية العليا">Big O</mark>؟</p>
 <p class="gap"></p>
-<p dir="auto">ترميز **Big O** هو طريقة رياضية لوصف **كيف يزداد زمن تنفيذ الخوارزمية (أو استهلاكها للذاكرة) كلما كبر حجم المدخلات**، ويُرمز لحجم المدخلات عادةً بالحرف `n`.</p>
+<p dir="auto">ترميز **<mark title="Register → الرتبة التقاربية العليا">Big O</mark>** هو طريقة رياضية لوصف **كيف يزداد زمن تنفيذ الخوارزمية (أو استهلاكها للذاكرة) كلما كبر حجم المدخلات**، ويُرمز لحجم المدخلات عادةً بالحرف `n`.</p>
 <p class="gap"></p>
-<p dir="auto">هو لا يقيس الزمن بالثواني، بل يقيس **معدل النمو**. لذلك نتجاهل الثوابت والحدود الصغيرة: خوارزمية تنفّذ `3n + 5` عملية تُكتب ببساطة `O(n)`. وغالبًا يُستخدم لوصف **أسوأ حالة** ممكنة.</p>
+<p dir="auto"><mark title="Translationese → لا يقيس الزمن">هو لا يقيس الزمن</mark> بالثواني، بل يقيس **معدل النمو**. لذلك نتجاهل الثوابت والحدود الصغيرة: خوارزمية تنفّذ `3n + 5` عملية تُكتب ببساطة `<mark title="Formatting → الزمن الخطي">O(n)</mark>`. وغالبًا يُستخدم لوصف **أسوأ حالة** ممكنة.</p>
 <p class="gap"></p>
 <p dir="auto">---</p>
 <p class="gap"></p>
-<p dir="auto">## O(1) — زمن ثابت</p>
+<p dir="auto">## <mark title="Formatting → الزمن الثابت">O(1)</mark> — زمن ثابت</p>
 <p class="gap"></p>
 <p dir="auto">عدد العمليات لا يتغير مهما كان حجم المدخلات.</p>
 <p class="gap"></p>
 <pre dir="ltr">def first_element(items):
     return items[0]</pre>
 <p class="gap"></p>
-<p dir="auto">سواء احتوت القائمة على 10 عناصر أو 10 ملايين، الوصول إلى العنصر الأول يتم بخطوة واحدة.</p>
+<p dir="auto">سواء احتوت القائمة <mark title="Grammar → على 10 عناصر أم على 10 ملايين، فالوصول">على 10 عناصر أو 10 ملايين، الوصول</mark> إلى العنصر الأول يتم بخطوة واحدة.</p>
 <p class="gap"></p>
 <p dir="auto">**مثال من الواقع:** فتح كتاب على صفحة تعرف رقمها مسبقًا.</p>
 <p class="gap"></p>
@@ -8126,7 +8126,7 @@ Users ──► Balancer ─┼──► Server 2
 <p class="gap"></p>
 <p dir="auto">---</p>
 <p class="gap"></p>
-<p dir="auto">## O(n²) — زمن تربيعي</p>
+<p dir="auto">## <mark title="Formatting → الزمن التربيعي">O(n²)</mark> — زمن تربيعي</p>
 <p class="gap"></p>
 <p dir="auto">عدد العمليات يتناسب مع مربع حجم المدخلات: إذا تضاعف `n` أصبح الزمن أربعة أضعاف. يظهر عادةً مع الحلقات المتداخلة.</p>
 <p class="gap"></p>
@@ -8153,7 +8153,7 @@ Users ──► Balancer ─┼──► Server 2
 <p class="gap"></p>
 <p dir="auto">الفرق يكاد لا يُلاحظ مع المدخلات الصغيرة، لكنه يصبح حاسمًا مع المدخلات الكبيرة: خوارزمية `O(n²)` قد تحتاج ساعات لمعالجة بيانات تنهيها خوارزمية `O(n)` في أقل من ثانية.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">8</span>)</summary><ul><li>Register: <q dir="auto">Big O</q> → <span dir="auto">الرتبة التقاربية العليا</span></li><li>Register: <q dir="auto">Big O</q> → <span dir="auto">الرتبة التقاربية العليا</span></li><li>Translationese: <q dir="auto">هو لا يقيس الزمن</q> → <span dir="auto">لا يقيس الزمن</span></li><li>Formatting: <q dir="auto">O(1)</q> → <span dir="auto">الزمن الثابت</span></li><li>Grammar: <q dir="auto">على 10 عناصر أو 10 ملايين، الوصول</q> → <span dir="auto">على 10 عناصر أم على 10 ملايين، فالوصول</span></li><li>Translationese: <q dir="auto">الوصول إلى العنصر الأول يتم بخطوة واحدة</q> → <span dir="auto">نصل إلى العنصر الأول بخطوة واحدة</span> (not highlighted separately)</li><li>Formatting: <q dir="auto">O(n)</q> → <span dir="auto">الزمن الخطي</span></li><li>Formatting: <q dir="auto">O(n²)</q> → <span dir="auto">الزمن التربيعي</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">272</span> words</span></h3>
@@ -8219,7 +8219,7 @@ Users ──► Balancer ─┼──► Server 2
 <p class="gap"></p>
 <p dir="auto">ولا يعني `O(1)` أن الخوارزمية أسرع دائمًا، فقد تسبقها خوارزمية `O(n)` إذا كانت المدخلات قليلة وكانت الخطوة الثابتة مكلفة. وإنما تظهر أهمية هذا الترميز حين يكبر حجم البيانات.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -8233,26 +8233,26 @@ Users ──► Balancer ─┼──► Server 2
 <div class="ans" lang="ar" dir="rtl">
 <p dir="auto">## الفرق الأساسي</p>
 <p class="gap"></p>
-<p dir="auto">**SQL (قواعد البيانات العلائقية)** تخزّن البيانات في جداول ذات أعمدة محددة مسبقًا، وتربط بينها بعلاقات (مفاتيح أجنبية). أمثلة: PostgreSQL، MySQL، SQL Server.</p>
+<p dir="auto">**<mark title="Register → قواعد البيانات العلائقية">SQL</mark> (قواعد البيانات العلائقية)** تخزّن البيانات في جداول ذات أعمدة محددة مسبقًا، وتربط بينها بعلاقات (مفاتيح أجنبية). أمثلة: Postgre<mark title="Formatting → القواعد العلائقية">SQL</mark>، My<mark title="Register → العلائقية">SQL</mark>، <mark title="Register → القواعد العلائقية">SQL</mark> Server.</p>
 <p class="gap"></p>
-<p dir="auto">**NoSQL** مصطلح يجمع عدة أنواع لا تعتمد النموذج الجدولي، وكل نوع مصمم لمشكلة مختلفة:</p>
+<p dir="auto">**<mark title="Register → قواعد البيانات غير العلائقية">NoSQL</mark>** مصطلح يجمع عدة أنواع لا تعتمد النموذج الجدولي، وكل نوع مصمم لمشكلة مختلفة:</p>
 <p class="gap"></p>
-<p dir="auto">- **مستندات** (MongoDB): بيانات بصيغة شبيهة بـ JSON.</p>
+<p dir="auto">- **مستندات** (MongoDB): بيانات بصيغة شبيهة بـ <mark title="Register → صيغة ترميز كائنات جافاسكربت">JSON</mark>.</p>
 <p dir="auto">- **مفتاح–قيمة** (Redis، DynamoDB): بحث سريع جدًا بالمفتاح.</p>
 <p dir="auto">- **أعمدة واسعة** (Cassandra): كتابة بكميات هائلة موزعة على خوادم كثيرة.</p>
 <p dir="auto">- **رسوم بيانية** (Neo4j): بيانات تغلب عليها العلاقات المتشابكة.</p>
 <p class="gap"></p>
 <p dir="auto">## المقارنة</p>
 <p class="gap"></p>
-<p dir="auto">| الجانب | SQL | NoSQL |</p>
+<p dir="auto">| الجانب | <mark title="Register → القواعد العلائقية">SQL</mark> | <mark title="Formatting → القواعد غير العلائقية">NoSQL</mark> |</p>
 <p dir="auto">|---|---|---|</p>
 <p dir="auto">| المخطط (Schema) | ثابت ومحدد مسبقًا | مرن، يتغير من سجل لآخر |</p>
-<p dir="auto">| العلاقات | JOIN قوي بين الجداول | ضعيف أو غائب غالبًا؛ البيانات تُضمَّن أو تُكرَّر |</p>
-<p dir="auto">| المعاملات | ACID كامل افتراضيًا | يختلف؛ كثير منها يقدّم اتساقًا نهائيًا (eventual consistency) |</p>
+<p dir="auto">| العلاقات | <mark title="Register → ربط الجداول">JOIN</mark> قوي بين الجداول | ضعيف أو غائب غالبًا؛ البيانات تُضمَّن أو تُكرَّر |</p>
+<p dir="auto">| المعاملات | <mark title="Register → ضمانات المعاملات">ACID</mark> كامل افتراضيًا | يختلف؛ كثير منها يقدّم اتساقًا نهائيًا (eventual consistency) |</p>
 <p dir="auto">| التوسع | عمودي أساسًا (خادم أقوى)، والأفقي ممكن لكنه أصعب | أفقي بطبيعته (إضافة خوادم) |</p>
 <p dir="auto">| الاستعلام | لغة موحدة ومرنة لأي سؤال | واجهة خاصة بكل نظام، ومحدودة بطريقة تصميم البيانات |</p>
 <p class="gap"></p>
-<p dir="auto">الفرق العملي الأهم: في SQL تصمّم البيانات أولًا ثم تسأل أي سؤال لاحقًا، أما في NoSQL فتصمّم البيانات حول الاستعلامات التي تعرفها مسبقًا، وتغيير نمط الاستعلام لاحقًا مكلف.</p>
+<p dir="auto">الفرق العملي الأهم: في <mark title="Register → قاعدة علائقية">SQL</mark> تصمّم البيانات أولًا ثم تسأل أي سؤال لاحقًا، أما في <mark title="Register → غير العلائقية">NoSQL</mark> ف<mark title="Translationese → تصمّم بنية البيانات بما يلائم الاستعلامات">تصمّم البيانات حول الاستعلامات</mark> التي تعرفها مسبقًا، وتغيير نمط الاستعلام لاحقًا مكلف.</p>
 <p class="gap"></p>
 <p dir="auto">## متى تختار SQL</p>
 <p class="gap"></p>
@@ -8261,7 +8261,7 @@ Users ──► Balancer ─┼──► Server 2
 <p dir="auto">- تحتاج تقارير واستعلامات تحليلية غير متوقعة مسبقًا.</p>
 <p dir="auto">- لا تعرف بعد كيف سيتطور التطبيق.</p>
 <p class="gap"></p>
-<p dir="auto">## متى تختار NoSQL</p>
+<p dir="auto">## متى تختار <mark title="Register → القواعد غير العلائقية">NoSQL</mark></p>
 <p class="gap"></p>
 <p dir="auto">- حجم كتابة أو قراءة ضخم يتجاوز قدرة خادم واحد (سجلات، أحداث، بيانات حساسات).</p>
 <p dir="auto">- بيانات متغيرة الشكل فعلًا (كتالوج منتجات بخصائص مختلفة لكل صنف).</p>
@@ -8271,11 +8271,11 @@ Users ──► Balancer ─┼──► Server 2
 <p class="gap"></p>
 <p dir="auto">## التوصية</p>
 <p class="gap"></p>
-<p dir="auto">إن لم يكن لديك سبب واضح لاختيار NoSQL، ابدأ بـ PostgreSQL. هي تغطي معظم التطبيقات، وتدعم أعمدة JSON للبيانات المرنة، وتتحمل أحجامًا أكبر بكثير مما يتوقعه أغلب الناس. انتقل إلى NoSQL حين تظهر مشكلة محددة لا تحلها قاعدة علائقية جيدًا.</p>
+<p dir="auto">إن لم يكن لديك سبب واضح لاختيار <mark title="Register → القواعد غير العلائقية">NoSQL</mark>، ابدأ بـ PostgreSQL. هي تغطي معظم التطبيقات، وتدعم أعمدة <mark title="Register → بصيغة ترميز كائنات جافاسكربت">JSON</mark> للبيانات المرنة، وتتحمل أحجامًا أكبر بكثير مما يتوقعه أغلب الناس. انتقل إلى <mark title="Register → قاعدة غير علائقية">NoSQL</mark> حين تظهر مشكلة محددة لا تحلها قاعدة علائقية جيدًا.</p>
 <p class="gap"></p>
 <p dir="auto">وكثير من الأنظمة تجمع الاثنين: SQL للبيانات الأساسية، وRedis للتخزين المؤقت مثلًا.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">18</span>)</summary><ul><li>Register: <q dir="auto">SQL</q> → <span dir="auto">قواعد البيانات العلائقية</span></li><li>Formatting: <q dir="auto">SQL</q> → <span dir="auto">القواعد العلائقية</span></li><li>Register: <q dir="auto">NoSQL</q> → <span dir="auto">قواعد البيانات غير العلائقية</span></li><li>Formatting: <q dir="auto">NoSQL</q> → <span dir="auto">القواعد غير العلائقية</span></li><li>Register: <q dir="auto">JSON</q> → <span dir="auto">صيغة ترميز كائنات جافاسكربت</span></li><li>Register: <q dir="auto">SQL</q> → <span dir="auto">العلائقية</span></li><li>Register: <q dir="auto">NoSQL</q> → <span dir="auto">غير العلائقية</span></li><li>Register: <q dir="auto">JOIN</q> → <span dir="auto">ربط الجداول</span></li><li>Register: <q dir="auto">ACID</q> → <span dir="auto">ضمانات المعاملات</span></li><li>Register: <q dir="auto">SQL</q> → <span dir="auto">القواعد العلائقية</span></li><li>Register: <q dir="auto">NoSQL</q> → <span dir="auto">القواعد غير العلائقية</span></li><li>Translationese: <q dir="auto">تصمّم البيانات حول الاستعلامات</q> → <span dir="auto">تصمّم بنية البيانات بما يلائم الاستعلامات</span></li><li>Register: <q dir="auto">SQL</q> → <span dir="auto">القواعد العلائقية</span></li><li>Register: <q dir="auto">NoSQL</q> → <span dir="auto">القواعد غير العلائقية</span></li><li>Register: <q dir="auto">NoSQL</q> → <span dir="auto">قاعدة غير علائقية</span></li><li>Register: <q dir="auto">JSON</q> → <span dir="auto">بصيغة ترميز كائنات جافاسكربت</span></li><li>Register: <q dir="auto">NoSQL</q> → <span dir="auto">قاعدة غير علائقية</span> (not highlighted separately)</li><li>Register: <q dir="auto">SQL</q> → <span dir="auto">قاعدة علائقية</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">443</span> words</span></h3>
@@ -8356,7 +8356,7 @@ WHERE u.id = 1;</pre>
 <p class="gap"></p>
 <p dir="auto">إذا وصفت لي مشروعك (نوع البيانات وحجمها المتوقع وأهم الاستعلامات)، رشّحت لك الخيار الأنسب.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -8368,11 +8368,11 @@ WHERE u.id = 1;</pre>
 <h3>Without the skill <span class="who"><span dir="ltr">294</span> words</span></h3>
 <div class="scroll"><table class="scores"><caption>Errors the judge counted in each judging</caption><thead><tr><th></th><th class="n"><span class="long">Judging 1</span><span class="short">1</span></th><th class="n"><span class="long">Judging 2</span><span class="short">2</span></th><th class="n"><span class="long">Judging 3</span><span class="short">3</span></th></tr></thead><tbody><tr><th>Grammar</th><td class="n">0</td><td class="n">1</td><td class="n">0</td></tr><tr><th>Spelling</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Translationese</th><td class="n">3</td><td class="n">7</td><td class="n">7</td></tr><tr><th>Register</th><td class="n">5</td><td class="n">5</td><td class="n">6</td></tr><tr><th>Formatting</th><td class="n">1</td><td class="n">5</td><td class="n">5</td></tr><tr class="total"><th>Total</th><td class="n">9</td><td class="n">18</td><td class="n">18</td></tr></tbody></table></div>
 <div class="ans" lang="ar" dir="rtl">
-<p dir="auto">**CI/CD** اختصار لـ Continuous Integration (التكامل المستمر) و Continuous Delivery/Deployment (التسليم أو النشر المستمر). هو أسلوب عمل يؤتمت المراحل التي يمرّ بها الكود من لحظة كتابته حتى وصوله إلى المستخدمين.</p>
+<p dir="auto">**<mark title="Register → التكامل والتسليم المستمران">CI/CD</mark>** اختصار لـ <mark title="Register → التكامل المستمر">Continuous Integration</mark> (التكامل المستمر) و <mark title="Register → التسليم أو النشر المستمر">Continuous Delivery/Deployment</mark> (التسليم أو النشر المستمر). هو أسلوب عمل يؤتمت المراحل التي يمرّ بها الكود من لحظة كتابته حتى وصوله إلى المستخدمين.</p>
 <p class="gap"></p>
-<p dir="auto">## التكامل المستمر (CI)</p>
+<p dir="auto">## التكامل المستمر (<mark title="Register → التكامل المستمر">CI</mark>)</p>
 <p class="gap"></p>
-<p dir="auto">يدمج المطوّرون تغييراتهم في الفرع الرئيسي بشكل متكرر (عدة مرات يوميًا غالبًا)، ومع كل دمج يعمل خط آلي (pipeline) يقوم بـ:</p>
+<p dir="auto">يدمج المطوّرون تغييراتهم في الفرع الرئيسي <mark title="Translationese → مرارًا">بشكل متكرر</mark> (عدة مرات يوميًا غالبًا)، ومع كل دمج يعمل خط آلي (pipeline) <mark title="Translationese → يتولّى">يقوم بـ</mark>:</p>
 <p class="gap"></p>
 <p dir="auto">- بناء المشروع (build)</p>
 <p dir="auto">- تشغيل الاختبارات الآلية</p>
@@ -8389,12 +8389,12 @@ WHERE u.id = 1;</pre>
 <p class="gap"></p>
 <p dir="auto">- **أتمتة العمل المتكرر:** البناء والاختبار والنشر تجري آليًا بدل خطوات يدوية بطيئة.</p>
 <p dir="auto">- **إصدارات صغيرة ومتكررة:** بدل إصدار ضخم كل بضعة أشهر، تصل التغييرات إلى المستخدمين خلال ساعات أو أيام.</p>
-<p dir="auto">- **تغذية راجعة سريعة:** يعرف المطوّر خلال دقائق إن كان تغييره كسر شيئًا، فيصلحه والسياق ما زال حاضرًا في ذهنه.</p>
+<p dir="auto">- **تغذية راجعة سريعة:** يعرف المطوّر خلال دقائق إن كان <mark title="Grammar → تغييره قد كسر شيئًا">تغييره كسر شيئًا</mark>، فيصلحه والسياق ما زال حاضرًا في ذهنه.</p>
 <p dir="auto">- **تعارضات دمج أقل:** الدمج المتكرر يمنع تراكم الفروق بين فروع المطوّرين.</p>
 <p class="gap"></p>
 <p dir="auto">## كيف يساعد على الأمان</p>
 <p class="gap"></p>
-<p dir="auto">- **اكتشاف الأخطاء مبكرًا:** الاختبارات تعمل على كل تغيير، فلا تصل الأعطال إلى الإنتاج بسهولة.</p>
+<p dir="auto">- **اكتشاف الأخطاء مبكرًا:** <mark title="Translationese → تُجرى الاختبارات عند كل تغيير">الاختبارات تعمل على كل تغيير</mark>، فلا تصل الأعطال إلى الإنتاج بسهولة.</p>
 <p dir="auto">- **تغييرات صغيرة سهلة التتبع:** إذا ظهرت مشكلة، يسهل تحديد التغيير المسبّب لها.</p>
 <p dir="auto">- **عملية نشر موحّدة وقابلة للتكرار:** لا اعتماد على خطوات يدوية تختلف من شخص لآخر، فتقلّ الأخطاء البشرية.</p>
 <p dir="auto">- **تراجع سريع (rollback):** يمكن العودة إلى نسخة سابقة سليمة بسهولة عند الحاجة.</p>
@@ -8402,16 +8402,16 @@ WHERE u.id = 1;</pre>
 <p class="gap"></p>
 <p dir="auto">## مثال مبسّط لمسار العمل</p>
 <p class="gap"></p>
-<p dir="auto">1. المطوّر يرفع الكود (push) أو يفتح طلب دمج.</p>
-<p dir="auto">2. الخط الآلي يبني المشروع ويشغّل الاختبارات والفحوصات.</p>
+<p dir="auto">1. <mark title="Translationese → يرفع المطوّر الكود">المطوّر يرفع الكود</mark> (push) أو يفتح طلب دمج.</p>
+<p dir="auto">2. <mark title="Translationese → يبني الخط الآلي المشروع">الخط الآلي يبني المشروع</mark> ويشغّل الاختبارات والفحوصات.</p>
 <p dir="auto">3. عند النجاح يُدمج الكود ويُنشر إلى بيئة تجريبية (staging).</p>
 <p dir="auto">4. بعد موافقة يدوية أو تلقائيًا، يُنشر إلى الإنتاج.</p>
 <p class="gap"></p>
-<p dir="auto">من أشهر الأدوات: GitHub Actions و GitLab CI/CD و Jenkins و CircleCI.</p>
+<p dir="auto">من أشهر الأدوات: GitHub Actions <mark title="Formatting → وGitLab">و GitLab</mark> <mark title="Formatting → التكامل والتسليم المستمران">CI/CD</mark> <mark title="Formatting → وJenkins">و Jenkins</mark> <mark title="Formatting → وCircleCI">و CircleCI</mark>.</p>
 <p class="gap"></p>
-<p dir="auto">فعالية CI/CD تعتمد على جودة الاختبارات الآلية: خط سريع باختبارات ضعيفة ينشر الأخطاء بسرعة أيضًا.</p>
+<p dir="auto">فعالية <mark title="Register → التكامل والتسليم المستمرين">CI/CD</mark> تعتمد على جودة الاختبارات الآلية: خط سريع باختبارات ضعيفة ينشر الأخطاء بسرعة أيضًا.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">17</span>)</summary><ul><li>Register: <q dir="auto">CI/CD</q> → <span dir="auto">التكامل والتسليم المستمران</span></li><li>Formatting: <q dir="auto">CI/CD</q> → <span dir="auto">التكامل والتسليم المستمران</span></li><li>Register: <q dir="auto">Continuous Integration</q> → <span dir="auto">التكامل المستمر</span></li><li>Register: <q dir="auto">Continuous Delivery/Deployment</q> → <span dir="auto">التسليم أو النشر المستمر</span></li><li>Formatting: <q dir="auto">و Continuous</q> → <span dir="auto">والتسليم</span> (not highlighted separately)</li><li>Translationese: <q dir="auto">بشكل متكرر</q> → <span dir="auto">مرارًا</span></li><li>Translationese: <q dir="auto">يقوم بـ</q> → <span dir="auto">يتولّى</span></li><li>Register: <q dir="auto">CI</q> → <span dir="auto">التكامل المستمر</span></li><li>Grammar: <q dir="auto">تغييره كسر شيئًا</q> → <span dir="auto">تغييره قد كسر شيئًا</span></li><li>Translationese: <q dir="auto">كسر شيئًا</q> → <span dir="auto">سبّب خللًا</span> (not highlighted separately)</li><li>Translationese: <q dir="auto">الاختبارات تعمل على كل تغيير</q> → <span dir="auto">تُجرى الاختبارات عند كل تغيير</span></li><li>Translationese: <q dir="auto">المطوّر يرفع الكود</q> → <span dir="auto">يرفع المطوّر الكود</span></li><li>Translationese: <q dir="auto">الخط الآلي يبني المشروع</q> → <span dir="auto">يبني الخط الآلي المشروع</span></li><li>Formatting: <q dir="auto">و GitLab</q> → <span dir="auto">وGitLab</span></li><li>Formatting: <q dir="auto">و Jenkins</q> → <span dir="auto">وJenkins</span></li><li>Formatting: <q dir="auto">و CircleCI</q> → <span dir="auto">وCircleCI</span></li><li>Register: <q dir="auto">CI/CD</q> → <span dir="auto">التكامل والتسليم المستمرين</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">507</span> words</span></h3>
@@ -8501,7 +8501,7 @@ jobs:
 <p class="gap"></p>
 <p dir="auto">ابدأ بتشغيل البناء والاختبارات عند كل طلب دمج، وامنع الدمج عند فشلها. ثم أتمِت النشر إلى بيئة ما قبل الإنتاج، وبعدها النشر إلى بيئة الإنتاج بموافقة يدوية. ولا تُلغِ هذه الموافقة إلا حين تثق بالاختبارات والمراقبة وآلية التراجع.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -8513,25 +8513,25 @@ jobs:
 <h3>Without the skill <span class="who"><span dir="ltr">315</span> words</span></h3>
 <div class="scroll"><table class="scores"><caption>Errors the judge counted in each judging</caption><thead><tr><th></th><th class="n"><span class="long">Judging 1</span><span class="short">1</span></th><th class="n"><span class="long">Judging 2</span><span class="short">2</span></th><th class="n"><span class="long">Judging 3</span><span class="short">3</span></th></tr></thead><tbody><tr><th>Grammar</th><td class="n">0</td><td class="n">0</td><td class="n">1</td></tr><tr><th>Spelling</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Translationese</th><td class="n">0</td><td class="n">1</td><td class="n">3</td></tr><tr><th>Register</th><td class="n">12</td><td class="n">14</td><td class="n">12</td></tr><tr><th>Formatting</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr class="total"><th>Total</th><td class="n">12</td><td class="n">15</td><td class="n">16</td></tr></tbody></table></div>
 <div class="ans" lang="ar" dir="rtl">
-<p dir="auto"># كيف يعمل نظام أسماء النطاقات (DNS)</p>
+<p dir="auto"># كيف يعمل نظام أسماء النطاقات (<mark title="Register → نظام أسماء النطاقات">DNS</mark>)</p>
 <p class="gap"></p>
-<p dir="auto">الحواسيب تتخاطب بعناوين IP رقمية (مثل `93.184.216.34`)، بينما نحن نحفظ الأسماء (مثل `www.example.com`). وظيفة DNS هي ترجمة الاسم إلى عنوان، كدليل هاتف للإنترنت.</p>
+<p dir="auto">الحواسيب تتخاطب بعناوين <mark title="Register → بروتوكول الإنترنت">IP</mark> رقمية (مثل `93.184.216.34`)، بينما نحن نحفظ الأسماء (مثل `www.example.com`). وظيفة <mark title="Register → لنظام أسماء النطاقات">DNS</mark> هي ترجمة الاسم إلى عنوان، كدليل هاتف للإنترنت.</p>
 <p class="gap"></p>
 <p dir="auto">## الخطوات من كتابة العنوان إلى تحميل الصفحة</p>
 <p class="gap"></p>
 <p dir="auto">### 1. كتابة العنوان في المتصفح</p>
-<p dir="auto">تكتب `https://www.example.com` وتضغط Enter. يستخرج المتصفح اسم النطاق `www.example.com` ويحتاج إلى معرفة عنوان IP الخاص به.</p>
+<p dir="auto">تكتب `https://www.example.com` وتضغط <mark title="Register → مفتاح الإدخال">Enter</mark>. يستخرج المتصفح اسم النطاق `www.example.com` ويحتاج إلى معرفة عنوان <mark title="Register → بروتوكول الإنترنت">IP</mark> الخاص به.</p>
 <p class="gap"></p>
 <p dir="auto">### 2. البحث في الذاكرة المؤقتة (Cache)</p>
 <p dir="auto">قبل إرسال أي استعلام عبر الشبكة، يجري البحث محليًا بالترتيب:</p>
 <p dir="auto">- **ذاكرة المتصفح**: هل زرت الموقع مؤخرًا؟</p>
 <p dir="auto">- **ذاكرة نظام التشغيل**، ومعها ملف `hosts`.</p>
-<p dir="auto">- **ذاكرة الراوتر** المنزلي في كثير من الحالات.</p>
+<p dir="auto">- **ذاكرة <mark title="Register → الموجّه">الراوتر</mark>** المنزلي في كثير من الحالات.</p>
 <p class="gap"></p>
-<p dir="auto">إن وُجد العنوان في أي منها، تنتهي عملية الترجمة هنا وننتقل إلى الخطوة 8.</p>
+<p dir="auto">إن وُجد العنوان في أي منها، <mark title="Grammar → فتنتهي عملية الترجمة">تنتهي عملية الترجمة</mark> هنا وننتقل إلى الخطوة 8.</p>
 <p class="gap"></p>
 <p dir="auto">### 3. سؤال الخادم المُحلِّل (Recursive Resolver)</p>
-<p dir="auto">إن لم يوجد العنوان محليًا، يرسل نظام التشغيل استعلامًا إلى الخادم المحلِّل، وهو غالبًا تابع لمزود خدمة الإنترنت أو خدمة عامة مثل `8.8.8.8` (Google) أو `1.1.1.1` (Cloudflare). هذا الخادم يتولى البحث نيابةً عنك، وإن كانت الإجابة مخزنة لديه يعيدها فورًا.</p>
+<p dir="auto">إن لم يوجد العنوان محليًا، يرسل نظام التشغيل استعلامًا إلى الخادم المحلِّل، وهو غالبًا تابع لمزود خدمة الإنترنت أو خدمة عامة مثل `8.8.8.8` (Google) أو `1.1.1.1` (Cloudflare). هذا الخادم يتولى البحث نيابةً عنك، وإن كانت الإجابة <mark title="Grammar → مخزنة لديه أعادها">مخزنة لديه يعيدها</mark> فورًا.</p>
 <p class="gap"></p>
 <p dir="auto">### 4. سؤال خوادم الجذر (Root Servers)</p>
 <p dir="auto">إن لم تكن الإجابة لدى المحلِّل، يسأل أحد خوادم الجذر. خادم الجذر لا يعرف عنوان الموقع، لكنه يعرف من المسؤول عن النطاق العلوي `.com`، فيرد: «اسأل خوادم `.com`، وهذه عناوينها».</p>
@@ -8540,20 +8540,20 @@ jobs:
 <p dir="auto">يسأل المحلِّل خوادم `.com`. هي أيضًا لا تعرف العنوان النهائي، لكنها تعرف الخوادم المسؤولة عن `example.com`، فترد: «اسأل خوادم الأسماء المعتمدة لهذا النطاق، وهذه عناوينها».</p>
 <p class="gap"></p>
 <p dir="auto">### 6. سؤال الخادم المعتمد (Authoritative Name Server)</p>
-<p dir="auto">يسأل المحلِّل الخادم المعتمد للنطاق، وهو صاحب الإجابة النهائية لأنه يحتفظ بسجلات النطاق الفعلية. يرد بسجل من نوع `A` (عنوان IPv4) أو `AAAA` (عنوان IPv6):</p>
+<p dir="auto">يسأل المحلِّل الخادم المعتمد للنطاق، وهو صاحب الإجابة النهائية لأنه يحتفظ بسجلات النطاق الفعلية. يرد بسجل من نوع `A` (عنوان <mark title="Register → بروتوكول الإنترنت">IP</mark>v4) أو `AAAA` (عنوان IPv6):</p>
 <p dir="auto">`www.example.com → 93.184.216.34`</p>
 <p class="gap"></p>
 <p dir="auto">### 7. إعادة الإجابة وتخزينها</p>
-<p dir="auto">يعيد المحلِّل العنوان إلى جهازك، ويُخزَّن في كل مستوى (المحلِّل، النظام، المتصفح) لمدة يحددها حقل **TTL** في السجل، حتى لا تتكرر العملية في كل زيارة.</p>
+<p dir="auto">يعيد المحلِّل العنوان إلى جهازك، ويُخزَّن في كل مستوى (المحلِّل، النظام، المتصفح) لمدة يحددها حقل **<mark title="Register → مدة البقاء">TTL</mark>** في السجل، حتى لا تتكرر العملية في كل زيارة.</p>
 <p class="gap"></p>
 <p dir="auto">### 8. الاتصال بالخادم</p>
 <p dir="auto">بعد معرفة عنوان IP، يبدأ المتصفح الاتصال الفعلي:</p>
-<p dir="auto">- **اتصال TCP** بالمصافحة الثلاثية (أو QUIC في HTTP/3).</p>
-<p dir="auto">- **مصافحة TLS** لتشفير الاتصال لأن العنوان يبدأ بـ `https`.</p>
+<p dir="auto">- **اتصال <mark title="Register → بروتوكول التحكم في النقل">TCP</mark>** بالمصافحة الثلاثية (أو QUIC في <mark title="Register → بروتوكول نقل النص التشعبي">HTTP</mark>/3).</p>
+<p dir="auto">- **مصافحة <mark title="Register → أمن طبقة النقل">TLS</mark>** لتشفير الاتصال لأن العنوان يبدأ بـ `https`.</p>
 <p class="gap"></p>
 <p dir="auto">### 9. طلب الصفحة وعرضها</p>
 <p dir="auto">- يرسل المتصفح طلب HTTP من نوع `GET`.</p>
-<p dir="auto">- يرد الخادم بملف HTML.</p>
+<p dir="auto">- يرد الخادم بملف <mark title="Register → بلغة ترميز النص التشعبي">HTML</mark>.</p>
 <p dir="auto">- يحلل المتصفح الملف ويطلب الموارد الإضافية (CSS، JavaScript، الصور)، وقد يحتاج بعضها إلى استعلامات DNS جديدة إن كانت على نطاقات أخرى.</p>
 <p dir="auto">- تُرسم الصفحة على الشاشة.</p>
 <p class="gap"></p>
@@ -8566,9 +8566,9 @@ jobs:
 المتصفح ← عنوان IP ← الخادم المحلِّل
 المتصفح → TCP → TLS → HTTP → عرض الصفحة</pre>
 <p class="gap"></p>
-<p dir="auto">عملية الترجمة كلها تستغرق عادةً أجزاء من الثانية، وبفضل التخزين المؤقت لا تتكرر الخطوات 4 إلى 6 إلا عند انتهاء مدة TTL.</p>
+<p dir="auto">عملية الترجمة كلها تستغرق عادةً أجزاء من الثانية، وبفضل التخزين المؤقت لا تتكرر الخطوات 4 إلى 6 إلا عند انتهاء مدة <mark title="Register → البقاء">TTL</mark>.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">15</span>)</summary><ul><li>Register: <q dir="auto">IP</q> → <span dir="auto">بروتوكول الإنترنت</span></li><li>Register: <q dir="auto">DNS</q> → <span dir="auto">نظام أسماء النطاقات</span></li><li>Register: <q dir="auto">Enter</q> → <span dir="auto">مفتاح الإدخال</span></li><li>Register: <q dir="auto">IP</q> → <span dir="auto">بروتوكول الإنترنت</span></li><li>Register: <q dir="auto">الراوتر</q> → <span dir="auto">الموجّه</span></li><li>Grammar: <q dir="auto">تنتهي عملية الترجمة</q> → <span dir="auto">فتنتهي عملية الترجمة</span></li><li>Grammar: <q dir="auto">مخزنة لديه يعيدها</q> → <span dir="auto">مخزنة لديه أعادها</span></li><li>Register: <q dir="auto">TTL</q> → <span dir="auto">مدة البقاء</span></li><li>Register: <q dir="auto">IP</q> → <span dir="auto">بروتوكول الإنترنت</span></li><li>Register: <q dir="auto">TCP</q> → <span dir="auto">بروتوكول التحكم في النقل</span></li><li>Register: <q dir="auto">TLS</q> → <span dir="auto">أمن طبقة النقل</span></li><li>Register: <q dir="auto">HTTP</q> → <span dir="auto">بروتوكول نقل النص التشعبي</span></li><li>Register: <q dir="auto">HTML</q> → <span dir="auto">بلغة ترميز النص التشعبي</span></li><li>Register: <q dir="auto">DNS</q> → <span dir="auto">لنظام أسماء النطاقات</span></li><li>Register: <q dir="auto">TTL</q> → <span dir="auto">البقاء</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">541</span> words</span></h3>
@@ -8618,7 +8618,7 @@ jobs:
 <p class="gap"></p>
 <p dir="auto">### الخطوة 5: خوادم النطاق العلوي</p>
 <p class="gap"></p>
-<p dir="auto">يعيد المحلّل السؤال على أحد خوادم النطاق العلوي (TLD)، فيجيبه بأسماء الخوادم المرجعية للنطاق `example.com`.</p>
+<p dir="auto">يعيد المحلّل <mark title="Grammar → السؤال على مسمع أحد">السؤال على أحد</mark> خوادم النطاق العلوي (TLD)، فيجيبه بأسماء الخوادم المرجعية للنطاق `example.com`.</p>
 <p class="gap"></p>
 <p dir="auto">### الخطوة 6: الخادم المرجعي</p>
 <p class="gap"></p>
@@ -8680,7 +8680,7 @@ Host: www.example.com</pre>
 <p class="gap"></p>
 <p dir="auto">ويعرض الأمر `nslookup www.example.com` الإجابة النهائية، وهو متاح في نظام ويندوز (Windows) أيضًا.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">1</span>)</summary><ul><li>Grammar: <q dir="auto">السؤال على أحد</q> → <span dir="auto">السؤال على مسمع أحد</span></li></ul></details>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -8692,12 +8692,12 @@ Host: www.example.com</pre>
 <h3>Without the skill <span class="who"><span dir="ltr">147</span> words</span></h3>
 <div class="scroll"><table class="scores"><caption>Errors the judge counted in each judging</caption><thead><tr><th></th><th class="n"><span class="long">Judging 1</span><span class="short">1</span></th><th class="n"><span class="long">Judging 2</span><span class="short">2</span></th><th class="n"><span class="long">Judging 3</span><span class="short">3</span></th></tr></thead><tbody><tr><th>Grammar</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Spelling</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Translationese</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Register</th><td class="n">10</td><td class="n">10</td><td class="n">10</td></tr><tr><th>Formatting</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr class="total"><th>Total</th><td class="n">10</td><td class="n">10</td><td class="n">10</td></tr></tbody></table></div>
 <div class="ans" lang="ar" dir="rtl">
-<p dir="auto">الـ **recursion** (الاستدعاء الذاتي) هو أن تستدعي الدالة نفسها لحل نسخة أصغر من المسألة نفسها، وتكرر ذلك حتى تصل إلى حالة بسيطة تُحل مباشرة.</p>
+<p dir="auto">الـ **<mark title="Register → الاستدعاء الذاتي">recursion</mark>** (الاستدعاء الذاتي) هو أن تستدعي الدالة نفسها لحل نسخة أصغر من المسألة نفسها، وتكرر ذلك حتى تصل إلى حالة بسيطة تُحل مباشرة.</p>
 <p class="gap"></p>
-<p dir="auto">كل دالة recursive تحتاج جزأين:</p>
+<p dir="auto">كل دالة <mark title="Register → تعاودية">recursive</mark> تحتاج جزأين:</p>
 <p class="gap"></p>
-<p dir="auto">1. **الحالة الأساسية (base case):** الشرط الذي يوقف الاستدعاء. بدونه تستمر الدالة في استدعاء نفسها حتى يمتلئ الـ call stack ويظهر الخطأ `RangeError: Maximum call stack size exceeded`.</p>
-<p dir="auto">2. **الحالة التكرارية (recursive case):** استدعاء الدالة لنفسها بمُدخل أصغر يقترب من الحالة الأساسية.</p>
+<p dir="auto">1. **الحالة الأساسية (base case):** الشرط الذي يوقف الاستدعاء. بدونه تستمر الدالة في استدعاء نفسها حتى يمتلئ الـ <mark title="Register → مكدس الاستدعاءات">call stack</mark> ويظهر الخطأ `RangeError: Maximum <mark title="Register → مكدس الاستدعاءات">call stack</mark> size exceeded`.</p>
+<p dir="auto">2. **الحالة التكرارية (<mark title="Register → تعاودي">recursive</mark> case):** استدعاء الدالة لنفسها بمُدخل أصغر يقترب من الحالة الأساسية.</p>
 <p class="gap"></p>
 <p dir="auto">## مثال: المضروب (factorial)</p>
 <p class="gap"></p>
@@ -8724,7 +8724,7 @@ console.log(factorial(5)); // 120</pre>
 <p class="gap"></p>
 <p dir="auto">## ماذا يحدث عند استدعاء `factorial(4)`؟</p>
 <p class="gap"></p>
-<p dir="auto">تتراكم الاستدعاءات في الـ call stack حتى الوصول إلى الحالة الأساسية، ثم تُحسب النتائج في طريق العودة:</p>
+<p dir="auto">تتراكم الاستدعاءات في الـ call <mark title="Register → المكدس">stack</mark> حتى الوصول إلى الحالة الأساسية، ثم تُحسب النتائج في طريق العودة:</p>
 <p class="gap"></p>
 <pre dir="ltr">factorial(4)
 = 4 * factorial(3)
@@ -8737,11 +8737,11 @@ console.log(factorial(5)); // 120</pre>
 <p class="gap"></p>
 <p dir="auto">## ملاحظات عملية</p>
 <p class="gap"></p>
-<p dir="auto">- **عمق الاستدعاء محدود:** كل استدعاء يحجز إطارًا في الـ stack، لذا القيم الكبيرة جدًا لـ `n` (عشرات الآلاف) تسبب stack overflow. في هذه الحالة تكون الحلقة العادية (`for`) أنسب.</p>
+<p dir="auto">- **عمق الاستدعاء محدود:** كل استدعاء يحجز إطارًا في الـ stack، <mark title="Grammar → لذا فإن القيم الكبيرة جدًا">لذا القيم الكبيرة جدًا</mark> لـ `n` (عشرات الآلاف) تسبب <mark title="Register → فيض المكدس">stack overflow</mark>. في هذه الحالة تكون الحلقة العادية (`for`) أنسب.</p>
 <p dir="auto">- **دقة الأرقام:** نوع `Number` في JavaScript يفقد الدقة بعد `170!` تقريبًا (يصبح `Infinity`)، وقبل ذلك تبدأ الأخطاء من `18!` فصاعدًا لتجاوز `Number.MAX_SAFE_INTEGER`. للقيم الكبيرة استخدم `BigInt`.</p>
-<p dir="auto">- **متى يُستخدم الـ recursion؟** يناسب المسائل ذات البنية المتداخلة بطبيعتها، مثل التنقل في الأشجار (DOM، مجلدات الملفات، JSON متداخل) وخوارزميات divide and conquer مثل merge sort.</p>
+<p dir="auto">- **متى يُستخدم الـ <mark title="Register → الاستدعاء الذاتي">recursion</mark>؟** يناسب المسائل ذات البنية المتداخلة بطبيعتها، مثل التنقل في الأشجار (DOM، مجلدات الملفات، JSON متداخل) وخوارزميات <mark title="Register → التقسيم والحل">divide and conquer</mark> مثل <mark title="Register → الفرز بالدمج">merge sort</mark>.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">11</span>)</summary><ul><li>Register: <q dir="auto">recursion</q> → <span dir="auto">الاستدعاء الذاتي</span></li><li>Register: <q dir="auto">recursive</q> → <span dir="auto">تعاودية</span></li><li>Register: <q dir="auto">call stack</q> → <span dir="auto">مكدس الاستدعاءات</span></li><li>Register: <q dir="auto">recursive</q> → <span dir="auto">تعاودي</span></li><li>Register: <q dir="auto">call stack</q> → <span dir="auto">مكدس الاستدعاءات</span></li><li>Register: <q dir="auto">stack</q> → <span dir="auto">المكدس</span></li><li>Grammar: <q dir="auto">لذا القيم الكبيرة جدًا</q> → <span dir="auto">لذا فإن القيم الكبيرة جدًا</span></li><li>Register: <q dir="auto">stack overflow</q> → <span dir="auto">فيض المكدس</span></li><li>Register: <q dir="auto">recursion</q> → <span dir="auto">الاستدعاء الذاتي</span></li><li>Register: <q dir="auto">divide and conquer</q> → <span dir="auto">التقسيم والحل</span></li><li>Register: <q dir="auto">merge sort</q> → <span dir="auto">الفرز بالدمج</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">234</span> words</span></h3>
@@ -8818,7 +8818,7 @@ console.log(factorial(5)); // 120</pre>
 <p class="gap"></p>
 <p dir="auto">لم أشغّل الشيفرة هنا لأن تشغيلها تطلّب إذنًا لم يُمنح.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -8832,11 +8832,11 @@ console.log(factorial(5)); // 120</pre>
 <div class="ans" lang="ar" dir="rtl">
 <p dir="auto">## ما هي متغيرات البيئة (Environment Variables)؟</p>
 <p class="gap"></p>
-<p dir="auto">هي أزواج من «اسم = قيمة» يحتفظ بها نظام التشغيل لكل برنامج يعمل (process)، ويقرؤها البرنامج عند التشغيل بدل أن تكون القيم مكتوبة داخل الشيفرة نفسها. كل برنامج يرث نسخة من متغيرات البرنامج الذي شغّله (مثل الـ shell).</p>
+<p dir="auto">هي أزواج من «اسم = قيمة» يحتفظ بها نظام التشغيل لكل برنامج يعمل (process)، ويقرؤها البرنامج عند التشغيل بدل أن تكون القيم مكتوبة داخل الشيفرة نفسها. كل برنامج يرث نسخة من متغيرات البرنامج الذي شغّله (مثل الـ <mark title="Register → صدفة الأوامر">shell</mark>).</p>
 <p class="gap"></p>
 <p dir="auto">أمثلة معروفة: `PATH` (أين يبحث النظام عن الأوامر) و`HOME` (مجلد المستخدم).</p>
 <p class="gap"></p>
-<p dir="auto">تعريف متغير في الـ shell ثم تشغيل البرنامج:</p>
+<p dir="auto">تعريف متغير في الـ <mark title="Register → صدفة الأوامر">shell</mark> ثم تشغيل البرنامج:</p>
 <p class="gap"></p>
 <pre dir="ltr">export DB_PASSWORD=&quot;s3cret&quot;
 python app.py</pre>
@@ -8851,23 +8851,23 @@ password = os.environ[&quot;DB_PASSWORD&quot;]</pre>
 <p class="gap"></p>
 <p dir="auto">## لماذا لا نكتب كلمات المرور داخل الشيفرة؟</p>
 <p class="gap"></p>
-<p dir="auto">1. **الشيفرة تُشارَك وتُنسخ، والأسرار لا يجب أن تنتشر معها.** كل من يصل إلى المستودع (زملاء، متعاقدون، أدوات CI، نسخ احتياطية) يرى كلمة المرور. وإذا صار المستودع عامًّا ولو بالخطأ، فهناك برامج آلية تمسح GitHub بحثًا عن المفاتيح المسرّبة وتستغلها خلال دقائق.</p>
+<p dir="auto">1. **الشيفرة تُشارَك وتُنسخ، و<mark title="Translationese → يجب ألّا تنتشر الأسرار">الأسرار لا يجب أن تنتشر</mark> معها.** كل من يصل إلى المستودع (زملاء، متعاقدون، أدوات <mark title="Register → التكامل المستمر">CI</mark>، نسخ احتياطية) يرى كلمة المرور. وإذا صار المستودع عامًّا ولو بالخطأ، فهناك برامج آلية تمسح GitHub بحثًا عن المفاتيح المسرّبة وتستغلها خلال دقائق.</p>
 <p class="gap"></p>
-<p dir="auto">2. **تاريخ git لا ينسى.** حذف كلمة المرور في commit لاحق لا يزيلها، فهي تبقى في السجل القديم ويمكن استرجاعها. العلاج الوحيد الآمن بعد التسريب هو تغيير كلمة المرور نفسها.</p>
+<p dir="auto">2. **تاريخ git لا ينسى.** حذف كلمة المرور في <mark title="Register → إيداع">commit</mark> لاحق لا يزيلها، فهي تبقى في السجل القديم ويمكن استرجاعها. العلاج الوحيد الآمن بعد التسريب هو تغيير كلمة المرور نفسها.</p>
 <p class="gap"></p>
 <p dir="auto">3. **صعوبة التغيير.** إذا كانت كلمة المرور في الشيفرة، فتغييرها يتطلب تعديل الشيفرة وإعادة النشر. أما مع متغير البيئة فتغيّر القيمة وتعيد التشغيل فقط.</p>
 <p class="gap"></p>
 <p dir="auto">4. **اختلاف البيئات.** قاعدة بيانات التطوير غير قاعدة بيانات الإنتاج، ولكلٍّ كلمة مرورها. كتابة القيمة في الشيفرة تجبرك على نسخ مختلفة من الشيفرة أو على استخدام أسرار الإنتاج في جهاز المطوّر.</p>
 <p class="gap"></p>
-<p dir="auto">5. **تقليل الصلاحيات.** المطوّر يحتاج إلى الشيفرة ليعمل، لكنه لا يحتاج بالضرورة إلى كلمة مرور الإنتاج. الفصل يسمح بإعطاء كل شخص ما يحتاجه فقط.</p>
+<p dir="auto">5. **تقليل الصلاحيات.** <mark title="Translationese → يحتاج المطوّر إلى الشيفرة">المطوّر يحتاج إلى الشيفرة</mark> ليعمل، لكنه لا يحتاج بالضرورة إلى كلمة مرور الإنتاج. الفصل يسمح بإعطاء كل شخص ما يحتاجه فقط.</p>
 <p class="gap"></p>
 <p dir="auto">## ملاحظات عملية</p>
 <p class="gap"></p>
 <p dir="auto">- في التطوير المحلي تُوضع القيم عادةً في ملف `.env` يُحمَّل تلقائيًّا، ويجب إضافته إلى `.gitignore` حتى لا يُرفع إلى المستودع.</p>
 <p dir="auto">- متغيرات البيئة ليست خزنة مشفّرة: يمكن أن تظهر في السجلات (logs) أو لمن يملك صلاحية على الخادم. لذلك تستخدم الأنظمة الأكبر أدوات إدارة أسرار مثل HashiCorp Vault أو AWS Secrets Manager، وهي تحقن القيم وقت التشغيل.</p>
-<p dir="auto">- القاعدة نفسها تنطبق على كل الأسرار: مفاتيح الـ API، والـ tokens، ومفاتيح التشفير، وليس كلمات المرور فقط.</p>
+<p dir="auto">- القاعدة نفسها تنطبق على كل الأسرار: مفاتيح الـ <mark title="Register → واجهات البرمجة">API</mark>، والـ <mark title="Register → رموز الوصول">tokens</mark>، ومفاتيح التشفير، <mark title="Grammar → ولا تقتصر على كلمات المرور">وليس كلمات المرور فقط</mark>.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">9</span>)</summary><ul><li>Register: <q dir="auto">shell</q> → <span dir="auto">صدفة الأوامر</span></li><li>Register: <q dir="auto">shell</q> → <span dir="auto">صدفة الأوامر</span></li><li>Translationese: <q dir="auto">الأسرار لا يجب أن تنتشر</q> → <span dir="auto">يجب ألّا تنتشر الأسرار</span></li><li>Register: <q dir="auto">CI</q> → <span dir="auto">التكامل المستمر</span></li><li>Register: <q dir="auto">commit</q> → <span dir="auto">إيداع</span></li><li>Translationese: <q dir="auto">المطوّر يحتاج إلى الشيفرة</q> → <span dir="auto">يحتاج المطوّر إلى الشيفرة</span></li><li>Register: <q dir="auto">API</q> → <span dir="auto">واجهات البرمجة</span></li><li>Register: <q dir="auto">tokens</q> → <span dir="auto">رموز الوصول</span></li><li>Grammar: <q dir="auto">وليس كلمات المرور فقط</q> → <span dir="auto">ولا تقتصر على كلمات المرور</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">308</span> words</span></h3>
@@ -8924,7 +8924,7 @@ API_KEY=abc123</pre>
 <p class="gap"></p>
 <p dir="auto">**إذا تسرّبت كلمة مرور،** فغيّرها فورًا، ثم نظّف سجل المستودع إن لزم. لا يكفي حذفها، لأن أحدًا ربما نسخها قبل ذلك.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -8953,22 +8953,22 @@ API_KEY=abc123</pre>
 <p dir="auto">## لماذا يجب سداده؟</p>
 <p class="gap"></p>
 <p dir="auto">1. **تباطؤ التسليم:** ميزة كانت تحتاج أسبوعاً تصبح تحتاج شهراً، لأن كل تغيير يتطلب الالتفاف على الحلول المؤقتة القديمة. هذه هي الفوائد المركّبة.</p>
-<p dir="auto">2. **أعطال أكثر:** الكود الهش ينكسر في أماكن غير متوقعة، فتزداد الأخطاء التي تصل إلى العملاء.</p>
+<p dir="auto">2. **أعطال أكثر:** <mark title="Translationese → تتعطّل الشيفرة الهشّة">الكود الهش ينكسر</mark> <mark title="Translationese → في مواضع غير متوقعة">في أماكن غير متوقعة</mark>، فتزداد الأخطاء التي تصل إلى العملاء.</p>
 <p dir="auto">3. **تقديرات غير موثوقة:** يصعب على الفريق أن يعطيك مواعيد دقيقة، لأن المفاجآت تظهر عند كل تعديل.</p>
 <p dir="auto">4. **استنزاف الفريق:** المهندسون يُحبَطون من العمل في نظام متعب، وترتفع احتمالات مغادرتهم، ويطول تأهيل الجدد.</p>
 <p dir="auto">5. **مخاطر أمنية:** المكوّنات القديمة غير المحدَّثة تحمل ثغرات معروفة.</p>
 <p dir="auto">6. **فقدان المرونة:** في أسوأ الحالات يصبح النظام عائقاً أمام أي توجّه جديد للمنتج، ويضطر الفريق إلى إعادة كتابة مكلفة.</p>
 <p class="gap"></p>
-<p dir="auto">## كيف تتعامل معه كمدير منتج؟</p>
+<p dir="auto">## كيف تتعامل معه <mark title="Translationese → وأنت مدير المنتج">كمدير منتج</mark>؟</p>
 <p class="gap"></p>
 <p dir="auto">- **خصّص له حصة ثابتة:** نسبة من كل دورة عمل (كثير من الفرق تبدأ بنحو 15 إلى 20%) أفضل من انتظار &quot;وقت فراغ&quot; لن يأتي.</p>
 <p dir="auto">- **رتّب الأولويات حسب الأثر:** لا يلزم سداد كل الديون. ركّز على الأجزاء التي يعمل عليها الفريق كثيراً وتعطّل خارطة الطريق.</p>
 <p dir="auto">- **اطلب ربطه بنتائج المنتج:** اسأل الفريق: &quot;ما الذي سيصبح أسرع أو أكثر أماناً بعد هذا الإصلاح؟&quot;</p>
-<p dir="auto">- **اجعل الاقتراض قراراً معلناً:** عند اختيار حل سريع، سجّلوا ذلك واتفقوا على موعد السداد.</p>
+<p dir="auto">- **اجعل الاقتراض قراراً معلناً:** عند اختيار حل سريع، <mark title="Grammar → سجّل ذلك واتفق">سجّلوا ذلك واتفقوا</mark> على موعد السداد.</p>
 <p class="gap"></p>
-<p dir="auto">الدَّين التقني أداة مفيدة إذا استُخدمت بوعي، لكن تجاهله يجعل الفريق يقضي معظم وقته في دفع الفوائد بدلاً من بناء قيمة جديدة للعملاء.</p>
+<p dir="auto">الدَّين التقني أداة مفيدة إذا استُخدمت بوعي، لكن تجاهله يجعل الفريق يقضي معظم وقته في دفع الفوائد بدلاً من <mark title="Translationese → تقديم مزايا جديدة للعملاء">بناء قيمة جديدة للعملاء</mark>.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">5</span>)</summary><ul><li>Translationese: <q dir="auto">الكود الهش ينكسر</q> → <span dir="auto">تتعطّل الشيفرة الهشّة</span></li><li>Translationese: <q dir="auto">في أماكن غير متوقعة</q> → <span dir="auto">في مواضع غير متوقعة</span></li><li>Translationese: <q dir="auto">كمدير منتج</q> → <span dir="auto">وأنت مدير المنتج</span></li><li>Grammar: <q dir="auto">سجّلوا ذلك واتفقوا</q> → <span dir="auto">سجّل ذلك واتفق</span></li><li>Translationese: <q dir="auto">بناء قيمة جديدة للعملاء</q> → <span dir="auto">تقديم مزايا جديدة للعملاء</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">424</span> words</span></h3>
@@ -9027,7 +9027,7 @@ API_KEY=abc123</pre>
 <p class="gap"></p>
 <p dir="auto">**الخلاصة:** بالدَّين التقني تشتري سرعة اليوم من سرعة الغد. فاقترض عن قصد، وابدأ بسداد ما ترتفع فائدته، تسترد ما أنفقته تسليمًا أسرع ومفاجآت أقل.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -9042,12 +9042,12 @@ API_KEY=abc123</pre>
 <p dir="auto">**المصادقة (Authentication)** تجيب عن سؤال: «من أنت؟»، أي التحقق من هوية المستخدم.</p>
 <p dir="auto">**التفويض (Authorization)** يجيب عن سؤال: «ما المسموح لك بفعله؟»، أي تحديد صلاحياتك بعد أن عُرفت هويتك.</p>
 <p class="gap"></p>
-<p dir="auto">المصادقة تأتي أولًا دائمًا، فلا يمكن للنظام أن يقرر صلاحياتك قبل أن يعرف من أنت.</p>
+<p dir="auto"><mark title="Translationese → تأتي المصادقة أولًا">المصادقة تأتي أولًا</mark> دائمًا، فلا يمكن للنظام أن يقرر صلاحياتك قبل أن يعرف من أنت.</p>
 <p class="gap"></p>
 <p dir="auto">## أمثلة المصادقة في تطبيق مصرفي</p>
 <p class="gap"></p>
 <p dir="auto">- إدخال اسم المستخدم وكلمة المرور عند تسجيل الدخول.</p>
-<p dir="auto">- رمز التحقق (OTP) المرسل برسالة نصية إلى هاتفك.</p>
+<p dir="auto">- رمز التحقق (<mark title="Register → رمز مؤقت">OTP</mark>) المرسل برسالة نصية إلى هاتفك.</p>
 <p dir="auto">- بصمة الإصبع أو التعرف على الوجه لفتح التطبيق.</p>
 <p class="gap"></p>
 <p dir="auto">في كل هذه الحالات يتأكد البنك أنك فعلًا صاحب الحساب وليس شخصًا ينتحل شخصيتك.</p>
@@ -9071,7 +9071,7 @@ API_KEY=abc123</pre>
 <p class="gap"></p>
 <p dir="auto">سجّل أحمد الدخول بكلمة المرور والبصمة، فنجحت **المصادقة**. ثم حاول تحويل مبلغ من حساب أخيه خالد، فرفض النظام الطلب: هوية أحمد صحيحة ومؤكدة، لكنه **غير مفوَّض** بالتصرف في حساب غيره.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">2</span>)</summary><ul><li>Translationese: <q dir="auto">المصادقة تأتي أولًا</q> → <span dir="auto">تأتي المصادقة أولًا</span></li><li>Register: <q dir="auto">OTP</q> → <span dir="auto">رمز مؤقت</span></li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">340</span> words</span></h3>
@@ -9138,7 +9138,7 @@ API_KEY=abc123</pre>
 <p class="gap"></p>
 <p dir="auto">يعيد المثال `404` بدلًا من `403` عمدًا، حتى لا يعرف المهاجم أرقام الحسابات الموجودة.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<p class="marks note">The judge marked nothing.</p>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
@@ -9150,43 +9150,43 @@ API_KEY=abc123</pre>
 <h3>Without the skill <span class="who"><span dir="ltr">391</span> words</span></h3>
 <div class="scroll"><table class="scores"><caption>Errors the judge counted in each judging</caption><thead><tr><th></th><th class="n"><span class="long">Judging 1</span><span class="short">1</span></th><th class="n"><span class="long">Judging 2</span><span class="short">2</span></th><th class="n"><span class="long">Judging 3</span><span class="short">3</span></th></tr></thead><tbody><tr><th>Grammar</th><td class="n">0</td><td class="n">0</td><td class="n">1</td></tr><tr><th>Spelling</th><td class="n">0</td><td class="n">0</td><td class="n">0</td></tr><tr><th>Translationese</th><td class="n">2</td><td class="n">3</td><td class="n">4</td></tr><tr><th>Register</th><td class="n">19</td><td class="n">26</td><td class="n">24</td></tr><tr><th>Formatting</th><td class="n">6</td><td class="n">6</td><td class="n">6</td></tr><tr class="total"><th>Total</th><td class="n">27</td><td class="n">35</td><td class="n">35</td></tr></tbody></table></div>
 <div class="ans" lang="ar" dir="rtl">
-<p dir="auto">الـ garbage collector (GC) يحرر تلقائيًا الذاكرة التي لم يعد البرنامج قادرًا على الوصول إليها، لكن Java وPython تفعلان ذلك بطريقتين مختلفتين، ولكل طريقة مواضع بطء خاصة بها.</p>
+<p dir="auto">الـ <mark title="Register → جامع المهملات">garbage collector</mark> (<mark title="Register → جامع المهملات">GC</mark>) يحرر تلقائيًا الذاكرة التي لم يعد البرنامج قادرًا على الوصول إليها، لكن Java وPython تفعلان ذلك بطريقتين مختلفتين، ولكل طريقة مواضع بطء خاصة بها.</p>
 <p class="gap"></p>
 <p dir="auto">## Python (CPython): عدّ المراجع أولًا</p>
 <p class="gap"></p>
-<p dir="auto">- **Reference counting:** كل كائن يحمل عدّادًا لعدد المراجع التي تشير إليه. عندما يصل العدّاد إلى صفر يُحرَّر الكائن فورًا.</p>
-<p dir="auto">- **Cycle collector:** عدّ المراجع لا يكتشف الحلقات (كائن A يشير إلى B، وB يشير إلى A). لذلك يوجد جامع إضافي يعمل دوريًا، يفحص الكائنات الحاوية (lists، dicts، instances) بحثًا عن حلقات معزولة.</p>
+<p dir="auto">- **<mark title="Register → عدّ المراجع">Reference counting</mark>:** كل كائن يحمل عدّادًا لعدد المراجع التي تشير إليه. عندما يصل العدّاد إلى صفر يُحرَّر الكائن فورًا.</p>
+<p dir="auto">- **<mark title="Register → كاشف الدورات">Cycle collector</mark>:** عدّ المراجع لا يكتشف الحلقات (كائن A يشير إلى B، وB يشير إلى A). لذلك يوجد جامع إضافي يعمل دوريًا، يفحص الكائنات الحاوية (lists، dicts، instances) بحثًا عن حلقات معزولة.</p>
 <p dir="auto">- **الأجيال:** الجامع الدوري يقسم الكائنات إلى أجيال. الكائنات الجديدة تُفحص كثيرًا، والتي نجت من عدة جولات تُفحص نادرًا.</p>
 <p class="gap"></p>
 <p dir="auto">## Java (JVM): التتبع من الجذور</p>
 <p class="gap"></p>
-<p dir="auto">- **Tracing:** لا يوجد عدّ مراجع. الجامع يبدأ من &quot;الجذور&quot; (المتغيرات المحلية في الـ stacks، المتغيرات الـ static، إلخ) ويتتبع كل ما يمكن الوصول إليه، وما عداه يُعتبر ميتًا. الحلقات ليست مشكلة هنا.</p>
-<p dir="auto">- **الأجيال:** الـ heap مقسوم إلى young generation وold generation، على فرضية أن معظم الكائنات تموت صغيرة.</p>
-<p dir="auto">  - **Minor GC:** ينظف الجيل الصغير، سريع ومتكرر، وينسخ الكائنات الحية فقط.</p>
-<p dir="auto">  - **Major/Full GC:** ينظف الجيل القديم، أبطأ بكثير لأنه يفحص ذاكرة أكبر وقد يضغطها (compaction).</p>
+<p dir="auto">- **<mark title="Register → التتبّع">Tracing</mark>:** لا يوجد عدّ مراجع. <mark title="Translationese → يبدأ الجامع من">الجامع يبدأ من</mark> &quot;الجذور&quot; (المتغيرات المحلية في الـ stacks، المتغيرات الـ static، إلخ) ويتتبع كل ما يمكن الوصول إليه، وما عداه يُعتبر ميتًا. الحلقات ليست مشكلة هنا.</p>
+<p dir="auto">- **الأجيال:** الـ <mark title="Register → الكومة">heap</mark> مقسوم إلى <mark title="Register → جيل حديث">young generation</mark> و<mark title="Register → جيل قديم">old generation</mark>، <mark title="Translationese → بافتراض أن">على فرضية أن</mark> معظم الكائنات <mark title="Translationese → تموت بعد إنشائها بقليل">تموت صغيرة</mark>.</p>
+<p dir="auto">  - **<mark title="Register → جمع الجيل الحديث">Minor GC</mark>:** ينظف الجيل الصغير، سريع ومتكرر، وينسخ الكائنات الحية فقط.</p>
+<p dir="auto">  - **<mark title="Register → جمع الجيل القديم أو الجمع الكامل">Major/Full GC</mark>:** ينظف الجيل القديم، أبطأ بكثير لأنه يفحص ذاكرة أكبر وقد يضغطها (compaction).</p>
 <p dir="auto">- **جامعات متعددة:** G1 (الافتراضي) يوازن بين التوقفات والإنتاجية، وZGC وShenandoah يعملان بالتزامن مع البرنامج بتوقفات قصيرة جدًا، وParallel GC يركز على الإنتاجية بتوقفات أطول.</p>
 <p class="gap"></p>
 <p dir="auto">## متى يسبب بطئًا</p>
 <p class="gap"></p>
 <p dir="auto">**في Java:**</p>
-<p dir="auto">- **توقفات stop-the-world:** في بعض المراحل تتوقف كل خيوط البرنامج حتى ينتهي الجامع. مع heap كبير وFull GC قد تصل التوقفات إلى ثوانٍ، وتظهر كقفزات في زمن الاستجابة.</p>
-<p dir="auto">- **معدل إنشاء كائنات مرتفع:** إنشاء ملايين الكائنات المؤقتة يملأ الجيل الصغير بسرعة فتتكرر جولات Minor GC.</p>
-<p dir="auto">- **heap شبه ممتلئ:** إذا كانت الذاكرة الحية قريبة من الحد الأقصى، يعمل الجامع مرارًا ويحرر القليل في كل مرة، وقد ينتهي الأمر بـ `OutOfMemoryError: GC overhead limit exceeded`.</p>
-<p dir="auto">- **ترقية مبكرة:** كائنات متوسطة العمر تنتقل إلى الجيل القديم ثم تموت هناك، فتزيد جولات Full GC.</p>
-<p dir="auto">- **تسريب ذاكرة منطقي:** مراجع منسية (مثلًا في cache أو قائمة static) تبقي الكائنات حية، فيكبر الـ heap ويثقل عمل الجامع.</p>
+<p dir="auto">- **توقفات <mark title="Register → إيقاف البرنامج بالكامل">stop-the-world</mark>:** في بعض المراحل تتوقف كل خيوط البرنامج حتى ينتهي الجامع. مع <mark title="Register → كومة كبيرة">heap كبير</mark> و<mark title="Register → جمع كامل">Full GC</mark> قد تصل التوقفات إلى ثوانٍ، و<mark title="Translationese → تزيد فجأةً">تظهر كقفزات</mark> في زمن الاستجابة.</p>
+<p dir="auto">- **معدل إنشاء كائنات مرتفع:** إنشاء ملايين الكائنات المؤقتة يملأ الجيل الصغير بسرعة فتتكرر جولات <mark title="Formatting → جمع">Minor</mark> GC.</p>
+<p dir="auto">- **<mark title="Register → كومة شبه ممتلئة">heap شبه ممتلئ</mark>:** إذا كانت الذاكرة الحية قريبة من الحد الأقصى، يعمل الجامع مرارًا ويحرر القليل في كل مرة، وقد ينتهي الأمر بـ `OutOfMemoryError: GC overhead limit exceeded`.</p>
+<p dir="auto">- **ترقية مبكرة:** كائنات متوسطة العمر تنتقل إلى الجيل القديم ثم تموت هناك، فتزيد جولات <mark title="Register → الجمع الكامل">Full GC</mark>.</p>
+<p dir="auto">- **تسريب ذاكرة منطقي:** مراجع منسية (مثلًا في cache أو قائمة static) تبقي الكائنات حية، فيكبر الـ <mark title="Formatting → كومة">heap</mark> ويثقل عمل الجامع.</p>
 <p class="gap"></p>
 <p dir="auto">**في Python:**</p>
-<p dir="auto">- **كلفة ثابتة لعدّ المراجع:** كل إسناد أو تمرير لكائن يحدّث العدّاد، وهذا جزء من بطء Python العام وأحد أسباب وجود الـ GIL.</p>
+<p dir="auto">- **كلفة ثابتة لعدّ المراجع:** كل إسناد أو تمرير لكائن يحدّث العدّاد، وهذا جزء من بطء Python العام وأحد أسباب وجود الـ <mark title="Register → القفل العام للمفسّر">GIL</mark>.</p>
 <p dir="auto">- **الجامع الدوري مع عدد كبير من الكائنات:** عند إنشاء ملايين الكائنات الحاوية (مثل تحميل بيانات ضخمة في dicts)، يتكرر تشغيل الجامع ويفحص كائنات كلها حية بلا فائدة. تعطيله مؤقتًا بـ `gc.disable()` أثناء التحميل أو استخدام `gc.freeze()` قد يسرّع ذلك بوضوح.</p>
 <p dir="auto">- **تحرير متسلسل:** حذف بنية ضخمة (قائمة بملايين العناصر) يحرر كل عناصرها دفعة واحدة، فيحدث توقف ملحوظ.</p>
 <p class="gap"></p>
 <p dir="auto">## كيف تتحقق وتعالج</p>
 <p class="gap"></p>
-<p dir="auto">- **القياس أولًا:** في Java فعّل سجلات الـ GC (`-Xlog:gc*`) أو استخدم JFR. في Python استخدم `gc.get_stats()` و`gc.callbacks` و`tracemalloc`.</p>
+<p dir="auto">- **القياس أولًا:** في Java فعّل سجلات الـ GC (`-Xlog:gc*`) أو استخدم <mark title="Register → مسجّل أحداث جافا">JFR</mark>. في Python استخدم `gc.get_stats()` و`gc.callbacks` و`tracemalloc`.</p>
 <p dir="auto">- **قلّل إنشاء الكائنات:** أعد استخدام الكائنات، واستخدم الأنواع البدائية والمصفوفات بدل الكائنات المغلّفة في Java، وNumPy أو `__slots__` في Python.</p>
-<p dir="auto">- **اضبط الجامع:** في Java اختر حجم heap مناسبًا وجامعًا يلائم حاجتك (ZGC لزمن استجابة منخفض، Parallel للمعالجة الدفعية). في Python عدّل العتبات بـ `gc.set_threshold()`.</p>
+<p dir="auto">- **اضبط الجامع:** في Java اختر حجم <mark title="Register → الكومة">heap</mark> مناسبًا وجامعًا يلائم حاجتك (ZGC لزمن استجابة منخفض، Parallel للمعالجة الدفعية). في Python عدّل العتبات بـ `gc.set_threshold()`.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">30</span>)</summary><ul><li>Register: <q dir="auto">garbage collector</q> → <span dir="auto">جامع المهملات</span></li><li>Register: <q dir="auto">Reference counting</q> → <span dir="auto">عدّ المراجع</span></li><li>Formatting: <q dir="auto">Reference</q> → <span dir="auto">عدّ</span> (not highlighted separately)</li><li>Register: <q dir="auto">Cycle collector</q> → <span dir="auto">كاشف الدورات</span></li><li>Formatting: <q dir="auto">Cycle</q> → <span dir="auto">كاشف</span> (not highlighted separately)</li><li>Register: <q dir="auto">Tracing</q> → <span dir="auto">التتبّع</span></li><li>Formatting: <q dir="auto">Tracing</q> → <span dir="auto">التتبّع</span> (not highlighted separately)</li><li>Translationese: <q dir="auto">الجامع يبدأ من</q> → <span dir="auto">يبدأ الجامع من</span></li><li>Register: <q dir="auto">heap</q> → <span dir="auto">الكومة</span></li><li>Register: <q dir="auto">young generation</q> → <span dir="auto">جيل حديث</span></li><li>Register: <q dir="auto">old generation</q> → <span dir="auto">جيل قديم</span></li><li>Translationese: <q dir="auto">على فرضية أن</q> → <span dir="auto">بافتراض أن</span></li><li>Translationese: <q dir="auto">تموت صغيرة</q> → <span dir="auto">تموت بعد إنشائها بقليل</span></li><li>Register: <q dir="auto">Minor GC</q> → <span dir="auto">جمع الجيل الحديث</span></li><li>Formatting: <q dir="auto">Minor</q> → <span dir="auto">جمع</span></li><li>Register: <q dir="auto">Major/Full GC</q> → <span dir="auto">جمع الجيل القديم أو الجمع الكامل</span></li><li>Formatting: <q dir="auto">Major/Full</q> → <span dir="auto">جمع</span> (not highlighted separately)</li><li>Register: <q dir="auto">stop-the-world</q> → <span dir="auto">إيقاف البرنامج بالكامل</span></li><li>Register: <q dir="auto">heap كبير</q> → <span dir="auto">كومة كبيرة</span></li><li>Register: <q dir="auto">Full GC</q> → <span dir="auto">جمع كامل</span></li><li>Translationese: <q dir="auto">تظهر كقفزات</q> → <span dir="auto">تزيد فجأةً</span></li><li>Register: <q dir="auto">Minor GC</q> → <span dir="auto">جمع الجيل الحديث</span> (not highlighted separately)</li><li>Register: <q dir="auto">heap شبه ممتلئ</q> → <span dir="auto">كومة شبه ممتلئة</span></li><li>Formatting: <q dir="auto">heap</q> → <span dir="auto">كومة</span></li><li>Register: <q dir="auto">Full GC</q> → <span dir="auto">الجمع الكامل</span></li><li>Register: <q dir="auto">heap</q> → <span dir="auto">الكومة</span></li><li>Register: <q dir="auto">GIL</q> → <span dir="auto">القفل العام للمفسّر</span></li><li>Register: <q dir="auto">GC</q> → <span dir="auto">جامع المهملات</span></li><li>Register: <q dir="auto">JFR</q> → <span dir="auto">مسجّل أحداث جافا</span></li><li>Register: <q dir="auto">heap مناسبًا</q> → <span dir="auto">مناسبًا للكومة</span> (not highlighted separately)</li></ul></details>
 </div>
 <div class="resp">
 <h3>With Sibawayh <span class="who"><span dir="ltr">615</span> words</span></h3>
@@ -9200,7 +9200,7 @@ API_KEY=abc123</pre>
 <p class="gap"></p>
 <p dir="auto">ولأن معظم الكائنات يموت بعد إنشائه بقليل، تقسّم أغلب الجوامع الكومة (heap) إلى جيلين:</p>
 <p class="gap"></p>
-<p dir="auto">- **الجيل الصغير:** تُنشأ فيه الكائنات الجديدة عادةً. يكون جمعه متكررًا وسريعًا غالبًا، لأن الجامع ينسخ الأحياء القليلة ويستعيد بقية المساحة دفعة واحدة. أي أن التكلفة تتبع عدد الأحياء وحجمها، لا كمية المهملات.</p>
+<p dir="auto">- **الجيل الصغير:** تُنشأ فيه الكائنات الجديدة عادةً. يكون جمعه متكررًا وسريعًا غالبًا، لأن الجامع ينسخ الأحياء القليلة ويستعيد بقية المساحة دفعة واحدة. <mark title="Grammar → أي إن التكلفة">أي أن التكلفة</mark> تتبع عدد الأحياء وحجمها، لا كمية المهملات.</p>
 <p dir="auto">- **الجيل القديم:** تُرقّى إليه الكائنات التي نجت من عدة دورات. جمعه أندر وأعلى تكلفة.</p>
 <p class="gap"></p>
 <p dir="auto">تختلف الجوامع المتاحة في طريقة الموازنة بين الإنتاجية وزمن التوقف:</p>
@@ -9209,8 +9209,8 @@ API_KEY=abc123</pre>
 <p dir="auto">|---|---|---|</p>
 <p dir="auto">| التسلسلي (Serial) | الكومات الصغيرة والموارد المحدودة | يوقف البرنامج ويجمع بخيط واحد |</p>
 <p dir="auto">| المتوازي (Parallel) | أعلى إنتاجية، كالمعالجة الدفعية | يوقف البرنامج ويجمع بعدة خيوط |</p>
-<p dir="auto">| المعتمد على المناطق (G1) | توازن بين الاثنين، وهو الافتراضي على معظم الخوادم | توقفات قصيرة تستهدف 200 ميلي ثانية افتراضيًا، دون ضمان |</p>
-<p dir="auto">| منخفض التوقف (ZGC) | أدنى زمن توقف، حتى مع الكومات الضخمة | أقل من ميلي ثانية عادةً، مقابل استهلاك أكبر للمعالج والذاكرة |</p>
+<p dir="auto">| المعتمد على المناطق (G1) | توازن بين الاثنين، وهو الافتراضي على معظم الخوادم | توقفات قصيرة <mark title="Translationese → يسعى الجامع إلى حصرها في 200 ملّي ثانية">تستهدف 200 ميلي ثانية</mark> افتراضيًا، دون ضمان |</p>
+<p dir="auto">| منخفض التوقف (ZGC) | أدنى زمن توقف، حتى مع الكومات الضخمة | أقل من <mark title="Spelling → ملّي ثانية">ميلي ثانية</mark> عادةً، مقابل استهلاك أكبر للمعالج والذاكرة |</p>
 <p class="gap"></p>
 <p dir="auto">## كيف يعمل في Python؟</p>
 <p class="gap"></p>
@@ -9269,7 +9269,7 @@ gc.set_debug(gc.DEBUG_STATS)</pre>
 <p class="gap"></p>
 <p dir="auto">قد يفيد أيضًا تعطيل الكاشف مؤقتًا بـ `gc.disable` في أثناء تحميل بيانات كثيرة، ثم إعادته بـ `gc.enable`. يبقى عدّ المراجع عاملًا خلال ذلك، لكن المراجع الدائرية تتراكم حتى تعيد تشغيل الكاشف.</p>
 </div>
-<p class="marks note">The judge has not marked this request yet.</p>
+<details class="marks"><summary>Marked by the judge (<span dir="ltr">4</span>)</summary><ul><li>Grammar: <q dir="auto">أي أن التكلفة</q> → <span dir="auto">أي إن التكلفة</span></li><li>Translationese: <q dir="auto">تستهدف 200 ميلي ثانية</q> → <span dir="auto">يسعى الجامع إلى حصرها في 200 ملّي ثانية</span></li><li>Spelling: <q dir="auto">ميلي ثانية</q> → <span dir="auto">ملّي ثانية</span></li><li>Spelling: <q dir="auto">ميلي ثانية</q> → <span dir="auto">ملّي ثانية</span> (not highlighted separately)</li></ul></details>
 </div>
 </div>
 <dl class="verdict"><dt>Preferred</dt><dd>With Sibawayh · With Sibawayh · With Sibawayh</dd><dt>Over-corrections</dt><dd><span dir="ltr">0 · 0 · 0</span></dd></dl>
