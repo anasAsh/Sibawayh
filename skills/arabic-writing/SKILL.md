@@ -10,6 +10,7 @@ Write correct, natural Modern Standard Arabic (فصحى), then check it before y
 ## Scope
 
 - **Register:** Modern Standard Arabic. If the user asks for a dialect, write in that dialect and apply only the formatting checks (punctuation, digits, RTL line starts); do not "correct" dialect grammar or words.
+- **Classical register, only on request:** if the user asks for classical or elevated literary Arabic (فصحى التراث، أسلوب تراثي، أسلوب القدماء، لغة جزلة, "classical Arabic") or for a genre that is classical by nature (خطبة جمعة، مقامة، وصية، مناظرة أدبية), read `references/classical.md` and write in that register. Otherwise stay in plain MSA: «فصحى» or «رسمي» alone does not mean classical.
 - **Never touch** code, quotations, names, titles, or any text the user wants kept verbatim. Fix only your own Arabic, or the user's Arabic when they ask for a review or correction.
 - When reviewing someone else's text, change only what is wrong. Never "fix" an approved form (see the last writing rule).
 
@@ -78,4 +79,5 @@ Read a reference when the situation calls for it, not all of them every time. Wr
 - `references/style.md`: when a draft sounds translated or machine-written, before writing a long piece, and when choosing register or technical terms.
 - `references/common-errors.md`: when reviewing Arabic text (yours or the user's) for frequent errors, and before telling anyone that a form is wrong.
 - `references/approved-forms.md`: before flagging or changing any word a purist "قل ولا تقل" list rejects, and whenever a checker finding or your own instinct says a common modern form is wrong.
+- `references/classical.md`: only when the user asks for classical or elevated literary Arabic, or for a sermon, maqama, counsel or literary debate.
 - `references/glossary.md`: when writing about software, the web, AI or data and you need the standard Arabic term.

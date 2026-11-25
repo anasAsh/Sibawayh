@@ -1,0 +1,357 @@
+# نشر تطبيق ويب على خادم لينكس باستخدام `Docker` و`Nginx`
+
+تشرح هذه الوثيقة نشر تطبيق ويب على خادم لينكس واحد: يعمل التطبيق داخل حاوية (Container)، ويستقبل `Nginx` طلبات الزوار ويمررها إليه، وتحمي الاتصالَ شهادةُ أمان طبقة النقل (TLS).
+
+## البنية النهائية
+
+```
+Browser ──HTTPS 443──> Nginx (host) ──HTTP──> 127.0.0.1:3000 (container)
+```
+
+يعمل `Nginx` على المضيف مباشرة بصفة خادم وكيل عكسي (Reverse Proxy). ولا يتاح منفذ التطبيق إلا من داخل الخادم، فلا يصل إليه أحد من الإنترنت مباشرة.
+
+## المتطلبات
+
+- خادم يعمل بنظام `Ubuntu 24.04`، وحساب عليه يملك صلاحية `sudo` (تختلف أوامر التثبيت في التوزيعات الأخرى).
+- نطاق (Domain) تملك تعديل سجلاته.
+- تطبيق محفوظ في مستودع `Git`. المثال هنا تطبيق `Node.js` يستمع إلى العنوان `0.0.0.0` والمنفذ 3000، ويعيد رمز النجاح 200 عند طلب المسار `/health`.
+
+ضع قيمك الخاصة مكان القيم الآتية أينما وردت:
+
+| القيمة في المثال | معناها |
+|---|---|
+| النطاق `example.com` | نطاق موقعك |
+| العنوان `203.0.113.10` | عنوان الخادم على الشبكة |
+| الاسم `user` | حسابك على الخادم |
+| الاسم `myapp` | اسم التطبيق |
+| الملف `server.js` | ملف تشغيل التطبيق |
+| الرابط `https://github.com/USER/myapp.git` | رابط المستودع |
+
+## الخطوة 1: جهّز ملفات المشروع
+
+أنشئ الملفات الآتية في جذر المشروع على جهازك.
+
+1. أنشئ ملف `Dockerfile`، وهو يصف طريقة بناء صورة الحاوية (Image):
+
+   ```dockerfile
+   FROM node:24-alpine
+   WORKDIR /app
+   ENV NODE_ENV=production
+
+   COPY package*.json ./
+   RUN npm ci --omit=dev
+
+   COPY . .
+   USER node
+   EXPOSE 3000
+
+   HEALTHCHECK --interval=30s --timeout=3s --start-period=10s \
+     CMD wget -qO- http://127.0.0.1:3000/health || exit 1
+
+   CMD ["node", "server.js"]
+   ```
+
+   يشغّل السطر `USER node` التطبيق بمستخدم محدود الصلاحيات بدلًا من المستخدم الجذر (Root).
+
+2. أنشئ ملف `.dockerignore` كي لا تدخل الأسرار والملفات الزائدة في الصورة:
+
+   ```
+   .git
+   .env
+   node_modules
+   ```
+
+3. أنشئ ملف `compose.yaml`، وهو يحدد طريقة تشغيل الحاوية:
+
+   ```yaml
+   services:
+     web:
+       build: .
+       image: myapp:${APP_TAG:?APP_TAG is required}
+       restart: unless-stopped
+       env_file: .env
+       ports:
+         - "127.0.0.1:3000:3000"
+       logging:
+         driver: json-file
+         options:
+           max-size: "10m"
+           max-file: "3"
+   ```
+
+   > **تنبيه:** لا تحذف `127.0.0.1` من سطر المنفذ. المنافذ التي ينشرها `Docker` على كل الواجهات تتجاوز قواعد `ufw`، فيصبح التطبيق مكشوفًا للإنترنت حتى لو كان جدار الحماية مفعّلًا.
+
+4. أضف `.env` إلى ملف `.gitignore`، ثم ارفع التغييرات إلى المستودع:
+
+   ```bash
+   echo ".env" >> .gitignore
+   git add Dockerfile .dockerignore compose.yaml .gitignore
+   git commit -m "Add Docker deployment files"
+   git push
+   ```
+
+## الخطوة 2: حدّث الخادم وفعّل جدار الحماية
+
+1. اتصل بالخادم:
+
+   ```bash
+   ssh user@203.0.113.10
+   ```
+
+2. حدّث حزم النظام:
+
+   ```bash
+   sudo apt update && sudo apt upgrade -y
+   ```
+
+3. اسمح بالاتصال الآمن بالخادم (SSH) وبحركة الويب، ثم فعّل جدار الحماية (Firewall):
+
+   ```bash
+   sudo ufw allow OpenSSH
+   sudo ufw allow 80/tcp
+   sudo ufw allow 443/tcp
+   sudo ufw enable
+   sudo ufw status
+   ```
+
+   > **تنبيه:** إذا كنت تتصل بالخادم عبر منفذ غير 22، فاسمح به قبل تنفيذ `ufw enable`، وإلا فقدت الوصول إلى الخادم. وإذا كان مزود الاستضافة يوفر جدار حماية خاصًا به، فافتح فيه المنافذ نفسها.
+
+## الخطوة 3: ثبّت `Docker`
+
+1. أضف مفتاح المستودع الرسمي:
+
+   ```bash
+   sudo apt install -y ca-certificates curl git
+   sudo install -m 0755 -d /etc/apt/keyrings
+   sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+   sudo chmod a+r /etc/apt/keyrings/docker.asc
+   ```
+
+2. أضف المستودع إلى مصادر الحزم:
+
+   ```bash
+   echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+   ```
+
+3. ثبّت المحرك وإضافة `Compose`:
+
+   ```bash
+   sudo apt update
+   sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+   ```
+
+4. تحقق من نجاح التثبيت:
+
+   ```bash
+   sudo docker run --rm hello-world
+   sudo docker compose version
+   ```
+
+تستخدم هذه الوثيقة `sudo` مع أوامر `docker` عمدًا، لأن إضافة مستخدم إلى مجموعة `docker` تمنحه صلاحيات تعادل صلاحيات المستخدم الجذر.
+
+## الخطوة 4: انسخ التطبيق واضبط متغيرات البيئة
+
+1. أنشئ مجلد التطبيق وانسخ المستودع إليه:
+
+   ```bash
+   sudo mkdir -p /opt/myapp
+   sudo chown "$USER": /opt/myapp
+   git clone https://github.com/USER/myapp.git /opt/myapp
+   cd /opt/myapp
+   ```
+
+2. أنشئ ملف متغيرات البيئة بأذونات تمنع غيرك من قراءته:
+
+   ```bash
+   install -m 600 /dev/null .env
+   nano .env
+   ```
+
+3. اكتب فيه رقم الإصدار والقيم التي يحتاج إليها تطبيقك:
+
+   ```ini
+   APP_TAG=v1
+   PORT=3000
+   ```
+
+## الخطوة 5: ابنِ الصورة وشغّل الحاوية
+
+1. شغّل التطبيق وانتظر حتى ينجح فحص السلامة:
+
+   ```bash
+   sudo docker compose up -d --build --wait
+   ```
+
+2. تأكد من أن حالة الحاوية `healthy`:
+
+   ```bash
+   sudo docker compose ps
+   ```
+
+3. اختبر التطبيق من داخل الخادم:
+
+   ```bash
+   curl -i http://127.0.0.1:3000/health
+   ```
+
+لا تنتقل إلى الخطوة التالية قبل أن يعيد الأمر الأخير الرمز 200. وإن فشل، فراجع السجلات بالأمر `sudo docker compose logs web`.
+
+## الخطوة 6: وجّه النطاق إلى الخادم
+
+1. أضف السجلين الآتيين في لوحة نظام أسماء النطاقات (DNS):
+
+   | النوع | الاسم | القيمة |
+   |---|---|---|
+   | سجل `A` | `@` | `203.0.113.10` |
+   | سجل `A` | `www` | `203.0.113.10` |
+
+2. تحقق من انتشار السجلين، وقد يستغرق ذلك من دقائق إلى ساعات:
+
+   ```bash
+   getent ahostsv4 example.com
+   getent ahostsv4 www.example.com
+   ```
+
+إذا كان للنطاق سجل `AAAA` قديم، فاحذفه أو وجّهه إلى الخادم نفسه، لأن بقاءه قد يُفشل إصدار الشهادة.
+
+## الخطوة 7: ثبّت `Nginx` واضبطه
+
+1. ثبّت الحزمة:
+
+   ```bash
+   sudo apt install -y nginx
+   ```
+
+2. أنشئ ملف إعدادات الموقع:
+
+   ```bash
+   sudo nano /etc/nginx/sites-available/myapp
+   ```
+
+3. اكتب فيه الإعدادات الآتية:
+
+   ```nginx
+   server {
+       listen 80;
+       listen [::]:80;
+       server_name example.com www.example.com;
+
+       client_max_body_size 10m;
+
+       location / {
+           proxy_pass http://127.0.0.1:3000;
+           proxy_http_version 1.1;
+           proxy_set_header Host $host;
+           proxy_set_header X-Real-IP $remote_addr;
+           proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+           proxy_set_header X-Forwarded-Proto $scheme;
+       }
+   }
+   ```
+
+4. فعّل الموقع، وعطّل الموقع الافتراضي إن لم تكن تستخدمه:
+
+   ```bash
+   sudo ln -s /etc/nginx/sites-available/myapp /etc/nginx/sites-enabled/
+   sudo rm -f /etc/nginx/sites-enabled/default
+   ```
+
+5. افحص الإعدادات، ثم أعد تحميلها:
+
+   ```bash
+   sudo nginx -t && sudo systemctl reload nginx
+   ```
+
+6. افتح `http://example.com` في المتصفح. ينبغي أن يظهر التطبيق.
+
+## الخطوة 8: فعّل الاتصال المشفر (HTTPS)
+
+1. ثبّت أداة `Certbot` التي تصدر شهادات مجانية من `Let's Encrypt`:
+
+   ```bash
+   sudo apt install -y certbot python3-certbot-nginx
+   ```
+
+2. أصدر الشهادة، وحوّل الزوار تلقائيًا إلى الاتصال المشفر:
+
+   ```bash
+   sudo certbot --nginx --redirect -d example.com -d www.example.com
+   ```
+
+3. اختبر التجديد التلقائي:
+
+   ```bash
+   sudo certbot renew --dry-run
+   ```
+
+## الخطوة 9: تحقق من النشر
+
+1. اختبر الموقع من جهازك لا من الخادم:
+
+   ```bash
+   curl -I http://example.com
+   curl -i https://example.com/health
+   ```
+
+   يعيد الأمر الأول تحويلًا رمزه 301، ويعيد الثاني الرمز 200.
+
+2. تأكد من أن منفذ التطبيق مغلق أمام الإنترنت، إذ يجب أن يفشل هذا الأمر:
+
+   ```bash
+   curl --connect-timeout 5 http://203.0.113.10:3000
+   ```
+
+3. أعد تشغيل الخادم بالأمر `sudo reboot`، ثم تأكد من أن الموقع عاد إلى العمل تلقائيًا.
+
+## الخطوة 10: حدّث التطبيق وتراجع عند الحاجة
+
+1. اجلب آخر نسخة من الشيفرة:
+
+   ```bash
+   cd /opt/myapp
+   git pull --ff-only
+   ```
+
+2. غيّر `APP_TAG` في ملف `.env` إلى رقم جديد، مثل `v2`، كي تبقى الصورة القديمة متاحة.
+
+3. ابنِ الإصدار الجديد وشغّله. وتوقع انقطاعًا قصيرًا ريثما تُستبدل الحاوية:
+
+   ```bash
+   sudo docker compose up -d --build --wait
+   ```
+
+4. إذا ظهر خلل، فأعد `APP_TAG` إلى `v1`، ثم شغّل الصورة السابقة من غير بناء:
+
+   ```bash
+   sudo docker compose up -d --no-build --wait
+   ```
+
+5. احذف الصور التي لم تعد تحتاج إليها، وأبقِ آخر إصدار سليم على الأقل. فإذا كنت تشغّل `v3` مثلًا، فأبقِ `v2` واحذف `v1`:
+
+   ```bash
+   sudo docker image ls myapp
+   sudo docker image rm myapp:v1
+   ```
+
+يعيد التراجع شيفرة التطبيق وحدها، ولا يعيد قاعدة البيانات إلى ما كانت عليه، فخذ نسخة احتياطية قبل أي تحديث يغيّر بنيتها. وإذا كان التطبيق يحفظ ملفات داخل الحاوية، فخزّنها في وحدة تخزين دائمة (Volume)، وإلا ضاعت عند استبدال الحاوية.
+
+## حل المشكلات الشائعة
+
+| المشكلة | السبب المرجح | الحل |
+|---|---|---|
+| خطأ 502 | التطبيق متوقف أو المنفذ غير صحيح | افحص `sudo docker compose ps` و`sudo docker compose logs web` |
+| خطأ 504 | التطبيق بطيء في الرد | راجع سجلات التطبيق، ثم ارفع قيمة `proxy_read_timeout` إن لزم |
+| خطأ 413 | الملف المرفوع أكبر من الحد | ارفع قيمة `client_max_body_size` |
+| فشل إصدار الشهادة | النطاق لا يشير إلى الخادم، أو المنفذ 80 مغلق | راجع الخطوتين 2 و6 |
+| إعادة تشغيل الحاوية باستمرار | خطأ عند الإقلاع أو متغير بيئة ناقص | راجع سجلات الحاوية وملف `.env` |
+| ظهور صفحة `Nginx` الافتراضية | الموقع غير مفعّل أو `server_name` غير مطابق | راجع الخطوة 7 |
+
+تابع سجلات `Nginx` بالأمر الآتي:
+
+```bash
+sudo tail -f /var/log/nginx/access.log /var/log/nginx/error.log
+```
+
+---
+
+**ملاحظة:** لم أنفّذ هذه الأوامر على خادم فعلي، فجرّبها على خادم اختبار قبل خادم الإنتاج.

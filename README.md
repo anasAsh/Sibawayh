@@ -227,6 +227,7 @@ skills/arabic-writing/
 │   ├── style.md              translationese → natural Arabic
 │   ├── common-errors.md      قل ولا تقل
 │   ├── approved-forms.md     never "fix" these
+│   ├── classical.md          classical register, only on request
 │   └── glossary.md           450+ tech terms, English → Arabic
 └── scripts/
     ├── check_arabic.py       the checker (stdlib only)
@@ -252,6 +253,8 @@ The harness in [`evals/`](evals/README.md) answers 100 realistic prompts with an
 
 An AI judge is not a native reader, so a human-scored round is still to come. [How Sibawayh is tested](https://anasash.github.io/Sibawayh/) describes every test in plain language ([بالعربية](https://anasash.github.io/Sibawayh/ar/)). All 100 requests, both answers to each and the judge's counts are on the [full results page](https://anasash.github.io/Sibawayh/results/) ([بالعربية](https://anasash.github.io/Sibawayh/ar/results/)); the raw files are in [`evals/results/`](evals/results/).
 
+**Classical register** (new in 0.4.0, lightly tested; see [`evals/classical.md`](evals/classical.md)): on 20 requests for classical or elevated literary Arabic, the judge preferred the skill's answer to the no-skill answer in 17–19 of 20 pairs, and to release 0.3.0's answer in 12 of 20. It found no classical wording leaking into everyday answers. This is a small trial judged by an AI model, and it is separate from the −96% figure above.
+
 **The checker against human corrections** ([`evals/benchmarks.md`](evals/benchmarks.md)): on two public corpora that people corrected word by word, it catches **52%** of all errors in student essays (ZAEBUC) and **41%** in native-speaker comments (QALB), up from 23% and 20% in release 0.1.2. For hamza it catches 68% and 59%; for و written apart from its word, 98% and 86%. Every flag on a word the annotators left unchanged was a real error they missed, or (in ZAEBUC) a Latin comma they chose to keep.
 
 **Over-correction check** ([`evals/corpus_check.md`](evals/corpus_check.md)): on Arabic Wikipedia featured articles, every error-level flag was a real error, including in a held-out set used for no tuning.
@@ -272,6 +275,9 @@ No, that is the golden rule. It never flags forms approved by the Cairo Arabic L
 
 **Does it work with Arabic dialects?**
 Yes. When you ask for Egyptian, Gulf, Levantine or another dialect, the agent writes in that dialect. The skill then fixes only formatting (punctuation, digits, RTL lines), never the dialect itself.
+
+**Can it write classical Arabic (فصحى التراث)?**
+Yes, when you ask for it. Ask for classical or elevated literary style (فصحى التراث، أسلوب تراثي، "classical Arabic") or for a genre that is classical by nature, such as a Friday sermon, a maqama or a literary debate, and the agent switches register: weightier words, balanced sentences, sparing rhyme, and no invented quotations. Everyday requests stay in plain Modern Standard Arabic. This mode is new in 0.4.0 and has had only a small trial.
 
 **Which agents does it work with?**
 Any agent that supports the `SKILL.md` Agent Skills format: Claude Code (as a plugin), Claude Desktop, Codex, Cursor, GitHub Copilot, OpenCode and others. See [Install](#-install) for each one's folder and for which agents we have tested. Agents without a shell use the checklist alone.

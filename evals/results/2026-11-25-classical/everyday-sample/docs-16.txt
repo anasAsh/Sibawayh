@@ -1,0 +1,259 @@
+# إعداد بيئة تطوير `Node.js` على ويندوز
+
+يبدأ هذا الدليل من جهاز لا أدوات تطوير عليه، وينتهي بمشروع يعمل واختبارات ناجحة. نستخدم فيه ويندوز 10 أو 11، والصدفة (PowerShell)، ومدير حزم ويندوز `winget`. اكتب الأوامر في نافذة عادية، إلا إذا ذُكر أن الأمر يحتاج إلى صلاحيات المسؤول.
+
+## الأدوات الأساسية
+
+تحقق أولًا من وجود `winget`:
+
+```powershell
+winget --version
+```
+
+إن لم يتعرّف النظام على الأمر، فثبّت تطبيق «أداة تثبيت التطبيق» (App Installer) من متجر مايكروسوفت. ثم ثبّت أداة التحكم في الإصدارات (Git) ومحرر الشيفرة (VS Code):
+
+```powershell
+winget install --id Git.Git -e
+winget install --id Microsoft.VisualStudioCode -e
+```
+
+أغلق الطرفية (terminal) وافتحها من جديد كي تقرأ قيمة `PATH` المحدَّثة، ثم عرّف نفسك في `git`:
+
+```powershell
+git config --global user.name "Your Name"
+git config --global user.email "you@example.com"
+```
+
+## تثبيت `Node.js`
+
+اختر إحدى الطريقتين الآتيتين. أنصح بالأولى، لأن المشاريع كثيرًا ما تتطلب إصدارات مختلفة.
+
+### مدير الإصدارات (الطريقة الموصى بها)
+
+تتيح أداة `nvm-windows` تثبيت عدة إصدارات والتنقل بينها. إذا كان `Node.js` مثبتًا من قبل، فأزِله أولًا من إعدادات التطبيقات حتى لا تتعارض النسختان.
+
+```powershell
+winget install --id CoreyButler.NVMforWindows -e
+```
+
+افتح طرفية جديدة، ثم ثبّت أحدث إصدار طويل الدعم (LTS) وفعّله:
+
+```powershell
+nvm install lts
+nvm use lts
+```
+
+قد يطلب الأمر `nvm use` موافقتك على صلاحيات المسؤول. وإذا احتوى المشروع على ملف `.nvmrc` فيه رقم إصدار، فمرّر محتواه إلى الأداة من داخل مجلد المشروع:
+
+```powershell
+nvm install (Get-Content .nvmrc)
+nvm use (Get-Content .nvmrc)
+```
+
+### المثبّت الرسمي
+
+هذه الطريقة أبسط، وتكفي إن كنت تعمل بإصدار واحد:
+
+```powershell
+winget install --id OpenJS.NodeJS.LTS -e
+```
+
+ثم افتح طرفية جديدة.
+
+### التحقق من التثبيت
+
+```powershell
+node --version
+npm --version
+```
+
+يجب أن يطبع كل أمر رقم إصدار. أما إذا ظهرت رسالة `running scripts is disabled on this system` عند تشغيل `npm`، فاسمح بتشغيل النصوص البرمجية المحلية لحسابك وحده:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+## تجهيز المشروع
+
+ضع المشاريع في مسار قصير، مثل `C:\dev`، وتجنّب المجلدات التي تزامنها خدمة التخزين السحابي (OneDrive)، لأن المزامنة تبطئ التثبيت وقد تقفل ملفات `node_modules`.
+
+### مشروع موجود
+
+ضع رابط المستودع مكان `<repository-url>`:
+
+```powershell
+mkdir C:\dev
+cd C:\dev
+git clone <repository-url> my-app
+cd my-app
+```
+
+انظر إلى ملف القفل لتعرف مدير الحزم المستخدم، ثم نفّذ أمر التثبيت المناسب:
+
+| ملف القفل | أمر التثبيت |
+|---|---|
+| `package-lock.json` | `npm ci` |
+| `pnpm-lock.yaml` | `pnpm install --frozen-lockfile` |
+| `yarn.lock` | `yarn install` |
+
+يثبّت الأمر `npm ci` الإصدارات المسجلة في ملف القفل نفسها ولا يعدّله. استخدم `npm install` إذا لم يكن الملف موجودًا، أو إذا أردت إضافة اعتمادية (dependency).
+
+إذا كان المشروع يستخدم `pnpm` أو `yarn`، فثبّت الأداة أولًا بالأمر `npm install -g pnpm` أو `npm install -g yarn`. وإذا حدّد الحقل `packageManager` في `package.json` إصدارًا، فالتزم به.
+
+### مشروع جديد
+
+```powershell
+mkdir C:\dev\my-app
+cd C:\dev\my-app
+git init
+npm init -y
+mkdir src, test
+```
+
+عدّل الملف `package.json` ليصبح محتواه:
+
+```json
+{
+  "name": "my-app",
+  "version": "1.0.0",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "test": "node --test",
+    "test:watch": "node --test --watch",
+    "test:coverage": "node --test --experimental-test-coverage"
+  }
+}
+```
+
+أنشئ الملف `src/sum.js`:
+
+```js
+export function sum(a, b) {
+  if (typeof a !== 'number' || typeof b !== 'number') {
+    throw new TypeError('sum expects two numbers');
+  }
+  return a + b;
+}
+```
+
+ثم الملف `src/index.js`:
+
+```js
+import { sum } from './sum.js';
+
+console.log(`2 + 3 = ${sum(2, 3)}`);
+```
+
+وأضف ملف `.gitignore` كي لا تدخل الملفات المولّدة والأسرار إلى المستودع:
+
+```gitignore
+node_modules/
+coverage/
+.env
+```
+
+وملف `.gitattributes` لتوحيد نهايات الأسطر بين ويندوز والأنظمة الأخرى:
+
+```gitattributes
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+```
+
+## متغيرات البيئة
+
+إذا وجدت في المستودع ملفًا باسم `.env.example`، فانسخه واملأ القيم الخاصة بك:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+يقرأ `Node.js` هذا الملف دون مكتبة إضافية:
+
+```powershell
+node --env-file=.env src/index.js
+```
+
+وتختلف صيغة ضبط متغير مؤقت في الطرفية الحالية عن صيغة لينكس:
+
+```powershell
+$env:NODE_ENV = "development"
+```
+
+## تشغيل المشروع
+
+```powershell
+npm start
+```
+
+يطبع المشروع التجريبي `2 + 3 = 5`. أما في مشروع موجود، فاعرض الأوامر المتاحة بكتابة `npm run`. ويعيد الأمر `npm run dev` في المشروع التجريبي تشغيل البرنامج كلما حفظت ملفًا.
+
+## كتابة الاختبارات وتشغيلها
+
+يتضمن `Node.js` مشغّل اختبارات مدمجًا، فلا حاجة إلى تثبيت شيء للبدء. أنشئ الملف `test/sum.test.js`:
+
+```js
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { sum } from '../src/sum.js';
+
+test('adds two numbers', () => {
+  assert.equal(sum(2, 3), 5);
+});
+
+test('rejects non-numeric input', () => {
+  assert.throws(() => sum('2', 3), TypeError);
+});
+```
+
+شغّل الاختبارات:
+
+```powershell
+npm test
+```
+
+ينبغي أن تجد في آخر المخرجات `pass 2` و`fail 0`. وهذه أوامر أخرى ستحتاج إليها:
+
+| الغرض | الأمر |
+|---|---|
+| إعادة الاختبار عند كل حفظ | `npm run test:watch` |
+| قياس تغطية الاختبارات | `npm run test:coverage` |
+| تشغيل ملف واحد | `node --test test/sum.test.js` |
+| تشغيل اختبار باسمه | `node --test --test-name-pattern="adds"` |
+
+إذا كان المشروع يستخدم إطار اختبار آخر مثل `jest` أو `vitest`، فإن `npm test` يشغّله ما دام معرّفًا في قسم `scripts`.
+
+## حل المشكلات الشائعة
+
+| المشكلة | الحل |
+|---|---|
+| الأمر `node` غير معروف بعد التثبيت | افتح طرفية جديدة وأعد تشغيل المحرر. وإن كنت تستخدم `nvm-windows`، فنفّذ `nvm use lts`. |
+| الخطأ `EADDRINUSE` | المنفذ مشغول. اعرض العملية بالأمر `Get-NetTCPConnection -LocalPort 3000` وخذ رقمها من العمود `OwningProcess`، ثم أوقفها بالأمر `Stop-Process -Id` متبوعًا بالرقم. |
+| الخطأ `EPERM` أو `EBUSY` في أثناء التثبيت | أوقف الخوادم العاملة وأغلق المحرر، ثم احذف المجلد بالأمر `Remove-Item -Recurse -Force node_modules` وأعد التثبيت. |
+| خطأ من `node-gyp` عند تثبيت حزمة | تحتاج الحزمة إلى مترجم (compiler). ثبّت أدوات البناء كما في القسم التالي. |
+| الخطأ `Filename too long` من `git` | نفّذ `git config --global core.longpaths true`. |
+| أمر مثل `rm -rf` أو `NODE_ENV=test` يفشل داخل `scripts` | هذه صيغة لينكس. استخدم الحزمتين `rimraf` و`cross-env`. |
+| نمط ملفات بين علامتي اقتباس مفردتين داخل `scripts` لا يطابق شيئًا | استخدم علامتي اقتباس مزدوجتين مع الشرطة المائلة العكسية: `\"src/**/*.js\"`. |
+
+### أدوات البناء للحزم الأصلية
+
+لا تثبّت هذه الأدوات إلا إذا ظهر خطأ من `node-gyp`، فهي تشغل مساحة كبيرة من القرص. شغّل الطرفية بصلاحيات المسؤول:
+
+```powershell
+winget install --id Python.Python.3.13 -e
+winget install --id Microsoft.VisualStudio.2022.BuildTools -e --override "--wait --passive --add Microsoft.VisualStudio.Workload.VCTools --includeRecommended"
+```
+
+## قائمة التحقق النهائية
+
+- يطبع الأمران `node --version` و`npm --version` رقمي إصدار.
+- ينتهي تثبيت الاعتماديات بلا أخطاء.
+- يعمل المشروع بالأمر `npm start`.
+- ينتهي الأمر `npm test` دون أي اختبار فاشل.
+
+---
+
+**تنبيه:** لم أجرّب الأوامر والأمثلة عمليًّا، فبيئتي لينكس ولم يُسمح لي فيها بتشغيل الشيفرة، ولم يُتح لي البحث في الوثائق على الإنترنت. إن تغيّر معرّف إحدى الحزم، فابحث عنه بالأمر `winget search`.

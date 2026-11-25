@@ -70,6 +70,7 @@ over-corrections, skill total <= 50% of baseline total, and no category worse.
 ## Other checks
 
 - [`full_eval.md`](full_eval.md): all 100 prompts, judged blind by an AI model (errors −96%, mean of three judgings).
+- [`classical.md`](classical.md): first trial of the classical register (20 requests, AI-judged).
 - [`ai_judge.md`](ai_judge.md): the AI-judge method, and the 10-pair pilot.
 - [`corpus_check.md`](corpus_check.md): the over-correction check on edited Arabic (Wikipedia featured articles), and recall with injected errors. No human scorer needed.
 - [`benchmarks.md`](benchmarks.md): recall against ZAEBUC and QALB, essays and comments that people corrected by hand.
