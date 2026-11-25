@@ -41,12 +41,14 @@ STRINGS = {
         "h_summary": "Summary",
         "cap_summary": "The three judgings",
         "per100": "Errors per 100 words",
-        "pref_head": "Answer the judge preferred",
+        "pref_head": "Pairs in which the judge preferred each answer",
         "change": "Change", "tie": "Tie", "mean": "Mean",
         "words_note": "%s pairs, %s words without the skill and %s with it.",
+        "over_note": "Over-corrections in the answers with the skill, per judging: %s.",
         "h_all": "The %d requests",
         "read1": "Open a request to read both answers and the judge's counts. The answers are shown as plain text, as the judge read them. Each line takes its direction from its first letter, as most apps do, so a line that starts with a Latin word is aligned to the left.",
         "read_marks": "Highlighted words are errors the judge quoted in a separate fourth pass, in which it was asked to quote each error and not only count it. Point at a highlight to see the category and the judge's correction; the same list is under each answer. That pass is not one of the three judgings, so its number of errors can differ a little from the tables.",
+        "marks_pending": "The judge has not marked this request yet.",
         "marked": "Marked by the judge", "no_marks": "The judge marked nothing.",
         "unplaced": "not highlighted separately",
         "read2": "These are an AI judge's counts, not a native reader's. If you disagree with a count, <a href=\"%s/issues\">open an issue</a> and name the request.",
@@ -62,7 +64,7 @@ STRINGS = {
         "cats": {"grammar": "Grammar", "spelling": "Spelling", "translationese": "Translationese",
                  "register": "Register", "formatting": "Formatting"},
         "total": "Total", "over": "Over-corrections",
-        "cap_scores": "Errors the judge counted",
+        "cap_scores": "Errors the judge counted in each judging",
         "preferred": "Preferred",
         "tasks": {"email": "Emails", "docs": "Documentation", "social": "Social posts",
                   "tech_explain": "Technical explanations", "translate": "Translation"},
@@ -82,12 +84,14 @@ STRINGS = {
         "h_summary": "ملخص النتائج",
         "cap_summary": "جولات التحكيم الثلاث",
         "per100": "الأخطاء في كل 100 كلمة",
-        "pref_head": "الإجابة التي فضّلها المحكّم",
+        "pref_head": "عدد الأزواج التي فضّل المحكّم فيها كل إجابة",
         "change": "التغيّر", "tie": "تعادل", "mean": "المتوسط",
         "words_note": "عدد الأزواج %s، وفيها %s كلمة دون المهارة و%s كلمة معها.",
+        "over_note": "عدد مرات التصحيح الزائد في إجابات المهارة في كل جولة: %s.",
         "h_all": "الطلبات المئة",
         "read1": "افتح أي طلب لتقرأ إجابتيه وما أحصاه المحكّم فيهما. تُعرض الإجابات نصًّا خامًا كما قرأها المحكّم. ويأخذ كل سطر اتجاهه من أول حرف فيه، كما في أغلب التطبيقات، فالسطر الذي يبدأ بكلمة لاتينية يظهر محاذيًا لليسار.",
         "read_marks": "الكلمات المظلّلة أخطاء اقتبسها المحكّم في جولة رابعة مستقلة، طُلب منه فيها أن يقتبس كل خطأ وألّا يكتفي بعدّه. ضع المؤشر على الكلمة المظلّلة لترى فئة الخطأ وتصويب المحكّم، والقائمة نفسها تحت كل إجابة. وليست هذه الجولة من جولات التحكيم الثلاث، فقد يختلف عدد الأخطاء فيها قليلًا عمّا في الجداول.",
+        "marks_pending": "لم يظلّل المحكّم هذا الطلب بعد.",
         "marked": "ما ظلّله المحكّم", "no_marks": "لم يظلّل المحكّم شيئًا.",
         "unplaced": "لم يُظلَّل منفردًا",
         "read2": "هذه الأعداد أحصاها نموذج ذكاء اصطناعي وليس قارئًا من أهل العربية. وإن خالفتَ المحكّم في عدد منها <a href=\"%s/issues\">فافتح تذكرة (issue) في المستودع</a> واذكر معرّف الطلب.",
@@ -103,7 +107,7 @@ STRINGS = {
         "cats": {"grammar": "النحو", "spelling": "الإملاء", "translationese": "الترجمة الحرفية",
                  "register": "المستوى اللغوي", "formatting": "التنسيق"},
         "total": "المجموع", "over": "التصحيح الزائد",
-        "cap_scores": "الأخطاء التي أحصاها المحكّم",
+        "cap_scores": "الأخطاء التي أحصاها المحكّم في كل جولة",
         "preferred": "الإجابة المفضّلة",
         "tasks": {"email": "رسائل البريد الإلكتروني", "docs": "التوثيق", "social": "منشورات التواصل الاجتماعي",
                   "tech_explain": "الشروح التقنية", "translate": "الترجمة"},
@@ -172,7 +176,12 @@ def load_marks(run, prompts):
                 mode = k[cells[1].lower()]
                 marks.setdefault((k["id"], mode), []).append(
                     {"cat": cells[2], "quote": cells[3].strip(), "fix": cells[4].strip() if len(cells) > 4 else ""})
-    for (pid, mode), ms in marks.items():
+    pending = os.path.join(run, "marks-pending.txt")
+    if os.path.exists(pending):
+        # Requests the marking pass has not covered yet (one id per line).
+        with open(pending, encoding="utf-8") as f:
+            marks["pending"] = set(f.read().split())
+    for (pid, mode), ms in ((k, v) for k, v in marks.items() if k != "pending"):
         text, taken = texts[pid][mode], []
         for m in ms:
             q, m["span"] = m["quote"], None
@@ -223,7 +232,9 @@ def answer_html(text, marks, s):
     return "\n".join(out)
 
 
-def marks_html(marks, s):
+def marks_html(marks, s, pending=False):
+    if pending:
+        return '<p class="marks note">%s</p>' % s["marks_pending"]
     if not marks:
         return '<p class="marks note">%s</p>' % s["no_marks"]
     rows = "".join(
@@ -252,7 +263,8 @@ def item_html(p, judgings, marks, s):
                 "" if c in CATS else ' class="total"', s["cats"].get(c, s["total"]),
                 "".join('<td class="n">%d</td>' % (e[m][c] if c in CATS else sum(e[m].values())) for e in js))
             for c in CATS + ["total"])
-        head = "".join('<th class="n">%s</th>' % x for x in s["judging"])
+        head = "".join('<th class="n"><span class="long">%s</span><span class="short">%d</span></th>' % (x, i)
+                       for i, x in enumerate(s["judging"], 1))
         cols.append(
             '<div class="resp">\n<h3>%s <span class="who">%s</span></h3>\n'
             '<div class="scroll"><table class="scores"><caption>%s</caption>'
@@ -260,7 +272,7 @@ def item_html(p, judgings, marks, s):
             '<div class="ans" lang="ar" dir="rtl">\n%s\n</div>\n%s\n</div>' % (
                 s[m], s["words"] % ltr(p["words"][m]), s["cap_scores"], head, rows,
                 answer_html(p["text"][m], marks.get((pid, m), []), s),
-                marks_html(marks.get((pid, m), []), s) if marks else ""))
+                marks_html(marks.get((pid, m), []), s, pid in marks.get("pending", ())) if marks else ""))
     names = {"baseline": s["baseline"], "skill": s["skill"], "tie": s["tie"]}
     verdict = "<dl class=\"verdict\"><dt>%s</dt><dd>%s</dd><dt>%s</dt><dd>%s</dd></dl>" % (
         s["preferred"], " · ".join(names[e["pref"]] for e in js),
@@ -278,36 +290,38 @@ def item_html(p, judgings, marks, s):
 
 
 def summary_html(prompts, judgings, s):
+    """Two narrow tables, so neither needs sideways scrolling on a phone."""
     words = {m: sum(p["words"][m] for p in prompts) for m in MODES}
-    rows, rates = [], {m: [] for m in MODES}
+    rate_rows, pref_rows, rates = [], [], {m: [] for m in MODES}
     for i, j in enumerate(judgings):
         r = {m: 100.0 * sum(sum(e[m].values()) for e in j.values()) / words[m] for m in MODES}
         for m in MODES:
             rates[m].append(r[m])
         prefs = [e["pref"] for e in j.values()]
-        rows.append(
-            "<tr><th>%s</th><td class=\"n\">%.2f</td><td class=\"n\">%.2f</td><td class=\"n\">%s</td>"
-            "<td class=\"n\">%d</td><td class=\"n\">%d</td><td class=\"n\">%d</td><td class=\"n\">%d</td></tr>" % (
+        rate_rows.append(
+            "<tr><th>%s</th><td class=\"n\">%.2f</td><td class=\"n\">%.2f</td><td class=\"n\">%s</td></tr>" % (
                 s["judging"][i], r["baseline"], r["skill"],
-                "−%.0f%%" % (100 * (1 - r["skill"] / r["baseline"])),
-                prefs.count("baseline"), prefs.count("skill"), prefs.count("tie"),
-                sum(e["over"] for e in j.values())))
+                "−%.0f%%" % (100 * (1 - r["skill"] / r["baseline"]))))
+        pref_rows.append(
+            "<tr><th>%s</th><td class=\"n\">%d</td><td class=\"n\">%d</td><td class=\"n\">%d</td></tr>" % (
+                s["judging"][i], prefs.count("baseline"), prefs.count("skill"), prefs.count("tie")))
     b, k = (sum(rates[m]) / len(judgings) for m in MODES)
-    rows.append(
-        "<tr class=\"total\"><th>%s</th><td class=\"n\">%.2f</td><td class=\"n\">%.2f</td><td class=\"n\">%s</td>"
-        "<td></td><td></td><td></td><td></td></tr>" % (s["mean"], b, k, "−%.0f%%" % (100 * (1 - k / b))))
+    rate_rows.append(
+        "<tr class=\"total\"><th>%s</th><td class=\"n\">%.2f</td><td class=\"n\">%.2f</td><td class=\"n\">%s</td></tr>"
+        % (s["mean"], b, k, "−%.0f%%" % (100 * (1 - k / b))))
+    head = '<th class="n">%s</th><th class="n">%s</th>' % (s["baseline"], s["skill"])
     return (
-        '<div class="scroll"><table><caption>%s</caption>\n<thead>'
-        '<tr><th rowspan="2"></th><th colspan="3" class="grp">%s</th><th colspan="3" class="grp">%s</th>'
-        '<th rowspan="2" class="n">%s</th></tr>\n'
-        '<tr><th class="n">%s</th><th class="n">%s</th><th class="n">%s</th>'
-        '<th class="n">%s</th><th class="n">%s</th><th class="n">%s</th></tr></thead>\n'
+        '<div class="scroll text"><table class="sum"><caption>%s</caption>\n'
+        '<thead><tr><th></th>%s<th class="n">%s</th></tr></thead>\n<tbody>%s</tbody></table></div>\n'
+        '<p class="note">%s</p>\n'
+        '<div class="scroll text"><table class="sum"><caption>%s</caption>\n'
+        '<thead><tr><th></th>%s<th class="n">%s</th></tr></thead>\n'
         "<tbody>%s</tbody></table></div>\n<p class=\"note\">%s</p>" % (
-            s["cap_summary"], s["per100"], s["pref_head"], s["over"],
-            s["baseline"], s["skill"], s["change"], s["baseline"], s["skill"], s["tie"],
-            "\n".join(rows),
+            s["per100"], head, s["change"], "\n".join(rate_rows),
             s["words_note"] % (ltr(len(prompts)), ltr("{:,}".format(words["baseline"])),
-                               ltr("{:,}".format(words["skill"])))))
+                               ltr("{:,}".format(words["skill"]))),
+            s["pref_head"], head, s["tie"], "\n".join(pref_rows),
+            s["over_note"] % ltr(" · ".join(str(sum(e["over"] for e in j.values())) for j in judgings))))
 
 
 SCRIPT = """<script>

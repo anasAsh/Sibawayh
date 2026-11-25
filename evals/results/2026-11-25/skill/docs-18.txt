@@ -1,0 +1,42 @@
+## الإصدار 1.8.0 (25 نوفمبر 2026)
+
+> **تنبيه:** يتضمن هذا الإصدار من واجهة برمجة التطبيقات (API) تغييرًا كاسرًا في المصادقة. عدّل تطبيقك قبل الترقية.
+
+### تغييرات كاسرة (Breaking changes)
+
+**المصادقة برمز الوصول (access token) بدلًا من مفتاح الواجهة**
+
+لم تعد الواجهة تقبل المفتاح المُرسَل في الترويسة `X-API-Key`، وأصبح كل طلب يتطلب رمز وصول في الترويسة `Authorization`. وتعيد الواجهة رمز الحالة `401` لكل طلب يستخدم الطريقة القديمة.
+
+قبل الإصدار 1.8:
+
+```http
+GET /v1/orders HTTP/1.1
+X-API-Key: <API_KEY>
+```
+
+بدءًا من الإصدار 1.8:
+
+```http
+GET /v1/orders HTTP/1.1
+Authorization: Bearer <ACCESS_TOKEN>
+```
+
+خطوات الترحيل:
+
+- أنشئ رمز وصول من صفحة «الأمان» في لوحة التحكم.
+- أرسل الرمز في الترويسة `Authorization` مع كل طلب، وجدّده قبل انتهاء صلاحيته بعد 90 يومًا.
+- احذف المفاتيح القديمة من تطبيقك ومن إعدادات بيئاتك.
+
+### إضافات
+
+- **تصدير الطلبيات:** تنشئ نقطة النهاية (endpoint) `POST /v1/orders/export` مهمة تصدير بصيغة `CSV` أو `JSON`، وتعيد معرّفها في الحقل `job_id`.
+- **متابعة التصدير:** تعيد نقطة النهاية `GET /v1/exports/{job_id}` حالة المهمة، ورابط التنزيل عند اكتمالها.
+
+### حقول مهملة (Deprecated)
+
+- **الحقل `customer_name`** في استجابات `GET /v1/orders`: استخدم بدلًا منه الكائن `customer` الذي يضم الحقلين `first_name` و`last_name`. سيبقى الحقل القديم متاحًا حتى إزالته في الإصدار 2.0.
+
+---
+
+The endpoint paths, field names, authentication details, 90-day expiry, 2.0 removal target and release date are placeholders I made up, so replace them with your real values. If you follow semantic versioning, a breaking change would normally call for 2.0 rather than 1.8.

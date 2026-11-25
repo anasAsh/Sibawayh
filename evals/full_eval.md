@@ -2,7 +2,44 @@
 
 A plain-language description of all the tests is at <https://anasash.github.io/Sibawayh/>.
 
-## Latest: 2026-11-23, 100 prompts, judged three times
+## Latest: 2026-11-25, release 0.4.0, 100 prompts, judged three times
+
+The skill side was answered again with release 0.4.0 (which adds the classical register, used only on request). The baseline answers are the same files as on 2026-11-23. GPT (through Codex) judged all 100 pairs blind three times, each time with its own random A/B order.
+
+| Judging | Baseline | Skill | Change | Preferred (skill–baseline–tie) |
+|---|---|---|---|---|
+| 1 | 2.18 | 0.05 | −98% | 92–4–4 |
+| 2 | 2.25 | 0.07 | −97% | 93–3–4 |
+| 3 | 2.34 | 0.09 | −96% | 92–4–4 |
+| **Mean** | **2.26** | **0.07** | **−97%** | |
+
+Errors per 100 words (19,181 baseline words, 22,344 skill words). Over-corrections: 0 in all three. The success bar passes in all three.
+
+| Errors per 100 words (mean) | Baseline | Skill |
+|---|---|---|
+| Grammar | 0.13 | 0.01 |
+| Spelling | 0.01 | 0.00 |
+| Translationese | 0.39 | 0.05 |
+| Register | 1.50 | 0.01 |
+| Formatting | 0.24 | 0.00 |
+
+| Errors per 100 words (mean) | Baseline | Skill | Change |
+|---|---|---|---|
+| First 50 prompts (used during development) | 2.15 | 0.01 | −99% |
+| 50 new prompts (not used for tuning) | 2.37 | 0.12 | −95% |
+| Technical explanations | 4.41 | 0.05 | −99% |
+| Documentation | 1.74 | 0.11 | −94% |
+| Social posts | 1.72 | 0.06 | −97% |
+| Translations | 0.93 | 0.13 | −86% |
+| Emails | 0.31 | 0.01 | −97% |
+
+The skill's raw error counts were 12, 15 and 20 (11–12 of them translationese), against 18–20 on 2026-11-23. Its answers were also about 12% longer. Answers are generated once per run and vary from run to run: a trial regeneration earlier the same day, with reference edits that were then reverted, scored 0.09–0.13. So the step from −96% to −97% is within run-to-run variation and is not evidence that release 0.4.0 writes better everyday Arabic. What the run does show is that adding the classical register did not make everyday answers worse.
+
+A fourth blind pass in which the judge quotes each error (`marks-2504.tsv`) feeds the highlights on the [results page](https://anasash.github.io/Sibawayh/results/).
+
+**Limits:** as below: one generation per prompt, and an AI judge. Raw data: [`results/2026-11-25/`](results/2026-11-25/).
+
+## 2026-11-23, 100 prompts, judged three times
 
 50 prompts were added to [`prompts.tsv`](prompts.tsv) (ids 11–20 of each task type), written after the skill's last change. Both sides answered them once. The first 50 pairs are the same files as in the 2026-11-22 run. GPT (through Codex) judged all 100 pairs blind three times, each time with its own random A/B order.
 

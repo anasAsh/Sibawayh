@@ -1,0 +1,255 @@
+كتبتُ الدليل بالعربية في `STYLE_GUIDE.md` في جذر المشروع، ويغطّي المحاور الثلاثة:
+
+- **التسمية:** جدول بالصيغ (`camelCase` للمتغيّرات والدوال، `PascalCase` للأصناف، `UPPER_SNAKE_CASE` للثوابت، `kebab-case` للملفات)، مع قواعد للمتغيّرات المنطقية والدوال ومعالجات الأحداث، وأمثلة للصحيح والخطأ.
+- **Prettier:** ملف إعدادات مقترح مع شرح كل خيار، وملف الاستثناءات، وأوامر `format` و`format:check`، والتنسيق التلقائي عبر `husky` و`lint-staged`، والتعايش مع ESLint.
+- **رسائل الإيداع:** صيغة Conventional Commits مع جدول الأنواع، وقواعد العنوان والمتن والتذييل، وأمثلة مقبولة ومرفوضة.
+
+المجلد كان فارغًا، فالقيم التالية اختياراتي وليست مأخوذة من مشروع قائم، وعدّلها إن خالفت ما تعتمدونه:
+
+- طول السطر ١٠٠ حرف، وعلامات اقتباس مفردة، وفاصلة منقوطة.
+- المعرّفات ورسائل الإيداع بالإنجليزية.
+- الدليل يذكر `husky` و`lint-staged` و`commitlint` و`eslint-config-prettier` كأدوات معتمدة.
+
+لم أُنشئ ملفات الإعدادات نفسها (`.prettierrc.json` و`.prettierignore` و`package.json`)؛ الدليل يصفها فقط. ولم أُجرِ أي إيداع في git.
+
+
+--- file: STYLE_GUIDE.md ---
+# دليل أسلوب كتابة الشيفرة
+
+يحدّد هذا الدليل القواعد المتّبعة في مشروعنا المكتوب بلغة JavaScript، ويغطّي ثلاثة محاور: التسمية، والتنسيق باستخدام Prettier، وصيغة رسائل الإيداع (commit messages). الهدف أن تبدو الشيفرة كأنّ شخصًا واحدًا كتبها، مهما تعدّد المساهمون.
+
+## ١. التسمية
+
+### قواعد عامة
+
+- تُكتب جميع المعرّفات (المتغيّرات، الدوال، الأصناف، الملفات) بالإنجليزية.
+- اختر اسمًا يصف الغرض لا النوع: `users` بدلًا من `userArray`، و`retryCount` بدلًا من `n`.
+- تجنّب الاختصارات غير الشائعة: `button` لا `btn`، و`message` لا `msg`. يُستثنى ما هو متعارف عليه مثل `id` و`url` و`i` في الحلقات القصيرة.
+- تُعامل الاختصارات المكتوبة بأحرف كبيرة معاملة الكلمة العادية: `userId` و`parseHtml` و`HttpClient`، لا `userID` ولا `parseHTML`.
+
+### جدول الصيغ
+
+| العنصر | الصيغة | مثال |
+| --- | --- | --- |
+| المتغيّرات والدوال | `camelCase` | `totalPrice`، `fetchUser()` |
+| الأصناف ومكوّنات الواجهة | `PascalCase` | `OrderService`، `UserCard` |
+| الثوابت العامة على مستوى الوحدة | `UPPER_SNAKE_CASE` | `MAX_RETRIES`، `API_BASE_URL` |
+| الملفات والمجلدات | `kebab-case` | `order-service.js`، `user-profile/` |
+| ملفات المكوّنات | `PascalCase` | `UserCard.jsx` |
+| ملفات الاختبار | اسم الملف + `.test.js` | `order-service.test.js` |
+| الأعضاء الخاصة في الأصناف | البادئة `#` | `#cache` |
+
+### المتغيّرات
+
+- استخدم `const` دائمًا، و`let` فقط عند الحاجة إلى إعادة الإسناد. لا تستخدم `var`.
+- المتغيّرات المنطقية تبدأ ببادئة تدلّ على سؤال: `is` أو `has` أو `can` أو `should`.
+- المجموعات تُسمّى بصيغة الجمع، والعنصر الواحد بصيغة المفرد.
+
+```js
+// ✓ صحيح
+const isVisible = true;
+const hasPermission = user.roles.includes('admin');
+const orders = await fetchOrders();
+for (const order of orders) { /* ... */ }
+
+// ✗ خطأ
+const visible = true;
+const orderList = await fetchOrders();
+```
+
+### الدوال
+
+- يبدأ اسم الدالة بفعل: `getUser`، `createOrder`، `validateEmail`.
+- الدوال التي تُرجع قيمة منطقية تتبع قاعدة المتغيّرات المنطقية: `isValidEmail()`، `hasAccess()`.
+- معالجات الأحداث تبدأ بـ `handle`، والخصائص التي تستقبلها تبدأ بـ `on`: `handleSubmit` و`onSubmit`.
+
+```js
+// ✓ صحيح
+function calculateTotal(items) { /* ... */ }
+async function fetchUserById(id) { /* ... */ }
+
+// ✗ خطأ
+function total(items) { /* ... */ }
+function userData(id) { /* ... */ }
+```
+
+### الثوابت
+
+تُستخدم صيغة `UPPER_SNAKE_CASE` للقيم الثابتة المعروفة قبل التشغيل فقط، لا لكل ما يُعرَّف بـ `const`.
+
+```js
+const MAX_UPLOAD_SIZE_MB = 10; // ثابت عام
+const response = await fetch(url); // قيمة تُحسب أثناء التشغيل
+```
+
+## ٢. التنسيق باستخدام Prettier
+
+التنسيق مسؤولية Prettier وحده، ولا يُناقَش في مراجعات الشيفرة. إن لم يعجبك تنسيق ما، اقترح تعديل الإعدادات لا تعديل الملف يدويًا.
+
+### الإعدادات
+
+ملف `.prettierrc.json` في جذر المشروع:
+
+```json
+{
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "endOfLine": "lf"
+}
+```
+
+| الخيار | القيمة | المعنى |
+| --- | --- | --- |
+| `printWidth` | `100` | أقصى طول للسطر ١٠٠ حرف |
+| `tabWidth` / `useTabs` | `2` / `false` | الإزاحة بمسافتين، بلا علامات جدولة |
+| `semi` | `true` | فاصلة منقوطة في نهاية كل تعليمة |
+| `singleQuote` | `true` | علامات اقتباس مفردة للسلاسل النصية |
+| `trailingComma` | `"all"` | فاصلة بعد العنصر الأخير في البُنى متعدّدة الأسطر |
+| `arrowParens` | `"always"` | أقواس حول معامل الدالة السهمية دائمًا: `(x) => x` |
+| `endOfLine` | `"lf"` | نهايات أسطر بنمط Unix |
+
+### الملفات المستثناة
+
+ملف `.prettierignore`:
+
+```
+node_modules
+dist
+build
+coverage
+package-lock.json
+```
+
+### التشغيل
+
+أضف الأوامر التالية إلى `package.json`:
+
+```json
+{
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  }
+}
+```
+
+- `npm run format`: ينسّق جميع الملفات.
+- `npm run format:check`: يتحقّق من التنسيق دون تعديل، ويُشغَّل في CI، ويفشل البناء إن وُجد ملف غير منسّق.
+
+### التنسيق التلقائي
+
+- **في المحرّر:** فعّل خيار «التنسيق عند الحفظ» (Format on Save) واجعل Prettier المنسّق الافتراضي.
+- **قبل الإيداع:** نستخدم `husky` مع `lint-staged` لتنسيق الملفات المُدرجة في الإيداع فقط:
+
+```json
+{
+  "lint-staged": {
+    "*.{js,jsx,json,md,css}": "prettier --write"
+  }
+}
+```
+
+### Prettier و ESLint
+
+Prettier يتولّى الشكل، و ESLint يتولّى جودة الشيفرة. نضيف `eslint-config-prettier` في آخر إعدادات ESLint لتعطيل قواعده التي تتعارض مع Prettier.
+
+### تعطيل التنسيق
+
+يُسمح بـ `// prettier-ignore` في حالات نادرة يكون فيها التنسيق اليدوي أوضح، كالمصفوفات الرياضية، مع تعليق يوضّح السبب:
+
+```js
+// prettier-ignore — مصفوفة تحويل، تُقرأ صفًّا صفًّا
+const matrix = [
+  1, 0, 0,
+  0, 1, 0,
+  0, 0, 1,
+];
+```
+
+## ٣. صيغة رسائل الإيداع
+
+نتّبع مواصفة [Conventional Commits](https://www.conventionalcommits.org/). تُكتب الرسائل بالإنجليزية.
+
+### البنية
+
+```
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+السطر الأول إلزامي، والنطاق والمتن والتذييل اختيارية.
+
+### الأنواع
+
+| النوع | الاستخدام |
+| --- | --- |
+| `feat` | ميزة جديدة |
+| `fix` | إصلاح خلل |
+| `docs` | تغيير في التوثيق فقط |
+| `style` | تنسيق لا يغيّر سلوك الشيفرة |
+| `refactor` | إعادة هيكلة بلا ميزة جديدة ولا إصلاح خلل |
+| `perf` | تحسين في الأداء |
+| `test` | إضافة اختبارات أو تعديلها |
+| `build` | نظام البناء أو الاعتماديات |
+| `ci` | إعدادات التكامل المستمر |
+| `chore` | مهام صيانة لا تمسّ الشيفرة المصدرية ولا الاختبارات |
+| `revert` | التراجع عن إيداع سابق |
+
+### قواعد سطر العنوان
+
+- لا يتجاوز ٧٢ حرفًا.
+- يبدأ بفعل أمر بحرف صغير: `add` لا `Added` ولا `Adds`.
+- بلا نقطة في آخره.
+- النطاق اسم الجزء المتأثّر من المشروع بأحرف صغيرة: `auth`، `cart`، `api`.
+
+### المتن والتذييل
+
+- يُفصل المتن عن العنوان بسطر فارغ، وتُلفّ أسطره عند ٧٢ حرفًا.
+- يشرح المتن **لماذا** جرى التغيير، لا **كيف**؛ فالشيفرة نفسها تبيّن الكيفية.
+- يُذكر في التذييل رقم المسألة المرتبطة: `Closes #123` أو `Refs #456`.
+- التغييرات الكاسرة للتوافق تُعلَّم بـ `!` بعد النوع أو النطاق، وتُشرح في التذييل بعد `BREAKING CHANGE:`.
+
+### أمثلة
+
+```
+feat(auth): add password reset via email
+```
+
+```
+fix(cart): prevent negative quantity on item update
+
+The quantity input accepted negative values when edited by keyboard,
+which produced a negative order total at checkout.
+
+Closes #214
+```
+
+```
+feat(api)!: return paginated response from /orders
+
+BREAKING CHANGE: /orders now returns { items, nextCursor } instead of
+a plain array. Clients must read the list from `items`.
+```
+
+أمثلة مرفوضة:
+
+```
+Fixed bug                  ← بلا نوع، وبصيغة الماضي، وغير محدّد
+feat: Add New Feature.     ← حرف كبير، ونقطة في الآخر، ووصف مبهم
+update                     ← لا يقول شيئًا
+```
+
+### قواعد إضافية
+
+- إيداع واحد لتغيير منطقي واحد. لا تجمع إصلاحًا وميزة وإعادة تنسيق في إيداع واحد.
+- يجب أن يجتاز كل إيداع الاختبارات وفحص التنسيق.
+- نفرض الصيغة آليًا عبر `commitlint` مع `@commitlint/config-conventional` في خطّاف `commit-msg`.

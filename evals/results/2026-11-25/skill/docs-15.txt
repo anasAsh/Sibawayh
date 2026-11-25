@@ -1,0 +1,266 @@
+# دليل أسلوب كتابة الشيفرة
+
+يحدد هذا الدليل قواعد التسمية والتنسيق ورسائل الإيداع (commit messages) في مشروعنا المكتوب بلغة `JavaScript`. غايته أن تبدو الشيفرة كأن كاتبها شخص واحد، وأن تنصرف المراجعة إلى المنطق لا إلى الشكل. وما تفرضه الأدوات آليًّا لا يُناقَش في المراجعات.
+
+## أولًا: التسمية
+
+### المبادئ
+
+- **الوضوح قبل الإيجاز:** اختر `remainingAttempts` بدلًا من `ra`. تُقبل الأسماء القصيرة في النطاقات الضيقة فقط، مثل `i` في حلقة من بضعة أسطر.
+- **الإنجليزية لغة المعرّفات:** لا تكتب كلمات عربية بحروف لاتينية، فالاسم `price` صحيح والاسم `si3r` مرفوض.
+- **مصطلح واحد للمفهوم الواحد:** إذا اخترت `fetch` لجلب البيانات من الخادم، فلا تستعمل معه `get` و`retrieve` للمعنى نفسه.
+- **لا اختصارات غامضة:** تُستثنى الاختصارات الشائعة مثل `id` و`url`.
+
+### صيغ الأسماء
+
+| العنصر | الصيغة | مثال |
+|---|---|---|
+| المتغيرات والمعاملات | `camelCase` | `orderTotal` |
+| الدوال والطرائق | `camelCase` وتبدأ بفعل | `calculateTotal` |
+| الأصناف | `PascalCase` | `PaymentService` |
+| الثوابت العامة ذات القيم المعروفة مسبقًا | `UPPER_SNAKE_CASE` | `MAX_RETRY_COUNT` |
+| الحقول الخاصة في الأصناف | `#camelCase` | `#balance` |
+| الملفات والمجلدات | `kebab-case` | `order-service.js` |
+| ملفات الاختبار | اسم الملف ثم `.test.js` | `order-service.test.js` |
+| متغيرات البيئة | `UPPER_SNAKE_CASE` | `DATABASE_URL` |
+
+لا يكفي التعريف بالكلمة `const` لاستعمال الأحرف الكبيرة، فهي مقصورة على القيم الثابتة المعرّفة على مستوى الوحدة (module). أما نتيجة الحساب داخل دالّة فتُكتب بصيغة `camelCase`.
+
+### قواعد بحسب النوع
+
+- **القيم المنطقية:** تبدأ بإحدى السوابق `is` أو `has` أو `can` أو `should`، وتُصاغ بالإثبات: `isEnabled` لا `isNotDisabled`.
+- **المصفوفات:** تُسمّى بصيغة الجمع، مثل `users`. ولا حاجة إلى لاحقة كما في `userList`.
+- **الكائنات المفهرسة بمفتاح:** يذكر الاسم المفتاح، مثل `usersById`.
+- **القيم ذات الوحدات:** تُلحق الوحدة بالاسم، مثل `timeoutMs` و`fileSizeBytes`.
+- **معالجات الأحداث:** تبدأ بالسابقة `handle`، مثل `handleSubmit`. أما الخاصية التي تستقبل المعالج فتبدأ بالسابقة `on`، مثل `onSubmit`.
+- **الاختصارات داخل الأسماء:** تُعامل معاملة الكلمات، مثل `userId` و`parseHtml` و`apiUrl`.
+
+### أمثلة
+
+```js
+// ✗
+const d = 30000;
+const flag = user.roles.includes('admin');
+function data(x) {
+  return x.filter((y) => y.active);
+}
+
+// ✓
+const REQUEST_TIMEOUT_MS = 30000;
+const isAdmin = user.roles.includes('admin');
+function filterActiveUsers(users) {
+  return users.filter((user) => user.isActive);
+}
+```
+
+## ثانيًا: التنسيق باستخدام `Prettier`
+
+أداة `Prettier` هي المرجع الوحيد في شكل الشيفرة: المسافات والأسطر وعلامات الاقتباس والفواصل. لا تنسّق يدويًّا ما يخالف ناتجها. وتتولى أداة `ESLint` ما سوى ذلك من جودة الشيفرة والأخطاء المحتملة.
+
+### التثبيت
+
+```bash
+npm install --save-dev --save-exact prettier
+npm install --save-dev eslint @eslint/js globals eslint-config-prettier husky lint-staged
+```
+
+نثبّت رقم إصدار `Prettier` بالخيار `--save-exact` لأن ناتج التنسيق قد يختلف بين إصدار وآخر.
+
+### الإعدادات
+
+أنشئ الملف `.prettierrc.json` في جذر المشروع:
+
+```json
+{
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "trailingComma": "all",
+  "bracketSpacing": true,
+  "arrowParens": "always",
+  "endOfLine": "lf"
+}
+```
+
+| المعنى | الخيار | القيمة |
+|---|---|---|
+| العرض المستهدف للسطر | `printWidth` | `100` |
+| إزاحة بمسافتين دون علامات جدولة | `tabWidth` و`useTabs` | `2` و`false` |
+| فاصلة منقوطة في نهاية كل تعليمة | `semi` | `true` |
+| علامات اقتباس مفردة | `singleQuote` | `true` |
+| فاصلة بعد العنصر الأخير عند تعدد الأسطر | `trailingComma` | `all` |
+| مسافات داخل أقواس الكائنات | `bracketSpacing` | `true` |
+| أقواس حول معامل الدالّة السهمية دائمًا | `arrowParens` | `always` |
+| نهايات أسطر موحّدة على كل الأنظمة | `endOfLine` | `lf` |
+
+ليست قيمة `printWidth` حدًّا صارمًا، فقد تتجاوزها الأداة إذا تعذّر كسر السطر، كما في السلاسل النصية الطويلة.
+
+أضف الملف `.prettierignore` لاستثناء الملفات المولّدة:
+
+```text
+dist
+coverage
+package-lock.json
+```
+
+ثم امنع تعارض قواعد `ESLint` مع التنسيق في الملف `eslint.config.mjs`، مع إبقاء `prettierConfig` في آخر القائمة. وإذا كان المشروع يعمل في المتصفح، فضع `globals.browser` مكان `globals.node`:
+
+```js
+import js from '@eslint/js';
+import globals from 'globals';
+import prettierConfig from 'eslint-config-prettier/flat';
+
+export default [
+  js.configs.recommended,
+  { languageOptions: { globals: globals.node } },
+  prettierConfig,
+];
+```
+
+### التشغيل الآلي
+
+أضف ما يلي إلى الملف `package.json`:
+
+```json
+{
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint ."
+  },
+  "lint-staged": {
+    "*.{js,mjs,cjs}": ["eslint --fix", "prettier --write"],
+    "*.{json,md,css,html,yml}": "prettier --write"
+  }
+}
+```
+
+هيّئ خطاف الإيداع (Git hook) لتنسيق الملفات قبل كل إيداع:
+
+```bash
+npx husky init
+echo "npx lint-staged" > .husky/pre-commit
+```
+
+- **في المحرر:** فعّل التنسيق عند الحفظ باستخدام إضافة `Prettier`.
+- **في التكامل المستمر (CI):** شغّل الأمرين `npm run format:check` و`npm run lint`، ولا يُقبل طلب دمج (pull request) يفشل فيه أحدهما.
+- **عند اعتماد الدليل أول مرة:** نسّق المشروع كله في إيداع مستقل، وأضف معرّفه الكامل إلى الملف `.git-blame-ignore-revs`. ثم شغّل الأمر `git config blame.ignoreRevsFile .git-blame-ignore-revs` كي لا يحجب التنسيق تاريخ الأسطر.
+
+### الاستثناءات
+
+استعمل التعليق `// prettier-ignore` حين يضرّ التنسيق الآلي بوضوح الشيفرة، كما في المصفوفات الرياضية. واذكر سبب الاستثناء في تعليق آخر إن لم يكن بيّنًا:
+
+```js
+// prettier-ignore
+const IDENTITY_MATRIX = [
+  1, 0, 0,
+  0, 1, 0,
+  0, 0, 1,
+];
+```
+
+## ثالثًا: رسائل الإيداع
+
+نتّبع مواصفة الإيداعات الاصطلاحية (Conventional Commits)، ونكتب الرسائل بالإنجليزية.
+
+### البنية
+
+```text
+<type>(<scope>): <subject>
+
+<body>
+
+<footer>
+```
+
+- **النوع `type`:** إلزامي، ويُختار من الجدول أدناه.
+- **النطاق `scope`:** اختياري، ويحدد الجزء المتأثر من المشروع، مثل `auth` أو `cart`.
+- **العنوان `subject`:** إلزامي، ويلخّص التغيير.
+- **المتن `body`:** اختياري، ويشرح سبب التغيير. أما كيفيته فتبيّنها الشيفرة.
+- **التذييل `footer`:** اختياري، ويضم أرقام المشكلات (issues) والتغييرات الكاسرة (breaking changes).
+
+### الأنواع
+
+| الاستعمال | النوع |
+|---|---|
+| ميزة جديدة للمستخدم | `feat` |
+| إصلاح خطأ برمجي | `fix` |
+| تحسين الأداء | `perf` |
+| إعادة هيكلة لا تغيّر السلوك | `refactor` |
+| تغيير في التنسيق وحده | `style` |
+| إضافة اختبارات أو تعديلها | `test` |
+| تعديل التوثيق | `docs` |
+| نظام البناء أو الاعتماديات (dependencies) | `build` |
+| إعدادات التكامل المستمر | `ci` |
+| أعمال صيانة لا تندرج تحت ما سبق | `chore` |
+| التراجع عن إيداع سابق | `revert` |
+
+عند اتباع الإصدار الدلالي (Semantic Versioning)، يرفع `fix` رقم التصحيح، ويرفع `feat` الرقم الفرعي، ويرفع التغيير الكاسر الرقم الرئيسي أيًّا كان نوع الإيداع.
+
+### قواعد الكتابة
+
+- **صيغة الأمر:** اكتب `add` لا `added` ولا `adds`.
+- **شكل العنوان:** يبدأ بحرف صغير ولا ينتهي بنقطة.
+- **طول السطر:** لا يتجاوز السطر الأول كاملًا 72 محرفًا، وكذلك كل سطر في المتن.
+- **الفصل:** اترك سطرًا فارغًا بين العنوان والمتن، وآخر بين المتن والتذييل.
+- **التركيز:** يحمل الإيداع تغييرًا منطقيًّا واحدًا. إذا احتجت إلى «و» لوصفه، فالأرجح أنه إيداعان.
+- **التغيير الكاسر:** ضع `!` قبل النقطتين، واشرحه في التذييل بعد `BREAKING CHANGE:`.
+
+### أمثلة
+
+```text
+feat(cart): add coupon code support
+```
+
+```text
+fix(auth): refresh expired tokens before retrying
+
+Requests sent right after expiry failed with 401 because the client
+retried with the old token.
+
+Closes #142
+```
+
+```text
+feat(api)!: return order amounts in minor units
+
+BREAKING CHANGE: `amount` is now an integer in minor units instead of
+a decimal number.
+```
+
+| سبب الرفض | الرسالة المرفوضة | البديل |
+|---|---|---|
+| بلا نوع ولا معنى محدد | `fixed stuff` | `fix(search): handle empty query` |
+| صيغة الماضي وحرف كبير ونقطة | `feat: Added login page.` | `feat(auth): add login page` |
+| تغييران في إيداع واحد | `fix: login bug and update docs` | إيداعان: `fix` و`docs` |
+
+### التحقق الآلي
+
+ثبّت أداة `commitlint` وأضف خطافها:
+
+```bash
+npm install --save-dev @commitlint/cli @commitlint/config-conventional
+echo 'npx --no -- commitlint --edit "$1"' > .husky/commit-msg
+```
+
+ثم أنشئ الملف `commitlint.config.mjs`:
+
+```js
+export default {
+  extends: ['@commitlint/config-conventional'],
+  rules: {
+    'header-max-length': [2, 'always', 72],
+    'body-max-line-length': [2, 'always', 72],
+  },
+};
+```
+
+## قائمة التحقق قبل طلب الدمج
+
+- [ ] الأسماء واضحة وتتبع الصيغ المحددة.
+- [ ] الأمر `npm run format:check` ناجح.
+- [ ] الأمر `npm run lint` ناجح.
+- [ ] كل إيداع يحمل تغييرًا منطقيًّا واحدًا.
+- [ ] رسائل الإيداع مطابقة للمواصفة، والتغييرات الكاسرة موثّقة.

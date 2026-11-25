@@ -151,7 +151,8 @@ html[lang="ar"] .pair-foot button { font-family: var(--latin); }
 [lang="en"] { font-family: var(--latin); }
 
 /* Full results (docs/results/, built by evals/build_results_page.py) */
-.grp { text-align: center; }
+table.sum th:first-child { white-space: nowrap; }
+.short { display: none; }
 .filters { margin: 1.6rem 0 0.4rem; display: grid; gap: 0.6rem; font-size: 0.95rem; }
 .filters .tasks { display: flex; flex-wrap: wrap; gap: 0.4rem; }
 .filters button { font: 400 0.92rem var(--latin); color: var(--ink); background: var(--surface); border: 1px solid var(--rule); border-radius: 999px; padding: 0.35rem 0.9rem; cursor: pointer; }
@@ -192,6 +193,13 @@ html[lang="ar"] .filters button { font-family: var(--latin); }
 html[lang="ar"] .item table.scores { font-size: 0.9rem; }
 @media (max-width: 44rem) {
   .items-head, .item > summary { grid-template-columns: 1fr 3rem 3rem; }
+  .item .long { display: none; }
+  .item .short { display: inline; }
+  .item .resp { padding: 1.1rem 1rem 1.3rem; }
+  .verdict { grid-template-columns: 1fr; padding: 0.9rem 1rem; }
+  .verdict dd { margin-bottom: 0.4rem; }
+  table.sum { font-size: 0.88rem; }
+  table.sum thead th { font-size: 0.8rem; white-space: normal; }
   .items-head span:first-child { grid-column: 1; }
   .item > summary code { grid-column: 1 / -1; }
 }

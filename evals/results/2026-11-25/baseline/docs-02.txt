@@ -1,0 +1,69 @@
+## التثبيت
+
+### المتطلبات
+
+- **Python 3.9** أو أحدث
+- **pip** (مدير حزم Python)
+
+تحقق من إصدار Python المثبت لديك:
+
+```bash
+python3 --version
+```
+
+إذا كان الإصدار أقدم من 3.9، ثبّت إصدارًا أحدث من [python.org](https://www.python.org/downloads/) قبل المتابعة.
+
+### التثبيت باستخدام pip
+
+```bash
+pip install tidy
+```
+
+> **ملاحظة:** في بعض الأنظمة قد تحتاج إلى استخدام `pip3` بدلًا من `pip`، أو تشغيل الأمر بالصيغة `python3 -m pip install tidy` للتأكد من استخدام إصدار Python الصحيح.
+
+### التثبيت داخل بيئة افتراضية (موصى به)
+
+يُفضَّل تثبيت `tidy` داخل بيئة افتراضية لتجنب التعارض مع الحزم الأخرى في النظام:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate      # على Linux وmacOS
+.venv\Scripts\activate         # على Windows
+pip install tidy
+```
+
+### التحقق من التثبيت
+
+بعد انتهاء التثبيت، تأكد من أن الأداة تعمل:
+
+```bash
+tidy --version
+```
+
+إذا ظهر رقم الإصدار فقد تم التثبيت بنجاح.
+
+### التحديث
+
+للترقية إلى أحدث إصدار:
+
+```bash
+pip install --upgrade tidy
+```
+
+### إلغاء التثبيت
+
+```bash
+pip uninstall tidy
+```
+
+### حل المشكلات الشائعة
+
+- **الأمر `tidy` غير موجود (command not found):** تأكد من أن مجلد السكربتات الخاص بـ pip مضاف إلى متغير `PATH`، أو فعّل البيئة الافتراضية التي ثبّت فيها الأداة.
+- **خطأ في إصدار Python:** إذا ظهرت رسالة تفيد بأن الحزمة تتطلب إصدارًا أحدث، فتحقق من أن `pip` مرتبط بـ Python 3.9 أو أحدث باستخدام `pip --version`.
+
+---
+
+I made a few assumptions that you should check against the real tool:
+- **Package name:** I used `tidy` as the PyPI package name. If it's published under a different name, update the `pip install`, `--upgrade` and `uninstall` commands.
+- **Python version:** I wrote "3.9 or later." If it needs exactly 3.9, change that line.
+- **`--version` flag:** The check step assumes the tool supports `tidy --version`.

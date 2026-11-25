@@ -22,7 +22,7 @@ An open-source Agent Skill (`SKILL.md`) and Arabic spelling, grammar and punctua
 [![Dependencies: none](https://img.shields.io/badge/dependencies-none-brightgreen)](#-run-the-checker-yourself)
 [![Agent Skill](https://img.shields.io/badge/Agent%20Skill-SKILL.md-d97757)](skills/arabic-writing/SKILL.md)
 [![Claude Code plugin](https://img.shields.io/badge/Claude%20Code-plugin-d97757)](#-install)
-[![AI-judged: −96% errors](https://img.shields.io/badge/AI--judged-%E2%88%9296%25%20errors-2ea44f)](https://anasash.github.io/Sibawayh/)
+[![AI-judged: −97% errors](https://img.shields.io/badge/AI--judged-%E2%88%9297%25%20errors-2ea44f)](https://anasash.github.io/Sibawayh/)
 
 <img src="docs/assets/social-preview.png" alt="Sibawayh Arabic grammar checker: typical AI-generated Arabic with errors next to corrected Arabic" width="820">
 
@@ -247,9 +247,9 @@ The harness in [`evals/`](evals/README.md) answers 100 realistic prompts with an
 - The 2 dialect requests load it too, for the formatting checks only. In the first run they did not.
 
 **Full evaluation** (100 prompts, judged blind by an AI model from a different family; see [`evals/full_eval.md`](evals/full_eval.md)):
-- Errors per 100 words went from **2.22 to 0.10 (−96%)**, averaged over three blind judgings (−96% in each). Register errors fell to 0 and translationese by 83%. On the 50 prompts added after the skill's last change, the result is the same (−95%).
-- The Sibawayh version was preferred in **86–90** of the 100 pairs, the baseline in 1–5.
-- **0** over-corrections. The success bar (≤50% of the baseline's errors, no category worse, no over-corrections) is met in all three judgings. The first run (2026-11-20, 50 prompts, one judging) was −88%.
+- Errors per 100 words went from **2.26 to 0.07 (−97%)**, averaged over three blind judgings (−98%, −97% and −96%) of release 0.4.0. Register errors fell by 99% and translationese by 87%. On the 50 prompts the skill was not tuned on, the result is −95%.
+- The Sibawayh version was preferred in **92–93** of the 100 pairs, the baseline in 3–4.
+- **0** over-corrections. The success bar (≤50% of the baseline's errors, no category worse, no over-corrections) is met in all three judgings. The previous run (2026-11-23, release 0.3.0) was −96%, and the first run (2026-11-20, 50 prompts, one judging) was −88%. Answers vary from run to run, so the step from −96% to −97% is not evidence of an improvement.
 
 An AI judge is not a native reader, so a human-scored round is still to come. [How Sibawayh is tested](https://anasash.github.io/Sibawayh/) describes every test in plain language ([بالعربية](https://anasash.github.io/Sibawayh/ar/)). All 100 requests, both answers to each and the judge's counts are on the [full results page](https://anasash.github.io/Sibawayh/results/) ([بالعربية](https://anasash.github.io/Sibawayh/ar/results/)); the raw files are in [`evals/results/`](evals/results/).
 

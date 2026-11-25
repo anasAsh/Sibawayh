@@ -53,7 +53,7 @@
     </div>
     <div class="pair-foot">
       <p class="before">This is what the judge sees: one request and two unnamed answers. It does not know which one was written with the skill.</p>
-      <p class="after">Excerpts from two real answers in the test. The judge counted errors in both before anyone looked up which was which.</p>
+      <p class="after">Excerpts from two real answers in the 23 November run of the test. The judge counted errors in both before anyone looked up which was which.</p>
       <button type="button" id="reveal" hidden>Show which answer used the skill</button>
     </div>
   </div>
@@ -68,7 +68,7 @@
   <table>
     <thead><tr><th>Test</th><th>Question</th><th>Who decides</th><th>Result</th></tr></thead>
     <tbody>
-      <tr><th><a href="#blind">Blind comparison</a></th><td>Does an agent make fewer Arabic errors with the skill than without it?</td><td>An AI judge from a different model family, three times</td><td>2.22 → 0.10 errors per 100 words, 96% fewer; no over-corrections</td></tr>
+      <tr><th><a href="#blind">Blind comparison</a></th><td>Does an agent make fewer Arabic errors with the skill than without it?</td><td>An AI judge from a different model family, three times</td><td>2.26 → 0.07 errors per 100 words, 97% fewer; no over-corrections</td></tr>
       <tr><th><a href="#overcorrection">Over-correction check</a></th><td>Does the checker flag Arabic that is already correct?</td><td>Every flag reviewed by hand</td><td>0 false errors in 191 error flags on 806,509 words</td></tr>
       <tr><th><a href="#recall">Recall</a></th><td>What share of real errors does the checker catch?</td><td>Human annotators of two public corpora</td><td>52% of all errors in student essays, 41% in news comments</td></tr>
       <tr><th><a href="#triggers">Trigger test</a></th><td>Does the skill load for Arabic requests, and stay out of English ones?</td><td>Automatic</td><td>20 of 20</td></tr>
@@ -126,27 +126,27 @@
 <section id="results">
   <div class="text">
     <h2>Results of the blind comparison</h2>
-    <p>Run on 23 November 2026. In all three judgings the skill's answers had about 96% fewer errors per 100 words, no over-corrections, and no category worse than the baseline, so the bar was met each time.</p>
+    <p>Run on 25 November 2026 with release 0.4.0 of the skill; the answers without the skill are the same as in the 23 November run. In the three judgings the skill's answers had 96% to 98% fewer errors per 100 words (97% on average), no over-corrections, and no category worse than the baseline, so the bar was met each time.</p>
   </div>
 
   <div class="viz text">
     <h3>Errors per 100 words, in each of the three judgings</h3>
-    <p class="sub">100 pairs; 19,181 words without the skill and 20,015 with it.</p>
+    <p class="sub">100 pairs; 19,181 words without the skill and 22,344 with it.</p>
     <ul class="legend"><li><i class="sw-b"></i>Without the skill</li><li><i class="sw-s"></i>With Sibawayh</li></ul>
     <dl class="bars">
     <dt>First judging</dt>
     <dd>
-      <div class="bar b" tabindex="0" title="First judging, without the skill: 2.29 errors per 100 words"><b style="--v:2.29"></b><span>2.29</span></div>
-      <div class="bar s" tabindex="0" title="First judging, with Sibawayh: 0.10 errors per 100 words"><b style="--v:0.10"></b><span>0.10</span></div>
+      <div class="bar b" tabindex="0" title="First judging, without the skill: 2.18 errors per 100 words"><b style="--v:2.18"></b><span>2.18</span></div>
+      <div class="bar s" tabindex="0" title="First judging, with Sibawayh: 0.05 errors per 100 words"><b style="--v:0.05"></b><span>0.05</span></div>
     </dd>
     <dt>Second judging</dt>
     <dd>
-      <div class="bar b" tabindex="0" title="Second judging, without the skill: 2.20 errors per 100 words"><b style="--v:2.20"></b><span>2.20</span></div>
-      <div class="bar s" tabindex="0" title="Second judging, with Sibawayh: 0.09 errors per 100 words"><b style="--v:0.09"></b><span>0.09</span></div>
+      <div class="bar b" tabindex="0" title="Second judging, without the skill: 2.25 errors per 100 words"><b style="--v:2.25"></b><span>2.25</span></div>
+      <div class="bar s" tabindex="0" title="Second judging, with Sibawayh: 0.07 errors per 100 words"><b style="--v:0.07"></b><span>0.07</span></div>
     </dd>
     <dt>Third judging</dt>
     <dd>
-      <div class="bar b" tabindex="0" title="Third judging, without the skill: 2.16 errors per 100 words"><b style="--v:2.16"></b><span>2.16</span></div>
+      <div class="bar b" tabindex="0" title="Third judging, without the skill: 2.34 errors per 100 words"><b style="--v:2.34"></b><span>2.34</span></div>
       <div class="bar s" tabindex="0" title="Third judging, with Sibawayh: 0.09 errors per 100 words"><b style="--v:0.09"></b><span>0.09</span></div>
     </dd>
     </dl>
@@ -157,17 +157,17 @@
     <caption>By category, mean of the three judgings</caption>
     <thead><tr><th>Errors per 100 words</th><th class="n">Without</th><th class="n">With</th></tr></thead>
     <tbody>
-      <tr><th>Register</th><td class="n">1.45</td><td class="n">0.00</td></tr>
-      <tr><th>Translationese</th><td class="n">0.40</td><td class="n">0.07</td></tr>
-      <tr><th>Formatting</th><td class="n">0.24</td><td class="n">0.01</td></tr>
-      <tr><th>Grammar</th><td class="n">0.10</td><td class="n">0.01</td></tr>
-      <tr><th>Spelling</th><td class="n">0.02</td><td class="n">0.00</td></tr>
-      <tr class="total"><th>Total</th><td class="n">2.22</td><td class="n">0.10</td></tr>
+      <tr><th>Register</th><td class="n">1.50</td><td class="n">0.01</td></tr>
+      <tr><th>Translationese</th><td class="n">0.39</td><td class="n">0.05</td></tr>
+      <tr><th>Formatting</th><td class="n">0.24</td><td class="n">0.00</td></tr>
+      <tr><th>Grammar</th><td class="n">0.13</td><td class="n">0.01</td></tr>
+      <tr><th>Spelling</th><td class="n">0.01</td><td class="n">0.00</td></tr>
+      <tr class="total"><th>Total</th><td class="n">2.26</td><td class="n">0.07</td></tr>
     </tbody>
   </table>
   </div>
   <div class="text">
-    <p>About two thirds of the baseline's errors are register errors, and most of those are English technical terms written as if they were Arabic words, as in the example at the top of this page. The skill's largest effect is therefore on technical writing. Its remaining errors are mostly translationese: 12 to 17 in 100 answers, depending on the judging.</p>
+    <p>About two thirds of the baseline's errors are register errors, and most of those are English technical terms written as if they were Arabic words, as in the example at the top of this page. The skill's largest effect is therefore on technical writing. Its remaining errors are mostly translationese: 11 or 12 in 100 answers, depending on the judging.</p>
   </div>
 
   <div class="scroll text">
@@ -175,11 +175,11 @@
     <caption>By kind of request, mean of the three judgings</caption>
     <thead><tr><th>Errors per 100 words</th><th class="n">Without</th><th class="n">With</th></tr></thead>
     <tbody>
-      <tr><th>Technical explanations</th><td class="n">4.33</td><td class="n">0.15</td></tr>
-      <tr><th>Documentation</th><td class="n">1.76</td><td class="n">0.10</td></tr>
-      <tr><th>Social posts</th><td class="n">1.64</td><td class="n">0.07</td></tr>
-      <tr><th>Translations</th><td class="n">0.91</td><td class="n">0.07</td></tr>
-      <tr><th>Emails</th><td class="n">0.27</td><td class="n">0.02</td></tr>
+      <tr><th>Technical explanations</th><td class="n">4.41</td><td class="n">0.05</td></tr>
+      <tr><th>Documentation</th><td class="n">1.74</td><td class="n">0.11</td></tr>
+      <tr><th>Social posts</th><td class="n">1.72</td><td class="n">0.06</td></tr>
+      <tr><th>Translations</th><td class="n">0.93</td><td class="n">0.13</td></tr>
+      <tr><th>Emails</th><td class="n">0.31</td><td class="n">0.01</td></tr>
     </tbody>
   </table>
   </div>
@@ -189,15 +189,19 @@
     <caption>Requests the skill was developed with, and requests it had never seen</caption>
     <thead><tr><th>Errors per 100 words</th><th class="n">Without</th><th class="n">With</th><th class="n">Change</th></tr></thead>
     <tbody>
-      <tr><th>First 50 requests</th><td class="n">2.04</td><td class="n">0.08</td><td class="n">−96%</td></tr>
-      <tr><th>50 new requests</th><td class="n">2.40</td><td class="n">0.11</td><td class="n">−95%</td></tr>
+      <tr><th>First 50 requests</th><td class="n">2.15</td><td class="n">0.01</td><td class="n">−99%</td></tr>
+      <tr><th>50 new requests</th><td class="n">2.37</td><td class="n">0.12</td><td class="n">−95%</td></tr>
     </tbody>
   </table>
   </div>
   <div class="text">
-    <p>The new requests give almost the same result as the ones used during development, so the result does not depend on the requests the skill was tuned on.</p>
-    <p>Asked which response reads as more correct and natural, the judge chose the skill's in 86 to 90 of the 100 pairs and the baseline's in 1 to 5. The rest were ties.</p>
+    <p>The skill was tuned on the first 50 requests, where it now makes almost no errors. The 50 new requests are the fairer measure, and there the result is 95% fewer errors, the same as in the 23 November run.</p>
+    <p>Asked which response reads as more correct and natural, the judge chose the skill's in 92 or 93 of the 100 pairs and the baseline's in 3 or 4. The rest were ties.</p>
     <p><a href="results/">Full results: every request, both answers and the judge's counts</a>.</p>
+    <p class="note">The 23 November run, with release 0.3.0, gave 2.22 → 0.10 errors per 100 words (96% fewer). The answers are generated once per run and vary from run to run, so a difference of this size between two runs is not evidence that one release is better.</p>
+    <h3 id="classical">Classical register: a first trial</h3>
+    <p>Release 0.4.0 adds a classical register (<span lang="ar" dir="rtl">فصحى التراث</span>) that the skill uses only when the request asks for it. We tried it on 20 requests: sermons, letters, a maqama, a counsel and a literary debate. The judge preferred the skill's answer to the answer without the skill in 17 to 19 of the 20 pairs, and to the answer of the previous release in 12 of 20. In a separate check it found no classical wording in the skill's answers to everyday requests.</p>
+    <p class="note">This is a small trial, judged by an AI model, and it is separate from the comparison above. Method, figures and limits: <a href="https://github.com/anasAsh/Sibawayh/blob/main/evals/classical.md"><code>evals/classical.md</code></a>.</p>
     <p class="note">Full report and earlier runs: <a href="https://github.com/anasAsh/Sibawayh/blob/main/evals/full_eval.md"><code>evals/full_eval.md</code></a>.</p>
   </div>
 </section>

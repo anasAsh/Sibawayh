@@ -1,0 +1,90 @@
+## التثبيت
+
+تنظّف أداة `tidy` ملفات السجلات (log files) من سطر الأوامر (command line)، وتثبَّت بمدير الحزم `pip`.
+
+### المتطلبات
+
+- لغة بايثون (Python)، الإصدار 3.9 أو أحدث.
+- مدير الحزم `pip`، ويأتي عادةً مع بايثون.
+
+تحقّق من توفّرهما قبل البدء:
+
+```bash
+python3 --version
+python3 -m pip --version
+```
+
+إذا كان إصدار بايثون لديك أقدم من 3.9، فحدّثه أولًا. وفي نظام ويندوز (Windows)، اكتب `py` بدلًا من `python3` في أوامر هذه الصفحة.
+
+### التثبيت في بيئة افتراضية (مستحسن)
+
+تمنع البيئة الافتراضية (virtual environment) تعارض الأداة مع الحزم الأخرى على جهازك. أنشئها أولًا:
+
+```bash
+python3 -m venv .venv
+```
+
+ثم فعّلها في لينكس (Linux) أو ماك (macOS):
+
+```bash
+source .venv/bin/activate
+```
+
+أو في ويندوز من نافذة باورشل (PowerShell):
+
+```powershell
+.venv\Scripts\Activate.ps1
+```
+
+وبعد تفعيلها، ثبّت الأداة:
+
+```bash
+python -m pip install tidy
+```
+
+فعّل البيئة كلما فتحت نافذة طرفية (terminal) جديدة، ليتعرّف النظام على الأمر `tidy`.
+
+### التثبيت لحسابك فقط
+
+إذا لم ترغب في إنشاء بيئة افتراضية، فثبّت الأداة لحسابك على الجهاز:
+
+```bash
+python3 -m pip install --user tidy
+```
+
+### التحقق من التثبيت
+
+اعرض بيانات الحزمة:
+
+```bash
+python3 -m pip show tidy
+```
+
+إذا نجح التثبيت، ظهر اسم الحزمة ورقم إصدارها ومسارها.
+
+### التحديث والإزالة
+
+حدّث الأداة إلى أحدث إصدار بالأمر الآتي:
+
+```bash
+python3 -m pip install --upgrade tidy
+```
+
+وأزِلها بالأمر الآتي:
+
+```bash
+python3 -m pip uninstall tidy
+```
+
+### حل المشكلات الشائعة
+
+- **النظام لا يجد الأمر `tidy`:** فعّل البيئة الافتراضية. وإن كنت قد ثبّتّ الأداة بالخيار `--user`، فأضف إلى متغير البيئة `PATH` مجلد الأوامر الخاص بحسابك، وهو عادةً `~/.local/bin` في لينكس.
+- **النظام لا يجد `pip`:** نفّذ الأمر `python3 -m ensurepip --upgrade`، أو ثبّت `pip` من مدير الحزم في نظامك.
+- **إصدار بايثون غير متوافق:** ثبّت الإصدار 3.9 أو أحدث، ثم أنشئ البيئة الافتراضية من جديد.
+- **ظهور الخطأ `externally-managed-environment`:** يمنع نظامك التثبيت خارج البيئات الافتراضية، فثبّت الأداة داخل بيئة منها.
+
+---
+
+Before publishing, please confirm two assumptions:
+- **Package name:** I assumed the package is published on PyPI as `tidy`. If it has a different name there, change it in the `pip` commands, or readers could install an unrelated package.
+- **Python version:** I read "needs Python 3.9" as 3.9 or later.

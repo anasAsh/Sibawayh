@@ -1,0 +1,99 @@
+# إعداد بيئة تطوير Node.js على ويندوز
+
+يفترض هذا الدليل ويندوز 10 أو 11 مع PowerShell وأداة `winget` (مثبتة افتراضيًا في الإصدارات الحديثة).
+
+## 1. تثبيت Git
+
+```powershell
+winget install Git.Git
+```
+
+## 2. تثبيت Node.js
+
+ثبّت نسخة LTS (الدعم طويل الأمد):
+
+```powershell
+winget install OpenJS.NodeJS.LTS
+```
+
+أغلق الطرفية وافتحها من جديد ليُحدَّث متغير `PATH`، ثم تحقق:
+
+```powershell
+node -v
+npm -v
+```
+
+إذا كنت تعمل على مشاريع تتطلب إصدارات مختلفة من Node، ثبّت nvm-windows بدلًا من ذلك:
+
+```powershell
+winget install CoreyButler.NVMforWindows
+nvm install lts
+nvm use lts
+```
+
+## 3. السماح بتشغيل سكربتات PowerShell
+
+إذا ظهر الخطأ `running scripts is disabled on this system` عند تشغيل `npm`، نفّذ هذا الأمر مرة واحدة:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+```
+
+## 4. ضبط Git لويندوز
+
+```powershell
+git config --global core.longpaths true
+git config --global core.autocrlf input
+```
+
+الأمر الأول يمنع أخطاء المسارات الطويلة داخل `node_modules`. الثاني يمنع تحويل نهايات الأسطر إلى CRLF، وهو تحويل يُفشل فحوص التنسيق (ESLint و Prettier) في كثير من المشاريع.
+
+## 5. جلب المشروع وتثبيت الاعتماديات
+
+```powershell
+git clone https://github.com/USER/PROJECT.git
+cd PROJECT
+npm ci
+```
+
+- استخدم `npm ci` إذا كان في المشروع ملف `package-lock.json`، فهو يثبّت الإصدارات المقفلة نفسها.
+- استخدم `npm install` إذا لم يوجد ملف القفل.
+- إذا كان المشروع يستخدم pnpm أو yarn (تجد `pnpm-lock.yaml` أو `yarn.lock`)، فعّل Corepack ثم ثبّت بالأداة المناسبة:
+
+```powershell
+corepack enable
+pnpm install
+```
+
+## 6. إعداد متغيرات البيئة
+
+إذا كان في المشروع ملف `.env.example`:
+
+```powershell
+Copy-Item .env.example .env
+```
+
+ثم عدّل القيم داخل `.env` بحسب بيئتك.
+
+## 7. تشغيل الاختبارات
+
+```powershell
+npm test
+```
+
+هذا الأمر ينفّذ سكربت `test` المعرّف في `package.json`. إذا لم يكن في المشروع سكربت اختبار وكانت الاختبارات مكتوبة بمشغّل Node المدمج:
+
+```powershell
+node --test
+```
+
+## مشكلات شائعة على ويندوز
+
+| العَرَض | السبب | الحل |
+|---|---|---|
+| `'NODE_ENV' is not recognized` | السكربت مكتوب بصيغة يونكس (`NODE_ENV=test jest`) | ثبّت `cross-env` واكتب السكربت هكذا: `cross-env NODE_ENV=test jest` |
+| أخطاء `node-gyp` عند التثبيت | حزمة فيها كود أصلي تحتاج أدوات بناء | ثبّت Python و Visual Studio Build Tools مع مكوّن "Desktop development with C++" |
+| `node` غير معروف بعد التثبيت | الطرفية لم تُحدّث `PATH` | أعد فتح الطرفية |
+| `EPERM` أو `EBUSY` عند التثبيت | ملف مقفل من محرر أو من مضاد الفيروسات | أغلق المحرر وخادم التطوير ثم أعد المحاولة |
+
+إذا كان المشروع يعتمد بكثافة على سكربتات bash، فالعمل داخل WSL2 (`wsl --install`) أسهل من تكييف كل سكربت لويندوز.
