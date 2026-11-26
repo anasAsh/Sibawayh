@@ -13,11 +13,11 @@
 
 **Your AI writes Arabic. Sibawayh makes it _correct_ Arabic.**
 
-An open-source Agent Skill (`SKILL.md`) and Arabic spelling, grammar and punctuation checker. It makes Claude Code, Codex, Cursor, GitHub Copilot and other AI coding agents write correct, natural Modern Standard Arabic (MSA, فصحى), and check it before they answer.
+A source-available Agent Skill (`SKILL.md`) and Arabic spelling, grammar and punctuation checker. It makes Claude Code, Codex, Cursor, GitHub Copilot and other AI coding agents write correct, natural Modern Standard Arabic (MSA, فصحى), and check it before they answer.
 
-<p dir="rtl"><b>سيبويه</b> مهارة مفتوحة المصدر لوكلاء الذكاء الاصطناعي (Agent Skill)، ومدقّق إملائي ونحوي للغة العربية. تجعل Claude Code وCodex وCursor وGitHub Copilot وغيرها تكتب العربية الفصحى سليمةً وطبيعية، ثم تراجعها قبل الإجابة: الهمزات والإملاء وعلامات الترقيم والنحو والأسلوب واتجاه النص من اليمين إلى اليسار.</p>
+<p dir="rtl"><b>سيبويه</b> مهارة مفتوحة المصدر جزئيًا (Source-available) لوكلاء الذكاء الاصطناعي (Agent Skill)، ومدقّق إملائي ونحوي للغة العربية. تجعل Claude Code وCodex وCursor وGitHub Copilot وغيرها تكتب العربية الفصحى سليمةً وطبيعية، ثم تراجعها قبل الإجابة: الهمزات والإملاء وعلامات الترقيم والنحو والأسلوب واتجاه النص من اليمين إلى اليسار.</p>
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-2ea44f)](LICENSE)
+[![License: MIT + Commons Clause](https://img.shields.io/badge/license-MIT%20%2B%20Commons%20Clause-orange)](LICENSE)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8%2B-3776ab?logo=python&logoColor=white)](#-run-the-checker-yourself)
 [![Dependencies: none](https://img.shields.io/badge/dependencies-none-brightgreen)](#-run-the-checker-yourself)
 [![Agent Skill](https://img.shields.io/badge/Agent%20Skill-SKILL.md-d97757)](skills/arabic-writing/SKILL.md)
@@ -300,7 +300,7 @@ python3 -m unittest discover -s tests -t .
 
 ## 📄 License
 
-MIT, see [`LICENSE`](LICENSE). The project contains no GPL code. Any entries adapted from LanguageTool (LGPL) would live only in `skills/arabic-writing/scripts/data/third_party/`, with their own licence notice. The frequency lexicons (`scripts/data/lexicon_*`) are word counts derived from [Arabic Wikipedia](https://ar.wikipedia.org/) featured articles, whose text is licensed CC BY-SA 4.0.
+Source-available: MIT with the [Commons Clause](https://commonsclause.com/) condition, see [`LICENSE`](LICENSE). Free to use, modify, self-host and embed, including at a company, for any purpose — the only thing withheld is the right to **sell** the software itself or resell it as a hosted/managed service. If you want to offer Sibawayh (or a product substantially built on it) as a paid product or service, contact the author for a commercial license. The project contains no GPL code. Any entries adapted from LanguageTool (LGPL) would live only in `skills/arabic-writing/scripts/data/third_party/`, with their own licence notice. The frequency lexicons (`scripts/data/lexicon_*`) are word counts derived from [Arabic Wikipedia](https://ar.wikipedia.org/) featured articles, whose text is licensed CC BY-SA 4.0.
 
 <div align="center">
 <br>

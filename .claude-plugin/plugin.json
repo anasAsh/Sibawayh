@@ -3,5 +3,5 @@
   "version": "0.4.0",
   "description": "Agent Skill that makes AI agents write correct, natural Modern Standard Arabic, with a dependency-free orthography and punctuation checker.",
   "author": { "name": "Anas Al-Hamdan" },
-  "license": "MIT"
+  "license": "SEE LICENSE IN LICENSE"
 }
