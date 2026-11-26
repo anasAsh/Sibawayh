@@ -6,7 +6,7 @@ import tempfile
 import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SCRIPT = os.path.join(ROOT, "skills", "arabic-writing", "scripts", "check_arabic.py")
+SCRIPT = os.path.join(ROOT, "skills", "sibawayeh", "scripts", "check_arabic.py")
 SEP = "--- arabic-check findings ---"
 CLEAN = "ذهب الولد إلى المدرسة."
 ENGLISH = "ذهب الولد إلى المدرسة وقرأ كتابا ثم hello world جميل"

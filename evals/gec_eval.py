@@ -18,7 +18,7 @@ from collections import Counter, defaultdict
 from typing import List, NamedTuple, Tuple
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(_HERE), "skills", "arabic-writing", "scripts"))
+sys.path.insert(0, os.path.join(os.path.dirname(_HERE), "skills", "sibawayeh", "scripts"))
 from archeck.engine import check  # noqa: E402
 
 # Tokenized text has a space before every punctuation mark; that is not the

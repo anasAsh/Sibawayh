@@ -6,7 +6,7 @@ from archeck import engine
 
 _SKILL_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "skills", "arabic-writing",
+    "skills", "sibawayeh",
 )
 _SKILL_MD = os.path.join(_SKILL_DIR, "SKILL.md")
 
@@ -31,7 +31,7 @@ class TestSkillMd(unittest.TestCase):
         self.assertTrue(text.startswith("---\n"))
         fm = frontmatter(text)
         self.assertIsNotNone(fm, "no closing --- for the front matter")
-        self.assertRegex(fm, r"(?m)^name: arabic-writing$")
+        self.assertRegex(fm, r"(?m)^name: sibawayeh$")
         m = re.search(r"(?m)^description: (.+)$", fm)
         self.assertIsNotNone(m, "description must be a single line")
         desc = m.group(1)

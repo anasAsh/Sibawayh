@@ -18,7 +18,7 @@ _HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, _HERE)
 from corpus_check import files  # noqa: E402
 
-sys.path.insert(0, os.path.join(os.path.dirname(_HERE), "skills", "arabic-writing", "scripts"))
+sys.path.insert(0, os.path.join(os.path.dirname(_HERE), "skills", "sibawayeh", "scripts"))
 from archeck.engine import check, fix_text  # noqa: E402
 from archeck.text import mask  # noqa: E402
 

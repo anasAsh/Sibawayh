@@ -16,7 +16,7 @@ import sys
 from collections import Counter, defaultdict
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(os.path.dirname(HERE), "skills", "arabic-writing", "scripts"))
+sys.path.insert(0, os.path.join(os.path.dirname(HERE), "skills", "sibawayeh", "scripts"))
 from archeck.text import iter_words, mask  # noqa: E402
 
 CATS = ["grammar", "spelling", "translationese", "register", "formatting"]

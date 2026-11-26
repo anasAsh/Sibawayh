@@ -7,7 +7,7 @@ from archeck.text import iter_words
 
 _REF_DIR = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "skills", "arabic-writing", "references",
+    "skills", "sibawayeh", "references",
 )
 
 # File -> maximum line count (task 7 brief; the last two are this task's own caps).

@@ -6,7 +6,7 @@ from archeck.engine import check
 
 _GLOSSARY = os.path.join(
     os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "skills", "arabic-writing", "references", "glossary.md",
+    "skills", "sibawayeh", "references", "glossary.md",
 )
 
 _SEP_RE = re.compile(r"\|[\s:|-]+\|")

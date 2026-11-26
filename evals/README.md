@@ -1,9 +1,9 @@
 # Evaluation harness
 
-Compares Claude Code with and without the `arabic-writing` skill. Stdlib only.
+Compares Claude Code with and without the `sibawayeh` skill. Stdlib only.
 Needs the `claude` CLI logged in. Each run uses your Claude usage.
 
-Both scripts refuse to run if `~/.claude/skills/arabic-writing` exists (it
+Both scripts refuse to run if `~/.claude/skills/sibawayeh` exists (it
 would contaminate the baseline). They only check that path; unlink it
 yourself and relink afterwards.
 
@@ -17,7 +17,7 @@ a plugin install of the skill, or by user-level CLAUDE.md and hooks. Check
     python3 evals/run_triggers.py [--limit N]
 
 Runs the 20 prompts in `triggers.tsv` with the skill copied into a temp dir
-and checks for a `Skill` tool use naming `arabic-writing`. Expected values:
+and checks for a `Skill` tool use naming `sibawayeh`. Expected values:
 `load`, `no_load`, and `format_only`. `format_only` (dialect requests) is
 judged manually for behaviour: the skill should only fix formatting and leave
 the dialect alone. The automated check counts it as `load`, since the skill

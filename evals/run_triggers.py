@@ -4,7 +4,7 @@
   python3 evals/run_triggers.py [--limit N]
 
 A load is an assistant tool_use block named Skill whose input.skill is
-arabic-writing, in `claude -p --output-format stream-json --verbose` output.
+sibawayeh, in `claude -p --output-format stream-json --verbose` output.
 `format_only` rows are judged manually for behaviour (the skill should only
 fix formatting, not rewrite dialect), but count as `load` for the automated
 check, because the skill still loads.
@@ -33,7 +33,7 @@ def skill_loaded(stream: str) -> bool:
         for b in content:
             if (isinstance(b, dict) and b.get("type") == "tool_use"
                     and b.get("name") == "Skill"
-                    and (b.get("input") or {}).get("skill") == "arabic-writing"):
+                    and (b.get("input") or {}).get("skill") == "sibawayeh"):
                 return True
     return False
 

@@ -14,7 +14,7 @@ from typing import Dict, List, Tuple
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _ROOT = os.path.dirname(_HERE)
-sys.path.insert(0, os.path.join(_ROOT, "skills", "arabic-writing", "scripts"))
+sys.path.insert(0, os.path.join(_ROOT, "skills", "sibawayeh", "scripts"))
 
 from archeck.engine import check  # noqa: E402
 from archeck.text import iter_words, mask  # noqa: E402

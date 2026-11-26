@@ -1,5 +1,5 @@
 ---
-name: arabic-writing
+name: sibawayeh
 description: Use whenever you write, edit or review Arabic text, whatever language the request is in. This covers any answer given in Arabic; summaries, rewrites, edits, proofreading and review of Arabic text; documents, emails, posts, translations into Arabic, UI strings, commit messages and code comments in Arabic. It includes English requests such as "write this email in Arabic", "translate this to Arabic" or "proofread my Arabic", and Arabic requests (عربي، العربية، فصحى، اكتب، ترجم، لخّص، أعد صياغة، صحّح، راجع، حرّر، أجب). Writes correct, natural Modern Standard Arabic and checks grammar, spelling, punctuation and style before answering. Also use for Arabic dialect requests (عامية، لهجة، بالعامية المصرية، بالعامية الخليجية، باللهجة الشامية): it writes in the dialect and checks only formatting. Do not use for English-only work.
 ---
 

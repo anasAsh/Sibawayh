@@ -7,7 +7,7 @@ from contextlib import contextmanager
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-SKILL_DIR = os.path.join(ROOT, "skills", "arabic-writing")
+SKILL_DIR = os.path.join(ROOT, "skills", "sibawayeh")
 TIMEOUT = 300
 ALLOWED_TOOLS = "Bash(python3:*),Read,Write"
 # Project settings only: the user's settings may enable an installed copy of
@@ -18,7 +18,7 @@ ISOLATE = ["--setting-sources", "project"]
 
 def refuse_if_globally_installed():
     """Only checks; never creates or removes anything under ~/.claude."""
-    p = os.path.expanduser("~/.claude/skills/arabic-writing")
+    p = os.path.expanduser("~/.claude/skills/sibawayeh")
     if os.path.lexists(p):
         sys.exit("Refusing to run: %s exists and would contaminate the "
                  "baseline. Unlink it yourself, run the evals, then relink."
@@ -36,7 +36,7 @@ def workdir(with_skill: bool):
             # modify the real skill in the repo.
             shutil.copytree(
                 SKILL_DIR,
-                os.path.join(d, ".claude", "skills", "arabic-writing"),
+                os.path.join(d, ".claude", "skills", "sibawayeh"),
                 ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
         yield d
     finally:

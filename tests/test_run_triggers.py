@@ -12,7 +12,7 @@ def stream(loaded, result=True):
     if loaded:
         ev.append({"type": "assistant", "message": {"content": [
             {"type": "tool_use", "name": "Skill",
-             "input": {"skill": "arabic-writing"}}]}})
+             "input": {"skill": "sibawayeh"}}]}})
     if result:
         ev.append({"type": "result"})
     return "\n".join(json.dumps(e) for e in ev)

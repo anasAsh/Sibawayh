@@ -8,7 +8,7 @@ that uses the bare spelling then probably has an error. Entries are
 whole surface words with their prefixes (الاطفال, وايضا, بالطريقه).
 
 Usage: python3 evals/build_lexicon.py [--min 5] [--ratio 0.01] DIR [DIR ...]
-Writes skills/arabic-writing/scripts/data/lexicon_*.
+Writes skills/sibawayeh/scripts/data/lexicon_*.
 """
 import argparse
 import os
@@ -17,7 +17,7 @@ import sys
 from collections import Counter
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
-_DATA = os.path.join(os.path.dirname(_HERE), "skills", "arabic-writing", "scripts", "data")
+_DATA = os.path.join(os.path.dirname(_HERE), "skills", "sibawayeh", "scripts", "data")
 sys.path.insert(0, _HERE)
 from corpus_check import files  # noqa: E402
 

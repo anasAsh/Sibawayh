@@ -19,7 +19,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-sys.path.insert(0, os.path.join(ROOT, "skills", "arabic-writing", "scripts"))
+sys.path.insert(0, os.path.join(ROOT, "skills", "sibawayeh", "scripts"))
 from archeck.text import iter_words, mask  # noqa: E402
 
 CATS = ["grammar", "spelling", "translationese", "register", "formatting"]
