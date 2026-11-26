@@ -1,6 +1,6 @@
 {
   "name": "sibawayeh",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Agent Skill that makes AI agents write correct, natural Modern Standard Arabic, with a dependency-free orthography and punctuation checker.",
   "author": { "name": "Anas Al-Hamdan" },
   "license": "SEE LICENSE IN LICENSE"

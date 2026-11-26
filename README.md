@@ -228,7 +228,10 @@ skills/sibawayeh/
 │   ├── common-errors.md      قل ولا تقل
 │   ├── approved-forms.md     never "fix" these
 │   ├── classical.md          classical register, only on request
-│   └── glossary.md           450+ tech terms, English → Arabic
+│   ├── glossary.md           450+ tech terms, English → Arabic
+│   ├── legal.md              contracts, notices: terms and document shape
+│   ├── banking.md            bank/loan text: terms and document shape
+│   └── commercial.md         business letters, quotations: terms and shape
 └── scripts/
     ├── check_arabic.py       the checker (stdlib only)
     ├── archeck/              rules
@@ -278,6 +281,9 @@ Yes. When you ask for Egyptian, Gulf, Levantine or another dialect, the agent wr
 
 **Can it write classical Arabic (فصحى التراث)?**
 Yes, when you ask for it. Ask for classical or elevated literary style (فصحى التراث، أسلوب تراثي، "classical Arabic") or for a genre that is classical by nature, such as a Friday sermon, a maqama or a literary debate, and the agent switches register: weightier words, balanced sentences, sparing rhyme, and no invented quotations. Everyday requests stay in plain Modern Standard Arabic. This mode is new in 0.4.0 and has had only a small trial.
+
+**Does it know legal, banking or business-correspondence Arabic?**
+Yes. When the text is a contract, terms of service, legal notice, bank letter, loan/financing text, business letter, quotation or similar, the agent picks up the matching terminology and document shape (preamble and article numbering for a contract, the customer-notice phrasing for a bank letter, the opening/closing formulas for a business letter) on its own — no need to name the domain. This is new and has not had an evaluation trial yet.
 
 **Which agents does it work with?**
 Any agent that supports the `SKILL.md` Agent Skills format: Claude Code (as a plugin), Claude Desktop, Codex, Cursor, GitHub Copilot, OpenCode and others. See [Install](#-install) for each one's folder and for which agents we have tested. Agents without a shell use the checklist alone.
